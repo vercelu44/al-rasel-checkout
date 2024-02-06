@@ -26,6 +26,7 @@ export default function BottomNavigation() {
 	const pathname = usePathname();
 	const params = useParams();
 	const { user } = useSelector((state) => state.auth);
+	const messengerUser = settings?.facebook_link?.split("/")[3] || "no-user";
 
 	if (
 		!isMobile ||
@@ -65,13 +66,13 @@ export default function BottomNavigation() {
 			activeIcon: <ProfileFillIcon />,
 		},
 		{
-			href: "https://m.me/p.touhid",
+			href: `https://m.me/${messengerUser}`,
 			name: translations["chat"],
 			icon: <MessengerIcon />,
 			activeIcon: <MessengerFillIcon />,
 		},
 		{
-			href: `tel:${settings?.phone}`,
+			href: `tel:${settings?.phone[0]}` || "0170000000",
 			name: translations["call"],
 			icon: <CallIcon />,
 			activeIcon: <CallFillIcon />,

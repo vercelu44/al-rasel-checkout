@@ -14,9 +14,10 @@ import { getFormattedDate } from "@/utils/format-date";
 import { Rating } from "react-simple-star-rating";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import EmojiSmile from "@/components/elements/svg/EmojiSmile";
 import NestedPageTitle from "../../../_components/NestedPageTitle";
 import ReviewInstruction from "./_components/ReviewInstruction";
+import { getRatingEmoji, getRatingText } from "@/lib/rating-reviews";
+import { getUniqueUpdatedFiles } from "@/utils/file-upload";
 
 const AddReview = ({ params }) => {
 	const { order_id } = params;
@@ -72,17 +73,9 @@ const AddReview = ({ params }) => {
 	const updateImageFiles = (itemId, newFiles) => {
 		setImageFiles((prevFiles) => {
 			const existingFiles = prevFiles[itemId] || []; // Get the existing files for the item
-			const uniqueNewFiles = newFiles.filter((file) => {
-				const fileExists = existingFiles.some(
-					(existingFile) =>
-						existingFile.name === file.name && existingFile.size === file.size
-				);
-				return !fileExists;
-			}); // Filter out duplicates from new files
-			const updatedFiles = [...existingFiles, ...uniqueNewFiles]; // Append unique new files to existing files
 			return {
 				...prevFiles,
-				[itemId]: updatedFiles,
+				[itemId]: getUniqueUpdatedFiles(existingFiles, newFiles), // Update the existing files with new unique files
 			};
 		});
 	};
@@ -142,15 +135,13 @@ const AddReview = ({ params }) => {
 							{reviewShow?.saleProducts?.map(({ barcode, product }, index) => (
 								<div key={index}>
 									<div className={`flex gap-4 my-4`}>
-										<div className="">
-											<Image
-												src={product.image || noImage}
-												alt="product"
-												height={64}
-												width={64}
-												className="h-16 w-16"
-											/>
-										</div>
+										<Image
+											src={product.image || noImage}
+											alt="product"
+											height={72}
+											width={72}
+											className="h-[72px] md:h-[60px] w-[72px] md:w-[60px] object-contain rounded-lg"
+										/>
 										<div className="flex flex-col gap-1 w-full">
 											<h4 className="font-semibold">{product.product_name}</h4>
 											<div className="flex items-center gap-3">
@@ -193,11 +184,11 @@ const AddReview = ({ params }) => {
 														/>
 													</div>
 													<p className="pt-2 lg:pt-4">
-														{translations["outstanding"] || "অসাধারণ"}
+														{getRatingText(ratings[index] || 5, translations)}
 													</p>
 												</div>
-												<p className="text-primary order-1 lg:order-none">
-													<EmojiSmile />
+												<p className=" order-1 lg:order-none">
+													{getRatingEmoji(ratings[index] || 5)}
 												</p>
 											</div>
 											{validationError && !ratings[index] && (

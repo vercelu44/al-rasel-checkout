@@ -120,7 +120,8 @@ const ProductViewSlider = forwardRef(({ product, selectedColor }, ref) => {
                   /> */}
 									{/* start from here */}
 
-									{isFirstItem(slide?.color_name) && slide?.video_link ? (
+									{(isFirstItem(slide?.color_name) || index === 0) &&
+									slide?.video_link ? (
 										<>
 											<Image
 												src={slide?.image}

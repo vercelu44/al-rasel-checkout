@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { BsCameraFill } from "react-icons/bs";
+import { validateImages } from "@/utils/file-upload";
 
 const ReviewImagesUpload = ({
 	itemId,
@@ -11,23 +12,6 @@ const ReviewImagesUpload = ({
 	translations = {},
 }) => {
 	const [validationError, setValidationError] = useState("");
-
-	const validateImages = (files) => {
-		const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-		const maxSize = 5 * 1024 * 1024; // 5MB
-
-		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-			if (!allowedExtensions.test(file.name)) {
-				return "Only JPG, JPEG, and PNG files are allowed.";
-			}
-			if (file.size > maxSize) {
-				return "File size exceeds the maximum limit of 5MB.";
-			}
-		}
-
-		return "";
-	};
 
 	const handleImageUpload = (id, e) => {
 		const files = Array.from(e.target.files);
@@ -61,7 +45,7 @@ const ReviewImagesUpload = ({
 
 				<label
 					htmlFor={`image-upload-${itemId}`}
-					className="w-[72px] lg:w-[88px] h-[72px] lg:h-[88px] py-2 px-1 text-center border-2 border-dashed border-slate-300 rounded-lg cursor-pointer text-slate-500"
+					className="w-[72px] lg:w-[88px] h-[72px] lg:h-[88px] py-2 px-1 text-center border-2 border-dashed border-slate-300 hover:bg-primary-50 rounded-lg cursor-pointer text-slate-500"
 				>
 					<BsCameraFill size={24} />
 					<p className="text-[10px]/[14px] lg:text-sm/[100%] mt-1 lg:mt-2">

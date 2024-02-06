@@ -1,106 +1,92 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { getUniqueUpdatedFiles, validateImages } from "@/utils/file-upload";
+import { BsCameraFill } from "react-icons/bs";
 
-const TicketImagesUpload = ({ setImageFiles }) => {
-  const { translations } = useSelector((state) => state.common);
-  const [images, setImages] = useState([]);
-  const [validationError, setValidationError] = useState("");
+const TicketImagesUpload = ({ imageFiles, setImageFiles }) => {
+	const { translations } = useSelector((state) => state.common);
+	const [validationError, setValidationError] = useState("");
 
-  const validateImages = (files) => {
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-    const maxSize = 5 * 1024 * 1024; // 5MB
+	const handleImageUpload = (e) => {
+		const newFiles = Array.from(e.target.files);
+		const validationError = validateImages(newFiles);
+		if (validationError) {
+			setValidationError(validationError);
+			return;
+		}
+		const uniqueUpdatedFiles = getUniqueUpdatedFiles(imageFiles, newFiles);
+		setImageFiles(uniqueUpdatedFiles); // getting images files to pass it to backend
+		if (newFiles.length) setValidationError("");
+	};
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      if (!allowedExtensions.test(file.name)) {
-        return "Only JPG, JPEG, and PNG files are allowed.";
-      }
-      if (file.size > maxSize) {
-        return "File size exceeds the maximum limit of 5MB.";
-      }
-    }
+	return (
+		<>
+			<div
+				className="p-4 img-uploader min-h-[72px] hidden md:flex items-center border-2 border-dashed border-slate-300 rounded-lg"
+				onDrop={(e) => {
+					e.preventDefault();
+					handleImageUpload({ target: { files: e.dataTransfer.files } });
+				}}
+				onDragOver={(e) => e.preventDefault()}
+			>
+				<div className="flex flex-wrap gap-4 items-center">
+					<label htmlFor="image-upload">
+						<span className="border border-slate-300 rounded-lg py-2 px-4 cursor-pointer">
+							{translations["browse"] || "ব্রাউজ করুন"}
+						</span>
+						<input
+							type="file"
+							accept="image/*"
+							id="image-upload"
+							name="image"
+							className="hidden"
+							multiple
+							onChange={handleImageUpload}
+						/>
+					</label>
+					<h3 className="text-slate-500">
+						{translations["or,-drag-and-drop-files-here"] ||
+							"অথবা, ফাইল টেনে এনে এখানে ছাড়ুন"}
+					</h3>
+				</div>
+			</div>
+			{validationError && (
+				<div className="text-red-500 mt-2">{validationError}</div>
+			)}
 
-    return "";
-  };
-
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const imagesArray = [];
-
-    const validationError = validateImages(files);
-    if (validationError) {
-      setValidationError(validationError);
-      return;
-    }
-
-    setImageFiles(files); // getting images files to pass it to backend
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          imagesArray.push(reader.result);
-          if (imagesArray.length === files.length) {
-            setImages(imagesArray);
-            setValidationError("");
-          }
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
-  };
-
-  return (
-    <>
-      <div
-        className="p-4 img-uploader min-h-[72px] flex items-center border-2 border-dashed border-slate-300 rounded-lg"
-        onDrop={(e) => {
-          e.preventDefault();
-          handleImageUpload({ target: { files: e.dataTransfer.files } });
-        }}
-        onDragOver={(e) => e.preventDefault()}
-      >
-        <div className="flex flex-wrap gap-4 items-center">
-          <label htmlFor="image-upload">
-            <span className="border border-slate-300 rounded-lg py-2 px-4 cursor-pointer">
-            {translations["browse"] || "ব্রাউজ করুন"}
-            </span>
-            <input
-              type="file"
-              accept="image/*"
-              id="image-upload"
-              name="image"
-              className="hidden"
-              multiple
-              onChange={handleImageUpload}
-            />
-          </label>
-          <h3 className="text-slate-500">{translations["or,-drag-and-drop-files-here"] || "অথবা, ফাইল টেনে এনে এখানে ছাড়ুন"}</h3>
-        </div>
-      </div>
-      {validationError && (
-        <div className="text-red-500 mt-2">{validationError}</div>
-      )}
-      {images.length > 0 && (
-        <div className="flex gap-4 mt-3">
-          {images.map((image, index) => (
-            <div key={index} className="w-16 h-16">
-              <Image
-                src={image}
-                alt={`Image ${index}`}
-                height={64}
-                width={64}
-                className="object-cover h-full rounded-lg"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </>
-  );
+			<div className="flex gap-4 mt-3">
+				{imageFiles.map((file, index) => (
+					<Image
+						key={index}
+						src={URL.createObjectURL(file)}
+						alt={`Image ${index}`}
+						height={74}
+						width={74}
+						className="object-cover h-[74px] md:h-[68px] w-[74px] md:w-[68px] rounded-lg"
+					/>
+				))}
+				<label
+					htmlFor={`image-upload-mobile`}
+					className="md:hidden w-[72px] lg:w-[88px] h-[72px] lg:h-[88px] py-2 px-1 text-center border-2 border-dashed border-slate-300 rounded-lg cursor-pointer text-slate-500"
+				>
+					<BsCameraFill size={24} />
+					<p className="text-[10px]/[14px] lg:text-sm/[100%] mt-1 lg:mt-2">
+						{translations["upload-image"] || "ছবি আপলোড করুন"}
+					</p>
+					<input
+						type="file"
+						accept="image/*"
+						id={`image-upload-mobile`}
+						name="image"
+						className="hidden"
+						multiple
+						onChange={handleImageUpload}
+					/>
+				</label>
+			</div>
+		</>
+	);
 };
 
 export default TicketImagesUpload;
