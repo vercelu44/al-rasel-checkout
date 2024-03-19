@@ -27,6 +27,7 @@ export default function BottomNavigation() {
 	const params = useParams();
 	const { user } = useSelector((state) => state.auth);
 	const messengerUser = settings?.facebook_link?.split("/")[3] || "no-user";
+	const phone = settings?.phone || ["0170000000"];
 
 	if (
 		!isMobile ||
@@ -72,7 +73,7 @@ export default function BottomNavigation() {
 			activeIcon: <MessengerFillIcon />,
 		},
 		{
-			href: `tel:${settings?.phone[0]}` || "0170000000",
+			href: `tel:${phone[0]}`,
 			name: translations["call"],
 			icon: <CallIcon />,
 			activeIcon: <CallFillIcon />,

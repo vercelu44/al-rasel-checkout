@@ -37,7 +37,7 @@ const Footer = () => {
 			<footer className="footer relative bg-slate-900 rounded-t-2xl lg:rounded-none pt-6 lg:pt-14 overflow-hidden z-10">
 				<div className="footer-top pb-5">
 					<div className="container">
-						<div className="grid grid-cols-1 lg:grid-cols-4 justify-between items-center gap-4 lg:gap-6">
+						<div className="grid grid-cols-1 lg:grid-cols-4 justify-between items-start gap-4 lg:gap-6">
 							<div className="footer-widget">
 								<Link href="/" className="logo inline-block mb-3">
 									<Image
@@ -45,7 +45,7 @@ const Footer = () => {
 										alt={settings?.name}
 										width={200}
 										height={48}
-										className="h-auto max-h-[48px]"
+										className="h-auto max-h-[48px] lg:-mt-2"
 									/>
 								</Link>
 								<ul className="info-list">
@@ -81,7 +81,7 @@ const Footer = () => {
 							<FooterPages title={translations.company} pages={footerPage} />
 							<FooterPages title={translations.help} pages={helpPage} />
 
-							<div className="footer-widget mt-2 lg:mt-0">
+							<div className="footer-widget mt-2 lg:mt-0 lg:self-center">
 								<div className="footer-links mb-6">
 									<p>{translations["social-link"]}</p>
 									<div className="social-links flex items-center gap-5">
