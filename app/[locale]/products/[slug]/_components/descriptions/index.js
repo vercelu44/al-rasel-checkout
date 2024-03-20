@@ -8,28 +8,25 @@ const Descriptions = ({ settings, product, translations }) => {
 	return (
 		<section id="product-descriptions">
 			<div className="description">
-				<h4 className="text-2xl font-bold font-title text-slate-900 mb-3">
+				{/* <h4 className="text-2xl font-bold font-title text-slate-900 mb-3">
 					{translations["product-description"] || "প্রডাক্টের বিবরণ"}:
-				</h4>
+				</h4> */}
 				<ViewHTML htmlText={product?.product_description} />
 			</div>
-			{/* {product.includedProducts?.length ? ( */}
-			<div className="mt-6 lg:mt-8">
-				<h4 className="text-2xl font-bold font-title text-slate-900">
-					{translations["product-includes"] || "যা যা সাথে থাকবে"}
-				</h4>
-				<Image
-					src={
-						product.includedProducts[0]?.image ||
-						`/assets/images/product-includes.png`
-					}
-					alt="Product Includes"
-					width={628}
-					height={510}
-					className="w-full h-[17.5rem] lg:h-[31.875rem] rounded-xl mt-3"
-				/>
-			</div>
-			{/* ) : null} */}
+			{product?.includedProducts?.length ? (
+				<div className="mt-6 lg:mt-8">
+					<h4 className="text-2xl font-bold font-title text-slate-900">
+						{translations["product-includes"] || "যা যা সাথে থাকবে"}
+					</h4>
+					<Image
+						src={product.includedProducts[0]?.image}
+						alt="Product Includes"
+						width={628}
+						height={510}
+						className="w-full h-[17.5rem] lg:h-[31.875rem] rounded-xl mt-3"
+					/>
+				</div>
+			) : null}
 			{product?.review_video && (
 				<div className="mt-6 lg:mt-8">
 					<h4 className="text-2xl font-bold font-title text-slate-900">

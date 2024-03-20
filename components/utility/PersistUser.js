@@ -36,10 +36,12 @@ const PersistUser = () => {
 		if (!user && session) {
 			dispatch(setUser(session.data));
 			dispatch(setUserLoading(false));
-
-			const redirect = searchParams.get("redirect");
-			router.push(redirect || "/dashboard");
 			localStorage.setItem("token", session.token);
+			const redirect = searchParams.get("redirect");
+			// router.push(redirect || "/dashboard");
+			if (redirect) {
+				router.push(redirect);
+			}
 		}
 	}, [session, dispatch, router, searchParams, user]);
 

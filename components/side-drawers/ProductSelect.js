@@ -1,19 +1,22 @@
 "use client";
-import { Link } from "@/navigation";
 import Image from "next/image";
+import { Link } from "@/navigation";
 import React, { useState } from "react";
-import { removeFromSelected, toggleCart } from "@/store/slices/cartSlice";
-import { HiOutlineShoppingCart } from "react-icons/hi";
-import { HiArrowLongRight } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
+import { removeFromSelected, toggleCart } from "@/store/slices/cartSlice";
 import ProductVariantSelect from "../products/ProductVariantSelect";
 import noImage from "@/public/assets/images/no-image.png";
-import Drawer from "../elements/Drawer";
-import { siteConfig } from "@/config/site";
-import useCart from "@/hooks/useCart";
 import { getDiscountPercent } from "@/utils/percent";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import Modal from "../elements/Modal";
+import { getAppropriatePhoto } from "@/lib/cart";
+import Drawer from "../elements/Drawer";
+import { siteConfig } from "@/config/site";
+import useCart from "@/hooks/useCart";
+
+import { HiArrowLongRight } from "react-icons/hi2";
+import { HiOutlineShoppingCart } from "react-icons/hi";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const ProductSelect = () => {
 	const { handleAddToCart, handleAddAndCheckout } = useCart(); //custom hook for reusing
@@ -45,7 +48,7 @@ const ProductSelect = () => {
 		<div className="lg:p-6">
 			<div className="product-info grid grid-cols-[72px_auto] lg:grid-cols-[84px_auto] gap-3 lg:gap-4 items-center">
 				<Image
-					src={selectedProduct?.image || noImage}
+					src={getAppropriatePhoto(selectedProduct, selectedColor) || noImage}
 					alt="product"
 					height={84}
 					width={84}
@@ -112,7 +115,7 @@ const ProductSelect = () => {
 				</button>
 			</div>
 			<Link
-				href="/products/productIdOrSlug"
+				href={`/products/${selectedProduct?.slug}`}
 				className="text-secondary-700 text-sm"
 			>
 				<p className="text-center">
@@ -139,6 +142,12 @@ const ProductSelect = () => {
 					show={selectedProduct}
 					setShow={closeDrawer}
 				>
+					<div
+						onClick={closeDrawer}
+						className="w-6 h-[112px] cursor-pointer rounded-l-lg bg-slate-300 fixed text-5 flex top-1/2 left-[-24px] justify-center items-center"
+					>
+						<MdOutlineKeyboardArrowRight size={70} />
+					</div>
 					{pageContent}
 				</Drawer>
 			)}

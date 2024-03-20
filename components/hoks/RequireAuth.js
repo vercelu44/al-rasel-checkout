@@ -1,15 +1,15 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import LoaderOverlay from "../elements/loaders/LoaderOverlay";
 import { setLoginModalOpen } from "@/store/slices/authSlice";
+import { usePathname, useRouter } from "next/navigation";
 
 const RequireAuth = (WrappedComponent) => {
 	const AuthComponent = (props) => {
 		const { user, isLoading } = useSelector((state) => state.auth);
 		const router = useRouter();
-    const pathName = usePathname();
+		const pathName = usePathname();
 		const dispatch = useDispatch();
 
 		if (isLoading) {
