@@ -118,7 +118,7 @@ const SizeChangeModal = () => {
 									key={variant.id}
 									className={`py-2 lg:py-3 px-4 rounded-lg border text-sm lg:text-base ${
 										selectedVariant?.id === variant.id
-											? "border-primary"
+											? "border-primary !border-2"
 											: "border-slate-300"
 									} cursor-pointer  ${
 										variant.stock_qty <= 0

@@ -129,12 +129,11 @@ const Footer = () => {
 											width={52}
 											height={23}
 										/>
-										<Link
-											href="/"
+										<p
 											className="!text-xs/[100%] !mb-0 text-white w-1/5"
 										>
 											{translations["many-more"]}
-										</Link>
+										</p>
 									</div>
 								</div>
 							</div>

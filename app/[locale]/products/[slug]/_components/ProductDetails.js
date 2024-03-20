@@ -19,6 +19,7 @@ import FlashSellCorner from "@/components/elements/svg/FlashSellCorner";
 import FlashSellTimer from "@/components/elements/FlashSellTimer";
 import RatingReviewPopover from "./RatingReviewPopover";
 
+
 // ** Import Icon
 import { HiChatBubbleLeftRight, HiOutlineShoppingCart } from "react-icons/hi2";
 import { TbTag } from "react-icons/tb";

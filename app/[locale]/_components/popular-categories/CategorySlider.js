@@ -25,7 +25,7 @@ const CategorySlider = ({ categoryList }) => {
 						>
 							<Link
 								href={`/categories/${category.slug}`}
-								className="category-img flex justify-center items-center h-[116px] lg:h-[164px] bg-primary-50 rounded-full"
+								className="category-img flex justify-center items-center h-[116px] lg:h-[164px] bg-white rounded-full"
 							>
 								<Image
 									src={category?.icon || noImage}

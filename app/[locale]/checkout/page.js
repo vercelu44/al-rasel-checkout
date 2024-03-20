@@ -303,7 +303,7 @@ const Checkout = () => {
 								index == 2 && !orderCollapsed ? (
 									<div key={item.barcodeId} className="relative">
 										<CartCard item={item} />
-										<div className="w-full h-full rounded absolute left-0 top-0 flex-center backdrop-opacity-90 bg-white/90">
+										<div className="w-full h-full rounded absolute left-0 top-0 flex-center gradient-white">
 											<button
 												className="text-btn mt-20 font-bold"
 												onClick={() => setOrderCollapsed(true)}
@@ -394,15 +394,15 @@ const Checkout = () => {
 									{totalWithDiscount}
 								</p>
 							</div>
-							{isDeliveryCharge && (
+
 								<div className="flex-between my-2">
 									<p>{translations["delivery-charge"] || "ডেলিভারি চার্জ"}</p>
 									<p>
 										{siteConfig.currency.sign}
-										{deliveryMethod.charges}
+										{isDeliveryCharge? deliveryMethod.charges : 0}
 									</p>
 								</div>
-							)}
+
 							<div className="border-b border-slate-900 my-2"></div>
 							<div className="flex-between my-2 font-bold">
 								<p>{translations["grand-total"] || "পরিশোধ করতে হবে"}</p>

@@ -6,6 +6,7 @@ import ProductQNA from "./product-qna";
 import Descriptions from "./descriptions";
 import Specifications from "./specifications";
 import HorizontalScrollView from "@/components/elements/HorizontalScrollView";
+import { BsFillTelephoneFill } from "react-icons/bs";
 
 /**
  * The function handles the smooth scrolling to a specific section on the page when a tab item is
@@ -134,6 +135,24 @@ const ProductTabsView = ({ product, settings, translations }) => {
 						</div>
 					</>
 				)}
+				{settings?.phone?.length && (
+				<div className="contact mt-8 bg-amber-200 border border-primary rounded-xl p-5 text-center">
+					<h5 className="text-2xl font-bold font-title text-slate-900 mb-3">
+						{translations["know-more"] || "আরও কিছু জানার থাকলে"}
+					</h5>
+					<p className="flex justify-center items-center gap-4">
+						<span className="text-base text-slate-900">
+							{translations["call-us"] || "কল করুন"}:
+						</span>{" "}
+						<Link
+							href={`tel:${settings?.phone[0]}`}
+							className="text-2xl font-bold font-title text-primary"
+						>
+							<BsFillTelephoneFill /> {settings?.phone[0]}
+						</Link>
+					</p>
+				</div>
+			)}
 
 				<div className="h-2 w-full bg-slate-200 lg:hidden"></div>
 				<div

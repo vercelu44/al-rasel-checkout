@@ -27,7 +27,7 @@ const ReviewImages = ({ review, max }) => {
 					{index === max - 1 ? (
 						<div
 							onClick={() => setGalleryOpen(true)}
-							className="backdrop-blur-sm backdrop-brightness-100 rounded-lg absolute top-0 w-full h-full left-0 flex flex-col justify-center"
+							className=" bg-[#00000077] rounded-lg absolute top-0 w-full h-full left-0 flex flex-col justify-center"
 						>
 							<h3 className="text-white text-2xl text-center">
 								+{review.images.length - max + 1}
