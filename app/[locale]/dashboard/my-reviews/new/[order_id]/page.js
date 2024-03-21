@@ -245,6 +245,7 @@ const AddReview = ({ params }) => {
 													imageFiles={imageFiles}
 													updateImageFiles={updateImageFiles}
 													translations={translations}
+													setImageFiles={setImageFiles}
 												/>
 											</div>
 										</div>
