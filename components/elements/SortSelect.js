@@ -11,6 +11,10 @@ const SortSelect = () => {
 		{ key: "default", value: translations["random"] || "এলোমেলো" },
 		{ key: "new", value: translations["new-product"] || "নতুন প্রডাক্ট" },
 		{
+			key: "best_selling",
+			value: translations["best-selling-product"] || "বেস্ট সেলিং প্রডাক্ট",
+		},
+		{
 			key: "low_high",
 			value: translations["price-(low-to-high)"] || "দাম (কম থেকে বেশি)",
 		},

@@ -115,7 +115,7 @@ const ProductTabsView = ({ product, settings, translations }) => {
 				<div
 					data-section
 					id="p-descriptions"
-					className="px-3 lg:px-0 mt-7 lg:mt-8 pb-7 lg:border-b-4 lg:border-slate-200"
+					className="px-3 lg:px-0 mt-7 lg:mt-8"
 				>
 					<Descriptions
 						product={product}
@@ -125,34 +125,37 @@ const ProductTabsView = ({ product, settings, translations }) => {
 				</div>
 				{product?.specification && (
 					<>
-						<div className="h-2 w-full bg-slate-200 lg:hidden"></div>
+						<div className="h-2 w-full bg-slate-200 mt-7 lg:hidden"></div>
 						<div
 							data-section
 							id="p-specifications"
-							className="px-3 lg:px-0 mt-7 lg:mt-8 pb-7 lg:border-b-4 lg:border-slate-200 overflow-hidden"
+							className="px-3 lg:px-0 pt-7 lg:mt-8 overflow-hidden lg:border-t-4 lg:border-slate-200"
 						>
 							<Specifications product={product} translations={translations} />
 						</div>
 					</>
 				)}
 				{settings?.phone?.length && (
-				<div className="contact mt-8 bg-amber-200 border border-primary rounded-xl p-5 text-center">
-					<h5 className="text-2xl font-bold font-title text-slate-900 mb-3">
-						{translations["know-more"] || "আরও কিছু জানার থাকলে"}
-					</h5>
-					<p className="flex justify-center items-center gap-4">
-						<span className="text-base text-slate-900">
-							{translations["call-us"] || "কল করুন"}:
-						</span>{" "}
-						<Link
-							href={`tel:${settings?.phone[0]}`}
-							className="text-2xl font-bold font-title text-primary"
-						>
-							<BsFillTelephoneFill /> {settings?.phone[0]}
-						</Link>
-					</p>
-				</div>
-			)}
+					<div className="px-3 lg:px-0">
+						<div className="container contact mt-5 lg:mt-8 bg-amber-200 border border-primary rounded-xl p-3 lg:p-5 text-center">
+							<h5 className="text-2xl font-bold font-title text-slate-900 mb-3">
+								{translations["know-more"] || "আরও কিছু জানার থাকলে"}
+							</h5>
+							<p className="flex justify-center items-center gap-0">
+								<span className="text-[18px]/6 text-slate-900">
+									{translations["call-us"] || "কল করুন"}:
+								</span>{" "}
+								<Link
+									href={`tel:${settings?.phone[0]}`}
+									className="text-2xl font-bold font-title text-primary"
+								>
+									<BsFillTelephoneFill className="ml-2" /> {settings?.phone[0]}
+								</Link>
+							</p>
+						</div>
+					</div>
+				)}
+				<div className="pb-7 lg:border-b-4 lg:border-slate-200"></div>
 
 				<div className="h-2 w-full bg-slate-200 lg:hidden"></div>
 				<div

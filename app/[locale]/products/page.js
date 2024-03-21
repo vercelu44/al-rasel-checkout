@@ -13,6 +13,26 @@ const page = async ({ params, searchParams }) => {
 	const translations =
 		tranRes.status === "fulfilled" ? tranRes.value?.data || {} : {};
 
+	const getPathBasedOnSortType = (sortType) => {
+		switch (sortType) {
+			case "new":
+				return {
+					path: `/products?sort_type=new`,
+					title: translations["new-product"] || "নতুন প্রডাক্ট",
+				};
+			case "best_selling":
+				return {
+					path: `/products?sort_type=best_selling`,
+					title: translations["best-selling-product"] || "বেস্ট সেলিং প্রডাক্ট",
+				};
+			default:
+				return {
+					path: `/products`,
+					title: translations["all-products"] || "সকল প্রডাক্ট",
+				};
+		}
+	};
+
 	return (
 		<>
 			<div
@@ -24,9 +44,7 @@ const page = async ({ params, searchParams }) => {
 				<div className="container">
 					<div className="text-center">
 						<h3 className="text-2xl font-bold font-title text-white mb-4">
-							{searchParams?.sort_type === "new"
-								? translations["new-product"] || "নতুন প্রডাক্ট"
-								: translations["all-products"] || "সকল প্রডাক্ট"}
+							{getPathBasedOnSortType(searchParams?.sort_type).title}
 						</h3>
 						<div>
 							<Link
@@ -35,21 +53,12 @@ const page = async ({ params, searchParams }) => {
 							>
 								{translations["home"] || "হোম"}
 							</Link>
-							{searchParams?.sort_type === "new" ? (
-								<Link
-									href={`/products?sort_type=new`}
-									className="text-base text-white hover:text-primary"
-								>
-									{translations["new-product"] || "নতুন প্রডাক্ট"}
-								</Link>
-							) : (
-								<Link
-									href={`/products`}
-									className="text-base text-white hover:text-primary"
-								>
-									{translations["all-products"] || "সকল প্রডাক্ট"}
-								</Link>
-							)}
+							<Link
+								href={getPathBasedOnSortType(searchParams?.sort_type).path}
+								className="text-base text-white hover:text-primary"
+							>
+								{getPathBasedOnSortType(searchParams?.sort_type).title}
+							</Link>
 						</div>
 					</div>
 				</div>

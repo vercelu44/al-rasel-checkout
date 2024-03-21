@@ -6,6 +6,7 @@ import PaginationWithSummery from "../PaginationWithSummery";
 import NoProducts from "./NoProducts";
 import FilterPanel from "../side-drawers/FilterPanel";
 import FilterMenu from "../elements/FilterMenu";
+import SortMenu from "../navigation/bottom-navigation/SortMenu";
 
 const ProductsWithFilter = async ({
 	customSearchParams = {},
@@ -22,14 +23,19 @@ const ProductsWithFilter = async ({
 	return (
 		<>
 			<div className="lg:mb-20">
-				<div className="lg:container toolbar lg:grid grid-cols-5 gap-5 my-5">
+				<div className="lg:container toolbar lg:grid grid-cols-5 gap-5 mb-5">
 					<div className="relative col-span-1 hidden lg:block">
+						<FilterMenu />
+					</div>
+
+					<div className="md:hidden sort-filter-actions rounded-t-xl flex gap-3 items-center p-3">
+						<SortMenu />
 						<FilterMenu />
 					</div>
 
 					{/* only for mobile view category products  */}
 					{category && (
-						<h3 className="lg:hidden font-title font-bold text-2xl px-4">
+						<h3 className="lg:hidden font-title pt-1 font-bold text-2xl px-4">
 							{category?.category_name}
 						</h3>
 					)}
