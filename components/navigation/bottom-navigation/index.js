@@ -70,7 +70,7 @@ export default function BottomNavigation() {
 	];
 
 	return (
-		<div className={`pb-16 bg-white max-h-[100dvh]`}>
+		<div className={`pb-16 relative bg-white max-h-[100dvh]`}>
 			<div className="fixed bottom-0 left-0 z-20 w-screen h-fit bg-white rounded-t-xl">
 				<div className="shadow-top grid h-full max-w-lg items-center grid-cols-5 mx-auto font-medium py-2">
 					{menuList.map((menu, index) => (

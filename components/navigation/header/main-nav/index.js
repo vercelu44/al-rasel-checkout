@@ -96,8 +96,8 @@ export default function MainNav({ settings }) {
 
   return (
     <div className={"!mt-20"}>
-      {visible && (
-        <div style={{ transition: 'top 0.3s' }} className="fixed left-0 top-0 w-full z-30 bg-white border-b border-slate-300 py-3 md:py-4">
+
+        <div style={{ transition: 'top 0.3s ease', ...(!visible && { top: '-100px' }) }} className={`fixed left-0 top-0 w-full z-30 bg-white border-b border-slate-300 py-3 md:py-4 `}>
           <div className="container">
             <div className="header-wrap flex justify-between items-center">
               {/* Nav Items  */}
@@ -202,7 +202,7 @@ export default function MainNav({ settings }) {
             />
           )}
         </div>
-      )}
+
     </div>
   );
 }

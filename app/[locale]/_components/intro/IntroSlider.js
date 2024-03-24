@@ -32,14 +32,11 @@ const IntroSlider = ({ sliders }) => {
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
-            className="rounded-2xl bg-black !flex items-center !h-[200px] lg:!h-[354px] p-4 lg:p-12"
+            className="rounded-2xl bg-black !flex items-end !h-[200px] lg:!h-[354px] p-4 lg:p-12"
           >
             <div className="grid grid-cols-12  justify-between">
-              <div className="col-span-7">
-								{slide.title && slide.title_2 && slide.text && (
-									<div
-                  className={``}
-                >
+              <div className="col-span-7 !block">
+
                   {slide.title && (
 										
                     <p className="text-xs lg:text-lg/[24px] font-normal font-body text-white mb-2 lg:mb-4">
@@ -57,9 +54,6 @@ const IntroSlider = ({ sliders }) => {
                     </h3>
                   )}
 
-
-                </div>
-								)}
 								{slide.url && (
                     <Link
                       href={slide?.url}
