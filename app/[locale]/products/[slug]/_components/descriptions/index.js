@@ -11,7 +11,7 @@ const Descriptions = ({ settings, product, translations }) => {
 				{/* <h4 className="text-2xl font-bold font-title text-slate-900 mb-3">
 					{translations["product-description"] || "প্রডাক্টের বিবরণ"}:
 				</h4> */}
-				<ViewHTML htmlText={product?.product_description} />
+				<ViewHTML htmlText={product?.details} />
 			</div>
 			{product?.includedProducts?.length ? (
 				<div className="mt-6 lg:mt-8">
@@ -44,7 +44,6 @@ const Descriptions = ({ settings, product, translations }) => {
 					</div>
 				</div>
 			)}
-
 		</section>
 	);
 };
