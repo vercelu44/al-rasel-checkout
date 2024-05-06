@@ -160,7 +160,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                   className="group flex gap-1 items-center relative cursor-pointer"
                 >
                   <Rating
-                    initialValue={product?.average_rating || 5}
+                    initialValue={product?.average_rating || 0}
                     allowFraction
                     readonly
                     size={24}
@@ -169,8 +169,8 @@ const ProductDetails = ({ product, settings, translations }) => {
 
                   <RatingReviewPopover product_id={product?.id} />
 
-                  <span>{getFractionFixed(product?.average_rating || 5)}</span>
-                </div>
+                  <span className="">{getFractionFixed(product?.average_rating || 0)}</span>
+                </div> 
                 <p
                   onClick={(e) => handleTabItemToView(e, "p-rating-reviews")}
                   className="border-l pl-3 border-slate-300 leading-4 cursor-pointer"
@@ -188,6 +188,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                     onClick={(e) => handleTabItemToView(e, "p-qna")}
                     className="hover:text-primary"
                   >
+  
                     {formatLongNumber(product?.total_question_answer || 0)}{" "}
                     {translations["questions-and-answers"] || "প্রশ্ন ও উত্তর"}
                   </Link>

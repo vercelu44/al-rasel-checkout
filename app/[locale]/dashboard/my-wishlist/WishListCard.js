@@ -27,16 +27,16 @@ const WishListCard = ({ product }) => {
 			>
 				<FiTrash2 size={20} />
 			</button>
-			<div className={`flex gap-4`}>
-				<div className="relative">
+			<div className={`flex gap-2 lg:gap-4`}>
+				<div className="relative !w-[95px]">
 					<Image
 						src={product.image || noImage}
 						alt="product"
-						height={0}
-						width={0}
+						height={84}
+						width={84}
 						className={`${
 							stockOut ? "opacity-50" : ""
-						} w-[72px] h-[72px] rounded-lg  md:w-[84px] md:h-[84px] `}
+						} h-[72px] w-[72px] lg:w-[84px] lg:h-[84px] rounded-lg`}
 					/>
 					{stockOut ? (
 						<div className="w-full h-full rounded absolute left-0 top-0 flex items-center justify-center">

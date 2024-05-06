@@ -140,7 +140,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 							</h2>
 							<div className="product-rating">
 								<span className="font-semibold text-slate-900">
-									{getFractionFixed(average_rating) || 5}{" "}
+									{getFractionFixed(average_rating) || 0}{" "}
 									<FaStar className="text-primary pb-1" />
 								</span>
 								<span className="block border-l border-l-slate-200 pl-2 font-semibold text-slate-900">

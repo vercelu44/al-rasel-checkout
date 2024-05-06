@@ -34,7 +34,7 @@ const LoginModal = ({ showModal, setShowModal, title }) => {
 	useEffect(() => {
 		if (isSuccess && otpResponse) {
 			toast.success("OTP has been sent to your mobile");
-			toast(otpResponse?.otp_message);
+			// toast(otpResponse?.otp_message);
 			// console.log(otpResponse, "OTP Response");
 			setOtpSent(true);
 		} else if (isError) {

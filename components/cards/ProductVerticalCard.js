@@ -70,7 +70,7 @@ const ProductVerticalCard = ({ product }) => {
 				<h2 className="w-full product-title">{product_name}</h2>
 				<div className="product-rating">
 					<span className="font-semibold text-slate-900">
-						{getFractionFixed(average_rating) || 5}{" "}
+						{getFractionFixed(average_rating) || 0}{" "}
 						<FaStar className="text-primary pb-1" />
 					</span>
 					<span className="block border-l border-l-slate-200 pl-2 font-semibold text-slate-900">
