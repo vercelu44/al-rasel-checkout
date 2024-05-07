@@ -101,7 +101,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 								</div>
 							)}
 
-							<div className="product-img p-1 md:p-1.5 pb-0">
+							<div className="product-img p-1 md:p-[7px] pb-0">
 								<Link
 									className={`${stockOut ? "pointer-events-none" : ""}`}
 									disabled={stockOut}
