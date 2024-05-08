@@ -121,17 +121,19 @@ export default function MainNav({ settings }) {
 						<div className="header-right flex justify-between items-center ml-4 gap-2 lg:gap-6">
 							<ResponsiveSearch />
 							<div className="header-actions flex items-center gap-4">
-								<Link
-									href="/dashboard/my-wishlist"
-									className="single-action !hidden lg:!flex relative"
-								>
-									<HiOutlineHeart size={24} />
-									{wishlistCount ? (
-										<span className="absolute -right-2 -top-2 bg-red-500 text-white px-2 text-center rounded-full">
-											{wishlistCount > 9 ? "9+" : wishlistCount}
-										</span>
-									) : null}
-								</Link>
+								{!settings?.guest_checkout ? (
+									<Link
+										href="/dashboard/my-wishlist"
+										className="single-action !hidden lg:!flex relative"
+									>
+										<HiOutlineHeart size={24} />
+										{wishlistCount ? (
+											<span className="absolute -right-2 -top-2 bg-red-500 text-white px-2 text-center rounded-full">
+												{wishlistCount > 9 ? "9+" : wishlistCount}
+											</span>
+										) : null}
+									</Link>
+								) : null}
 
 								<button
 									onClick={() => dispatch(toggleCart())}
@@ -144,47 +146,49 @@ export default function MainNav({ settings }) {
 										</span>
 									) : null}
 								</button>
-								<div
-									ref={popoverRef}
-									className="relative hidden lg:flex items-center"
-								>
-									<button className="single-action" onClick={togglePopover}>
-										{user?.image ? (
-											<Image
-												src={user.image}
-												alt="Profile"
-												height={32}
-												width={32}
-												className="h-full w-full rounded-full"
-											/>
-										) : (
-											<HiOutlineUser size={24} />
-										)}
-									</button>
-									{userOpen && !user ? (
-										<div className="absolute right-0 top-0 z-10 mt-14">
-											<div className="relative bg-white px-6 py-8 w-52 border border-slate-300 rounded-lg">
-												<div className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-slate-300"></div>
-												<p className="text-slate-500 text-base font-bold text-center">
-													{translations["login-status"]}
-												</p>
-												<div className="flex justify-center mt-4">
-													<button
-														className="primary-btn px-6"
-														onClick={handleModalOpen}
-													>
-														{translations["log-in"]}
-														<HiArrowNarrowRight />
-													</button>
+								{!settings?.guest_checkout ? (
+									<div
+										ref={popoverRef}
+										className="relative hidden lg:flex items-center"
+									>
+										<button className="single-action" onClick={togglePopover}>
+											{user?.image ? (
+												<Image
+													src={user.image}
+													alt="Profile"
+													height={32}
+													width={32}
+													className="h-full w-full rounded-full"
+												/>
+											) : (
+												<HiOutlineUser size={24} />
+											)}
+										</button>
+										{userOpen && !user ? (
+											<div className="absolute right-0 top-0 z-10 mt-14">
+												<div className="relative bg-white px-6 py-8 w-52 border border-slate-300 rounded-lg">
+													<div className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-slate-300"></div>
+													<p className="text-slate-500 text-base font-bold text-center">
+														{translations["login-status"]}
+													</p>
+													<div className="flex justify-center mt-4">
+														<button
+															className="primary-btn px-6"
+															onClick={handleModalOpen}
+														>
+															{translations["log-in"]}
+															<HiArrowNarrowRight />
+														</button>
+													</div>
 												</div>
 											</div>
-										</div>
-									) : null}
-									{/* for authenticated user */}
-									{userOpen && user ? (
-										<AuthUserMenus togglePopover={togglePopover} />
-									) : null}
-								</div>
+										) : null}
+										{/* for authenticated user */}
+										{userOpen && user ? (
+											<AuthUserMenus togglePopover={togglePopover} />
+										) : null}
+									</div>
+								) : null}
 								{/* <div className="hidden lg:block"> */}
 								<LanguageSelector locale={locale} />
 								{/* </div> */}

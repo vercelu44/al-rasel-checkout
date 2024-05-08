@@ -17,9 +17,11 @@ import { FaStar } from "react-icons/fa";
 import { HiOutlineHeart, HiOutlineShoppingCart } from "react-icons/hi2";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import HeartRedIcon from "../elements/svg/HeartRedIcon";
+import { useSelector } from "react-redux";
 
 const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 	const { handleAddToCart, handleAddAndCheckout } = useCart(); //custom hook for reusing
+	const { settings } = useSelector((state) => state.common);
 	const {
 		handleAddToWishlist,
 		handleWishListProductStatus,
@@ -55,27 +57,29 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 		<>
 			{!loading ? (
 				<div className="relative">
-					<div className="absolute top-4 right-4 z-20">
-						<button
-							aria-label="Add To Wishlist"
-							className={`wishlist-action-btn`}
-							onClick={(e) =>
-								isInWishList
-									? handleRemoveFromWishlist(id)
-									: handleAddToWishlist(id)
-							}
-						>
-							{isInWishList ? (
-								<HeartRedIcon />
-							) : (
-								<>
-									<span className="">
-										<HiOutlineHeart />
-									</span>
-								</>
-							)}
-						</button>
-					</div>
+					{!settings?.guest_checkout ? (
+						<div className="absolute top-4 right-4 z-20">
+							<button
+								aria-label="Add To Wishlist"
+								className={`wishlist-action-btn`}
+								onClick={(e) =>
+									isInWishList
+										? handleRemoveFromWishlist(id)
+										: handleAddToWishlist(id)
+								}
+							>
+								{isInWishList ? (
+									<HeartRedIcon />
+								) : (
+									<>
+										<span className="">
+											<HiOutlineHeart />
+										</span>
+									</>
+								)}
+							</button>
+						</div>
+					) : null}
 					{stockOut ? (
 						<div className="rounded z-10 absolute right-1/2 w-full translate-x-1/2 top-1/4 flex items-center justify-center ">
 							<span className="text-red-500  text-[14px] md:[18px] leading-6 rounded-lg whitespace-nowrap capitalize border-solid border bg-white border-red-500 px-3 py-1">

@@ -3,15 +3,23 @@ import { usePlaceAnOrderMutation } from "@/store/api/orderAPI";
 import { toast } from "react-toastify";
 import getToken from "@/utils/token";
 import { clearCart, clearDiscountInfo } from "@/store/slices/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGlobalLoader } from "@/store/slices/commonSlice";
 
 const useOrderPlace = () => {
 	const [placeAnOrder] = usePlaceAnOrderMutation();
+	const { settings } = useSelector((state) => state.common);
+	const isGuestCheckout = !!settings?.guest_checkout;
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const handleOrderPlace = async (newOrder) => {
 		// console.log(newOrder);
+		if (newOrder.payment_type !== "COD" && isGuestCheckout) {
+			toast.error("Guest Payment Option is not available yet");
+			return;
+		}
+
+		dispatch(setGlobalLoader(true));
 		// "Online Payment"
 		if (newOrder.payment_type !== "COD") {
 			//currently getting payment_type "Online Payment" but checkout accepts "Online"
@@ -41,16 +49,18 @@ const useOrderPlace = () => {
 				toast.error("Something went wrong...", error);
 			}
 		} else {
-			placeAnOrder(newOrder)
+			newOrder.payment_type = "COD"; //forcing to use payment type COD
+			placeAnOrder({ newOrder, isGuestCheckout })
 				.unwrap()
 				.then((response) => {
 					// Handle the successful response if necessary
 					// console.log(response);
 					dispatch(clearDiscountInfo());
-					dispatch(clearCart());
 					dispatch(setGlobalLoader(false));
 					toast.success("Order successful");
-					router.push(`checkout/success/${response?.sale?.id}`);
+					const { sale } = response || {};
+					dispatch(clearCart());
+					router.push(`checkout/success/${sale?.id}`);
 				})
 				.catch((error) => {
 					// Handle the error if necessary

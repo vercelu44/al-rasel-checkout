@@ -3,27 +3,25 @@ import { Link } from "@/navigation";
 import React from "react";
 import dynamic from "next/dynamic";
 import { FaCheck } from "react-icons/fa";
-import { useGetOrderByIdQuery } from "@/store/api/orderAPI";
 import ArticleLoader from "@/components/elements/loaders/ArticleLoader";
 import { getFormattedDate } from "@/utils/format-date";
 const Lottie = dynamic(() => import("lottie-react"));
 import confetti from "@/public/assets/lottie/confetti.json";
 import { useSelector } from "react-redux";
 import { siteConfig } from "@/config/site";
+import useOrderSummary from "@/hooks/useOrderSummary";
 
 const OrderSuccess = ({ params }) => {
-	const { translations } = useSelector((state) => state.common);
-	const { order_id, locale } = params;
-	const { data: orderData, isLoading } = useGetOrderByIdQuery({
-		order_id,
-		locale,
-	});
-	const order = orderData?.sale || null;
-	// console.log(order);
+	const { order_id } = params;
+	const { settings, translations } = useSelector((state) => state.common);
+	const { order, loading, error } = useOrderSummary(order_id);
+	const isGuestCheckout = !!settings?.guest_checkout;
+	// console.log(order, "newOrder");
+
 	return (
 		<div className="container min-h-screen">
 			<div className="w-full lg:w-[540px] mx-auto my-6 lg:my-12 py-6 lg:p-5 rounded-lg">
-				{!isLoading && (
+				{!loading && (
 					<div className="text-center font-bold">
 						<div className="relative flex-center my-4">
 							<div className="p-3 bg-green-100 rounded-[100%]">
@@ -45,14 +43,14 @@ const OrderSuccess = ({ params }) => {
 						</h3>
 					</div>
 				)}
-				{isLoading ? (
+				{loading ? (
 					<ArticleLoader />
 				) : (
 					<div className="order-info">
 						<div className="order-info bg-slate-50 p-4 my-4 rounded-lg">
 							<div className="flex-between my-2">
 								<p>{translations["order-id"] || "অর্ডার আইডি"}</p>
-								<p>{order?.invoice_no}</p>
+								<p>#{order?.invoice_no}</p>
 							</div>
 							<div className="flex-between my-2">
 								<p>{translations["order-date"] || "অর্ডারের তারিখ"}</p>
@@ -78,12 +76,22 @@ const OrderSuccess = ({ params }) => {
 							</div>
 						</div>
 						<div className="actions my-6 flex gap-3 lg:gap-4 justify-between items-center">
-							<Link
-								href={`/dashboard/my-orders/details/${order_id}`}
-								className="bg-secondary-700 p-3 w-full text-white rounded-lg text-center active:scale-95"
-							>
-								{translations["track-order"] || "অর্ডার ট্র্যাক করুন"}
-							</Link>
+							{isGuestCheckout ? (
+								<Link
+									target="_blank"
+									href={`${process.env.serverBaseUrl}/in/${order?.customer?.id}/${order?.id}/sale`}
+									className="border border-primary rounded-lg w-full p-[11px] text-center active:scale-95"
+								>
+									{translations["download-invoice"] || "ডাউনলোড ইনভয়েস"}
+								</Link>
+							) : (
+								<Link
+									href={`/dashboard/my-orders/details/${order_id}`}
+									className="bg-secondary-700 p-3 w-full text-white rounded-lg text-center active:scale-95"
+								>
+									{translations["track-order"] || "অর্ডার ট্র্যাক করুন"}
+								</Link>
+							)}
 							<Link
 								href={"/products"}
 								className="bg-primary p-3 w-full text-white rounded-lg text-center active:scale-95"

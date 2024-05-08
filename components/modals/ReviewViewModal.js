@@ -18,7 +18,7 @@ export default function ReviewViewModal({
 	reviewId: reviewIdProp,
 }) {
 	const { user } = useSelector((state) => state.auth);
-	const { translations } = useSelector((state) => state.common);
+	const { translations, settings } = useSelector((state) => state.common);
 
 	let review = {};
 	let api = user ? reviewIdProp + `?reference_id=${user.id}` : reviewIdProp;
@@ -113,22 +113,35 @@ export default function ReviewViewModal({
 								</div>
 							</div>
 							<div className="ml-auto flex items-center gap-4">
-								<button
-									onClick={() => handleReviewReact("like", review?.id)}
-									className={`icon-btn hover:text-primary ${
-										review.is_liked ? "text-primary" : "text-slate-700"
-									}`}
-								>
-									<AiFillLike /> {review.likes_count}
-								</button>
-								<button
-									onClick={() => handleReviewReact("dislike", review?.id)}
-									className={`icon-btn hover:text-primary ${
-										review.is_disliked ? "text-primary" : "text-slate-700"
-									}`}
-								>
-									<AiFillDislike /> {review.dislikes_count}
-								</button>
+								{!settings?.guest_checkout ? (
+									<>
+										<button
+											onClick={() => handleReviewReact("like", review?.id)}
+											className={`icon-btn hover:text-primary ${
+												review.is_liked ? "text-primary" : "text-slate-700"
+											}`}
+										>
+											<AiFillLike /> {review.likes_count}
+										</button>
+										<button
+											onClick={() => handleReviewReact("dislike", review?.id)}
+											className={`icon-btn hover:text-primary ${
+												review.is_disliked ? "text-primary" : "text-slate-700"
+											}`}
+										>
+											<AiFillDislike /> {review.dislikes_count}
+										</button>
+									</>
+								) : (
+									<>
+										<div className="text-slate-700 space-x-1 pt-3">
+											<AiFillLike /> {review.likes_count}
+										</div>
+										<div className="text-slate-700 space-x-1 pt-3">
+											<AiFillDislike /> {review.dislikes_count}
+										</div>
+									</>
+								)}
 							</div>
 						</div>
 					</div>

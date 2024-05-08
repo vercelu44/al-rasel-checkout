@@ -44,6 +44,7 @@ const ProductDetails = ({ product, settings, translations }) => {
 							product={product}
 							ref={productViewSwiperRef}
 							selectedColor={selectedColor}
+							settings={settings}
 						/>
 						<div className="px-3 responsive-action">
 							<div className="product-actions pb-3 lg:py-6 flex gap-3 md:gap-4 justify-between items-center">

@@ -88,14 +88,21 @@ const Checkout = () => {
 		? deliveryMethod.charges + totalWithDiscount
 		: totalWithDiscount;
 
-	const handleCheckoutSubmit = async (data, event) => {
+	const handleCheckoutSubmit = async (data) => {
 		// dispatch(setGlobalLoader(true));
+		let phone = data?.phone;
+		let alt_phone = data?.phone;
+
+		//for authorized u
+		if (!settings?.guest_checkout) {
+			alt_phone =
+				siteConfig.phone.countryCode + user?.phone || user?.alt_phone_no;
+		}
 		const newOrder = {
 			name: data.name,
 			alt_name: data.name,
-			phone: siteConfig.phone.countryCode + data?.phone,
-			alt_phone:
-				siteConfig.phone.countryCode + user?.phone || user?.alt_phone_no,
+			phone: phone,
+			alt_phone: alt_phone,
 			address: data.address,
 			alt_address: data.address,
 			order_items: getOrderFormattedCartItems(cart),
@@ -113,8 +120,12 @@ const Checkout = () => {
 		};
 		// console.log(newOrder);
 		handleOrderPlace(newOrder);
-		// updating user for the first time only
-		if ((!user?.phone && !user?.alt_phone_no) || !user?.address) {
+
+		// updating user for the first time only not applicable for guest checkout
+		if (
+			((!user?.phone && !user?.alt_phone_no) || !user?.address) &&
+			!settings?.guest_checkout
+		) {
 			handleUserUpdate({
 				...user,
 				alt_phone_no: data?.phone,
@@ -395,13 +406,13 @@ const Checkout = () => {
 								</p>
 							</div>
 
-								<div className="flex-between my-2">
-									<p>{translations["delivery-charge"] || "ডেলিভারি চার্জ"}</p>
-									<p>
-										{siteConfig.currency.sign}
-										{isDeliveryCharge? deliveryMethod.charges : 0}
-									</p>
-								</div>
+							<div className="flex-between my-2">
+								<p>{translations["delivery-charge"] || "ডেলিভারি চার্জ"}</p>
+								<p>
+									{siteConfig.currency.sign}
+									{isDeliveryCharge ? deliveryMethod.charges : 0}
+								</p>
+							</div>
 
 							<div className="border-b border-slate-900 my-2"></div>
 							<div className="flex-between my-2 font-bold">

@@ -26,7 +26,7 @@ const Cart = () => {
 	};
 
 	const handleModal = () => {
-		if (user) {
+		if (user || settings?.guest_checkout === 1) {
 			router.push("/checkout");
 			closeCart();
 			return;

@@ -7,7 +7,7 @@ import { getFormattedDate } from "@/utils/format-date";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import useAddReviewReaction from "@/hooks/useAddReviewReaction";
 
-const RatingReviewCard = ({ review, translations }) => {
+const RatingReviewCard = ({ review, translations, settings }) => {
 	const { handleReviewReact } = useAddReviewReaction(); //custom hook for reusing
 	return (
 		<div className="grid lg:grid-cols-3 border-b border-slate-300 px-3 gap-1 lg:px-4 lg:py-3 mt-4">
@@ -72,22 +72,35 @@ const RatingReviewCard = ({ review, translations }) => {
 					)}
 
 					<div className="justify-self-end like-dislike flex-center gap-4">
-						<button
-							onClick={() => handleReviewReact("like", review?.id)}
-							className={`icon-btn !py-0 hover:text-primary ${
-								review.is_liked ? "text-primary" : "text-slate-700"
-							}`}
-						>
-							<AiFillLike /> {review.likes_count}
-						</button>
-						<button
-							onClick={() => handleReviewReact("dislike", review?.id)}
-							className={`icon-btn !py-0 hover:text-primary ${
-								review.is_disliked ? "text-primary" : "text-slate-700"
-							}`}
-						>
-							<AiFillDislike /> {review.dislikes_count}
-						</button>
+						{!settings?.guest_checkout ? (
+							<>
+								<button
+									onClick={() => handleReviewReact("like", review?.id)}
+									className={`icon-btn !py-0 hover:text-primary ${
+										review.is_liked ? "text-primary" : "text-slate-700"
+									}`}
+								>
+									<AiFillLike /> {review.likes_count}
+								</button>
+								<button
+									onClick={() => handleReviewReact("dislike", review?.id)}
+									className={`icon-btn !py-0 hover:text-primary ${
+										review.is_disliked ? "text-primary" : "text-slate-700"
+									}`}
+								>
+									<AiFillDislike /> {review.dislikes_count}
+								</button>
+							</>
+						) : (
+							<>
+								<div className="text-slate-700 space-x-1">
+									<AiFillLike /> {review.likes_count}
+								</div>
+								<div className="text-slate-700 space-x-1">
+									<AiFillDislike /> {review.dislikes_count}
+								</div>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

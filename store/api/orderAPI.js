@@ -4,9 +4,9 @@ const orderAPI = api.injectEndpoints({
 	endpoints: (builder) => ({
 		placeAnOrder: builder.mutation({
 			query: (payload) => ({
-				url: "checkout",
+				url: !payload?.isGuestCheckout ? "checkout" : "guest-checkout",
 				method: "POST",
-				body: payload,
+				body: payload?.newOrder,
 			}),
 			invalidatesTags: ["orders"],
 		}),

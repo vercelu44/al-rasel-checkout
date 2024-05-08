@@ -24,7 +24,7 @@ const RatingReviews = ({ product_id }) => {
 		rating: "all-star",
 		page: 1,
 	});
-	const { translations } = useSelector((state) => state.common);
+	const { translations, settings } = useSelector((state) => state.common);
 	const isMobile = useMediaQuery("(max-width: 768px)");
 
 	// Review Summary
@@ -171,6 +171,7 @@ const RatingReviews = ({ product_id }) => {
 							review={review}
 							reviewImages={reviewImages}
 							translations={translations}
+							settings={settings}
 						/>
 					))}
 				</div>

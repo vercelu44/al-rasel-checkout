@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 const RequireAuth = (WrappedComponent) => {
 	const AuthComponent = (props) => {
 		const { user, isLoading } = useSelector((state) => state.auth);
+		const { settings } = useSelector((state) => state.common);
 		const router = useRouter();
 		const pathName = usePathname();
 		const dispatch = useDispatch();
@@ -22,9 +23,21 @@ const RequireAuth = (WrappedComponent) => {
 
 		// If the user is not authenticated, redirect to the login page
 		if (!user) {
-			toast.error("Please login first");
-			dispatch(setLoginModalOpen(true));
-			router.push("/?redirect=" + pathName);
+			if (!settings?.guest_checkout) {
+				toast.error("Please login first");
+				dispatch(setLoginModalOpen(true));
+				router.push("/?redirect=" + pathName);
+				return null;
+			}
+
+			if (
+				settings?.guest_checkout === 1 &&
+				pathName.split("/").includes("checkout")
+			) {
+				return <WrappedComponent {...props} />;
+			}
+
+			router.push("/");
 			return null;
 		}
 

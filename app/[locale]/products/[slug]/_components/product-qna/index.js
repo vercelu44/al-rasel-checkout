@@ -107,41 +107,43 @@ const ProductQNA = ({ product_id }) => {
 					)}
 				</div>
 
-				<form className="mt-6 lg:mt-8" onSubmit={handleSubmit(onSubmit)}>
-					<div className="flex flex-col lg:flex-row justify-between gap-4 items-end">
-						<textarea
-							className="w-full h-24 lg:h-[50px] lg:w-[25.75rem] border-1 border-[#E2E8F0] focus:border-primary text-base focus:outline-none rounded-lg p-3"
-							type="text"
-							// rows={1}
-							placeholder={
-								translations["type-product-question"] ||
-								"প্রডাক্ট সম্পর্কে আপনার প্রশ্ন লিখুন"
-							}
-							{...register("question", {
-								required: "Question is required.",
-							})}
-						/>
+				{!settings?.guest_checkout ? (
+					<form className="mt-6 lg:mt-8" onSubmit={handleSubmit(onSubmit)}>
+						<div className="flex flex-col lg:flex-row justify-between gap-4 items-end">
+							<textarea
+								className="w-full h-24 lg:h-[50px] lg:w-[25.75rem] border-1 border-[#E2E8F0] focus:border-primary text-base focus:outline-none rounded-lg p-3"
+								type="text"
+								// rows={1}
+								placeholder={
+									translations["type-product-question"] ||
+									"প্রডাক্ট সম্পর্কে আপনার প্রশ্ন লিখুন"
+								}
+								{...register("question", {
+									required: "Question is required.",
+								})}
+							/>
+							{errors.question && (
+								<p className="errorMsg !m-0 lg:hidden">
+									{errors.question.message}
+								</p>
+							)}
+							<div className="product-actions flex justify-end items-center">
+								<button
+									type="submit"
+									className="primary-btn !h-[2.5rem] w-[12.25rem]"
+								>
+									{translations["ask-question"] || "প্রশ্ন জিজ্ঞাস করুন"}
+								</button>
+							</div>
+						</div>
+
 						{errors.question && (
-							<p className="errorMsg !m-0 lg:hidden">
+							<p className="errorMsg hidden lg:block">
 								{errors.question.message}
 							</p>
 						)}
-						<div className="product-actions flex justify-end items-center">
-							<button
-								type="submit"
-								className="primary-btn !h-[2.5rem] w-[12.25rem]"
-							>
-								{translations["ask-question"] || "প্রশ্ন জিজ্ঞাস করুন"}
-							</button>
-						</div>
-					</div>
-
-					{errors.question && (
-						<p className="errorMsg hidden lg:block">
-							{errors.question.message}
-						</p>
-					)}
-				</form>
+					</form>
+				) : null}
 				{isLoading ? (
 					<ItemsListLoader noImage={true} numItems={2} />
 				) : (

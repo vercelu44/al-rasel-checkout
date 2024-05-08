@@ -12,3 +12,4 @@ export { default as MessengerIcon } from "./MessengerIcon";
 export { default as MessengerFillIcon } from "./MessengerFillIcon";
 export { default as CallIcon } from "./CallIcon";
 export { default as CallFillIcon } from "./CallFillIcon";
+export { default as CartIcon } from "./CartIcon";
