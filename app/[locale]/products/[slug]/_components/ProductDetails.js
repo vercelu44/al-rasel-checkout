@@ -222,26 +222,28 @@ const ProductDetails = ({ product, settings, translations }) => {
 							</div>
 						</div>
 						<div className="h-2 w-full bg-slate-200 lg:hidden"></div>
-						<div className="px-3 lg:px-0">
-							{!(
-								product.barcodes?.length === 1 &&
-								product.barcodes[0].size === "" &&
-								product.barcodes[0].color === ""
-							) ? (
-								<ProductVariantSelect
-									photos={product?.photos}
-									productBarCodes={product?.barcodes}
-									selectedVariant={selectedVariant}
-									setSelectedVariant={setSelectedVariant}
-									sizeChart={product?.size_chart}
-									translations={translations}
-									ref={productViewSwiperRef}
-									setSelectedColor={setSelectedColor}
-									selectedColor={selectedColor}
-								/>
-							) : null}
-						</div>
-						<div className="h-2 w-full mt-4 bg-slate-200 lg:hidden"></div>
+						{!(
+							product.barcodes?.length === 1 &&
+							product.barcodes[0].size === "" &&
+							product.barcodes[0].color === ""
+						) ? (
+							<>
+								<div className="px-3 lg:px-0">
+									<ProductVariantSelect
+										photos={product?.photos}
+										productBarCodes={product?.barcodes}
+										selectedVariant={selectedVariant}
+										setSelectedVariant={setSelectedVariant}
+										sizeChart={product?.size_chart}
+										translations={translations}
+										ref={productViewSwiperRef}
+										setSelectedColor={setSelectedColor}
+										selectedColor={selectedColor}
+									/>
+								</div>
+								<div className="h-2 w-full mt-4 bg-slate-200 lg:hidden"></div>
+							</>
+						) : null}
 						<div className="px-3 lg:px-0">
 							{product?.coupons.length ? (
 								<div className="mt-5 mb-8">

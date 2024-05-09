@@ -105,11 +105,14 @@ const page = async ({ params, searchParams }) => {
 					{translations["top-5-categories"] || "সেরা ৫টি ক্যাটাগরি"}
 				</h6>
 				<div className="lg:container">
-					<HorizontalScrollView className={"space-x-2 lg:space-x-4 py-3"}>
+					<HorizontalScrollView
+						className={"space-x-2 lg:space-x-4 py-3 lg:px-0"}
+					>
 						{popularCategories?.slice(0, 5)?.map((cat, i) => (
 							<div
-								className="category flex flex-1 items-center gap-2 lg:gap-4 border border-slate-100 rounded-xl py-1 px-2 lg:p-3.5 lg:min-w-[237px]"
+								className="category flex flex-1 items-center gap-2 lg:gap-4 border border-slate-100 rounded-xl py-1 px-2 lg:p-3.5 lg:w-[239.2px]"
 								key={i}
+								title={cat.category_name}
 							>
 								<div className="image flex items-center justify-center w-10 lg:w-12 h-10 lg:h-12 bg-amber-50 rounded-xl lg:rounded-2xl">
 									<Link href={`/categories/${cat.slug}`}>
@@ -124,7 +127,7 @@ const page = async ({ params, searchParams }) => {
 								</div>
 								<Link
 									href={`/categories/${cat.slug}`}
-									className="text-base text-slate-900"
+									className="text-base text-slate-900 line-clamp-1 text-ellipsis"
 								>
 									{cat.category_name}
 								</Link>

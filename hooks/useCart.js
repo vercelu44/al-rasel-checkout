@@ -5,6 +5,7 @@ import {
 	addToSelected,
 	removeFromCart,
 	removeFromSelected,
+	toggleCart,
 } from "@/store/slices/cartSlice";
 import { useRouter } from "@/navigation";
 
@@ -47,6 +48,7 @@ const useCart = () => {
 					selectedBarCode: product.barcodes[0],
 				})
 			);
+			dispatch(toggleCart()); //opening cart for simple product
 			return true;
 		}
 		if (!selectedVariant) {
