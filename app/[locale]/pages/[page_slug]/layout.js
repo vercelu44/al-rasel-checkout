@@ -8,13 +8,20 @@ export const generateMetadata = async ({ params }, parent) => {
 		const pageRes = await fetchData({ api: `pages/${params.page_slug}` });
 		page = pageRes?.data;
 		// console.log(page);
+		return {
+			title: `${page?.title}`,
+			// description: `${page?.title} a category of ${parentMetaData.applicationName}`,
+			openGraph: {
+				title: `${page?.title}`,
+				url: `/pages/${page?.slug}`,
+			},
+			alternates: {
+				canonical: `/pages/${page?.slug}`,
+			},
+		};
 	} catch (error) {
 		return notFound();
 	}
-	return {
-		title: `${page?.title}`,
-		// description: `${page?.title} a category of ${parentMetaData.applicationName}`,
-	};
 };
 export default function DynamicPageLayout({ children }) {
 	return <div>{children}</div>;

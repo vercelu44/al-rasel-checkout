@@ -1,22 +1,39 @@
 "use client";
 import { Link } from "@/navigation";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { FaCheck } from "react-icons/fa";
 import ArticleLoader from "@/components/elements/loaders/ArticleLoader";
 import { getFormattedDate } from "@/utils/format-date";
 const Lottie = dynamic(() => import("lottie-react"));
 import confetti from "@/public/assets/lottie/confetti.json";
-import { useSelector } from "react-redux";
 import { siteConfig } from "@/config/site";
 import useOrderSummary from "@/hooks/useOrderSummary";
+import { useSelector } from "react-redux";
+import * as pixel from "/lib/fpixel";
 
 const OrderSuccess = ({ params }) => {
 	const { order_id } = params;
-	const { settings, translations } = useSelector((state) => state.common);
 	const { order, loading, error } = useOrderSummary(order_id);
+	const { settings, translations, isFbPixelInitialized } = useSelector(
+		(state) => state.common
+	);
 	const isGuestCheckout = !!settings?.guest_checkout;
 	// console.log(order, "newOrder");
+
+	// Meta Pixel Purchase Event Section
+	const flag = useRef(true);
+	useEffect(() => {
+		// Check if product ID exists to avoid errors
+		if (isFbPixelInitialized && flag.current && order?.id) {
+			pixel.event(
+				"Purchase",
+				pixel.getPurchasedItemsPixelData(order.ordered_items, order.sub_total)
+			);
+			console.log("purchase complete");
+			flag.current = false;
+		}
+	}, [order, isFbPixelInitialized]);
 
 	return (
 		<div className="container min-h-screen">

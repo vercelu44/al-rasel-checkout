@@ -65,7 +65,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 								onClick={(e) =>
 									isInWishList
 										? handleRemoveFromWishlist(id)
-										: handleAddToWishlist(id)
+										: handleAddToWishlist(product)
 								}
 							>
 								{isInWishList ? (

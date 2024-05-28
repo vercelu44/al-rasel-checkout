@@ -9,6 +9,7 @@ const initialState = {
 	translations: {},
 	translationsLoading: true,
 	videoPlayerConfig: { url: "", className: "" }, //All react player config is supported
+	isFbPixelInitialized: false,
 };
 
 const commonSlice = createSlice({
@@ -35,6 +36,9 @@ const commonSlice = createSlice({
 		setLocale: (state, action) => {
 			state.locale = action.payload;
 		},
+		setFbPixelInitialized: (state, action) => {
+			state.isFbPixelInitialized = action.payload;
+		},
 		startVideoPlayer: (state, action) => {
 			state.videoPlayerConfig = action.payload;
 		},
@@ -50,6 +54,7 @@ export const {
 	setSettings,
 	setTranslations,
 	setLocale,
+	setFbPixelInitialized,
 	startVideoPlayer,
 	closeVideoPlayer,
 } = commonSlice.actions;

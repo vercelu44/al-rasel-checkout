@@ -8,6 +8,7 @@ import {
 	toggleCart,
 } from "@/store/slices/cartSlice";
 import { useRouter } from "@/navigation";
+import * as pixel from "/lib/fpixel";
 
 /**
  * The `useCart` function is a custom hook in JavaScript that provides methods for adding products to
@@ -31,7 +32,7 @@ const useCart = () => {
 	 * @returns The function `handleAddToCart` returns a boolean value. It returns `true` if the product is
 	 * successfully added to the cart, and `false` otherwise.
 	 */
-	const handleAddToCart = (product, selectedVariant) => {
+	const handleAddToCart = (product, selectedVariant, willNotOpenCart) => {
 		// if (product.barcodes?.length === 1 && !selectedVariant) {
 		if (
 			product.barcodes?.length === 1 &&
@@ -42,13 +43,15 @@ const useCart = () => {
 				toast.error("Oops! no stock available");
 				return false;
 			}
+			// //Pixel Add to cart event
+			pixel.event("AddToCart", pixel.getProductPixelData(product));
 			dispatch(
 				addToCart({
 					product: product,
 					selectedBarCode: product.barcodes[0],
 				})
 			);
-			dispatch(toggleCart()); //opening cart for simple product
+			!willNotOpenCart && dispatch(toggleCart()); //opening cart for simple product
 			return true;
 		}
 		if (!selectedVariant) {
@@ -57,6 +60,8 @@ const useCart = () => {
 			return false;
 		}
 
+		// //Pixel Add to cart event
+		pixel.event("AddToCart", pixel.getProductPixelData(product));
 		dispatch(
 			addToCart({
 				product: product,
@@ -78,7 +83,7 @@ const useCart = () => {
 	 * the product to the cart.
 	 */
 	const handleAddAndCheckout = (product, selectedVariant, isDrawerClose) => {
-		const isSuccess = handleAddToCart(product, selectedVariant);
+		const isSuccess = handleAddToCart(product, selectedVariant, true);
 		if (isSuccess) {
 			isDrawerClose && dispatch(removeFromSelected());
 			router.push("/checkout");

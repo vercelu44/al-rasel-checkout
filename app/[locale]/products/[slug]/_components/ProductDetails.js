@@ -2,29 +2,31 @@
 
 import Image from "next/image";
 import { Link } from "@/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import useCart from "@/hooks/useCart";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { getCouponDiscount } from "@/lib/checkout";
 import { getSlicedText } from "@/utils/format-text";
 import ViewHTML from "@/components/elements/ViewHTML";
-import ProductVariantSelect from "@/components/products/ProductVariantSelect";
 import { Rating } from "react-simple-star-rating";
-import { formatLongNumber, getFractionFixed } from "@/utils/format-number";
 import SocialShare from "@/components/elements/SocialShare";
 import ProductViewSlider from "./ProductViewSlider";
 import { siteConfig } from "@/config/site";
+import RatingReviewPopover from "./RatingReviewPopover";
+import FlashSellTimer from "@/components/elements/FlashSellTimer";
 import { getDiscountPercent, getSalePercent } from "@/utils/percent";
 import FlashSellCorner from "@/components/elements/svg/FlashSellCorner";
-import FlashSellTimer from "@/components/elements/FlashSellTimer";
-import RatingReviewPopover from "./RatingReviewPopover";
+import { formatLongNumber, getFractionFixed } from "@/utils/format-number";
+import ProductVariantSelect from "@/components/products/ProductVariantSelect";
+import * as pixel from "/lib/fpixel";
 
 // ** Import Icon
 import { HiChatBubbleLeftRight, HiOutlineShoppingCart } from "react-icons/hi2";
 import { TbTag } from "react-icons/tb";
 import { IoCall, IoCopy } from "react-icons/io5";
 import ProductTabsView, { handleTabItemToView } from "./ProductTabsView";
-import { toast } from "react-toastify";
 
 const ProductDetails = ({ product, settings, translations }) => {
 	const { handleAddToCart, handleAddAndCheckout } = useCart(); //custom hook for reusing
@@ -34,6 +36,19 @@ const ProductDetails = ({ product, settings, translations }) => {
 	const newPrice =
 		selectedVariant?.discount_selling_price || product?.new_price;
 	const oldPrice = selectedVariant?.selling_price || product?.old_price;
+
+	//Meta Pixel code section
+	const { isFbPixelInitialized } = useSelector((state) => state.common);
+	const flag = useRef(true);
+
+	// Meta Pixel view content event
+	useEffect(() => {
+		// Check if product ID exists to avoid errors
+		if (product && isFbPixelInitialized && flag.current) {
+			pixel.event("ViewContent", pixel.getProductPixelData(product));
+			flag.current = false;
+		}
+	}, [product, isFbPixelInitialized]);
 
 	return (
 		<div className="relative product-details">

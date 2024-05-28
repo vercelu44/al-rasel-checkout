@@ -36,9 +36,14 @@ export const generateMetadata = async ({ params }) => {
 	let appName = "E-commerce app";
 	let favicon = "/favicon.ico";
 	try {
-		settings = await fetchData({ api: `info/basic`, locale: params?.locale });
-		appName = settings?.data?.name;
-		// favicon = settings?.data?.favicon;
+		const settingsRes = await fetchData({
+			api: `info/basic`,
+			locale: params?.locale,
+		});
+		settings = settingsRes?.data || {};
+		appName = settings?.name;
+		favicon = settings?.favicon;
+		// console.log(settings);
 	} catch (error) {
 		console.log(error);
 		return {
@@ -52,20 +57,43 @@ export const generateMetadata = async ({ params }) => {
 			default: `${appName}`,
 			template: `%s || ${appName}`,
 		},
-		description: {
-			default: `${settings?.data?.motto}`,
-			template: `%s of ${appName}`,
-		},
+		description:
+			settings?.seo?.meta_description ||
+			`Discover Elegance, Shop with Confidence at ${appName}`,
 		applicationName: appName,
-		// icons: {
-		// 	icon: [
-		// 		{
-		// 			type: "image/x-icon",
-		// 			sizes: "64x73",
-		// 			url: favicon || `/favicon.ico`,
-		// 		},
-		// 	],
-		// 	// apple: [],
+		openGraph: {
+			title: `${appName}`,
+			description:
+				settings?.seo?.meta_description ||
+				`Discover Elegance, Shop with Confidence at ${appName}`,
+			url: `/`,
+			siteName: appName,
+			// images: [product?.data?.image],
+			type: "website",
+		},
+		icons: {
+			icon: [
+				{
+					type: "image/x-icon",
+					sizes: "64x73",
+					url: favicon || `/favicon.ico`,
+				},
+			],
+			// apple: [],
+		},
+		metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+		alternates: {
+			canonical: `/`,
+		},
+		verification: {
+			// google: "google",
+			other: {
+				// me: ["my-email", "my-link"],
+				"facebook-domain-verification": settings.fb_domain_verification,
+			},
+		},
+		// other: {
+		// 	"custom_meta_name": "meta_content",
 		// },
 	};
 };
@@ -105,6 +133,7 @@ export default function RootLayout({ children, params }) {
 						<VideoPlayerModal />
 						<PersistUser />
 						<GlobalLoader />
+						{/* Fb pixel added in ServerDataProvider*/}
 						<ServerDataProvider />
 					</ReduxProvider>
 				</AuthProvider>

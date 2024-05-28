@@ -191,7 +191,7 @@ const ProductViewSlider = forwardRef(
 									onClick={(e) =>
 										isInWishList
 											? handleRemoveFromWishlist(product.id)
-											: handleAddToWishlist(product.id)
+											: handleAddToWishlist(product)
 									}
 								>
 									{isInWishList ? (

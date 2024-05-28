@@ -2,10 +2,11 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { siteConfig } from "@/config/site";
 import RequireAuth from "@/components/hoks/RequireAuth";
+import * as pixel from "/lib/fpixel";
 import {
 	getCartTotal,
 	getCouponDiscount,
@@ -30,7 +31,9 @@ import useOrderPlace from "@/hooks/useOrderPlace";
 import useProfileUpdate from "@/hooks/useProfileUpdate";
 
 const Checkout = () => {
-	const { settings, translations } = useSelector((state) => state.common);
+	const { settings, translations, isFbPixelInitialized } = useSelector(
+		(state) => state.common
+	);
 	const deliveryMethods = [
 		{
 			key: "inside dhaka",
@@ -134,6 +137,19 @@ const Checkout = () => {
 		}
 		// else alert("user not updated");
 	};
+
+	// Meta Pixel Initiate Checkout Event
+	const flag = useRef(true);
+	useEffect(() => {
+		// Check if product ID exists to avoid errors
+		if (isFbPixelInitialized && flag.current && cart.length > 0) {
+			pixel.event(
+				"InitiateCheckout",
+				pixel.getInitiateCheckoutPixelData(cart, total)
+			);
+			flag.current = false;
+		}
+	}, [cart, total, isFbPixelInitialized]);
 
 	return (
 		<section className="md:container py-3 lg:py-8 mb-14 lg:mb-0">

@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "next/navigation";
+import * as pixel from "/lib/fpixel";
 import {
 	useAddToWishListMutation,
 	useGetWishListQuery,
 	useRemoveFromWishListMutation,
 } from "@/store/api/wishListAPI";
-import { useParams } from "next/navigation";
 import { setLoginModalOpen } from "@/store/slices/authSlice";
 
 /**
@@ -27,18 +28,20 @@ const useWishList = () => {
 	/**
 	 * The function `handleAddToWishlist` adds a product to the user's wishlist and displays a success or
 	 * error message using the `toast` library.
-	 * @param productId - The productId parameter is the unique identifier of the product that the user
+	 * @param product - The product parameter is the product that the user
 	 * wants to add to their wishlist.
 	 * @returns nothing (undefined).
 	 */
-	const handleAddToWishlist = async (productId) => {
+	const handleAddToWishlist = async (product) => {
 		if (!user) {
 			// toast.error("You're not logged in");
 			dispatch(setLoginModalOpen(true));
 			return;
 		}
 		try {
-			await addToWishlist({ product_id: productId });
+			await addToWishlist({ product_id: product?.id });
+			//Pixel Add to wishlist event
+			pixel.event("AddToWishlist", pixel.getProductPixelData(product));
 			toast.success("Product added to Wishlist!");
 		} catch (error) {
 			toast.error("Failed to add to wishlist");
