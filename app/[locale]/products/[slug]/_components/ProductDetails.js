@@ -101,7 +101,9 @@ const ProductDetails = ({ product, settings, translations }) => {
 										"বিস্তারিত জানতে কল করুন"}
 								</p>
 								<p className="text-primary text-lg">
-									<IoCall /> {settings?.phone[0] || "no contact added"}
+									<Link href={`tel:${(settings?.phone || ["0170000000"])[0]}`}>
+										<IoCall /> {(settings?.phone || ["0170000000"])[0]}
+									</Link>
 								</p>
 								{settings?.phone[1] && (
 									<>
