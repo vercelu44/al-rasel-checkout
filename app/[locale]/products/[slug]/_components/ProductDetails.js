@@ -95,7 +95,7 @@ const ProductDetails = ({ product, settings, translations }) => {
 									</span>
 								</button>
 							</div>
-							<div className="lg:border-t border-slate-200 flex gap-3 md:gap-4 justify-center lg:justify-between items-center flex-wrap pt-1 lg:py-4 font-bold">
+							<div className="lg:border-t border-slate-200 flex gap-3 md:gap-4 justify-center items-center flex-wrap pt-1 lg:py-4 font-bold">
 								<p className="text-slate-900">
 									{translations["call-for-details"] ||
 										"বিস্তারিত জানতে কল করুন"}
