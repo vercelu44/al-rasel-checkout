@@ -133,7 +133,7 @@ export default function RootLayout({ children, params }) {
 						<VideoPlayerModal />
 						<PersistUser />
 						<GlobalLoader />
-						{/* Fb pixel added in ServerDataProvider*/}
+						{/* Fb pixel and MS clarity added in ServerDataProvider*/}
 						<ServerDataProvider />
 					</ReduxProvider>
 				</AuthProvider>

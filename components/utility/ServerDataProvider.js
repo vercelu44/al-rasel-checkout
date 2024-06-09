@@ -1,6 +1,7 @@
 import { fetchData } from "@/lib/fetch-data";
 import ClientLoader from "./ClientLoader";
 import FacebookPixel from "./FacebookPixel";
+import MicrosoftClarity from "./MicrosoftClarity";
 // import { useLocale } from "next-intl";
 
 const ServerDataProvider = async () => {
@@ -24,6 +25,10 @@ const ServerDataProvider = async () => {
 	// console.log(FB_PIXEL_ID);
 	// console.log(settings?.fb_pixel_id);
 
+	const MS_CLARITY_ID =
+		settings?.ms_clarity_id || process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
+	// console.log(MS_CLARITY_ID);
+
 	return (
 		<>
 			{/* Loading setting for client uses */}
@@ -33,6 +38,7 @@ const ServerDataProvider = async () => {
 				// locale={locale}
 			/>
 			{FB_PIXEL_ID && <FacebookPixel fbPixelId={FB_PIXEL_ID} />}
+			{MS_CLARITY_ID && <MicrosoftClarity msClarityId={MS_CLARITY_ID} />}
 		</>
 	);
 };
