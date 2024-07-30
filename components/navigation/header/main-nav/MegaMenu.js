@@ -96,7 +96,7 @@ export default function MegaMenu({ settings }) {
 									onClick={closeMenu}
 									className="border border-primary rounded-lg py-2 px-3 text-primary active:scale-95"
 								>
-									{translations["all-categories"]} <BsArrowRight />
+									{translations["all-categories"] || "All Categories"} <BsArrowRight />
 								</Link>
 							</div>
 						</div>

@@ -176,7 +176,7 @@ export default function MainNav({ settings }) {
 															className="primary-btn px-6"
 															onClick={handleModalOpen}
 														>
-															{translations["log-in"]}
+															{translations["log-in"] || "Log In"}
 															<HiArrowNarrowRight />
 														</button>
 													</div>
@@ -190,7 +190,7 @@ export default function MainNav({ settings }) {
 									</div>
 								) : null}
 								{/* <div className="hidden lg:block"> */}
-								<LanguageSelector locale={locale} />
+								{/* <LanguageSelector locale={locale} /> */}
 								{/* </div> */}
 							</div>
 						</div>

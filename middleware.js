@@ -7,7 +7,7 @@ export default createMiddleware({
 	localePrefix: localePrefix,
 
 	// If this locale is matched, pathnames work without a prefix (e.g. `/about`)
-	defaultLocale: "bn",
+	defaultLocale: process.env.DEFAULT_LOCALE || "en",
 	localeDetection: false, //required to change default locale
 });
 

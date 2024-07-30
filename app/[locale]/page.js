@@ -35,9 +35,9 @@ export default async function Home() {
 				</div>
 			</section>
 
-			<section className="service-features mt-3 lg:mt-5">
+			{/* <section className="service-features mt-3 lg:mt-5">
 				<ServiceFeatures />
-			</section>
+			</section> */}
 
 			<FlashSale translations={translations} />
 

@@ -98,11 +98,11 @@
 }
 
 .buy-btn {
-  @apply text-center text-base/[16px] font-semibold font-title text-white bg-[#F99104] w-full rounded-md h-[36px] active:scale-95;
+  @apply text-center text-base/[16px] font-semibold font-title text-white bg-primary w-full rounded-md h-[36px] active:scale-95;
 }
 
 .submit-btn {
-  @apply w-full lg:max-w-[240px] px-3 py-[10px]  text-lg font-semibold font-title text-white bg-[#F99104] rounded-lg active:scale-95;
+  @apply w-full lg:max-w-[240px] px-3 py-[10px]  text-lg font-semibold font-title text-white bg-primary rounded-lg active:scale-95;
 }
 
 .overflow-text {
@@ -113,7 +113,7 @@
 }
 
 .cart .content {
-  background-image: linear-gradient(90deg, #ef4444 -2.83%, #f99104 100%);
+  background-image: linear-gradient(90deg, #ef4444 -2.83%, #283990 100%);
   @apply px-3 py-2;
 }
 

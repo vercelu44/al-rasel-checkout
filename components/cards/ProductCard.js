@@ -83,7 +83,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 					{stockOut ? (
 						<div className="rounded z-10 absolute right-1/2 w-full translate-x-1/2 top-1/4 flex items-center justify-center ">
 							<span className="text-red-500  text-[14px] md:[18px] leading-6 rounded-lg whitespace-nowrap capitalize border-solid border bg-white border-red-500 px-3 py-1">
-								{translations["out-of-stock"] || "স্টক শেষ"}
+								{translations["out-of-stock"] || "Stock Out"}
 							</span>
 						</div>
 					) : null}
@@ -100,7 +100,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 							{getDaysSinceCreation(created_at) < 8 && (
 								<div className="absolute top-3 left-3 z-20">
 									<span className="bg-secondary-700 text-sm px-2 rounded-full text-white">
-										{translations["new"] || "নতুন"}
+										{translations["new"] || "New"}
 									</span>
 								</div>
 							)}
@@ -196,7 +196,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 									onClick={() => handleAddAndCheckout(product)}
 									className="buy-btn flex-center gap-1"
 								>
-									{translations["buy-now"] || "এখনই কিনুন"}
+									{translations["buy-now"] || "Buy Now"}
 									<div className="hidden lg:block">
 										<HiOutlineArrowNarrowRight
 											className="hidden lg:block"
@@ -223,11 +223,11 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 									</div>
 									<div className="flex-between mt-3 text-xs">
 										<h3>
-											{translations["sold"] || "বিক্রি"}:{" "}
+											{translations["sold"] || "Sold"}:{" "}
 											<span className="font-bold">{total_sale_qty}</span>
 										</h3>
 										<h3>
-											{translations["in-stock"] || "বাকি"}:{" "}
+											{translations["in-stock"] || "Remaining"}:{" "}
 											<span className="font-bold">{stock_qty}</span>
 										</h3>
 									</div>

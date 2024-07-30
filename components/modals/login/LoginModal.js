@@ -75,16 +75,16 @@ const LoginModal = ({ showModal, setShowModal, title }) => {
 					{otpSent
 						? `${
 								translations["otp-sent-message"] ||
-								"এইমাত্র আমরা আপনার মোবাইল নাম্বারে একটি ৬ সংখ্যার OTP  কোড পাঠিয়েছি"
+								"Just enter the OTP sent to your mobile"
 						  } (${siteConfig.phone.countryCode + phone})`
 						: translations["verify-mobile-message"] ||
-						  "শুধুমাত্র মোবাইল নাম্বার যাচাই করে সততা স্টলের একজন আদর্শ মেম্বার হয়ে যান"}
+						  "Verify your mobile number"}
 				</p>
 				{!otpSent ? (
 					<form className="" onSubmit={handleSubmit(onSubmit)}>
 						<div className="mb-4 md:mb-8">
 							<label className="block text-base mb-2">
-								{translations["mobile"] || "মোবাইল"}
+								{translations["mobile"] || "Mobile"}
 							</label>
 							<div className="flex items-center group">
 								<div className="h-12 py-3 min-w-fit text-base font-title font-normal px-2 rounded-s-lg border bg-slate-100 border-gray-300 group-focus-within:border-primary group-focus-within:border-r-gray-300">
@@ -95,7 +95,7 @@ const LoginModal = ({ showModal, setShowModal, title }) => {
 									className="w-full !pl-2 rounded-s-none rounded-e-lg border border-l-0 border-gray-300 focus:outline-none group-focus:border-primary"
 									name="phone"
 									placeholder={
-										translations["your-mobile-number"] || "আপনার মোবাইল নাম্বার"
+										translations["your-mobile-number"] || "Your mobile number"
 									}
 									{...register("phone", {
 										required: "Phone number is required.",
@@ -114,7 +114,7 @@ const LoginModal = ({ showModal, setShowModal, title }) => {
 						<div className="form-control">
 							<label></label>
 							<button type="submit" className="primary-btn w-full">
-								{translations["send-code"] || "কোড পাঠান"}
+								{translations["send-code"] || "Send code"}
 							</button>
 						</div>
 					</form>

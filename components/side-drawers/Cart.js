@@ -39,7 +39,7 @@ const Cart = () => {
 
 	return (
 		<Drawer
-			title={`${translations["cart-list"]} (${cart.length} ${translations["items"]})`}
+			title={`${translations["cart-list"] || "Cart List"} (${cart.length} ${translations["items"] || "items"})`}
 			show={isCartOpen}
 			setShow={closeCart}
 		>
@@ -80,7 +80,7 @@ const Cart = () => {
 				</div>
 				<div className="fixed left-0 bottom-0 w-full px-3 py-4 lg:px-8 lg:py-4 bg-slate-50 border-t border-slate-200 flex flex-col lg:flex-row gap-2 lg:gap-12 justify-between lg:items-center">
 					<div className="flex lg:block justify-between items-center lg:text-center">
-						<p className="">{translations["total"]}:</p>
+						<p className="">{translations["total"] || "Total"}:</p>
 						<h3 className="text-slate-900 font-bold">
 							{`${siteConfig.currency.sign} ${getCartTotal(cart)}`}
 						</h3>
@@ -89,7 +89,7 @@ const Cart = () => {
 						onClick={handleModal}
 						className="bg-primary py-3 px-6 w-full lg:w-[276px] text-white rounded-lg text-center active:scale-95"
 					>
-						<span className="mr-2">{translations["buy-now"]}</span>
+						<span className="mr-2">{translations["buy-now"] || "Buy Now"}</span>
 						<HiArrowLongRight size={20} />
 					</button>
 				</div>

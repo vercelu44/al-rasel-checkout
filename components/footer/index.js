@@ -132,7 +132,7 @@ const Footer = () => {
 										<p
 											className="!text-xs/[100%] !mb-0 text-white w-1/5"
 										>
-											{translations["many-more"]}
+										{translations["many-more"] || "Many More"}
 										</p>
 									</div>
 								</div>
@@ -145,8 +145,8 @@ const Footer = () => {
 						<div className="grid grid-cols-12">
 							<div className="col-span-12">
 								<p className="text-sm font-normal font-body text-slate-400 text-center">
-									{translations["copyright"]} {new Date().getFullYear()}{" "}
-									{translations["copyright-msg"]}.
+									{translations["copyright"] || "Copyright"} {new Date().getFullYear()}{" "}
+									{translations["copyright-msg"] || "All Rights Reserved"}.
 								</p>
 							</div>
 						</div>

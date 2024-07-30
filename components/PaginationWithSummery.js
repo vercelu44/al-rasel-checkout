@@ -20,8 +20,8 @@ export default function PaginationWithSummery({
 			)}
 		>
 			<p>
-				{translations["showing"]} {totalItemsShowing || 0}{" "}
-				{translations["out-of"]} {meta?.total} {translations["total-products"]}{" "}
+				{translations["showing"] || "Showing"} {totalItemsShowing || 0}{" "}
+				{translations["out-of"] || "out of"} {meta?.total} {translations["total-products"] || "total products"}{" "}
 			</p>
 			<Paginator meta={meta} paginateItems={paginateItems} />
 		</div>

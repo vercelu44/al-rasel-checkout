@@ -34,12 +34,12 @@ const LogoutModal = ({ showModal, setShowModal }) => {
 				</div>
 				<div className="text text-center">
 					<h4 className="mt-3 md:mt-5 text-2xl md:text-3xl/[38px] font-extrabold text-red-500">
-						{translations["log-out"] || "লগ-আউট"}
+						{translations["log-out"] || "Logout"}
 					</h4>
 					<p className="mx-auto text-base md:text-[18px]/[24px] mt-4 md:mt-5 text-slate-800 max-w-[350px]">
 						{" "}
 						{translations["are-you-sure"] ||
-							"আপনি কি নিশ্চিত সততা স্টল থেকে লগ আউট করতে চাচ্ছেন?"}
+							"Are you sure you want to log out?"}
 					</p>
 				</div>
 				<div className="flex justify-center items-center gap-4 lg:gap-6 mt-4 md:mt-12 font-semibold text-[18px]/[26px] md:mb-2">
@@ -47,13 +47,13 @@ const LogoutModal = ({ showModal, setShowModal }) => {
 						onClick={() => setShowModal(false)}
 						className="w-full py-3.5 rounded-lg bg-slate-200"
 					>
-						{translations["no"] || "না"}
+						{translations["no"] || "No"}
 					</button>
 					<button
 						onClick={handleLogout}
 						className="w-full py-3.5 rounded-lg bg-primary text-white"
 					>
-						{translations["yes"] || "হ্যাঁ"}
+						{translations["yes"] || "Yes"}
 					</button>
 				</div>
 			</div>

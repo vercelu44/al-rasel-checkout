@@ -30,6 +30,7 @@ import Footer from "@/components/footer";
 import VideoPlayerModal from "@/components/modals/VideoPlayerModal";
 import AuthProvider from "@/provider/AuthProvider";
 import { fetchData } from "@/lib/fetch-data";
+import { locales } from "@/navigation";
 
 export const generateMetadata = async ({ params }) => {
 	let settings = {};
@@ -98,7 +99,6 @@ export const generateMetadata = async ({ params }) => {
 	};
 };
 
-const locales = ["bn", "en"];
 // export function generateStaticParams() {
 // 	return locales.map((locale) => ({ locale }));
 // }

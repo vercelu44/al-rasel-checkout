@@ -10,7 +10,7 @@ const SocialLogin = () => {
 	return (
 		<div className="social-login">
 			<p className="pt-4 md:pt-7 pb-3 lg:pb-4">
-				{translations["or-login"] || "অথবা, লগ-ইন করুন"}:
+				{translations["or-login"] || "Or login with"}:
 			</p>
 			<div className="flex justify-between items-center gap-x-3 font-semibold">
 				<button onClick={() => signIn("google")} className="social-icon-btn">
@@ -21,7 +21,7 @@ const SocialLogin = () => {
 						width={24}
 						sizes="100vh"
 					/>
-					<span>{translations["google"] || "গুগল"}</span>
+					<span>{translations["google"] || "Google"}</span>
 				</button>
 				<button onClick={() => signIn("facebook")} className="social-icon-btn">
 					<Image
@@ -31,7 +31,7 @@ const SocialLogin = () => {
 						width={24}
 						sizes="100vh"
 					/>
-					<span>{translations["facebook"] || "ফেসবুক"}</span>
+					<span>{translations["facebook"] || "Facebook"}</span>
 				</button>
 				{/*         <button className="social-icon-btn">
           <Image
