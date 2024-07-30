@@ -17,6 +17,7 @@
 		"@tailwindcss/container-queries": "^0.1.1",
 		"autoprefixer": "10.4.14",
 		"axios": "^1.4.0",
+		"clsx": "^2.1.1",
 		"date-fns": "^2.30.0",
 		"drift-zoom": "^1.5.1",
 		"eslint": "8.40.0",

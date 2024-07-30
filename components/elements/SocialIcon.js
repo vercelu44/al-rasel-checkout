@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/navigation";
 import React from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils";
 
 export default function SocialIcon({
 	href,
@@ -15,7 +15,7 @@ export default function SocialIcon({
 		<Link
 			target="_blank"
 			href={href || "/"}
-			className={twMerge("inline", linkClass)}
+			className={cn("inline", linkClass)}
 			{...props}
 		>
 			<Image
@@ -23,7 +23,7 @@ export default function SocialIcon({
 				alt={name || "social-icon"}
 				width="24"
 				height="24"
-				className={twMerge("w-6 h-6", iconClass)}
+				className={cn("w-6 h-6", iconClass)}
 			/>
 		</Link>
 	);

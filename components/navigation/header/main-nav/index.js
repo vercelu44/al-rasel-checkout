@@ -190,7 +190,7 @@ export default function MainNav({ settings }) {
 									</div>
 								) : null}
 								{/* <div className="hidden lg:block"> */}
-								{/* <LanguageSelector locale={locale} /> */}
+								<LanguageSelector locale={locale} />
 								{/* </div> */}
 							</div>
 						</div>

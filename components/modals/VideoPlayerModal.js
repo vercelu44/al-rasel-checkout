@@ -4,7 +4,7 @@ import Modal from "../elements/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { closeVideoPlayer } from "@/store/slices/commonSlice";
 import VideoPlayer from "../elements/VideoPlayer";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils";
 
 const VideoPlayerModal = () => {
 	const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const VideoPlayerModal = () => {
 				<div className={`w-full`}>
 					<VideoPlayer
 						url={videoPlayerConfig.url}
-						className={twMerge(
+						className={cn(
 							"h-[12rem] w-full md:h-[480px] md:w-[854px]",
 							videoPlayerConfig?.className ? videoPlayerConfig?.className : ``
 						)}

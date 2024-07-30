@@ -1,8 +1,9 @@
 "use client";
 
 import { Link } from "@/navigation";
+import { useSelector } from "react-redux";
+import { cn } from "@/utils";
 import Image from "next/image";
-import { twMerge } from "tailwind-merge";
 import React, { useEffect, useState } from "react";
 import Loader from "../elements/loaders/Loader";
 import { siteConfig } from "@/config/site";
@@ -17,7 +18,6 @@ import { FaStar } from "react-icons/fa";
 import { HiOutlineHeart, HiOutlineShoppingCart } from "react-icons/hi2";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import HeartRedIcon from "../elements/svg/HeartRedIcon";
-import { useSelector } from "react-redux";
 
 const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 	const { handleAddToCart, handleAddAndCheckout } = useCart(); //custom hook for reusing
@@ -89,7 +89,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 					) : null}
 
 					<div
-						className={twMerge(
+						className={cn(
 							`min-w-[166px] bg-white border border-slate-200 rounded-xl hover:shadow-md md:w-auto relative`,
 							isLarge ? "w-[202px] !h-full" : "w-auto h-full",
 							isFlashSale ? "pb-[84px]" : "pb-8",

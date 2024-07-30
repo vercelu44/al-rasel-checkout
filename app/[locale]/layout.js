@@ -116,7 +116,7 @@ export default function RootLayout({ children, params }) {
 	// unstable_setRequestLocale(params.locale);
 
 	return (
-		<html lang={params.locale}>
+		<html lang={params.locale} dir={params.locale === "ar" ? "rtl" : "ltr"}>
 			<body>
 				<AuthProvider>
 					<ReduxProvider>

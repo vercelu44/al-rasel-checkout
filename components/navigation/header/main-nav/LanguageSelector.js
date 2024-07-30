@@ -12,10 +12,10 @@ const languages = [
 		code: "bn",
 		name: "Bengali",
 	},
-	// {
-	// 	code: "br",
-	// 	name: "Breton",
-	// },
+	{
+		code: "ar",
+		name: "Arabic",
+	},
 ];
 
 const LanguageSelector = ({ locale }) => {

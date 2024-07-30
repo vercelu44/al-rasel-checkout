@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "@/navigation";
 // import Image from "next/image";
 import { HiArrowLongRight } from "react-icons/hi2";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils";
 
 export default function SectionTitle({
 	title,
@@ -13,7 +13,7 @@ export default function SectionTitle({
 }) {
 	return (
 		<div
-			className={twMerge(
+			className={cn(
 				`sec-heading w-full flex ${
 					!href ? "justify-center lg:justify-start" : "justify-between"
 				} items-center lg:border-b border-slate-200 pb-3`,

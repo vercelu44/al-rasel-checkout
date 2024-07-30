@@ -22,7 +22,9 @@ const FlashSale = dynamic(() => import("./_components/flash-sale"), {
 import { HiArrowLongRight } from "react-icons/hi2";
 import { SeeAll } from "@/components/elements/buttons";
 
-export default async function Home() {
+export default async function Home({ params }) {
+
+	console.log(params, "sasasa")
 	const data = await fetchData({ api: "translations" });
 	const translations = data?.data || {};
 	// console.log(translations);

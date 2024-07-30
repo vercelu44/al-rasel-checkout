@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@/navigation";
 import { HiArrowLongLeft } from "react-icons/hi2";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils";
 
 export default function NestedPageTitle({
 	title,
@@ -13,7 +13,7 @@ export default function NestedPageTitle({
 	return (
 		<div className="heading">
 			<div
-				className={twMerge(
+				className={cn(
 					`flex items-center py-4 lg:pt-12 px-3 lg:px-10 gap-2 border-b border-slate-200 lg:border-none capitalize`,
 					className
 				)}

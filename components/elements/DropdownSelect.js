@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { cn } from "@/utils";
 // import useLockedBody from "@/hooks/useLockedBody";
 
 export default function DropdownSelect({
@@ -41,10 +41,10 @@ export default function DropdownSelect({
 	}, []);
 
 	return (
-		<div ref={dropdownRef} className={twMerge(`w-full relative`)}>
+		<div ref={dropdownRef} className={cn(`w-full relative`)}>
 			<div
 				onClick={() => handle()}
-				className={twMerge(
+				className={cn(
 					`w-full flex gap-2 items-center cursor-pointer text-base text-slate-900 bg-white border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-0`,
 					isOpen ? "border-primary rounded-b-none border-b-0" : "",
 					className

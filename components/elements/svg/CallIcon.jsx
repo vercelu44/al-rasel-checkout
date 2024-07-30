@@ -1,5 +1,5 @@
+import { cn } from "@/utils";
 import * as React from "react";
-import { twMerge } from "tailwind-merge";
 const CallIcon = ({ fillClass, strokeClass, ...props }) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +9,7 @@ const CallIcon = ({ fillClass, strokeClass, ...props }) => (
 		{...props}
 	>
 		<path
-			className={twMerge(
+			className={cn(
 				`stroke-slate-400`,
 
 				strokeClass

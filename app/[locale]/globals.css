@@ -7,7 +7,6 @@
 @layer base {
   body {
     @apply font-body box-border;
-
   }
 
   .bottom-navigation {
@@ -15,7 +14,7 @@
     bottom: 0;
     z-index: 1000; /* Ensure it's above other content */
     /* Add any other necessary styling */
-}
+  }
 
   input {
     @apply h-12 text-base font-title font-normal border border-slate-300 rounded-s-lg py-3 px-4 focus:outline-0 focus:border-primary;

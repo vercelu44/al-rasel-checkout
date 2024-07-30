@@ -1,5 +1,5 @@
+import { cn } from "@/utils";
 import * as React from "react";
-import { twMerge } from "tailwind-merge";
 const CategoryIcon = ({ fillClass, strokeClass, ...props }) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -7,11 +7,11 @@ const CategoryIcon = ({ fillClass, strokeClass, ...props }) => (
 		height={24}
 		fill="none"
 		// fill="currentColor"
-		// className={twMerge(`fill-slate-400`, fillClass)}
+		// className={cn(`fill-slate-400`, fillClass)}
 		{...props}
 	>
 		<path
-			className={twMerge(`stroke-slate-400`, strokeClass)}
+			className={cn(`stroke-slate-400`, strokeClass)}
 			strokeLinecap="round"
 			strokeLinejoin="round"
 			strokeWidth={1.5}
