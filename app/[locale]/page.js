@@ -22,9 +22,8 @@ const FlashSale = dynamic(() => import("./_components/flash-sale"), {
 import { HiArrowLongRight } from "react-icons/hi2";
 import { SeeAll } from "@/components/elements/buttons";
 
-export default async function Home({ params }) {
+export default async function Home() {
 
-	console.log(params, "sasasa")
 	const data = await fetchData({ api: "translations" });
 	const translations = data?.data || {};
 	// console.log(translations);
@@ -46,21 +45,21 @@ export default async function Home({ params }) {
 			<section className="lg:pb-14 mt-6 lg:mt-12 relative">
 				<div
 					className="all-category py-4 lg:py-14"
-					style={{
-						backgroundImage: "linear-gradient(90deg, #00B7C9 0%, #00C999 100%)",
-					}}
+					// style={{
+					// 	backgroundImage: "linear-gradient(90deg, #603990 0%, #283990 100%)",
+					// }}
 				>
 					<div className="container">
 						<div className="sec-heading w-full flex justify-between items-center">
-							<h2 className="sec-title !text-white capitalize">
-								{translations["popular-category"] || "জনপ্রিয় ক্যাটাগর‍ি"}
+							<h2 className="sec-title capitalize">
+								{translations["popular-category"] || "Popular Category"}
 							</h2>
 							<Link
 								href="/categories"
-								className="all-btn !text-white capitalize !hidden lg:!block"
+								className="all-btn capitalize !hidden lg:!block"
 							>
-								{translations["see-all"] || "সবগুলো  দেখুন"}{" "}
-								<HiArrowLongRight size={24} />{" "}
+								{translations["see-all"] || "See All"}{" "}
+								<HiArrowLongRight size={24} className="rtl:rotate-180" />{" "}
 							</Link>
 						</div>
 
@@ -69,7 +68,7 @@ export default async function Home({ params }) {
 						</div>
 						<SeeAll
 							href="/products"
-							buttonText={translations["see-all"]}
+							buttonText={translations["see-all"] || "See All"}
 							invert={true}
 						/>
 					</div>

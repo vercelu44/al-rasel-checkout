@@ -46,20 +46,19 @@ const Cart = () => {
 			<div className="content mb-24 lg:mb-16 ">
 				<div
 					onClick={closeCart}
-					className="w-6 h-[112px] cursor-pointer rounded-l-lg bg-slate-300 fixed text-5 flex top-1/2 left-[-24px] justify-center items-center"
+					className="w-6 h-[112px] cursor-pointer ltr:rounded-l-lg rtl:rounded-r-lg bg-slate-300 fixed text-5 flex top-1/2 ltr:left-[-24px] rtl:right-[-24px] justify-center items-center"
 				>
-					<MdOutlineKeyboardArrowRight size={70} />
+					<MdOutlineKeyboardArrowRight className="rtl:rotate-180" size={70} />
 				</div>
 				{settings?.free_delivery_charges_limit ? (
 					<div
 						style={{
 							background:
-								"linear-gradient(90deg, #EF4444 -2.83%, #F99104 100%)",
+								"linear-gradient(90deg, #EB2D85 -2.83%, #283990 100%)",
 						}}
 						className="p-3 lg:p-4 text-white text-xs/[100%] lg:text-sm"
 					>
-						{settings?.free_delivery_charges_limit} টাকার উপের অর্ডার করেল
-						ডেলিভারি চার্জ ফ্রী! সারাদেশে ক্যাশ অন ডেলিভারি।
+						{settings?.free_delivery_charges_limit} {translations["free-delivery-msg"] || "Above this order will get free delivery"} 
 					</div>
 				) : null}
 				<div className="cart-items px-3 py-4 lg:p-8">
@@ -74,7 +73,7 @@ const Cart = () => {
 							className="text-secondary-700 text-sm lg:text-lg/[26px] font-semibold text-center"
 						>
 							<FiPlus size={20} className="mr-1" />
-							{translations["shop-more"] || "আরো শপিং করুন"}
+							{translations["shop-more"] || "Shop More"}
 						</Link>
 					</div>
 				</div>
@@ -89,8 +88,8 @@ const Cart = () => {
 						onClick={handleModal}
 						className="bg-primary py-3 px-6 w-full lg:w-[276px] text-white rounded-lg text-center active:scale-95"
 					>
-						<span className="mr-2">{translations["buy-now"] || "Buy Now"}</span>
-						<HiArrowLongRight size={20} />
+						<span className="mr-2">{translations["buy-now"] || "Buy Now"}</span>{" "}
+						<HiArrowLongRight className="rtl:rotate-180" size={20} />
 					</button>
 				</div>
 			</div>

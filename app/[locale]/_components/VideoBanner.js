@@ -51,7 +51,7 @@ const VideoBanner = ({ translations }) => {
 						className="inline-block text-sm text-red-500 mt-9 lg:mt-14"
 					>
 						{translations["visit-youtube-channel"]}{" "}
-						<HiArrowLongRight className="text-lg ml-1" />
+						<HiArrowLongRight className="text-lg ml-1 rtl:rotate-180" />
 					</Link>
 				</div>
 			</div>

@@ -62,13 +62,13 @@ export default function Paginator({
 					onClick={(e) => handleOnPage(e, currentPage - 1)}
 					href={pathname + "?" + createQueryString("page", currentPage - 1)}
 				>
-					<AiOutlineLeft />
+					<AiOutlineLeft className="rtl:rotate-180" />
 				</Link>
 			) : (
 				<span
 					className={`p-2 rounded-lg border border-slate-200 text-slate-300 px-6`}
 				>
-					<AiOutlineLeft />
+					<AiOutlineLeft className="rtl:rotate-180" />
 				</span>
 			)}
 			{/* Pages  */}
@@ -122,13 +122,13 @@ export default function Paginator({
 					onClick={(e) => handleOnPage(e, currentPage + 1)}
 					href={pathname + "?" + createQueryString("page", currentPage + 1)}
 				>
-					<AiOutlineRight />
+					<AiOutlineRight className="rtl:rotate-180" />
 				</Link>
 			) : (
 				<span
 					className={`p-2 rounded-lg border border-slate-200 text-slate-300 px-6`}
 				>
-					<AiOutlineRight />
+					<AiOutlineRight className="rtl:rotate-180" />
 				</span>
 			)}
 		</div>

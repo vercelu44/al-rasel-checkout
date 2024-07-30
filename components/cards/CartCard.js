@@ -27,7 +27,7 @@ const CartCard = ({ item }) => {
 	return (
 		<div className="relative cart-card p-3 lg:p-4 bg-white border border-slate-200 rounded-xl mb-3">
 			<button
-				className="absolute right-3 lg:right-4 top-2 lg:top-3 bg-transparent text-red-500"
+				className="absolute ltr:right-3 rtl:left-3 ltr:lg:right-4 rtl:lg:left-4 top-2 lg:top-3 bg-transparent text-red-500"
 				onClick={() => dispatch(cartActions.removeFromCart(barcodeId))}
 			>
 				<FiTrash2 />

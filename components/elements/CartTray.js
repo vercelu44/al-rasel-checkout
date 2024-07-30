@@ -23,10 +23,10 @@ const CartTray = () => {
 	return (
 		<>
 			<div
-				className="cart fixed top-1/2 right-0 cursor-pointer z-30 hidden md:block"
+				className="cart fixed top-1/2 ltr:right-0 rtl:left-0 cursor-pointer z-30 hidden md:block"
 				onClick={handleCart}
 			>
-				<div className="icon bg-white border border-r-0 border-primary rounded-ss-lg px-1 text-center">
+				<div className="icon bg-white border ltr:border-r-0 border-primary rounded-ss-lg px-1 text-center">
 					<Image
 						src={cartImage}
 						width={56}

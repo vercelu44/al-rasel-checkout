@@ -42,7 +42,7 @@ const FlashSale = ({ translations }) => {
 							href="/flash-sale"
 							className="all-btn bg-white !hidden lg:!block px-3"
 						>
-							{translations["see-all"]} <HiArrowLongRight size={24} />{" "}
+							{translations["see-all"]} <HiArrowLongRight className="rtl:rotate-180" size={24} />{" "}
 						</Link>
 					</div>
 

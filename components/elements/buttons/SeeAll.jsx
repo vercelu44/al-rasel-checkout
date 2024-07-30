@@ -15,7 +15,7 @@ export default function SeeAll({ href = "/", buttonText, className, invert }) {
 				className
 			)}
 		>
-			{buttonText} <HiArrowLongRight size={24} />{" "}
+			{buttonText} <HiArrowLongRight className="rtl:rotate-180" size={24} />{" "}
 		</Link>
 	);
 }

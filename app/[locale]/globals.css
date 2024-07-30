@@ -112,7 +112,7 @@
 }
 
 .cart .content {
-  background-image: linear-gradient(90deg, #ef4444 -2.83%, #283990 100%);
+  background-image: linear-gradient(90deg, #EB2D85 -2.83%, #283990 100%);
   @apply px-3 py-2;
 }
 
@@ -170,7 +170,7 @@
 
 .nav-search input {
   width: calc(100% - 48px);
-  @apply rounded-l-full md:rounded-l-lg border-r-0;
+  @apply ltr:rounded-l-full ltr:md:rounded-l-lg ltr:border-r-0 rtl:border-l-0;
 }
 
 .nav-search button {

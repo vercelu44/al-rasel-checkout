@@ -148,7 +148,7 @@ function OrderCard({ order, translations = {} }) {
 						className="text-slate-500 hover:text-primary"
 					>
 						{translations["see-details"] || "বিস্তারিত দেখুন"}{" "}
-						<HiArrowLongRight />
+						<HiArrowLongRight className="rtl:rotate-180" />
 					</Link>
 				</div>
 			</div>

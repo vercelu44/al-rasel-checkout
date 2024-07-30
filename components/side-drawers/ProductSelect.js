@@ -111,7 +111,7 @@ const ProductSelect = () => {
 					<span className="mr-2">
 						{translations["buy-now"] || "এখনই কিনুন"}
 					</span>
-					<HiArrowLongRight size={20} className="hidden lg:inline" />
+					<HiArrowLongRight size={20} className="hidden lg:inline rtl:rotate-180" />
 				</button>
 			</div>
 			<Link

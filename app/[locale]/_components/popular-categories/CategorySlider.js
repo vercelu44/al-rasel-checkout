@@ -25,7 +25,7 @@ const CategorySlider = ({ categoryList }) => {
 						>
 							<Link
 								href={`/categories/${category.slug}`}
-								className="category-img flex justify-center items-center h-[116px] lg:h-[164px] bg-white rounded-full overflow-hidden"
+								className="category-img flex justify-center items-center h-[116px] lg:h-[164px] bg-slate-200 rounded-full overflow-hidden"
 							>
 								<Image
 									src={category?.icon || noImage}
@@ -37,7 +37,7 @@ const CategorySlider = ({ categoryList }) => {
 							</Link>
 							<Link
 								href={`/categories/${category.slug}`}
-								className="block text-sm lg:text-lg text-white text-center mt-4"
+								className="block text-sm lg:text-lg text-center mt-4"
 							>
 								{category.category_name}
 							</Link>

@@ -26,7 +26,7 @@ export default function SectionTitle({
 			</div>
 			{href && (
 				<Link href={href} className="all-btn !hidden lg:!block capitalize">
-					{buttonText} <HiArrowLongRight size={24} />{" "}
+					{buttonText} <HiArrowLongRight size={24} className="rtl:rotate-180" />{" "}
 				</Link>
 			)}
 		</div>

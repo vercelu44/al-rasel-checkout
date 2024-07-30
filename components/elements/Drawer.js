@@ -20,13 +20,13 @@ const Drawer = ({ title, children, show, setShow, position, className }) => {
 			<div
 				className={cn(
 					`fixed top-0 ${
-						position === "left" ? "left-0" : "right-0"
+						position === "left" ? "ltr:left-0 rtl:right-0" : "ltr:right-0 rtl:left-0"
 					} z-40 w-[85vw] lg:max-w-[31rem] h-[100dvh] transition-transform ease-in-out duration-300 transform ${
 						show
 							? "translate-x-0"
 							: position === "left"
-							? "-translate-x-full"
-							: "translate-x-full"
+							? "ltr:-translate-x-full rtl:translate-x-full"
+							: "ltr:translate-x-full rtl:-translate-x-full"
 					} bg-white`,
 					className
 				)}
@@ -34,7 +34,7 @@ const Drawer = ({ title, children, show, setShow, position, className }) => {
 			>
 				<div className="relative flex flex-col h-full">
 					{/*header*/}
-					<div className="flex items-center justify-between px-3 lg:px-5 py-1 lg:py-2 text-slate-900 border-b-[1px] border-slate-300">
+					<div className="flex rtl:flex-row-reverse items-center justify-between px-3 lg:px-5 py-1 lg:py-2 text-slate-900 border-b-[1px] border-slate-300">
 						<h3 className="text-lg lg:text-2xl font-title font-semibold line-clamp-1">
 							{title ? title : null}
 						</h3>

@@ -58,7 +58,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 			{!loading ? (
 				<div className="relative">
 					{!settings?.guest_checkout ? (
-						<div className="absolute top-4 right-4 z-20">
+						<div className="absolute top-4 ltr:right-4 rtl:left-4 z-20">
 							<button
 								aria-label="Add To Wishlist"
 								className={`wishlist-action-btn`}
@@ -98,7 +98,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 					>
 						<div className="product-img-action-wrap relative">
 							{getDaysSinceCreation(created_at) < 8 && (
-								<div className="absolute top-3 left-3 z-20">
+								<div className="absolute top-3 ltr:left-3 rtl:right-3 z-20">
 									<span className="bg-secondary-700 text-sm px-2 rounded-full text-white">
 										{translations["new"] || "New"}
 									</span>
@@ -199,7 +199,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 									{translations["buy-now"] || "Buy Now"}
 									<div className="hidden lg:block">
 										<HiOutlineArrowNarrowRight
-											className="hidden lg:block"
+											className="hidden lg:block rtl:rotate-180"
 											size={20}
 										/>
 									</div>
