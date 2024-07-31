@@ -54,7 +54,7 @@ export default function DropdownSelect({
 				<h2 className={`text-base font-normal line-clamp-1`}>
 					{selectedOption ? selectedOption.value : title}
 				</h2>
-				<div className="ml-auto">
+				<div className="ltr:ml-auto rtl:mr-auto">
 					{isOpen ? <BsChevronUp /> : <BsChevronDown />}
 				</div>
 			</div>

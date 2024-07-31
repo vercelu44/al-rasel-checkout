@@ -30,9 +30,9 @@ const OrderDetail = ({ params }) => {
 	return (
 		<div className="mb-4 lg:mb-14">
 			<NestedPageTitle
-				title={translations["order-details"] || "অর্ডারের বিস্তারিত"}
+				title={translations["order-details"] || "Order Details"}
 				href={"/dashboard/my-orders"}
-				buttonText={translations["go-back"] || "ফিরে যান"}
+				buttonText={translations["go-back"] || "Go Back"}
 			/>
 			<div className="content lg:mx-10 bg-slate-200 text-slate-700 mt-3 rounded-lg p-3 lg:p-5">
 				<OrderTracking
@@ -42,7 +42,7 @@ const OrderDetail = ({ params }) => {
 				/>
 				<div className="bg-white rounded-lg p-3 lg:p-4 mt-2 lg:mt-5">
 					<h3 className="text-base/[22px] lg:text-lg/[26px] font-semibold font-title mb-4">
-						{translations["products"] || "প্রডাক্টগুলো"}
+						{translations["products"] || "Products"}
 					</h3>
 					{isLoading ? (
 						<ItemsListLoader numItems={2} viewBoxWidth={900} />
@@ -54,7 +54,7 @@ const OrderDetail = ({ params }) => {
 				</div>
 				<div className="bg-white rounded-lg p-3 lg:p-4 mt-2 lg:mt-5">
 					<h3 className="text-base/[22px] lg:text-lg/[26px] font-semibold font-title mb-4">
-						{translations["shipping-address"] || "শিপিং এড্রেস"}
+						{translations["shipping-address"] || "Shipping Address"}
 					</h3>
 					{isLoading ? (
 						<ItemsListLoader numItems={1} viewBoxWidth={900} />
@@ -79,7 +79,7 @@ const OrderDetail = ({ params }) => {
 				</div>
 				<div className="p-4 bg-white rounded-lg mt-2 lg:mt-5">
 					<h3 className="text-base/[22px] lg:text-lg/[26px] font-semibold font-title mb-4">
-						{translations["payment-details"] || "পেমেন্টের বিবরণ"}
+						{translations["payment-details"] || "Payment Details"}
 					</h3>
 					{isLoading ? (
 						<ItemsListLoader numItems={2} noImage={true} viewBoxWidth={900} />
@@ -87,16 +87,16 @@ const OrderDetail = ({ params }) => {
 						<>
 							<div className="text-sm lg:text-base font-normal">
 								<div className="flex-between my-2">
-									<p>{translations["order-id"] || "অর্ডার আইডি"}</p>
+									<p>{translations["order-id"] || "Order ID"}</p>
 									<p>{sale.invoice_no}</p>
 								</div>
 								<div className="flex-between my-2">
-									<p>{translations["order-date"] || "অর্ডারের তারিখ"}</p>
+									<p>{translations["order-date"] || "Order Date"}</p>
 									<p>{getFormattedDate(sale.sale_date)}</p>
 								</div>
 
 								<div className="flex-between my-2">
-									<p>{translations["total"] || "সর্বমোট"}</p>
+									<p>{translations["total"] || "Total"}</p>
 									<p>
 										{siteConfig.currency.sign}
 										{sale.sub_total}
@@ -104,7 +104,7 @@ const OrderDetail = ({ params }) => {
 								</div>
 								<div className="flex-between my-2">
 									<p>
-										{translations["discount-amount"] || "ডিসকাউন্ট পাচ্ছেন"}
+										{translations["discount-amount"] || "Discount Amount"}
 									</p>
 									<p className="text-red-500">
 										-{siteConfig.currency.sign}
@@ -113,14 +113,14 @@ const OrderDetail = ({ params }) => {
 								</div>
 								<div className="border-b border-slate-300 my-2"></div>
 								<div className="flex-between my-2">
-									<p>{translations["total-with-discount"] || "মোট পরিমান"}</p>
+									<p>{translations["total-with-discount"] || "Total with discount"}</p>
 									<p>
 										{siteConfig.currency.sign}
 										{sale.sub_total - sale.discount_amount}
 									</p>
 								</div>
 								<div className="flex-between my-2">
-									<p>{translations["delivery-charge"] || "ডেলিভারি চার্জ"}</p>
+									<p>{translations["delivery-charge"] || "Delivery Charge"}</p>
 									<p>
 										{siteConfig.currency.sign}
 										{sale.shipping?.delivery_charge}
@@ -128,8 +128,8 @@ const OrderDetail = ({ params }) => {
 								</div>
 								<div className="border-b border-slate-900 my-2"></div>
 								<div className="flex-between my-2 font-bold">
-									<p>
-										{translations["amount-payable"] || "প্রদেয় পরিমান"}{" "}
+									<div className="flex gap-2">
+										<span>{translations["total-payable"] || "Total Payable"}</span>
 										<span
 											className={`px-2 rounded-lg ${
 												sale.due_amount > 0
@@ -140,11 +140,11 @@ const OrderDetail = ({ params }) => {
 											{sale.due_amount > 0
 												? sale.payment_type !== "COD"
 													? translations["payment-incomplete"] ||
-													  "পেমেন্ট অসম্পূর্ণ"
-													: translations["due"] || "বাকি"
-												: translations["paid"] || "পরিশোধ"}
+													  "Payment Incomplete"
+													: translations["due"] || "Due"
+												: translations["paid"] || "Paid"}
 										</span>
-									</p>
+									</div>
 									<p>
 										{siteConfig.currency.sign}
 										{sale.due_amount}
@@ -160,7 +160,7 @@ const OrderDetail = ({ params }) => {
 									}
 									className="w-full bg-primary py-2 px-4 mt-3 lg:mt-5 text-white rounded-lg text-center active:scale-95"
 								>
-									{translations["make-payment"] || "পেমেন্ট করুন"}
+									{translations["make-payment"] || "Make Payment"}
 								</button>
 							) : (
 								<a
@@ -168,8 +168,8 @@ const OrderDetail = ({ params }) => {
 									href={`${process.env.serverBaseUrl}/in/${sale.customer.id}/${sale.id}/sale`}
 									className="bg-slate-200 p-3 block text-center w-full  mt-3 lg:mt-5 rounded-lg"
 								>
-									<FaCloudDownloadAlt size={24} className="mr-2" />
-									{translations["download-invoice"] || "ইনভয়েস ডাউনলোড করুন"}
+									<FaCloudDownloadAlt size={24} className="ltr:mr-2 rtl:ml-2" />
+									{translations["download-invoice"] || "Download Invoice"}
 								</a>
 							)}
 						</>

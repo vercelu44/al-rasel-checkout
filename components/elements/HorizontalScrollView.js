@@ -6,7 +6,7 @@ const HorizontalScrollView = ({ children, className }) => {
 		<div className="custom-horizontal-scroll scrollbar-hide">
 			<div
 				className={cn(
-					"flex space-x-4 items-center w-fit p-4 md:px-0",
+					"flex gap-x-4 items-center w-fit p-4 md:px-0",
 					className
 				)}
 			>

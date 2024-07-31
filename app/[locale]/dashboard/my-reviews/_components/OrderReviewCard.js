@@ -39,9 +39,9 @@ const OrderReviewCard = ({ sellReview, translations = {} }) => {
 	//end of popover
 	return (
 		<div className="relative mb-6 lg:mb-8">
-			<div className="sec-heading absolute top-[-10px] left-0 w-full px-3 lg:px-8">
+			<div className="sec-heading absolute top-[-10px] left-0 rtl:right-0 w-full px-3 lg:px-8">
 				<span className="bg-white text-secondary-700 px-2">
-					{translations["delivery-completed"] || "ডেলিভারি সম্পন্ন হয়েছে"} :{" "}
+					{translations["delivery-completed"] || "Delivery Completed"} :{" "}
 					{getFormattedDate(delivered_at)}
 				</span>
 			</div>
@@ -117,7 +117,7 @@ const OrderReviewCard = ({ sellReview, translations = {} }) => {
 										href={`/dashboard/my-reviews/new/${id}`}
 										className="text-btn !p-0 text-xs/[100%] lg:!text-sm"
 									>
-										{translations["write-a-review"]} <BsArrowRight />
+										{translations["write-a-review"]} <BsArrowRight className="rtl:rotate-180"/>
 									</Link>
 								</div>
 							) : null}

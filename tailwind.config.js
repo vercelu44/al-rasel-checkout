@@ -39,7 +39,7 @@ module.exports = {
         primary: {
           DEFAULT: "#283990",
           50: "#FFF6EB",
-          200: "#EB2D85",
+          200: "#483990",
         },
         secondary: {
           700: "#00B7C9",
@@ -47,7 +47,7 @@ module.exports = {
         },
         amber: {
           200: "#FFF6EB",
-          400: "#FDBE68",
+          400: "#683990",
         },
         slate: {
           300: "#CBD5E1",
@@ -57,7 +57,7 @@ module.exports = {
           900: "#0F172A",
         },
         red: {
-          500: "#EF4444",
+          500: "#EB2D85",
         },
       },
       maxWidth: {

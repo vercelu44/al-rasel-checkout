@@ -46,7 +46,7 @@ export default function SocialShare({ translations = {} }) {
 	const pageContent = (
 		<>
 			<h3 className="md:hidden text-center mb-5 mt-2 font-bold text-[18px]">
-				{translations["share"] || "শেয়ার করুন"}
+				{translations["share"] || "Share"}
 			</h3>
 			<div
 				className={`content-area ${
@@ -69,7 +69,7 @@ export default function SocialShare({ translations = {} }) {
 							fill="#1877F2"
 						/>
 					</svg>
-					<span>{translations["facebook"] || "ফেসবুক"}</span>
+					<span>{translations["facebook"] || "Facebook"}</span>
 				</FacebookShareButton>
 				<TwitterShareButton
 					url={currentUrl}
@@ -134,7 +134,7 @@ export default function SocialShare({ translations = {} }) {
 						</defs>
 					</svg>
 
-					<span>{translations["google"] || "গুগল"}</span>
+					<span>{translations["google"] || "Google"}</span>
 				</EmailShareButton>
 				<LinkedinShareButton
 					url={currentUrl}
@@ -160,7 +160,7 @@ export default function SocialShare({ translations = {} }) {
 						</defs>
 					</svg>
 
-					<span>লিংডিন</span>
+					<span>LinkedIn</span>
 				</LinkedinShareButton>
 				<PinterestShareButton
 					url={currentUrl}
@@ -185,7 +185,7 @@ export default function SocialShare({ translations = {} }) {
 							</clipPath>
 						</defs>
 					</svg>
-					<span>{translations["pinterest"] || "পিনটারেস্ট"}</span>
+					<span>{translations["pinterest"] || "Pinterest"}</span>
 				</PinterestShareButton>
 			</div>
 			<div className="text-center text-secondary-800  border-t border-slate-200 pt-4">
@@ -209,7 +209,7 @@ export default function SocialShare({ translations = {} }) {
 								strokeLinejoin="round"
 							/>
 						</svg>{" "}
-						{translations["copy-link"] || "লিঙ্ক কপি করুন"}
+						{translations["copy-link"] || "Copy Link"}
 					</button>
 				</CopyToClipboard>
 			</div>
@@ -217,19 +217,19 @@ export default function SocialShare({ translations = {} }) {
 	);
 
 	return (
-		<div className="relative border-l pl-3 border-slate-300 leading-4">
+		<div className="relative ltr:border-l rtl:border-r ltr:pl-3 rtl:pr-3 border-slate-300 leading-4">
 			{!isActive ? (
 				<button type="button" onClick={() => setIsActive(true)}>
 					<HiShare size={20} />{" "}
 					<span className="hover:text-primary">
-						{translations["share"] || "শেয়ার করুন"}
+						{translations["share"] || "Share"}
 					</span>
 				</button>
 			) : (
 				<p>
 					<HiShare size={20} />{" "}
 					<span className="text-primary">
-						{translations["share"] || "শেয়ার করুন"}
+						{translations["share"] || "Share"}
 					</span>
 				</p>
 			)}

@@ -184,7 +184,7 @@ const ProductViewSlider = forwardRef(
 							))}
 						</Swiper>
 						{!settings?.guest_checkout ? (
-							<div className="product-action top-2 md:top-4 right-2 lg:right-4 absolute z-10 ">
+							<div className="product-action top-2 md:top-4 ltr:right-2 rtl:left-2 ltr:lg:right-4 rtl:lg:left-4 absolute z-10 ">
 								<button
 									aria-label="Add To Wishlist"
 									className="wishlist-action-btn-product-details inline-flex justify-center items-center"

@@ -75,7 +75,7 @@ const ProductQNA = ({ product_id }) => {
 						<div className="flex justify-between items-center">
 							<h2 className="text-2xl font-bold font-title text-slate-900">
 								{translations["product-question-answer"] ||
-									"এই প্রডাক্ট সম্পর্কে প্রশ্ন ও উত্তর"}{" "}
+									"Product Question & Answer"}{" "}
 								({meta?.total || 0})
 							</h2>
 							<button
@@ -91,7 +91,7 @@ const ProductQNA = ({ product_id }) => {
 							className={`w-full question-search flex items-center relative mt-3 lg:mt-0`}
 						>
 							<RoundedSearch
-								placeholder={"এই প্রডাক্ট সম্পর্কে সার্চ করুন"}
+								placeholder={"Search questions"}
 								isSearch={isSearch}
 							/>
 							<Image
@@ -101,7 +101,7 @@ const ProductQNA = ({ product_id }) => {
 								width={0}
 								height={0}
 								sizes="32px"
-								className="w-[32px] h-[32px] ml-6 hidden lg:block"
+								className="w-[32px] h-[32px] ltr:ml-6 rtl:mr-6 hidden lg:block"
 							/>
 						</div>
 					)}
@@ -116,7 +116,7 @@ const ProductQNA = ({ product_id }) => {
 								// rows={1}
 								placeholder={
 									translations["type-product-question"] ||
-									"প্রডাক্ট সম্পর্কে আপনার প্রশ্ন লিখুন"
+									"Type product question"
 								}
 								{...register("question", {
 									required: "Question is required.",
@@ -132,7 +132,7 @@ const ProductQNA = ({ product_id }) => {
 									type="submit"
 									className="primary-btn !h-[2.5rem] w-[12.25rem]"
 								>
-									{translations["ask-question"] || "প্রশ্ন জিজ্ঞাস করুন"}
+									{translations["ask-question"] || "Ask Question"}
 								</button>
 							</div>
 						</div>

@@ -16,37 +16,35 @@ const MyOrders = () => {
 	const { translations } = useSelector((state) => state.common);
 	const myOrders = ordersData?.data || [];
 
-	console.log(myOrders);
-
 	const orderFilters = [
 		{
 			key: "all-orders",
-			title: translations["all-orders"] || "সব অর্ডার",
+			title: translations["all-orders"] || "All Orders",
 			count: myOrders.length,
 		},
 		{
 			key: orderFilterKeys.pending,
-			title: translations["pending"] || "পেন্ডিং",
+			title: translations["pending"] || "Pending",
 			count: getCountByKeyValue(myOrders, "status", orderFilterKeys.pending),
 		},
 		{
 			key: orderFilterKeys.confirmed,
-			title: translations["confirmed"] || "নিশ্চিত",
+			title: translations["confirmed"] || "Confirmed",
 			count: getCountByKeyValue(myOrders, "status", orderFilterKeys.confirmed),
 		},
 		{
 			key: orderFilterKeys.inDeliver,
-			title: translations["on-delivery"] || "ডেলিভারিতে",
+			title: translations["on-delivery"] || "On Delivery",
 			count: getCountByKeyValue(myOrders, "status", orderFilterKeys.inDeliver),
 		},
 		{
 			key: orderFilterKeys.complete,
-			title: translations["complete"] || "সম্পন্ন",
+			title: translations["complete"] || "Complete",
 			count: getCountByKeyValue(myOrders, "status", orderFilterKeys.complete),
 		},
 		{
 			key: orderFilterKeys.cancelled,
-			title: translations["cancel-my-order"] || "বাতিল",
+			title: translations["cancel-my-order"] || "Cancelled",
 			count: getCountByKeyValue(myOrders, "status", orderFilterKeys.cancelled),
 		},
 	];
@@ -61,11 +59,11 @@ const MyOrders = () => {
 	return (
 		<div className="mb-4 lg:mb-14">
 			<NestedPageTitle
-				title={translations["my-order"] || "আমার অর্ডার"}
+				title={translations["my-order"] || "My Orders"}
 				href={"/dashboard"}
 			/>
 			<div className="lg:px-10">
-				<HorizontalScrollView className={"space-x-3 lg:p-0"}>
+				<HorizontalScrollView className={"gap-x-3 lg:p-0"}>
 					{orderFilters.map((filter) => (
 						<CountButton
 							key={filter.key}
@@ -97,7 +95,7 @@ const MyOrders = () => {
 						))}
 					</div>
 				) : (
-					<NoItems title={translations["no-order"] || "কোন অর্ডার নেই"} />
+					<NoItems title={translations["no-order"] || "No Order"} />
 				)}
 			</div>
 		</div>

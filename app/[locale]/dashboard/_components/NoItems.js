@@ -11,7 +11,7 @@ function NoItems({ title }) {
           <Lottie animationData={empty} loop={false} />
         </div>
         <h3 className="font-bold text-lg font-title text-slate-700">
-          {title ?? "কোন আইটেম নেই"}
+          {title ?? "No items found"}
         </h3>
       </div>
     </div>

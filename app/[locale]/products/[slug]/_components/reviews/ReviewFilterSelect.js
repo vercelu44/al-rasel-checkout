@@ -9,12 +9,12 @@ const ReviewFilterSelect = ({ onSelectChange }) => {
 	const { translations } = useSelector((state) => state.common);
 
 	const sortItems = [
-		{ key: "all-star", value: translations["all-stars"] || "সব স্টার" },
-		{ key: "5", value: translations["5-star"] || "৫ স্টার" },
-		{ key: "4", value: translations["4-star"] || "৪ স্টার" },
-		{ key: "3", value: translations["3-star"] || "৩ স্টার" },
-		{ key: "2", value: translations["2-star"] || "২ স্টার" },
-		{ key: "1", value: translations["1-star"] || "১ স্টার" },
+		{ key: "all-star", value: translations["all-stars"] || "All Stars" },
+		{ key: "5", value: translations["5-star"] || "5 Star" },
+		{ key: "4", value: translations["4-star"] || "4 Star" },
+		{ key: "3", value: translations["3-star"] || "3 Star" },
+		{ key: "2", value: translations["2-star"] || "2 Star" },
+		{ key: "1", value: translations["1-star"] || "1 Star" },
 	];
 	return (
 		<div className="rating-filter-dropdown-wrap">

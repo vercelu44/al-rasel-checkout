@@ -19,7 +19,7 @@ export default function NestedPageTitle({
 				)}
 			>
 				<Link href={href} className="lg:hidden">
-					{children ? children : <HiArrowLongLeft size={24} />}
+					{children ? children : <HiArrowLongLeft className="rtl:rotate-180" size={24} />}
 				</Link>
 				<h2 className="text-slate-900 font-semibold lg:font-bold text-base/4 lg:text-2xl">
 					{title}
@@ -31,7 +31,7 @@ export default function NestedPageTitle({
 						href={href}
 						className="icon-btn py-3 hover:text-primary capitalize"
 					>
-						{children ? children : <HiArrowLongLeft size={24} />}
+						{children ? children : <HiArrowLongLeft className="rtl:rotate-180" size={24} />}
 						{buttonText}
 					</Link>
 				</div>

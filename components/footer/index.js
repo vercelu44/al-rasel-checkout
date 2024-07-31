@@ -55,6 +55,8 @@ const Footer = () => {
 									</li>
 									<li className="flex items-center flex-wrap text-white gap-2">
 										<BsFillTelephoneFill ize={16} />
+										<span className="rtl:text-right" dir="ltr">
+
 										{settings?.phone?.map((e, index) => (
 											<Link key={index} href={`tel:${settings?.phone[index]}`}>
 												{`${settings?.phone[index]}${
@@ -62,6 +64,7 @@ const Footer = () => {
 												}`}
 											</Link>
 										))}
+										</span>
 									</li>
 									<li className="flex items-center flex-wrap text-white gap-2">
 										<FaEnvelope ize={16} />

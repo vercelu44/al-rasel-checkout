@@ -40,11 +40,11 @@ const DashboardLayout = ({ children, params }) => {
 			icon: <MdRateReview />,
 			path: "my-reviews",
 		},
-		{
-			text: translations["voucher"] || "ভাউচার",
-			icon: <HiReceiptPercent />,
-			path: "my-voucher",
-		},
+		// {
+		// 	text: translations["voucher"] || "ভাউচার",
+		// 	icon: <HiReceiptPercent />,
+		// 	path: "my-voucher",
+		// },
 		{
 			text: translations["questions-and-answers"] || "প্রশ্ন ও উত্তর",
 			icon: <RiQuestionAnswerFill />,
@@ -65,8 +65,8 @@ const DashboardLayout = ({ children, params }) => {
 				<div className="bg-white grid grid-cols-[max-content_1fr] min-h-screen">
 					<div className="border-r border-slate-300 px-6 py-12">
 						<nav className="text-slate-500">
-							<ul className="w-[15.25rem]">
-								<div className="fixed min-h-[800px] w-[15.25rem]">
+							<ul className="w-[14rem]">
+								<div className="fixed min-h-[800px] w-[14rem]">
 									{navItems.map((item) => (
 										<Link
 											key={item.path}
@@ -75,7 +75,7 @@ const DashboardLayout = ({ children, params }) => {
 										>
 											<li
 												key={item.path}
-												className={`flex items-center space-x-2 py-3 px-4 rounded-lg w-full text-base font-normal ${
+												className={`flex items-center gap-x-3 py-3 px-4 rounded-lg w-full text-base font-normal ${
 													pathArray.includes(item.path)
 														? "bg-amber-200 border-b-2 border-primary  text-primary"
 														: ""
@@ -98,7 +98,7 @@ const DashboardLayout = ({ children, params }) => {
 										className={`flex items-center py-3 px-4 hover:bg-amber-200 rounded-lg w-full font-bold`}
 									>
 										<button
-											className="flex items-center space-x-2 text-base font-normal"
+											className="flex items-center gap-x-3 text-base font-normal"
 											onClick={() => dispatch(setLogoutModalOpen(true))}
 										>
 											<span className={`text-amber-400`}>

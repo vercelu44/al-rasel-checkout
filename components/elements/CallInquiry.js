@@ -11,14 +11,15 @@ export default function CallInquiry() {
 			<p className="">
 				<span className="text-xl font-bold font-title text-slate-900">
 					{translations["call-inquiry"] ||
-						"যে কোন জিজ্ঞাসা বা অর্ডার করতে আমাদের কল করুন"}
+						"Call us for any inquiry or order"}
 					:
 				</span>
 			</p>
 			<p>
 				<Link
 					href={`tel:${(settings?.phone || ["0170000000"])[0]}`}
-					className="text-xl font-bold font-title text-primary"
+					className="text-xl font-bold font-title text-primary rtl:text-right"
+					dir="ltr"
 				>
 					<BsFillTelephoneFill /> {(settings?.phone || ["0170000000"])[0]}
 				</Link>

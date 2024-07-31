@@ -139,17 +139,21 @@ const ProductTabsView = ({ product, settings, translations }) => {
           <div className="px-3 lg:px-0">
             <div className="container contact mt-5 lg:mt-8 bg-amber-200 border border-primary rounded-xl p-3 lg:p-5 text-center">
               <h5 className="text-2xl font-bold font-title text-slate-900 mb-3">
-                {translations["know-more"] || "আরও কিছু জানার থাকলে"}
+                {translations["know-more"] || "To Know More"}
               </h5>
               <p className="flex justify-center items-center gap-0">
                 <span className="text-[18px]/6 text-slate-900">
-                  {translations["call-us"] || "কল করুন"}:
+                  {translations["call-us"] || "Call now"}:
                 </span>{" "}
                 <Link
                   href={`tel:${settings?.phone[0]}`}
                   className="text-2xl font-bold font-title text-primary"
                 >
-                  <BsFillTelephoneFill className="ml-2" /> {settings?.phone[0]}
+                  <BsFillTelephoneFill className="mx-2" />
+                  <span className="rtl:text-right" dir="ltr">
+
+                   {settings?.phone[0]}
+                  </span>
                 </Link>
               </p>
             </div>

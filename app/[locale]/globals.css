@@ -8,7 +8,7 @@
   body {
     @apply font-body box-border;
   }
-
+  
   .bottom-navigation {
     position: sticky;
     bottom: 0;
@@ -49,7 +49,7 @@
   } */
 
   .select {
-    @apply appearance-none bg-[url('/assets/images/icons/chv-down.svg')] bg-no-repeat bg-[length:24px_40px] bg-[right_1rem_center] [&>*]:!text-sm lg:[&>*]:!text-base;
+    @apply appearance-none bg-[url('/assets/images/icons/chv-down.svg')] bg-no-repeat bg-[length:24px_40px] bg-[right_1rem_center] rtl:bg-[left_1rem_center] [&>*]:!text-sm lg:[&>*]:!text-base;
   }
 
   svg {
@@ -117,11 +117,11 @@
 }
 
 .breadcrumb a:not(:last-of-type) {
-  @apply relative inline-block mr-6;
+  @apply relative inline-block ltr:mr-6 rtl:ml-6;
 }
 
 .breadcrumb a:not(:last-of-type)::after {
-  @apply absolute content-[url('/assets/images/icons/chv-right-wht.svg')] top-0.5 right-[-24px] w-5 h-5 text-white;
+  @apply absolute content-[url('/assets/images/icons/chv-right-wht.svg')] top-0.5 rtl:rotate-180 ltr:right-[-24px] rtl:left-[-24px] w-5 h-5 text-white;
 }
 
 .breadcrumb-2 a:not(:last-of-type)::after {
@@ -268,11 +268,11 @@
 }
 
 .slider-btn {
-  @apply absolute top-1/2 left-0 -translate-y-[24px] inline-flex justify-center items-center w-12 h-12 bg-[#F8FAFC] rounded-full z-10 cursor-pointer;
+  @apply absolute top-1/2 left-0 rtl:right-0 rtl:rotate-180 -translate-y-[24px] inline-flex justify-center items-center w-12 h-12 bg-[#F8FAFC] rounded-full z-10 cursor-pointer;
 }
 
 .slider-next {
-  @apply left-auto right-0;
+  @apply left-auto right-0 rtl:left-0 rtl:right-auto;
 }
 
 .swiper-button-disabled {

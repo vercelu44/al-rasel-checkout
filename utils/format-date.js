@@ -26,20 +26,34 @@ export const getFormattedDate = (date) => {
 };
 
 /**
- * The function `getBdFormattedDateTime` takes a date as input and returns a formatted date and time
- * string in the Bangladeshi time zone.
- * @param date - The `date` parameter is the input date that you want to format. It can be a Date
- * object, a string representing a date, or a timestamp.
- * @returns The function `getBdFormattedDateTime` returns a formatted date and time string in the
- * format "formattedDate - formattedTime".
+ * The function `getFormattedDateTime` takes a date and returns a formatted string with the date and
+ * time in the Bangladeshi time zone.
+ * @param date - The `date` parameter in the `getFormattedDateTime` function is the date and time that
+ * you want to format. It can be a Date object, a timestamp, or a date string that can be recognized by
+ * the `Date` constructor.
+ * @param [locale=en-US] - The `locale` parameter in the `getFormattedDateTime` function is used to
+ * specify the language and region for formatting the date and time. It determines how the date and
+ * time components will be displayed, such as the month name, day of the week, and time format. In this
+ * function, the
+ * @param [numberingSystem=latn] - The `numberingSystem` parameter in the `getFormattedDateTime`
+ * function is used to specify the numbering system to be used for formatting the date and time. In the
+ * provided function, it is set to "latn" by default, which represents the Latin numbering system.
+ * @returns The `getFormattedDateTime` function returns a formatted date and time string in the format
+ * "Month Day, Year - Hour:Minute" based on the input date, locale, and numbering system provided. The
+ * date is formatted with the full month name, day of the month, and year, while the time is formatted
+ * with the hour and minute in 24-hour format. The returned string combines the formatted
  */
-export const getBdFormattedDateTime = (date) => {
+export const getFormattedDateTime = (
+	date,
+	locale = "en-US",
+	numberingSystem = "latn"
+) => {
 	const optionsDate = {
 		timeZone: "Asia/Dhaka", // Set the time zone to Bangladeshi time zone
 		year: "numeric",
 		month: "long",
 		day: "numeric",
-		numberingSystem: "beng",
+		numberingSystem,
 	};
 
 	const optionsTime = {
@@ -47,8 +61,8 @@ export const getBdFormattedDateTime = (date) => {
 		hour: "2-digit",
 		minute: "2-digit",
 	};
-	const formattedDate = new Date(date).toLocaleString("bn-BD", optionsDate);
-	const formattedTime = new Date(date).toLocaleString("bn-BD", optionsTime);
+	const formattedDate = new Date(date).toLocaleString(locale, optionsDate);
+	const formattedTime = new Date(date).toLocaleString(locale, optionsTime);
 
 	return `${formattedDate} - ${formattedTime}`;
 };

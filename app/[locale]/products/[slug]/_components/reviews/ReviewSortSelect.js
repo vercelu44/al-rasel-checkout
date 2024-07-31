@@ -10,15 +10,15 @@ const ReviewSortSelect = ({ onSelectChange }) => {
 	const { translations } = useSelector((state) => state.common);
 
 	const sortItems = [
-		{ key: "default", value: translations["random"] || "এলোমেলো" },
-		{ key: "new", value: translations["recent"] || "সাম্প্রতিক" },
+		{ key: "default", value: translations["random"] || "Random" },
+		{ key: "new", value: translations["recent"] || "Recent" },
 		{
 			key: "rating_low_high",
-			value: translations["rating-(low-to-high)"] || "রেটিং (কম থেকে বেশি)",
+			value: translations["rating-(low-to-high)"] || "Rating (Low to High)",
 		},
 		{
 			key: "rating_high_low",
-			value: translations["rating-(high-to-low)"] || "রেটিং (বেশি থেকে কম)",
+			value: translations["rating-(high-to-low)"] || "Rating (High to Low)",
 		},
 	];
 

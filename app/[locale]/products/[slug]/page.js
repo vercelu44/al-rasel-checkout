@@ -73,7 +73,7 @@ const ProductDetailsView = async ({ params }) => {
 							className={"justify-start"}
 							title={
 								translations["same-category-products"] ||
-								"একই ক্যাটাগরির আরও প্রোডাক্ট"
+								"Same Category Products"
 							}
 							buttonText={translations["see-all"]}
 						/>

@@ -31,16 +31,16 @@ export default function SupportTicket() {
 		<div className="">
 			<div className="md:flex justify-between items-center">
 				<NestedPageTitle
-					title={translations["support-ticket"] || "সাপোর্ট টিকিট"}
+					title={translations["support-ticket"] || "Support Ticket"}
 					href={"/dashboard"}
 				/>
 				{
 					<Link
 						href={"/dashboard/support-ticket/new"}
-						className="text-secondary-700 mr-3 md:mr-10 mt-3 md:mt-10 hidden md:inline font-bold border border-secondary-700 py-2 px-3 rounded-lg active:scale-95 cursor-pointer"
+						className="text-secondary-700 mr-3 rtl:ml-3 md:mr-10 rtl:md:ml-10 mt-3 md:mt-10 hidden md:inline font-bold border border-secondary-700 py-2 px-3 rounded-lg active:scale-95 cursor-pointer"
 					>
 						<HiPlus className="font-bold" />{" "}
-						{translations["new-ticket"] || "নতুন টিকিট"}
+						{translations["new-ticket"] || "New Ticket"}
 					</Link>
 				}
 			</div>
@@ -55,7 +55,7 @@ export default function SupportTicket() {
 						onClick={() => setSelectedTab("running")}
 					>
 						<span>
-							{translations["running-ticket"] || "রানিং টিকিট"}(
+							{translations["running-ticket"] || "Running Ticket"}(
 							{getCountByKeyNotValue(supportTickets, "status", "Completed")})
 						</span>
 					</button>
@@ -68,7 +68,7 @@ export default function SupportTicket() {
 						onClick={() => setSelectedTab("Completed")}
 					>
 						<span className="capitalize">
-							{translations["done"] || "সম্পন্ন হয়েছে"} (
+							{translations["done"] || "Done"} (
 							{getCountByKeyValue(supportTickets, "status", "Completed")})
 						</span>
 					</button>
@@ -88,7 +88,7 @@ export default function SupportTicket() {
 								<SupportTicketCard key={ticket.id} ticket={ticket} />
 							))
 						) : (
-							<NoItems title={"কোন টিকিট নেই"} />
+							<NoItems title={"No support ticket found"} />
 						)}
 						{
 							<Link
@@ -96,7 +96,7 @@ export default function SupportTicket() {
 								className="text-white z-10 md:hidden flex justify-center items-center gap-x-1 fixed bottom-4 right-3 font-semibold border bg-secondary-700 leading-none h-12 w-[131px] rounded-lg active:scale-95 cursor-pointer"
 							>
 								<HiPlus size={20} className="font-bold" />{" "}
-								{translations["new-ticket"] || "নতুন টিকিট"}
+								{translations["new-ticket"] || "New Ticket"}
 							</Link>
 						}
 					</div>

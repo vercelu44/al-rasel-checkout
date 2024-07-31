@@ -62,7 +62,7 @@ const RatingReviewPopover = ({ product_id }) => {
 									</div>
 									<p className="text-slate-700">
 										{summary?.totalReview}{" "}
-										{translations["ratings"] || "গুলো রেটিং"}
+										{translations["ratings"] || "Ratings"}
 									</p>
 								</div>
 								<div className="rating-summery lg:col-span-4 grid grid-cols-1 items-center">
@@ -95,9 +95,9 @@ const RatingReviewPopover = ({ product_id }) => {
 								className="w-full text-secondary-700 text-center inline-flex items-center gap-2 text-sm justify-center"
 							>
 								{translations["see-all-customer-reviews"] ||
-									"গ্রাহকদের সকল রিভিউগুলো দেখুন"}
+									"See all customer reviews"}
 
-								<HiOutlineArrowNarrowRight size={20} />
+								<HiOutlineArrowNarrowRight size={20} className="rtl:rotate-180"/>
 							</Link>
 						</div>
 					</div>

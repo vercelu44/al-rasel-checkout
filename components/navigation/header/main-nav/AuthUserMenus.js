@@ -75,7 +75,7 @@ export default function AuthUserMenus({ togglePopover }) {
                 <Link
                   href={item.path}
                   onClick={() => togglePopover()}
-                  className="flex items-center space-x-3 group capitalize"
+                  className="flex items-center gap-x-3 group capitalize"
                 >
                   <span
                     className={`group-hover:font-bold text-xl text-amber-400 group-hover:text-primary`}
@@ -88,7 +88,7 @@ export default function AuthUserMenus({ togglePopover }) {
             ))}
             <li className={`flex items-center py-3 px-4 rounded-lg w-full`}>
               <button
-                className="flex items-center space-x-3 group"
+                className="flex items-center gap-x-3 group"
                 onClick={handleModalOpen}
               >
                 <span

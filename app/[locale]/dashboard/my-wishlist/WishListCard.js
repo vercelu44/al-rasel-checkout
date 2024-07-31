@@ -22,7 +22,7 @@ const WishListCard = ({ product }) => {
 	return (
 		<div className="relative px-3 py-4 bg-white border border-slate-200 rounded-xl mb-3">
 			<button
-				className="absolute z-10 right-3 top-3 bg-transparent text-red-500"
+				className="absolute z-10 ltr:right-3 rtl:left-3 top-3 bg-transparent text-red-500"
 				onClick={() => handleRemoveFromWishlist(id)}
 			>
 				<FiTrash2 size={20} />
@@ -89,8 +89,8 @@ const WishListCard = ({ product }) => {
 								onClick={() => handleAddToCart(product)}
 							>
 								<HiOutlineShoppingCart size={20} />
-								<span className="ml-2 hidden md:inline">
-									{translations["add-to-cart"] || "কার্টে রাখুন"}
+								<span className="rtl:mr-2 ltr:ml-2 hidden md:inline">
+									{translations["add-to-cart"] || "Add To Cart"}
 								</span>
 							</button>
 						) : (
@@ -99,10 +99,10 @@ const WishListCard = ({ product }) => {
 								className="text-secondary-700 font-bold border whitespace-nowrap border-secondary-700 py-2 px-3 rounded-lg active:scale-95 cursor-pointer"
 							>
 								<span className="hidden md:inline">
-									{translations["find-similar"] || "সিমিলার খুঁজুন"}
+									{translations["find-similar"] || "Similar Products"}
 								</span>
 								<span className="inline md:hidden">
-									{translations["find"] || "খুঁজুন"}
+									{translations["find"] || "Find"}
 								</span>
 							</Link>
 						)}

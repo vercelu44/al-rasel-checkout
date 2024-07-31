@@ -71,7 +71,7 @@ const RatingReviews = ({ product_id }) => {
 	return (
 		<section id="product-rating-reviews">
 			<h2 className="text-2xl font-bold font-title text-slate-900">
-				{translations["ratings-and-reviews"] || "রেটিং ও রিভিউ"}:
+				{translations["ratings-and-reviews"] || "Ratings & Reviews"}:
 			</h2>
 			{summaryLoading ? (
 				<ItemsListLoader noImage={true} numItems={1} />
@@ -92,7 +92,7 @@ const RatingReviews = ({ product_id }) => {
 							/>
 						</div>
 						<p className="text-slate-700">
-							{summary?.totalReview} {translations["ratings"] || "গুলো রেটিং"}
+							{summary?.totalReview} {translations["ratings"] || "Ratings"}
 						</p>
 					</div>
 					<div className="rating-summery lg:col-span-5 grid grid-cols-12 items-center">
@@ -125,7 +125,7 @@ const RatingReviews = ({ product_id }) => {
 				<>
 					<div id="customer-pictures">
 						<h2 className="text-base/4 font-semibold font-title text-slate-700">
-							{translations["imgs-from-cstmr"] || "কাস্টমারের দেয়া ছবি গুলো"}
+							{translations["imgs-from-cstmr"] || "Images from customer"}
 						</h2>
 						<div className="bg-slate-50 rounded-md mt-3 p-3 lg:p-4">
 							<AllReviewImages images={reviewImages} max={isMobile ? 8 : 6} />
@@ -136,7 +136,7 @@ const RatingReviews = ({ product_id }) => {
 						className="bg-slate-50 rounded-md mt-8 p-3 flex flex-col gap-3 lg:flex-row lg:items-center"
 					>
 						<h2 className="text-base/4 font-semibold font-title text-slate-700">
-							{translations["customer-reviews"] || "কাস্টমারের রিভিউ গুলো"}
+							{translations["customer-reviews"] || "Customer Reviews"}
 						</h2>
 						<div className="lg:ml-auto flex gap-4 lg:items-center">
 							<ReviewSortSelect

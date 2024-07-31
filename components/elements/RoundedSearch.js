@@ -42,7 +42,7 @@ const RoundedSearch = ({ placeholder, isSearch }) => {
 		<div className="relative w-full">
 			<FiSearch
 				size={24}
-				className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-900"
+				className="absolute top-1/2 ltr:left-4 rtl:right-4 -translate-y-1/2 text-slate-900"
 			/>
 
 			<input
@@ -52,7 +52,7 @@ const RoundedSearch = ({ placeholder, isSearch }) => {
 				onChange={(e) => setSearchTerm(e.target.value)}
 				onKeyDown={handleInput}
 				placeholder={placeholder}
-				className="h-[3rem] !pl-11 w-full border border-[#E2E8F0] bg-slate-100 lg:bg-white focus:bg-white focus:border-primary focus:outline-none rounded-full"
+				className="h-[3rem] ltr:!pl-11 rtl:!pr-11 w-full border border-[#E2E8F0] bg-slate-100 lg:bg-white focus:bg-white focus:border-primary focus:outline-none rounded-full"
 			/>
 		</div>
 	);
