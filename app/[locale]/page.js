@@ -11,7 +11,7 @@ import NewArrival from "./_components/new-arrival";
 import VideoBanner from "./_components/VideoBanner";
 import FeaturedBanner from "./_components/FeaturedBanner";
 import HomeAllProducts from "./_components/HomeAllProducts";
-import ServiceFeatures from "./_components/service-features";
+// import ServiceFeatures from "./_components/service-features";
 import PopularCategories from "./_components/popular-categories";
 import SectionTitle from "@/components/elements/SectionTitle";
 const FlashSale = dynamic(() => import("./_components/flash-sale"), {
@@ -21,6 +21,7 @@ const FlashSale = dynamic(() => import("./_components/flash-sale"), {
 // ** Import Iocns
 import { HiArrowLongRight } from "react-icons/hi2";
 import { SeeAll } from "@/components/elements/buttons";
+import MiniBanner from "./_components/mini-banner";
 
 export default async function Home() {
 
@@ -31,7 +32,12 @@ export default async function Home() {
 	return (
 		<>
 			<section className="banner">
-				<div className="bg-white pt-3 lg:pt-5">
+				<div className="bg-white pt-3">
+					<MiniBanner />
+				</div>
+			</section>
+			<section className="banner">
+				<div className="bg-white pt-3 lg:pt-0">
 					<Intro />
 				</div>
 			</section>

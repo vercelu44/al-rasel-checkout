@@ -101,7 +101,7 @@ export default function MainNav({ settings }) {
 					transition: "top 0.3s ease",
 					...(!visible && { top: "-100px" }),
 				}}
-				className={`fixed left-0 top-0 w-full z-30 bg-white border-b border-slate-300 py-3 md:py-4 `}
+				className={`fixed left-0 top-0 w-full z-30 md:bg-black bg-white border-b border-slate-300 py-3 md:py-4 `}
 			>
 				<div className="container">
 					<div className="header-wrap flex justify-between items-center">
@@ -166,7 +166,7 @@ export default function MainNav({ settings }) {
 										</button>
 										{userOpen && !user ? (
 											<div className="absolute right-0 top-0 z-10 mt-14">
-												<div className="relative bg-white px-6 py-8 w-52 border border-slate-300 rounded-lg">
+												<div className="relative bg-white px-6 py-8 w-52 border border-slate-300 lg:border-white rounded-lg">
 													<div className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-slate-300"></div>
 													<p className="text-slate-500 text-base font-bold text-center">
 														{translations["login-status"]}

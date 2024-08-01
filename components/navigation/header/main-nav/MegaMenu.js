@@ -37,7 +37,7 @@ export default function MegaMenu({ settings }) {
 		};
 	}, []);
 
-	const className = "px-2 py-3 bg-white rounded-sm flex items-center gap-1";
+	const className = "px-2 py-3 rounded-sm flex items-center gap-1";
 
 	return (
 		<>

@@ -145,7 +145,7 @@
 
 .nav-menu a,
 .nav-menu .menuBtn {
-  @apply text-base font-title font-normal text-slate-500  ease-in duration-100 hover:text-primary;
+  @apply text-base font-title font-normal text-slate-500 md:text-white  ease-in duration-100 hover:text-primary;
 }
 
 /* since nested groupes are not supported we have to use 
@@ -165,7 +165,7 @@
 }
 
 .nav-search {
-  @apply w-full md:w-[22rem];
+  @apply w-full md:w-[25rem] xl:w-[30rem];
 }
 
 .nav-search input {
@@ -174,11 +174,11 @@
 }
 
 .nav-search button {
-  @apply absolute w-12 h-12 border border-l-0 border-slate-300 md:border-none md:bg-primary rounded-e-full md:rounded-e-lg outline-none text-center;
+  @apply absolute w-12 h-12 border border-l-0 border-slate-300 md:border-white md:bg-primary lg:bg-white rounded-e-full md:rounded-e-lg outline-none text-center;
 }
 
 .header-actions .single-action {
-  @apply w-12 h-12 inline-flex items-center justify-center text-[#475569] lg:border lg:border-slate-300 lg:rounded-full ease-in duration-100 lg:hover:bg-primary lg:hover:text-white hover:border-transparent;
+  @apply w-12 h-12 inline-flex items-center justify-center text-[#475569] md:text-white lg:border lg:border-white lg:rounded-full ease-in duration-100 lg:hover:bg-primary lg:hover:text-white hover:border-transparent;
 }
 /* Service Features */
 

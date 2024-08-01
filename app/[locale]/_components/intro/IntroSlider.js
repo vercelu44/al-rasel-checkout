@@ -17,7 +17,7 @@ const IntroSlider = ({ sliders }) => {
 				spaceBetween={0}
 				loop={true}
 				pagination={{ clickable: true }}
-				className="intro-slider [&_.swiper-wrapper]:pb-3"
+				className="intro-slider [&_.swiper-wrapper]:pb-6"
 				autoplay={{ delay: 3000 }}
 				effect="fade"
 				speed={2000}

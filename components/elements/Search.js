@@ -123,7 +123,7 @@ const Search = () => {
 					>
 						<HiMagnifyingGlass
 							size={24}
-							className="text-[#475569] md:text-white"
+							className="text-[#475569] md:text-[#475569] group-focus-within:text-primary"
 						/>
 					</button>
 				</div>
