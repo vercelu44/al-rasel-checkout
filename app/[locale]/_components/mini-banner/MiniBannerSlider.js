@@ -3,46 +3,68 @@
 import { Link } from "@/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import Image from "next/image";
+import img1 from "@/public/assets/1.jpeg";
+import img2 from "@/public/assets/2.jpeg";
+import img3 from "@/public/assets/3.jpeg";
 
-// ** Import Iocns
+// ** Import Icons
+
+const miniSlides = [
+  {
+    id: 1,
+    image: img1,
+    url: "/",
+  },
+  {
+    id: 2,
+    image: img2,
+    url: "/",
+  },
+  {
+    id: 3,
+    image: img3,
+    url: "/",
+  },
+];
 
 const MiniBannerSlider = ({ sliders }) => {
-	// console.log(sliders);
-
-	return (
-		<>
-			<Swiper
-				modules={[Pagination, Autoplay, EffectFade]}
-				slidesPerView={1}
-				spaceBetween={0}
-				loop={true}
-				pagination={{ clickable: true }}
-				className="intro-slider [&_.swiper-wrapper]:pb-6"
-				autoplay={{ delay: 3000 }}
-				effect="fade"
-				speed={2000}
-			>
-				{sliders.map((slide) => (
-					<SwiperSlide
-						key={slide?.id}
-						style={{
-							backgroundImage: `url(${slide?.image})`,
-							backgroundRepeat: "no-repeat",
-							backgroundPosition: "center",
-						}}
-						className="rounded-xl !flex items-end  lg:!h-[60px] bg-cover"
-					>
-						{slide.url && (
-							<Link
-								href={slide?.url}
-								className="h-full w-full flex items-center justify-center"
-							></Link>
-						)}
-					</SwiperSlide>
-				))}
-			</Swiper>
-		</>
-	);
+  return (
+    <>
+      <Swiper
+        modules={[Pagination, Autoplay, EffectFade]}
+        slidesPerView={1}
+        spaceBetween={0}
+        loop={true}
+        pagination={{ clickable: true }}
+        className="intro-slider [&_.swiper-wrapper]:pb-6"
+        autoplay={{ delay: 3000 }}
+        effect="fade"
+        speed={2000}
+      >
+        {miniSlides.map((slide) => (
+          <SwiperSlide
+            key={slide?.id}
+            className=" !flex items-end lg:!h-[60px] bg-cover"
+          >
+            <Image
+              src={slide.image}
+              alt={`Slide ${slide.id}`}
+              layout="fill"
+              objectFit="cover"
+              className=""
+            />
+            {slide.url && (
+              <Link
+                href={slide?.url}
+                className="h-full w-full flex items-center justify-center"
+              ></Link>
+            )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </>
+  );
 };
 
 export default MiniBannerSlider;

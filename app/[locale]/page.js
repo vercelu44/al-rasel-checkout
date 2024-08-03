@@ -1,5 +1,4 @@
 import { Link } from "@/navigation";
-import Image from "next/image";
 import { fetchData } from "@/lib/fetch-data";
 import dynamic from "next/dynamic";
 
@@ -15,7 +14,7 @@ import HomeAllProducts from "./_components/HomeAllProducts";
 import PopularCategories from "./_components/popular-categories";
 import SectionTitle from "@/components/elements/SectionTitle";
 const FlashSale = dynamic(() => import("./_components/flash-sale"), {
-	ssr: false,
+  ssr: false,
 });
 
 // ** Import Iocns
@@ -24,114 +23,136 @@ import { SeeAll } from "@/components/elements/buttons";
 import MiniBanner from "./_components/mini-banner";
 
 export default async function Home() {
+  const [settingsRes, transRes] = await Promise.allSettled([
+    fetchData({ api: `info/basic` }),
+    fetchData({ api: "translations" }),
+  ]);
 
-	const data = await fetchData({ api: "translations" });
-	const translations = data?.data || {};
-	// console.log(translations);
+  const settings =
+    settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
+  const translations =
+    transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
 
-	return (
-		<>
-			<section className="banner">
-				<div className="bg-white pt-3">
-					<MiniBanner />
-				</div>
-			</section>
-			<section className="banner">
-				<div className="bg-white pt-3 lg:pt-0">
-					<Intro />
-				</div>
-			</section>
+  return (
+    <>
+      {settings?.slider_section ? (
+        <>
+          <section className="banner">
+            <div className="bg-white pt-3">
+              <MiniBanner />
+            </div>
+          </section>
+          <section className="banner">
+            <div className="bg-white pt-3 lg:pt-0">
+              <Intro />
+            </div>
+          </section>
+        </>
+      ) : null}
 
-			{/* <section className="service-features mt-3 lg:mt-5">
+      {/* <section className="service-features mt-3 lg:mt-5">
 				<ServiceFeatures />
 			</section> */}
 
-			<FlashSale translations={translations} />
+      <FlashSale translations={translations} />
+      {settings?.category_section ? (
+        <section className="lg:pb-14 mt-6 lg:mt-12 relative">
+          <div
+            className="all-category py-4 lg:py-14"
+            // style={{
+            // 	backgroundImage: "linear-gradient(90deg, #603990 0%, #283990 100%)",
+            // }}
+          >
+            <div className="container">
+              <div className="sec-heading w-full flex justify-between items-center">
+                <h2 className="sec-title capitalize">
+                  {translations["popular-category"] || "Popular Category"}
+                </h2>
+                <Link
+                  href="/categories"
+                  className="all-btn capitalize !hidden lg:!block"
+                >
+                  {translations["see-all"] || "See All"}{" "}
+                  <HiArrowLongRight size={24} className="rtl:rotate-180" />{" "}
+                </Link>
+              </div>
 
-			<section className="lg:pb-14 mt-6 lg:mt-12 relative">
-				<div
-					className="all-category py-4 lg:py-14"
-					// style={{
-					// 	backgroundImage: "linear-gradient(90deg, #603990 0%, #283990 100%)",
-					// }}
-				>
-					<div className="container">
-						<div className="sec-heading w-full flex justify-between items-center">
-							<h2 className="sec-title capitalize">
-								{translations["popular-category"] || "Popular Category"}
-							</h2>
-							<Link
-								href="/categories"
-								className="all-btn capitalize !hidden lg:!block"
-							>
-								{translations["see-all"] || "See All"}{" "}
-								<HiArrowLongRight size={24} className="rtl:rotate-180" />{" "}
-							</Link>
-						</div>
+              <div className="mt-6 lg:mt-10">
+                <PopularCategories />
+              </div>
+              <SeeAll
+                href="/products"
+                buttonText={translations["see-all"] || "See All"}
+                invert={true}
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
 
-						<div className="mt-6 lg:mt-10">
-							<PopularCategories />
-						</div>
-						<SeeAll
-							href="/products"
-							buttonText={translations["see-all"] || "See All"}
-							invert={true}
-						/>
-					</div>
-				</div>
-			</section>
+      {settings?.best_selling_section ? (
+        <section className="best-sell bg-slate-50 mt-8 lg:mt-0 py-4 md:py-14 lg:pb-14">
+          <BestSell translations={translations} />
+        </section>
+      ) : null}
 
-			<section className="best-sell bg-slate-50 mt-8 lg:mt-0 py-4 md:py-14 lg:pb-14">
-				<BestSell translations={translations} />
-			</section>
+      {settings?.featured_products_section ? (
+        <section className="banners pt-6 lg:pt-14">
+          <div className="container">
+            <FeaturedBanner />
+          </div>
+        </section>
+      ) : null}
 
-			<section className="banners pt-6 lg:pt-14">
-				<div className="container">
-					<FeaturedBanner />
-				</div>
-			</section>
+      {settings?.featured_products_section ? (
+        <section className="all-products mt-6 lg:mt-14">
+          <div className="container">
+            <SectionTitle
+              title={translations["all-products"]}
+              href="/products"
+              buttonText={translations["see-all"]}
+            />
+            <HomeAllProducts translations={translations} />
+            <SeeAll href="/products" buttonText={translations["see-all"]} />
+          </div>
+        </section>
+      ) : null}
 
-			<section className="all-products mt-6 lg:mt-14">
-				<div className="container">
-					<SectionTitle
-						title={translations["all-products"]}
-						href="/products"
-						buttonText={translations["see-all"]}
-					/>
-					<HomeAllProducts translations={translations} />
-					<SeeAll href="/products" buttonText={translations["see-all"]} />
-				</div>
-			</section>
+      {settings?.shop_section ? (
+        <section className="new-products pt-6 lg:pt-14">
+          <div className="container">
+            <SectionTitle
+              title={translations["new-in-shop"]}
+              href="/products?sort_type=new"
+              buttonText={translations["see-all"]}
+            />
+          </div>
+          <NewArrival />
+          <div className="container">
+            <SeeAll
+              href="/products?sort_type=new"
+              buttonText={translations["see-all"]}
+            />
+          </div>
+        </section>
+      ) : null}
 
-			<section className="new-products pt-6 lg:pt-14">
-				<div className="container">
-					<SectionTitle
-						title={translations["new-in-shop"]}
-						href="/products?sort_type=new"
-						buttonText={translations["see-all"]}
-					/>
-				</div>
-				<NewArrival />
-				<div className="container">
-					<SeeAll
-						href="/products?sort_type=new"
-						buttonText={translations["see-all"]}
-					/>
-				</div>
-			</section>
+      {settings?.video_section ? (
+        <section className="mt-6 lg:mt-14">
+          <VideoBanner translations={translations} />
+        </section>
+      ) : null}
 
-			<section className="mt-6 lg:mt-14">
-				<VideoBanner translations={translations} />
-			</section>
-
-			<section className="all-brands pt-6 pb-8 lg:py-14">
-				<div className="lg:container">
-					<SectionTitle title={translations["our-brands"]} />
-					<div className="brands-slider mt-1 lg:mt-6  relative">
-						<Brands />
-					</div>
-				</div>
-			</section>
-		</>
-	);
+      {settings?.brand_section ? (
+        <section className="all-brands pt-6 pb-8 lg:py-14">
+          <div className="lg:container">
+            <SectionTitle title={translations["our-brands"]} />
+            <div className="brands-slider mt-1 lg:mt-6  relative">
+              <Brands />
+            </div>
+          </div>
+        </section>
+      ) : null}
+    </>
+  );
 }

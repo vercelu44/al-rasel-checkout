@@ -32,6 +32,7 @@ const Footer = () => {
 
 	const footerPage = settings?.footer_page || [];
 	const helpPage = settings?.help_page || [];
+
 	return (
 		<>
 			<footer className="footer relative bg-slate-900 rounded-t-2xl lg:rounded-none pt-6 lg:pt-14 overflow-hidden z-10">
@@ -41,11 +42,11 @@ const Footer = () => {
 							<div className="footer-widget">
 								<Link href="/" className="logo inline-block mb-3">
 									<Image
-										src={settings?.logo}
+										src={settings?.footer_logo}
 										alt={settings?.name}
 										width={200}
 										height={48}
-										className="h-auto max-h-[48px] lg:-mt-2"
+										className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
 									/>
 								</Link>
 								<ul className="info-list">
