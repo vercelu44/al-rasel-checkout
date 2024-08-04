@@ -56,27 +56,19 @@ export default async function Home() {
 
       <FlashSale translations={translations} />
       {settings?.category_section ? (
-        <section className="lg:pb-14 mt-6 lg:mt-12 relative">
+        <section className="lg:pb-6 mt-6 lg:mt-6 relative">
           <div
-            className="all-category py-4 lg:py-14"
+            className="all-category py-4 lg:py-6"
             // style={{
             // 	backgroundImage: "linear-gradient(90deg, #603990 0%, #283990 100%)",
             // }}
           >
             <div className="container">
-              <div className="sec-heading w-full flex justify-between items-center">
-                <h2 className="sec-title capitalize">
-                  {translations["popular-category"] || "Popular Category"}
-                </h2>
-                <Link
-                  href="/categories"
-                  className="all-btn capitalize !hidden lg:!block"
-                >
-                  {translations["see-all"] || "See All"}{" "}
-                  <HiArrowLongRight size={24} className="rtl:rotate-180" />{" "}
-                </Link>
-              </div>
-
+              <SectionTitle
+                title={translations["popular-category"] || "Popular Category"}
+                href="/categories"
+                buttonText={translations["see-all"] || "See All"}
+              />
               <div className="mt-6 lg:mt-10">
                 <PopularCategories />
               </div>

@@ -7,46 +7,43 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import noImage from "@/public/assets/images/no-image.png";
 
 const CategorySlider = ({ categoryList }) => {
-	return (
-		<>
-			<Swiper
-				modules={[Pagination]}
-				spaceBetween={50}
-				slidesPerView={6}
-				loop={false}
-				pagination={{ clickable: true }}
-				className="category-slider !static"
-			>
-				{categoryList?.map((category, i) => (
-					<SwiperSlide key={i}>
-						<div
-							key={category?.id}
-							className="mb-5 lg:mb-0 w-[116px] lg:w-[164px]"
-						>
-							<Link
-								href={`/categories/${category.slug}`}
-								className="category-img flex justify-center items-center h-[116px] lg:h-[164px] bg-slate-200 rounded-full overflow-hidden"
-							>
-								<Image
-									src={category?.icon || noImage}
-									alt={category.category_name}
-									width={116}
-									height={116}
-									className="w-[92px] lg:w-[116px] h-[92px] lg:h-[116px] object-contain hover:scale-110"
-								/>
-							</Link>
-							<Link
-								href={`/categories/${category.slug}`}
-								className="block text-sm lg:text-lg text-center mt-4"
-							>
-								{category.category_name}
-							</Link>
-						</div>
-					</SwiperSlide>
-				))}
-			</Swiper>
-		</>
-	);
+  return (
+    <>
+      <Swiper
+        modules={[Pagination]}
+        spaceBetween={50}
+        slidesPerView={10}
+        loop={false}
+        pagination={{ clickable: true }}
+        className="category-slider !static"
+      >
+        {categoryList?.map((category, i) => (
+          <SwiperSlide key={i}>
+            <div key={category?.id} className="mb-5 lg:mb-0 w-[116px]">
+              <Link
+                href={`/categories/${category.slug}`}
+                className="category-img flex justify-center items-center h-[116px] bg-slate-200 rounded-full overflow-hidden"
+              >
+                <Image
+                  src={category?.icon || noImage}
+                  alt={category.category_name}
+                  width={116}
+                  height={116}
+                  className="w-[92px] h-[92px] object-contain hover:scale-110"
+                />
+              </Link>
+              <Link
+                href={`/categories/${category.slug}`}
+                className="block text-sm text-center mt-4 line-clamp-1"
+              >
+                {category.category_name}
+              </Link>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </>
+  );
 };
 
 export default CategorySlider;

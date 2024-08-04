@@ -1,62 +1,181 @@
 "use client";
-import Image from "next/image";
 import { Link } from "@/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
-import noImage from "@/public/assets/images/no-image.png";
-import menuOffer from "@/public/assets/images/banner/category-menu-offer.png";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import { useGetPopularCategoriesQuery } from "@/store/api/categoriesAPI";
+import {
+  useGetCategoriesQuery,
+  useGetPopularCategoriesQuery,
+} from "@/store/api/categoriesAPI";
+import { cn } from "@/utils";
 
 export default function MegaMenu({ settings }) {
   const { locale } = useParams();
-  const { data: categoriesData } = useGetPopularCategoriesQuery({ locale });
-  const popularCategories = categoriesData?.data || [];
+  const { data: categoriesData } = useGetCategoriesQuery({ locale });
+  const categories = categoriesData?.data || [];
+
+  const { data: PopularCategoriesRes } = useGetPopularCategoriesQuery({
+    locale,
+  });
+  const popularCategories = PopularCategoriesRes?.data || [];
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const headerPage = settings?.header_page || [];
   const { translations } = useSelector((state) => state.common);
   const megaMenuRef = useRef(null);
 
   const closeMenu = () => {
     setMenuOpen(false);
+    setSelectedCategory(null);
+    setSelectedSubCategory(null);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (megaMenuRef.current && !megaMenuRef.current.contains(event.target)) {
-        closeMenu();
-      }
-    };
+  const openMenu = () => {
+    setMenuOpen(true);
+  };
 
-    document.addEventListener("mousedown", handleClickOutside);
+  const handleMouseEnter = () => {
+    openMenu();
+  };
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const handleMouseLeave = (event) => {
+    if (
+      megaMenuRef.current &&
+      !megaMenuRef.current.contains(event.relatedTarget)
+    ) {
+      closeMenu();
+    }
+  };
+
+  const handleMainCategorySelection = (category) => {
+    if (category?.child_categories?.length > 0) {
+      setSelectedCategory(category);
+      setSelectedSubCategory(null);
+    } else {
+      setSelectedCategory(null);
+      setSelectedSubCategory(null);
+    }
+  };
 
   const className = "px-2 py-3 rounded-sm flex items-center gap-1";
 
   return (
     <>
-      <div className="container nav-men flex items-center gap-2">
-        {!menuOpen ? (
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className={`menuBtn ${className} border-r border-slate-300 pr-4`}
-          >
-            {/* {translations["category"]} */}
-            ALL Categories
-            <BsChevronDown />
-          </button>
-        ) : (
-          <span className={`menuBtn ${className} cursor-pointer border-r border-slate-300 pr-4`}>
-            ALL Categories <BsChevronUp />
+      <div className="container nav-men flex items-center gap-2 bg-[#FCFBF4]">
+        <div
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={`relative menuBtn ${className} border-r border-slate-300 px-5 cursor-pointer`}
+        >
+          <span className="text-primary">
+            ALL Categories{" "}
+            {menuOpen ? (
+              <BsChevronUp className="ltr:ml-10 rtl:mr-10" />
+            ) : (
+              <BsChevronDown className="ltr:ml-10 rtl:mr-10" />
+            )}
           </span>
-        )}
-        {popularCategories.map((category, index) => (
+          {menuOpen && (
+            <div
+              ref={megaMenuRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="cursor-default"
+            >
+              {/* Main Categories  */}
+              <div className="absolute z-30 left-0 top-full h-screen w-full bg-[#FCFBF4] shadow-lg border border-slate-300 border-t-0">
+                <div className="container h-full p-4">
+                  <div className="grid grid-cols-1 gap-0.5">
+                    {categories?.slice(0, 15)?.map((category, i) => (
+                      <Link
+                        key={i}
+                        href={`/categories/${category.slug}`}
+                        onClick={closeMenu}
+                        className={cn(
+                          "py-1.5 hover:text-primary text-sm line-clamp-1",
+                          selectedCategory?.id === category?.id &&
+                            "text-primary"
+                        )}
+                        onMouseEnter={() =>
+                          handleMainCategorySelection(category)
+                        }
+                      >
+                        {category.category_name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Sub Categories */}
+              {selectedCategory && (
+                <div className="absolute z-30 left-full top-full w-full h-screen bg-white shadow-lg border border-slate-300 border-l-0">
+                  <div className="222 container h-full p-4 pt-2">
+                    <div className="border-b border-slate-300 w-full mb-1 pb-1">
+                      <h3 className="font-semibold">
+                        {selectedCategory.category_name}
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-1 gap-0.5">
+                      {selectedCategory?.child_categories.map(
+                        (subCategory, i) => (
+                          <Link
+                            key={i}
+                            href={`/categories/${subCategory.slug}`}
+                            onClick={closeMenu}
+                            className={cn(
+                              "py-1.5 hover:text-primary text-sm line-clamp-1",
+                              selectedSubCategory?.id === subCategory?.id &&
+                                "text-primary"
+                            )}
+                            onMouseEnter={() =>
+                              subCategory?.child_categories?.length > 0
+                                ? setSelectedSubCategory(subCategory)
+                                : setSelectedSubCategory(null)
+                            }
+                          >
+                            {subCategory.category_name}
+                          </Link>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {/* Child Categories  */}
+              {selectedSubCategory && (
+                <div className="absolute z-30 left-[200%] top-full w-full h-screen bg-white shadow-lg border border-slate-300 border-l-0">
+                  <div className="222 container h-full p-4 pt-2">
+                    <div className="border-b border-slate-300 w-full mb-1 pb-1">
+                      <h3 className="font-semibold">
+                        {selectedSubCategory.category_name}
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-1 gap-0.5">
+                      {selectedSubCategory?.child_categories.map(
+                        (childCategory, i) => (
+                          <Link
+                            key={i}
+                            href={`/categories/${childCategory.slug}`}
+                            onClick={closeMenu}
+                            className={cn(
+                              "py-1.5 hover:text-primary text-sm line-clamp-1"
+                            )}
+                          >
+                            {childCategory.category_name}
+                          </Link>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        {popularCategories?.slice(0, 8)?.map((category, index) => (
           <Link
             key={index}
             href={`/categories/${category.slug}`}
@@ -67,58 +186,7 @@ export default function MegaMenu({ settings }) {
         ))}
       </div>
 
-      {menuOpen && (
-        <div
-          ref={megaMenuRef}
-          className="absolute z-30 left-0 top-full bg-white shadow-lg w-full border border-slate-300 border-t-0"
-        >
-          <div className="container flex gap-6 py-8 pl-8">
-            <div className="">
-              <div className="grid grid-cols-4 gap-4">
-                {popularCategories?.slice(0, 8)?.map((category, i) => (
-                  <Link
-                    key={i}
-                    href={`/categories/${category.slug}`}
-                    onClick={closeMenu}
-                    className="flex gap-2 items-center py-2 hover:text-primary"
-                  >
-                    <div className="category-img flex justify-center items-center w-[58px] h-[38px]">
-                      <Image
-                        src={category?.icon || noImage}
-                        alt={category.category_name}
-                        priority
-                        width={58}
-                        height={38}
-                        className="w-[58px] h-[38px] object-contain"
-                      />
-                    </div>
-                    {category.category_name}
-                  </Link>
-                ))}
-              </div>
-              <div className="mt-6">
-                <Link
-                  href={"/categories"}
-                  onClick={closeMenu}
-                  className="border border-primary rounded-lg py-2 px-3 text-primary active:scale-95"
-                >
-                  {translations["all-categories"] || "All Categories"}{" "}
-                  <BsArrowRight className="rtl:rotate-180" />
-                </Link>
-              </div>
-            </div>
-            <div className="category-img flex justify-center items-center w-[356px] h-[200px]">
-              <Image
-                src={menuOffer}
-                alt={"offer"}
-                width={356}
-                height={200}
-                className="w-[356px] h-[200px] object-contain"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* can be shift here to take available width */}
     </>
   );
 }
