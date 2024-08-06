@@ -268,7 +268,7 @@
 }
 
 .slider-btn {
-  @apply absolute top-1/2 left-0 rtl:right-0 rtl:rotate-180 -translate-y-[24px] inline-flex justify-center items-center w-12 h-12 bg-[#F8FAFC] rounded-full z-10 cursor-pointer;
+  @apply absolute top-1/2 left-0 rtl:right-0 rtl:rotate-180 -translate-y-1/2 inline-flex justify-center items-center w-12 h-12 bg-[#F8FAFC] rounded-full z-10 cursor-pointer;
 }
 
 .slider-next {

@@ -25,7 +25,7 @@ import MenuItems from "./MenuItems";
 import LogoutModal from "@/components/modals/logoutModal";
 import useWishList from "@/hooks/useWishList";
 // import logo from "@/public/assets/logo-2.jpeg";
-import MegaMenu from "./MegaMenu";
+import MegaMenu from "../mega-menu";
 
 export default function MainNav({ settings }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);

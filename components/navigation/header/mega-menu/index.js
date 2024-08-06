@@ -9,6 +9,7 @@ import {
   useGetPopularCategoriesQuery,
 } from "@/store/api/categoriesAPI";
 import { cn } from "@/utils";
+import MegaMenuSlider from "./MegaMenuSlider";
 
 export default function MegaMenu({ settings }) {
   const { locale } = useParams();
@@ -68,28 +69,29 @@ export default function MegaMenu({ settings }) {
         <div
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className={`relative menuBtn ${className} border-r border-slate-300 px-5 cursor-pointer`}
+          className={cn(
+            `relative menuBtn w-[213px] border-r border-slate-300 px-5 cursor-pointer`,
+            className
+          )}
         >
-          <span className="text-primary">
-            ALL Categories{" "}
-            {menuOpen ? (
-              <BsChevronUp className="ltr:ml-10 rtl:mr-10" />
-            ) : (
-              <BsChevronDown className="ltr:ml-10 rtl:mr-10" />
-            )}
-          </span>
+          <div className="text-primary flex justify-between items-center w-full">
+            <span>ALL Categories</span>
+            {menuOpen ? <BsChevronUp /> : <BsChevronDown />}
+          </div>
           {menuOpen && (
             <div
               ref={megaMenuRef}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              className="cursor-default"
+              className={cn(
+                "cursor-default absolute z-30 left-0 top-full flex shadow-lg"
+              )}
             >
               {/* Main Categories  */}
-              <div className="absolute z-30 left-0 top-full h-screen w-full bg-[#FCFBF4] shadow-lg border border-slate-300 border-t-0">
+              <div className="bg-[#FCFBF4] min-w-[213px] border border-slate-300 border-t-0">
                 <div className="container h-full p-4">
                   <div className="grid grid-cols-1 gap-0.5">
-                    {categories?.slice(0, 15)?.map((category, i) => (
+                    {categories?.map((category, i) => (
                       <Link
                         key={i}
                         href={`/categories/${category.slug}`}
@@ -111,7 +113,7 @@ export default function MegaMenu({ settings }) {
               </div>
               {/* Sub Categories */}
               {selectedCategory && (
-                <div className="absolute z-30 left-full top-full w-full h-screen bg-white shadow-lg border border-slate-300 border-l-0">
+                <div className="bg-white min-w-[213px] border border-slate-300 border-l-0">
                   <div className="222 container h-full p-4 pt-2">
                     <div className="border-b border-slate-300 w-full mb-1 pb-1">
                       <h3 className="font-semibold">
@@ -146,7 +148,7 @@ export default function MegaMenu({ settings }) {
               )}
               {/* Child Categories  */}
               {selectedSubCategory && (
-                <div className="absolute z-30 left-[200%] top-full w-full h-screen bg-white shadow-lg border border-slate-300 border-l-0">
+                <div className="bg-white min-w-[213px] border border-slate-300 border-l-0">
                   <div className="222 container h-full p-4 pt-2">
                     <div className="border-b border-slate-300 w-full mb-1 pb-1">
                       <h3 className="font-semibold">
@@ -175,15 +177,10 @@ export default function MegaMenu({ settings }) {
             </div>
           )}
         </div>
-        {popularCategories?.slice(0, 8)?.map((category, index) => (
-          <Link
-            key={index}
-            href={`/categories/${category.slug}`}
-            className={`${className}`}
-          >
-            {category?.category_name}
-          </Link>
-        ))}
+
+        <div className="hidden lg:block w-[80%] relative">
+          <MegaMenuSlider categories={popularCategories} />
+        </div>
       </div>
 
       {/* can be shift here to take available width */}
