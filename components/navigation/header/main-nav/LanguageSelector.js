@@ -71,7 +71,7 @@ const LanguageSelector = ({ locale }) => {
         <FiChevronDown className="hidden lg:block" />
       </button>
       {isDropdownOpen && (
-        <ul className="absolute w-fit lg:w-full z-10 right-0 mt-1 lg:left-0 top-full bg-white border border-gray-300 rounded-md shadow-lg divide-y divide-gray-200">
+        <ul className="absolute w-fit lg:w-full z-20 right-0 mt-1 lg:left-0 top-full bg-white border border-gray-300 rounded-md shadow-lg divide-y divide-gray-200">
           {languages.map((lang) => (
             <li key={lang.code}>
               <Link

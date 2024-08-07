@@ -38,21 +38,21 @@ const MiniBannerSlider = ({ sliders }) => {
         loop={true}
         pagination={{ clickable: true }}
         className="intro-slider [&_.swiper-wrapper]:pb-6"
-        autoplay={{ delay: 3000 }}
+        autoplay={{ delay: 5000 }}
         effect="fade"
         speed={2000}
       >
         {miniSlides.map((slide) => (
           <SwiperSlide
             key={slide?.id}
-            className=" !flex items-end lg:!h-[60px] bg-cover"
+            className="rounded-lg !flex items-end lg:!h-[60px] bg-cover"
           >
             <Image
               src={slide.image}
               alt={`Slide ${slide.id}`}
               layout="fill"
               objectFit="cover"
-              className=""
+              className="rounded-lg"
             />
             {slide.url && (
               <Link
