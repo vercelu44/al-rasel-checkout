@@ -8,7 +8,7 @@ export async function POST(request) {
 	const orderId = searchParams.get("order");
 	const tranId = searchParams.get("tran");
 	const paidAmount = searchParams.get("amount");
-	const bearerToken = searchParams.get("auth");
+	// const bearerToken = searchParams.get("auth");
 
 	const paymentData = {
 		order_id: orderId,
@@ -22,7 +22,7 @@ export async function POST(request) {
 	const result = await postData(
 		{
 			api: "online-payment-status-change",
-			authorization: bearerToken,
+			// authorization: `Bearer ${bearerToken}`,
 			isPrivate: true,
 		},
 		paymentData
