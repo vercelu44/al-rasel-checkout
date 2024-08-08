@@ -2,7 +2,7 @@
 
 import { Link } from "@/navigation";
 import Image from "next/image";
-import { Pagination } from "swiper/modules";
+import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import noImage from "@/public/assets/images/no-image.png";
 
@@ -10,15 +10,19 @@ const CategorySlider = ({ categoryList }) => {
   return (
     <>
       <Swiper
-        modules={[Pagination]}
+        modules={[Pagination, Autoplay, FreeMode]}
         spaceBetween={50}
-        slidesPerView={10}
-        loop={false}
+        slidesPerGroup={1}
+        slidesPerView={"auto"}
+        freeMode={true}
+        loop={true}
         pagination={{ clickable: true }}
+        autoplay={{ delay: 4000 }}
+        speed={2000}
         className="category-slider !static"
       >
         {categoryList?.map((category, i) => (
-          <SwiperSlide key={i}>
+          <SwiperSlide key={i} style={{ width: "fit-content" }}>
             <div key={category?.id} className="mb-5 lg:mb-0 w-[116px]">
               <Link
                 href={`/categories/${category.slug}`}

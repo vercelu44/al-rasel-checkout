@@ -10,7 +10,7 @@ const SocialLogin = () => {
 	return (
 		<div className="social-login">
 			<p className="pt-4 md:pt-7 pb-3 lg:pb-4">
-				{translations["or-login"] || "Or login with"}:
+				{translations["or-login"] || "login with"}:
 			</p>
 			<div className="flex justify-between items-center gap-x-3 font-semibold">
 				<button onClick={() => signIn("google")} className="social-icon-btn">

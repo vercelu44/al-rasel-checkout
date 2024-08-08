@@ -179,8 +179,8 @@ const Checkout = () => {
 
 		//for authorized user
 		if (!settings?.guest_checkout) {
-			alt_phone =
-				siteConfig.phone.countryCode + user?.phone || user?.alt_phone_no;
+			// siteConfig.phone.countryCode +
+			alt_phone = user?.phone || user?.alt_phone_no;
 		}
 		const newOrder = {
 			name: data.name,
@@ -205,17 +205,17 @@ const Checkout = () => {
 		handleOrderPlace(newOrder);
 
 		// updating user for the first time only not applicable for guest checkout
-		if (
-			((!user?.phone && !user?.alt_phone_no) || !user?.address) &&
-			!settings?.guest_checkout
-		) {
-			handleUserUpdate({
-				...user,
-				alt_phone_no: user?.alt_phone_no || data?.phone,
-				address: user.address || data?.address,
-				city: data?.city,
-			});
-		}
+		// if (
+		// 	((!user?.phone && !user?.alt_phone_no) || !user?.address) &&
+		// 	!settings?.guest_checkout
+		// ) {
+		// 	handleUserUpdate({
+		// 		...user,
+		// 		alt_phone_no: user?.alt_phone_no || data?.phone,
+		// 		address: user.address || data?.address,
+		// 		city: data?.city,
+		// 	});
+		// }
 		// else alert("user not updated");
 	};
 
@@ -274,12 +274,14 @@ const Checkout = () => {
 											{translations["phone-number"] || "Phone Number"}
 										</label>
 										<div className="flex items-center group">
-											<div className="h-12 py-3 min-w-fit text-base font-title font-normal px-2 rounded-s-lg border bg-slate-100 border-gray-300 group-focus-within:border-primary group-focus-within:border-r-gray-300">
-												<p>{siteConfig.phone.prefix}</p>
-											</div>
+											{process.env.NEXT_PUBLIC_OTP_LOGIN === "YES" ? 
+												<div className="h-12 py-3 min-w-fit text-base font-title font-normal px-2 rounded-s-lg border bg-slate-100 border-gray-300 group-focus-within:border-primary group-focus-within:border-r-gray-300">
+													<p>{siteConfig.phone.prefix}</p>
+												</div> 
+												: null}
 											<input
 												type="number"
-												className="w-full !pl-2 !rounded-s-none rounded-e-lg border border-l-0 border-gray-300 focus:outline-none group-focus:border-primary"
+												className="w-full !pl-2  rounded-lg border border-gray-300 focus:outline-none group-focus:border-primary"
 												name="phone"
 												defaultValue={user?.phone || user?.alt_phone_no}
 												placeholder={
@@ -288,10 +290,10 @@ const Checkout = () => {
 												}
 												{...register("phone", {
 													required: "Phone number is required.",
-													pattern: {
-														value: siteConfig.phone.pattern,
-														message: "Please enter a valid phone number",
-													},
+													// pattern: {
+													// 	value: siteConfig.phone.pattern,
+													// 	message: "Please enter a valid phone number",
+													// },
 												})}
 											/>
 										</div>

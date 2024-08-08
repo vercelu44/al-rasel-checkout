@@ -13,7 +13,7 @@ const categoriesAPI = api.injectEndpoints({
 		}),
 		getPopularCategories: builder.query({
 			query: (payload) => ({
-				url: "popular-categories?no_child=1",
+				url: "popular-categories",
 				headers: {
 					lang: payload?.locale,
 				},
