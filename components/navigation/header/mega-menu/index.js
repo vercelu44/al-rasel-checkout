@@ -66,7 +66,7 @@ export default function MegaMenu({ settings }) {
             className
           )}
         >
-          <div className="text-primary flex justify-between items-center w-full">
+          <div className="text-[#283990] font-bold hov flex justify-between items-center w-full">
             <span>ALL Categories</span>
             {menuOpen ? <BsChevronUp /> : <BsChevronDown />}
           </div>
