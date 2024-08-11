@@ -142,11 +142,12 @@ const ProductVariantSelect = forwardRef(
 					</div>
 				) : null}
 
-				{colorsGroup[selectedColor]?.length > 1 ? (
+				{/* size section */}
+				{colorsGroup[selectedColor]?.some(variant => variant.size !== "") ? (
 					<div className="product-size mt-4">
 						<div className="flex justify-between font-normal items-center">
 							<h4 className="text-slate-900 text-sm lg:text-base">
-								{translations["select-variant"] || "নির্বাচন করুন"}:
+								{translations["select-variant"] || "Select Variant"}:
 							</h4>
 							{sizeChart && (
 								<button

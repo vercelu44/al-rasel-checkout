@@ -31,8 +31,15 @@ export default function MegaMenuSlider() {
   };
 
   const handleMouseEnter = (category) => {
-    setSelectedCategory(category);
-    openMenu();
+    if (
+      category?.child_categories?.length ||
+      category?.brands?.length
+    ) {
+      setSelectedCategory(category);
+      openMenu();
+    } else {
+      closeMenu();
+    }
   };
 
   const handleMouseLeave = (event) => {
@@ -63,11 +70,19 @@ export default function MegaMenuSlider() {
           className="mega-menu-slider"
         >
           {categories?.map((category, index) => (
-            <SwiperSlide key={index} style={{ width: "fit-content" }}>
+            <SwiperSlide
+              key={index}
+              style={{ width: "fit-content" }}
+              className={cn(
+                "py-3",
+                selectedCategory?.id === category?.id &&
+                  "bg-white border border-x border-l-slate-300"
+              )}
+            >
               <Link
                 key={index}
                 href={`/categories/${category?.slug}`}
-                className={`${className} whitespace-nowrap tex-sm`}
+                className={cn(`whitespace-nowrap tex-sm`, className)}
                 onMouseEnter={() => handleMouseEnter(category)}
                 // onMouseLeave={handleMouseLeave}
               >
@@ -94,7 +109,7 @@ export default function MegaMenuSlider() {
           onMouseLeave={handleMouseLeave}
           className={cn("absolute w-full h-fit top-full left-0")}
         >
-          <div className="border grid grid-cols-[200px_370px_auto] gap-0.5 container border-slate-300 border-t-0 shadow-lg bg-white z-10 p-4">
+          <div className="border grid grid-cols-[200px_400px_auto] gap-0.5 container border-slate-300 border-t-0 shadow-lg bg-white z-10 p-4">
             <div className="categories">
               <h3 className="text-slate-900 font-semibold mb-1">Categories</h3>
               <div className="flex flex-col">
@@ -114,39 +129,60 @@ export default function MegaMenuSlider() {
             </div>
             <div className="top-brands">
               <h3 className="text-slate-900 font-semibold mb-1">Top Brands</h3>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-4">
                 {selectedCategory?.brands?.slice(0, 9)?.map((brand, index) => (
                   <Link
                     key={index}
                     href={`/products?brand_ids=${brand.id}`}
-                    className="inline-block w-fit border-slate-300 hover:border-primary rounded-xl border p-2.5"
+                    className="inline-block w-fit shadow-sm border border-slate-300 hover:border-primary p-2"
                   >
-                    <div className="h-[96px] w-[96px] flex items-center justify-center rounded-lg">
+                    <div className="h-[72px] w-[108px] flex items-center justify-center">
                       <Image
                         src={brand.brand_image || noImage}
                         alt={brand.brand_name}
-                        width={118}
-                        height={118}
-                        className="w-full h-full object-contain rounded-lg"
+                        width={88}
+                        height={88}
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
-            {selectedCategory?.image && (
-              <div className="category-banner">
-                <div className="pl-10 h-[218px] w-[512px]">
-                  <Image
-                    src={selectedCategory?.image || noImage}
-                    alt={selectedCategory?.category_name}
-                    width={218}
-                    height={512}
-                    className="w-full h-full object-contain object-top"
-                  />
+            <div className="category-banner flex gap-5 pl-5 justify-end">
+              {selectedCategory?.mega_menu_image_one && (
+                <div className="h-[330px] w-full">
+                  <Link
+                    href={selectedCategory?.mega_menu_url_one || "/"}
+                    onClick={() => closeMenu()}
+                  >
+                    <Image
+                      src={selectedCategory.mega_menu_image_one}
+                      alt={selectedCategory?.category_name}
+                      width={452}
+                      height={330}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </Link>
                 </div>
-              </div>
-            )}
+              )}
+              {selectedCategory?.mega_menu_image_two && (
+                <div className="h-[330px] w-[200px]">
+                  <Link
+                    href={selectedCategory?.mega_menu_url_two || "/"}
+                    onClick={() => closeMenu()}
+                  >
+                    <Image
+                      src={selectedCategory.mega_menu_image_two}
+                      alt={selectedCategory?.category_name}
+                      width={200}
+                      height={330}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : null}

@@ -120,7 +120,7 @@ const ProductSelect = () => {
 			>
 				<p className="text-center">
 					{translations["click-product-details"] ||
-						"প্রোডাক্টির বিস্তারিত দেখতে ক্লিক করুন"}
+						"Click here to see product details"}
 				</p>
 			</Link>
 		</div>
@@ -132,13 +132,13 @@ const ProductSelect = () => {
 				<Modal
 					showModal={selectedProduct}
 					setShowModal={closeDrawer}
-					title={translations["select-variant"] || "নির্বাচন করুন"}
+					title={translations["select-variant"] || "Select Variant"}
 				>
 					{pageContent}
 				</Modal>
 			) : (
 				<Drawer
-					title={translations["select-variant"] || "নির্বাচন করুন"}
+					title={translations["select-variant"] || "Select Variant"}
 					show={selectedProduct}
 					setShow={closeDrawer}
 				>

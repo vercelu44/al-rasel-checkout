@@ -61,7 +61,7 @@ const SizeChangeModal = () => {
 			<Modal
 				showModal={product}
 				setShowModal={closeSizeChange}
-				title={translations["select-variant"] || "নির্বাচন করুন"}
+				title={translations["select-variant"] || "Select Variant"}
 			>
 				<div className="lg:w-[430px]">
 					{/* Product details section */}
