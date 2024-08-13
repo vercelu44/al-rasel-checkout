@@ -48,6 +48,7 @@
 		"server-only": "^0.0.1",
 		"sharp": "^0.32.1",
 		"sslcommerz-lts": "^1.1.0",
+		"stripe": "^16.7.0",
 		"swiper": "^11.0.4",
 		"tailwind-merge": "^1.13.2",
 		"tailwindcss": "3.3.2",
