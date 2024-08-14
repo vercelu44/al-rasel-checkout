@@ -3,11 +3,11 @@ import { postData } from "@/lib/post-data";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-// 	apiVersion: '2022-11-15',
-//   });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: '2022-11-15',
+});
 
 export async function POST(request) {
   const { origin: baseUrl } = new URL(request.url);
@@ -39,25 +39,28 @@ export async function POST(request) {
     //   // console.log(order);
     // }
 
-    const consumer = await stripe.customers.create({
-      //   description: data.name,
-      name: "Jenny Rosen",
-      address: {
-        line1: "510 Townsend St",
-        postal_code: "98140",
-        city: "San Francisco",
-        state: "CA",
-        country: "US",
-      },
-    });
+    // const consumer = await stripe.customers.create({
+    //   //   description: data.name,
+    //   name: "Jenny Rosen",
+    //   address: {
+    //     line1: "510 Townsend St",
+    //     postal_code: "98140",
+    //     city: "San Francisco",
+    //     state: "CA",
+    //     country: "US",
+    //   },
+    // });
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      customer: consumer.id,
+      // customer: consumer.id,
       line_items: [
         {
           price_data: {
-            currency: "inr",
-            unit_amount: 50 * 100,
+            // currency: 'usd',
+            // If you want to charge $3.00, you multiply by 100 to convert dollars to cents: 3.00 * 100 = 300.
+            // unit_amount: 300*100,
+            currency: 'aed',
+            unit_amount: 200 * 100,
             product_data: {
               name: "Test Product",
             },
@@ -75,10 +78,10 @@ export async function POST(request) {
       },
     });
 
-    console.log(checkoutSession, "session---------------------------");
+    console.log("session created---------------------------");
 
     return NextResponse.json({
-      GatewayPageURL: checkoutSession.url,
+      sessionId: checkoutSession.id,
       status: true,
     });
   } catch (error) {

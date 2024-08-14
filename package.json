@@ -7,13 +7,16 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"server": "json-server --watch public/static/db.json --port 3004"
+		"server": "json-server --watch public/static/db.json --port 3004",
+		"stripe:listen": "stripe listen --forward-to localhost:3001/api/payments/stripe/webhook",
+		"stripe:webhook-test": "stripe trigger checkout.session.completed --add checkout_session:metadata.orderId=Touhid"
 	},
 	"browserslist": [
 		"defaults"
 	],
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.9.5",
+		"@stripe/stripe-js": "^4.2.0",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"autoprefixer": "10.4.14",
 		"axios": "^1.4.0",

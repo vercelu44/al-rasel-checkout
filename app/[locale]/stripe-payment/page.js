@@ -6,12 +6,19 @@ import getToken from "@/utils/token";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { loadStripe } from '@stripe/stripe-js';
 
 const StripePayment = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleStripePayment = async () => {
+    const stripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    );
+    if (!stripe) {
+      return;
+    }
     let paymentUri = getPaymentUriByTitle("Stripe Payment");
     let isDeliveryChargePayment = false;
     let isGuestCheckout = false;
@@ -31,13 +38,11 @@ const StripePayment = () => {
       });
       const data = await res.json();
       dispatch(setGlobalLoader(false));
-      // console.log(data);
-      if (data?.GatewayPageURL) {
-        toast.success("Online payment is processing please wait");
-        window.location.replace(data.GatewayPageURL);
-      } else {
-        toast.error("Something went wrong");
-      }
+      console.log(data);
+      await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+      
     } catch (error) {
       dispatch(setGlobalLoader(false));
       toast.error("Something went wrong...", error);
