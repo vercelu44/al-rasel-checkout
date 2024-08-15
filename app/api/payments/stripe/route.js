@@ -1,5 +1,6 @@
 // API route file
 import { postData } from "@/lib/post-data";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -13,6 +14,8 @@ export async function POST(request) {
   const { origin: baseUrl } = new URL(request.url);
   const { orderId, newOrder, isGuestCheckout, isDeliveryChargePayment } =
     await request.json();
+  const headersList = headers();
+  const bearerToken = headersList.get("authorization");
   let order = null;
 
   try {
