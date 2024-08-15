@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // export const dynamic = 'force-static';
-export const config = {
-  api: {
-    bodyParser: false, // Stripe requires the raw body to validate the webhook signature
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: false, // Stripe requires the raw body to validate the webhook signature
+//   },
+// };
 
 export async function POST(request) {
   console.log("Yee, it's working...");
