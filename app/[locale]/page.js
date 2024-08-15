@@ -21,6 +21,7 @@ const FlashSale = dynamic(() => import("./_components/flash-sale"), {
 import { HiArrowLongRight } from "react-icons/hi2";
 import { SeeAll } from "@/components/elements/buttons";
 import MiniBanner from "./_components/mini-banner";
+import HomeCategoryProducts from "./_components/HomeCategoryProducts";
 
 export default async function Home() {
   const [settingsRes, transRes] = await Promise.allSettled([
@@ -96,7 +97,7 @@ export default async function Home() {
         </section>
       ) : null}
 
-      {settings?.featured_products_section ? (
+      {/* {settings?.featured_products_section ? (
         <section className="all-products mt-6 lg:mt-14">
           <div className="container">
             <SectionTitle
@@ -108,7 +109,7 @@ export default async function Home() {
             <SeeAll href="/products" buttonText={translations["see-all"]} />
           </div>
         </section>
-      ) : null}
+      ) : null} */}
 
       {settings?.shop_section ? (
         <section className="new-products pt-6 lg:pt-14">
@@ -128,6 +129,10 @@ export default async function Home() {
           </div>
         </section>
       ) : null}
+
+      <section className="home-category-products mb-3">
+        <HomeCategoryProducts />
+      </section>
 
       {settings?.video_section ? (
         <section className="mt-6 lg:mt-14">

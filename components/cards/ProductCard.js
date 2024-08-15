@@ -151,28 +151,30 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 									{total_rating === 0 ? 0 : formatLongNumber(total_rating)}
 								</span>
 							</div>
-							<div
-								className={`product-price mb-3 flex  justify-start ${
-									isLarge
-										? "items-center"
-										: "flex-col items-start lg:items-center"
-								} lg:flex-row gap-1`}
-							>
-								<span className="text-base/4 lg:text-lg/[24px] font-semibold text-red-500">
-									{siteConfig.currency.sign}{" "}
-									{new_price}
-								</span>
-								{old_price > new_price ? (
-									<div className="flex items-center gap-2">
-										<del className="old-price text-sm font-normal text-slate-400">
-											{/* {siteConfig.currency.sign}{" "} */}
-											{old_price}
-										</del>
-										<span className="discount-badge ml-1 !text-[12px]">
-											{getDiscountPercent(old_price, new_price)}% OFF
-										</span>
-									</div>
-								) : null}
+							<div className="@container">
+								<div
+									className={`product-price mb-3 flex justify-start @[100px]:min-h-[42px]  @[150px]:min-h-fit ${
+										isLarge
+											? "items-center"
+											: "flex-col items-start lg:items-center"
+									} lg:flex-row gap-1`}
+								>
+									<span className="text-base/4 lg:text-lg/[24px] font-semibold text-red-500">
+										{siteConfig.currency.sign}{" "}
+										{new_price}
+									</span>
+									{old_price > new_price ? (
+										<div className="flex items-center gap-2">
+											<del className="old-price text-sm font-normal text-slate-400">
+												{/* {siteConfig.currency.sign}{" "} */}
+												{old_price}
+											</del>
+											<span className="discount-badge ml-1 !text-[12px]">
+												{getDiscountPercent(old_price, new_price)}% OFF
+											</span>
+										</div>
+									) : null}
+								</div>
 							</div>
 						</div>
 						<div className="actions absolute bottom-3 w-full px-3">
