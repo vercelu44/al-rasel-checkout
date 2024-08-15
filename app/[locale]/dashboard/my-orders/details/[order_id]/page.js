@@ -96,7 +96,7 @@ const OrderDetail = ({ params }) => {
                   <div className="flex-between my-2">
                     <p>{translations["total"] || "Total"}</p>
                     <p>
-                      {siteConfig.currency.sign}
+                      {siteConfig.currency.sign}{" "}
                       {sale.sub_total}
                     </p>
                   </div>
@@ -105,7 +105,7 @@ const OrderDetail = ({ params }) => {
                       {translations["discount-amount"] || "Discount Amount"}
                     </p>
                     <p className="text-red-500">
-                      -{siteConfig.currency.sign}
+                      -{siteConfig.currency.sign}{" "}
                       {sale.discount_amount}
                     </p>
                   </div>
@@ -116,7 +116,7 @@ const OrderDetail = ({ params }) => {
                         "Total with discount"}
                     </p>
                     <p>
-                      {siteConfig.currency.sign}
+                      {siteConfig.currency.sign}{" "}
                       {sale.sub_total - sale.discount_amount}
                     </p>
                   </div>
@@ -125,7 +125,7 @@ const OrderDetail = ({ params }) => {
                       {translations["delivery-charge"] || "Delivery Charge"}
                     </p>
                     <p>
-                      {siteConfig.currency.sign}
+                      {siteConfig.currency.sign}{" "}
                       {sale.shipping?.delivery_charge}
                     </p>
                   </div>
@@ -151,7 +151,7 @@ const OrderDetail = ({ params }) => {
                       </span>
                     </div>
                     <p>
-                      {siteConfig.currency.sign}
+                      {siteConfig.currency.sign}{" "}
                       {sale.due_amount}
                     </p>
                   </div>

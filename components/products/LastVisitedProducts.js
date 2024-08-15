@@ -35,7 +35,7 @@ const LastVisitedProducts = ({ visitedProductId, translations }) => {
 						className={"border-slate-100 justify-start"}
 						title={
 							translations["recently-viewed"] ||
-							"সর্বশেষ যে প্রোডাক্ট গুলো দেখেছেন"
+							"Recently Viewed Products"
 						}
 						buttonText={translations["see-all"]}
 					/>

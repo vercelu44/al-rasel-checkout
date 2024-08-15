@@ -201,7 +201,7 @@ const Checkout = () => {
 			paymentOption: selectedPaymentOption,
 			// note: "",
 		};
-		console.log(newOrder);
+		// console.log(newOrder);
 		handleOrderPlace(newOrder);
 
 		// updating user for the first time only not applicable for guest checkout
@@ -351,7 +351,7 @@ const Checkout = () => {
 													// onClick={() => setDeliveryArea(pt)}
 												/>
 												<p>
-													{siteConfig.currency.sign}
+													{siteConfig.currency.sign}{" "}
 													{payOption.value}
 												</p>
 											</button>
@@ -427,7 +427,7 @@ const Checkout = () => {
 							<div className="lg:hidden">
 								<p className="">{translations["total"] || "মোট"}:</p>
 								<h3 className="text-slate-900 font-bold">
-									{siteConfig.currency.sign}
+									{siteConfig.currency.sign}{" "}
 									{grandTotal}
 								</h3>
 							</div>
@@ -503,7 +503,7 @@ const Checkout = () => {
 												!deliveryCharge && deliveryArea && "line-through"
 											)}
 										>
-											{siteConfig.currency.sign}
+											{siteConfig.currency.sign}{" "}{" "}
 											{area.charges}
 										</p>
 									</button>
@@ -520,7 +520,7 @@ const Checkout = () => {
 							<div className="flex-between my-2">
 								<p>{translations["total"] || "Total"}</p>
 								<p>
-									{siteConfig.currency.sign}
+									{siteConfig.currency.sign}{" "}
 									{total}
 								</p>
 							</div>
@@ -540,7 +540,7 @@ const Checkout = () => {
 							<div className="flex-between my-2">
 								<p>{translations["discount-amount"] || "Discount Amount"}</p>
 								<p className="text-red-500">
-									-{siteConfig.currency.sign}
+									-{siteConfig.currency.sign}{" "}
 									{discountedPrice}
 								</p>
 							</div>
@@ -551,7 +551,7 @@ const Checkout = () => {
 									{translations["total-with-discount"] || "Total With Discount"}
 								</p>
 								<p>
-									{siteConfig.currency.sign}
+									{siteConfig.currency.sign}{" "}
 									{totalWithDiscount}
 								</p>
 							</div>
@@ -577,7 +577,7 @@ const Checkout = () => {
 								<p>{translations["grand-total"] || "Grand Total"}</p>
 
 								<p>
-									{siteConfig.currency.sign}
+									{siteConfig.currency.sign}{" "}
 									{grandTotal}
 								</p>
 							</div>

@@ -6,7 +6,7 @@ import Stripe from "stripe";
 // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-	apiVersion: '2022-11-15',
+  apiVersion: "2022-11-15",
 });
 
 export async function POST(request) {
@@ -16,28 +16,38 @@ export async function POST(request) {
   let order = null;
 
   try {
-    // if (orderId) {
-    //   //getting existing order
-    //   const res = await fetch(`${process.env.server}/sale/details/${orderId}`, {
-    //     headers: {
-    //       // AmsPublickey: process.env.AMS_PUBLIC_KEY, //will be removed
-    //       AmsPrivateKey: process.env.AMS_PRIVATE_KEY,
-    //     },
-    //     cache: "no-store", //this is important
-    //   });
-    //   order = await res.json();
-    //   console.log(order);
-    // } else {
-    //   //creating new order
-    //   order = await postData(
-    //     {
-    //       api: isGuestCheckout ? "guest-checkout" : "checkout",
-    //       authorization: `Bearer ${bearerToken}`,
-    //     },
-    //     newOrder
-    //   );
-    //   // console.log(order);
-    // }
+    if (orderId) {
+      //getting existing order
+      const res = await fetch(`${process.env.server}/sale/details/${orderId}`, {
+        headers: {
+          // AmsPublickey: process.env.AMS_PUBLIC_KEY, //will be removed
+          AmsPrivateKey: process.env.AMS_PRIVATE_KEY,
+        },
+        cache: "no-store", //this is important
+      });
+      order = await res.json();
+      // console.log(order);
+    } else {
+      //creating new order
+      order = await postData(
+        {
+          api: isGuestCheckout ? "guest-checkout" : "checkout",
+          authorization: `Bearer ${bearerToken}`,
+        },
+        newOrder
+      );
+      // console.log(order);
+    }
+
+    if (!order || order?.status === false) {
+      console.log(order, "order response inside stripe route");
+      return NextResponse.error(
+        { message: "Order Creation failed" },
+        { status: 500 }
+      );
+    }
+    // after order creation we need to initialize bkash payment
+    const { sale } = order;
 
     // const consumer = await stripe.customers.create({
     //   //   description: data.name,
@@ -56,25 +66,31 @@ export async function POST(request) {
       line_items: [
         {
           price_data: {
-            // currency: 'usd',
+            currency: "aed",
             // If you want to charge $3.00, you multiply by 100 to convert dollars to cents: 3.00 * 100 = 300.
-            // unit_amount: 300*100,
-            currency: 'aed',
-            unit_amount: 200 * 100,
+            unit_amount: isDeliveryChargePayment
+              ? sale?.shipping?.delivery_charge * 100
+              : sale.due_amount * 100,
             product_data: {
-              name: "Test Product",
+              name: isDeliveryChargePayment
+                ? "Delivery Charge Payment"
+                : "Order Full Payment",
             },
           },
-          // price: data.price as unknown as string, // Replace with the actual price ID from your Stripe Dashboard
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: `${baseUrl}/stripe-payment/success?order_id=${orderId}`,
-      cancel_url: `${baseUrl}/stripe-payment/cancel?order_id=${orderId}`,
+      success_url: `${baseUrl}/checkout/success/${sale.id}`,
+      cancel_url: `${baseUrl}/checkout/fail/${sale.id}`,
       metadata: {
-        orderId,
-        email: "touhid@me.com",
+        orderId: sale.id,
+        // user: sale?.customer?.name,
+        // email: sale?.customer?.email,
+        // mobile: sale?.customer?.mobile,
+        // shippingName: sale?.shipping?.name,
+        // shippingPhone: sale?.shipping?.phone,
+        // shippingAddress: sale?.shipping?.address,
       },
     });
 
