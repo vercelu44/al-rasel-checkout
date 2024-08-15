@@ -4,11 +4,23 @@ import { NextResponse } from "next/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// export const dynamic = 'force-static';
+export const config = {
+  api: {
+    bodyParser: false, // Stripe requires the raw body to validate the webhook signature
+  },
+};
+
 export async function POST(request) {
   console.log("Yee, it's working...");
   const body = await request.text();
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const sig = headers().get("stripe-signature");
+  const sig2 = request.headers.get("stripe-signature");
+
+  console.log(sig, "sig1................");
+  console.log(sig2, "sig2................");
+  console.log(endpointSecret, "webhook secret")
   let event;
   try {
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
@@ -53,12 +65,18 @@ export async function POST(request) {
       case "checkout.session.async_payment_failed":
         const checkoutSessionAsyncPaymentFailed = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_failed
-        console.log("checkoutSessionAsyncPaymentFailed", checkoutSessionAsyncPaymentFailed);
+        console.log(
+          "checkoutSessionAsyncPaymentFailed",
+          checkoutSessionAsyncPaymentFailed
+        );
         break;
       case "checkout.session.async_payment_succeeded":
         const checkoutSessionAsyncPaymentSucceeded = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_succeeded
-        console.log("checkoutSessionAsyncPaymentSucceeded", checkoutSessionAsyncPaymentSucceeded);
+        console.log(
+          "checkoutSessionAsyncPaymentSucceeded",
+          checkoutSessionAsyncPaymentSucceeded
+        );
         break;
       case "checkout.session.completed":
         const checkoutSessionCompleted = event.data.object;
