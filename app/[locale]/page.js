@@ -1,4 +1,3 @@
-import { Link } from "@/navigation";
 import { fetchData } from "@/lib/fetch-data";
 import dynamic from "next/dynamic";
 
@@ -9,7 +8,7 @@ import BestSell from "./_components/best-sale";
 import NewArrival from "./_components/new-arrival";
 import VideoBanner from "./_components/VideoBanner";
 import FeaturedBanner from "./_components/FeaturedBanner";
-import HomeAllProducts from "./_components/HomeAllProducts";
+// import HomeAllProducts from "./_components/HomeAllProducts";
 // import ServiceFeatures from "./_components/service-features";
 import PopularCategories from "./_components/popular-categories";
 import SectionTitle from "@/components/elements/SectionTitle";
@@ -18,10 +17,9 @@ const FlashSale = dynamic(() => import("./_components/flash-sale"), {
 });
 
 // ** Import Iocns
-import { HiArrowLongRight } from "react-icons/hi2";
 import { SeeAll } from "@/components/elements/buttons";
 import MiniBanner from "./_components/mini-banner";
-import HomeCategoryProducts from "./_components/HomeCategoryProducts";
+import HomeCategoryProducts from "./_components/home-category-products";
 
 export default async function Home() {
   const [settingsRes, transRes] = await Promise.allSettled([
