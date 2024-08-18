@@ -4,7 +4,7 @@ import { Link } from "@/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 
-const CategoryBannerSlider = ({ sliders, url }) => {
+const HomeCategoryBannerSlider = ({ sliders, url }) => {
   return (
     <>
       <Swiper
@@ -41,4 +41,4 @@ const CategoryBannerSlider = ({ sliders, url }) => {
   );
 };
 
-export default CategoryBannerSlider;
+export default HomeCategoryBannerSlider;

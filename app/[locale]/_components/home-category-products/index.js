@@ -2,7 +2,7 @@ import ProductSlider from "@/components/ProductSlider";
 import SectionTitle from "@/components/elements/SectionTitle";
 import { SeeAll } from "@/components/elements/buttons";
 import { fetchData } from "@/lib/fetch-data";
-import CategoryBannerSlider from "./categoryBannerSlider";
+import HomeCategoryBannerSlider from "./HomeCategoryBannerSlider";
 
 const HomeCategoryProducts = async () => {
   const [transRes] = await Promise.allSettled([
@@ -16,9 +16,9 @@ const HomeCategoryProducts = async () => {
   return categoryWiseProducts.map(({ category, products, images }, index) => (
     <div key={index} className="container">
       <div className="pt-10">
-        <CategoryBannerSlider
+        <HomeCategoryBannerSlider
           sliders={images}
-         url={`/categories/${category?.slug}`}
+          url={`/categories/${category?.slug}`}
         />
       </div>
       <div className="pb-10 flex items-center justify-between">

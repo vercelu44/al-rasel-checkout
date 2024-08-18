@@ -165,7 +165,7 @@
 }
 
 .nav-search {
-  @apply w-full md:w-[25rem] xl:w-[30rem];
+  @apply w-full md:w-[20rem] xl:w-[30rem];
 }
 
 .nav-search input {

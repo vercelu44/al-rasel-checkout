@@ -105,18 +105,18 @@ export default function MainNav({ settings }) {
         }}
         className={`fixed left-0 top-0 w-full z-30 `}
       >
-        <div className="py-3 md:py-4 md:bg-[#F6E921] bg-white border-b border-slate-300">
+        <div className="py-3 lg:py-4 md:bg-[#F6E921] bg-white border-b border-slate-300">
           <div className="container">
             <div className="header-wrap flex justify-between items-center">
               {/* Nav Items  */}
-              <div className="header-left flex items-center gap-4">
+              <div className="header-left flex items-center">
                 <Link href="/" className="logo">
                   <Image
                     src={settings?.logo}
                     alt={settings?.name}
                     width={200}
                     height={48}
-                    className="h-[48px] min-h-[48px] object-contain w-auto max-w-[150px] md:max-w-[200px]"
+                    className="h-[40px] lg:min-h-[48px] object-contain w-auto max-w-[100px] lg:max-w-[200px]"
                   />
                 </Link>
                 <MenuItems settings={settings} />

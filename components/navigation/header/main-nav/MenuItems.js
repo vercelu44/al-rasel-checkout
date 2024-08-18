@@ -13,7 +13,7 @@ const MenuItems = ({ settings }) => {
   return (
     <>
       {!matches && (
-        <div className="nav-menu container flex items-center gap-2 ml-4">
+        <div className="nav-menu container flex items-center gap-2 lg:ml-4">
           {headerPage.map((page, index) => (
             <Link key={index} href={page?.path} className={`${className}`}>
               {page?.name}
