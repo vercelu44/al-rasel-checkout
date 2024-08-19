@@ -17,7 +17,7 @@ export default function MobileSubMenu({ settings }) {
 		"/categories",
 	].includes(pathname);
 
-	const isMobile = useMediaQuery("(max-width: 768px)");
+	const isMobile = useMediaQuery("(max-width: 767px)");
 
 	const headerPage = settings?.header_page || [];
 	const className = "px-2 py-2 bg-white rounded-lg flex items-center";

@@ -11,7 +11,7 @@ export default function BrandsViewSelector({ brands }) {
 	return (
 		<>
 			{isMobile ? (
-				<HorizontalScrollView className={"space-x-2 px-3 py-0"}>
+				<HorizontalScrollView className={"md:ml-4 space-x-2 px-3 py-0"}>
 					{brands.map((brand, index) => (
 						<BrandCard key={index} brand={brand} />
 					))}

@@ -21,7 +21,7 @@ const Drawer = ({ title, children, show, setShow, position, className }) => {
 				className={cn(
 					`fixed top-0 ${
 						position === "left" ? "ltr:left-0 rtl:right-0" : "ltr:right-0 rtl:left-0"
-					} z-40 w-[85vw] lg:max-w-[31rem] h-[100dvh] transition-transform ease-in-out duration-300 transform ${
+					} z-40 w-[85vw] md:max-w-[31rem] h-[100dvh] transition-transform ease-in-out duration-300 transform ${
 						show
 							? "translate-x-0"
 							: position === "left"

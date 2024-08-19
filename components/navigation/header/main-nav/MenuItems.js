@@ -6,24 +6,23 @@ import { Link } from "@/navigation";
 // });
 
 const MenuItems = ({ settings }) => {
-  const matches = useMediaQuery("(max-width: 768px)");
   const headerPage = settings?.header_page || [];
-  const className = "px-2 py-3 rounded-sm flex items-center gap-1";
+  const className = "text-sm lg:text-base flex items-center gap-2";
 
   return (
     <>
-      {!matches && (
-        <div className="nav-menu container flex items-center gap-2 lg:ml-4">
-          {headerPage.map((page, index) => (
-            <Link key={index} href={page?.path} className={`${className}`}>
-              {page?.name}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className="hidden md:flex nav-menu container items-center gap-2 md:ml-2 xl:md-4">
+        {headerPage.map((page, index) => (
+          <Link key={index} href={page?.path} className={`${className}`}>
+            {page?.name}
+          </Link>
+        ))}
+      </div>
     </>
   );
 };
 
-{/* {!matches && <MegaMenu settings={settings} />} */}
+{
+  /* {!matches && <MegaMenu settings={settings} />} */
+}
 export default MenuItems;

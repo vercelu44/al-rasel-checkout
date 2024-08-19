@@ -32,10 +32,10 @@ export default function ResponsiveSearch() {
 
 	return (
 		<>
-			<span className="hidden lg:block">
+			<span className="hidden md:block">
 				<Search />
 			</span>
-			<div className="header-actions lg:hidden">
+			<div className="header-actions md:hidden">
 				<button
 					onClick={() => setSearchOpen(!searchOpen)}
 					className="single-action"
@@ -48,7 +48,7 @@ export default function ResponsiveSearch() {
 				<div
 					ref={searchMenuRef}
 					// top-full
-					className="absolute z-30 left-0 top-0 w-full bg-white lg:hidden"
+					className="absolute z-30 left-0 top-0 w-full bg-white md:hidden"
 				>
 					<div className="container flex justify-center gap-4 py-4 border-b border-slate-300">
 						<Search />

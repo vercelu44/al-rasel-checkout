@@ -74,7 +74,7 @@ export default function MegaMenuSlider() {
               key={index}
               style={{ width: "fit-content" }}
               className={cn(
-                "py-3",
+                "py-2 lg:py-3",
                 selectedCategory?.id === category?.id &&
                   "bg-white border border-x border-l-slate-300"
               )}
@@ -91,7 +91,7 @@ export default function MegaMenuSlider() {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="slider-arrow hidden lg:block">
+        <div className="slider-arrow hidden md:block">
           <span className="slider-btn !w-10 !h-10 slider-prev slick-arrow custom_prev_br !left-0">
             <TfiAngleLeft />
           </span>
@@ -149,7 +149,7 @@ export default function MegaMenuSlider() {
                 ))}
               </div>
             </div>
-            <div className="category-banner flex gap-5 pl-5 justify-end">
+            <div className="hidden lg:flex category-banner gap-5 pl-5 justify-end">
               {selectedCategory?.mega_menu_image_one && (
                 <div className="h-[330px] w-full">
                   <Link

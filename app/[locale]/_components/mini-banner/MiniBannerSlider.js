@@ -45,7 +45,7 @@ const MiniBannerSlider = ({ sliders }) => {
         {miniSlides.map((slide) => (
           <SwiperSlide
             key={slide?.id}
-            className="rounded-lg !flex items-end lg:!h-[60px] bg-cover"
+            className="rounded-lg !flex items-end !h-[40px] lg:!h-[60px] bg-cover"
           >
             <Image
               src={slide.image}

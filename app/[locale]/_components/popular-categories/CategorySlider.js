@@ -23,17 +23,17 @@ const CategorySlider = ({ categoryList }) => {
       >
         {categoryList?.map((category, i) => (
           <SwiperSlide key={i} style={{ width: "fit-content" }}>
-            <div key={category?.id} className="mb-5 lg:mb-0 w-[116px]">
+            <div key={category?.id} className="mb-5 lg:mb-0 w-[92px] md:w-[100px] lg:w-[116px]">
               <Link
                 href={`/categories/${category.slug}`}
-                className="category-img flex justify-center items-center h-[116px] bg-slate-200 rounded-full overflow-hidden"
+                className="category-img flex justify-center items-center h-[92px] md:h-[100px] lg:h-[116px] bg-slate-200 rounded-full overflow-hidden"
               >
                 <Image
                   src={category?.icon || noImage}
                   alt={category.category_name}
                   width={116}
                   height={116}
-                  className="w-[92px] h-[92px] object-contain hover:scale-110"
+                  className="w-[76px] md:w-[84px] lg:w-[92px] h-[76px] md:h-[84px] lg:h-[92px] object-contain hover:scale-110"
                 />
               </Link>
               <Link

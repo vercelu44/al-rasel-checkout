@@ -22,7 +22,7 @@ import { toggleCart } from "@/store/slices/cartSlice";
 export default function BottomNavigation() {
 	const { translations, settings } = useSelector((state) => state.common);
 	const pathArray = usePathname().split("/");
-	const isMobile = useMediaQuery("(max-width: 768px)");
+	const isMobile = useMediaQuery("(max-width: 767px)");
 	const pathname = usePathname();
 	const params = useParams();
 	const dispatch = useDispatch();

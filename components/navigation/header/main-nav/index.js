@@ -26,6 +26,7 @@ import LogoutModal from "@/components/modals/logoutModal";
 import useWishList from "@/hooks/useWishList";
 // import logo from "@/public/assets/logo-2.jpeg";
 import MegaMenu from "../mega-menu";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function MainNav({ settings }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -55,6 +56,8 @@ export default function MainNav({ settings }) {
   );
   const { translations } = useSelector((state) => state.common);
   const { getWishlistCount } = useWishList();
+	const isTablet = useMediaQuery("(max-width: 992px)");
+
   const dispatch = useDispatch();
 
   //start of popover
@@ -97,15 +100,15 @@ export default function MainNav({ settings }) {
   const wishlistCount = getWishlistCount();
 
   return (
-    <div className={"!mt-[73px] lg:!mt-32"}>
+    <div className={"!mt-[73px] md:!mt-24 lg:!mt-32"}>
       <div
         style={{
           transition: "top 0.3s ease",
-          ...(!visible && { top: "-80px" }),
+          ...(!visible && { top: isTablet ? "-60px" : "-80px" }),
         }}
         className={`fixed left-0 top-0 w-full z-30 `}
       >
-        <div className="py-3 lg:py-4 md:bg-[#F6E921] bg-white border-b border-slate-300">
+        <div className="py-3 md:py-1 xl:py-4 md:bg-[#F6E921] bg-white border-b border-slate-300">
           <div className="container">
             <div className="header-wrap flex justify-between items-center">
               {/* Nav Items  */}
@@ -116,18 +119,18 @@ export default function MainNav({ settings }) {
                     alt={settings?.name}
                     width={200}
                     height={48}
-                    className="h-[40px] lg:min-h-[48px] object-contain w-auto max-w-[100px] lg:max-w-[200px]"
+                    className="h-[40px] md:min-h-[48px] object-contain w-auto max-w-[120px] xl:max-w-[200px]"
                   />
                 </Link>
                 <MenuItems settings={settings} />
               </div>
               <div className="header-right flex justify-between items-center ml-4 gap-2 lg:gap-6">
                 <ResponsiveSearch />
-                <div className="header-actions flex items-center gap-4">
+                <div className="header-actions flex items-center gap-3 lg:gap-4">
                   {!settings?.guest_checkout ? (
                     <Link
                       href="/dashboard/my-wishlist"
-                      className="single-action !hidden lg:!flex relative"
+                      className="single-action !hidden md:!flex relative"
                     >
                       <HiOutlineHeart size={24} />
                       {wishlistCount ? (
@@ -152,7 +155,7 @@ export default function MainNav({ settings }) {
                   {!settings?.guest_checkout ? (
                     <div
                       ref={popoverRef}
-                      className="relative hidden lg:flex items-center"
+                      className="relative hidden md:flex items-center"
                     >
                       <button className="single-action" onClick={togglePopover}>
                         {user?.image ? (
@@ -169,7 +172,7 @@ export default function MainNav({ settings }) {
                       </button>
                       {userOpen && !user ? (
                         <div className="absolute right-0 top-0 z-10 mt-14">
-                          <div className="relative bg-white px-6 py-8 w-52 border border-slate-300 lg:border-white rounded-lg">
+                          <div className="relative bg-white px-6 py-8 w-52 border border-slate-300 md:border-white rounded-lg">
                             <div className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-l border-t border-slate-300"></div>
                             <p className="text-slate-500 text-base font-bold text-center">
                               {translations["login-status"]}
@@ -192,7 +195,7 @@ export default function MainNav({ settings }) {
                       ) : null}
                     </div>
                   ) : null}
-                  {/* <div className="hidden lg:block"> */}
+                  {/* <div className="hidden md:block"> */}
                   <LanguageSelector locale={locale} />
                   {/* </div> */}
                 </div>
@@ -200,7 +203,7 @@ export default function MainNav({ settings }) {
             </div>
           </div>
         </div>
-        <div className="bg-white w-full border-b border-slate-300 hidden lg:block">
+        <div className="bg-white w-full border-b border-slate-300 hidden md:block">
           <MegaMenu settings={settings} />
         </div>
 

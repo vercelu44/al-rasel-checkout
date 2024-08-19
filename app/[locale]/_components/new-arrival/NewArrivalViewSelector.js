@@ -6,12 +6,12 @@ import NewArrivalSlider from "./NewArrivalSlider";
 import ProductVerticalCard from "@/components/cards/ProductVerticalCard";
 
 export default function NewArrivalViewSelector({ productsChunks }) {
-	const isMobile = useMediaQuery("(max-width: 768px)");
+	const isMobile = useMediaQuery("(max-width: 992px)");
 
 	return (
 		<>
 			{isMobile ? (
-				<HorizontalScrollView className={"space-x-2 px-3 py-0 items-start"}>
+				<HorizontalScrollView className={"md:ml-4 space-x-2 py-0 items-start"}>
 					{productsChunks?.map((chunk, index) => (
 						<div
 							key={index}

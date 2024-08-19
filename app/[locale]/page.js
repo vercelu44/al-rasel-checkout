@@ -36,7 +36,7 @@ export default async function Home() {
     <>
       {settings?.slider_section ? (
         <>
-          <section className="banner">
+          <section className="banner hidden md:block">
             <div className="bg-white pt-3">
               <MiniBanner />
             </div>
@@ -57,7 +57,7 @@ export default async function Home() {
       {settings?.category_section ? (
         <section className="lg:pb-6 mt-6 lg:mt-6 relative">
           <div
-            className="all-category py-4 lg:py-6"
+            className="all-category py-4 md:py-0 lg:py-6"
             // style={{
             // 	backgroundImage: "linear-gradient(90deg, #603990 0%, #283990 100%)",
             // }}
@@ -68,7 +68,7 @@ export default async function Home() {
                 href="/categories"
                 buttonText={translations["see-all"] || "See All"}
               />
-              <div className="mt-6 lg:mt-10">
+              <div className="mt-6 lg:mt-10 md:pb-12 lg:pb-0">
                 <PopularCategories />
               </div>
               <SeeAll
@@ -82,7 +82,7 @@ export default async function Home() {
       ) : null}
 
       {settings?.best_selling_section ? (
-        <section className="best-sell bg-slate-50 mt-8 lg:mt-0 py-4 md:py-14 lg:pb-14">
+        <section className="best-sell bg-slate-50 mt-8 md:mt-0 py-4 md:py-10 lg:pb-14">
           <BestSell translations={translations} />
         </section>
       ) : null}

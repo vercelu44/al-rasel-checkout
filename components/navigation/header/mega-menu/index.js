@@ -53,7 +53,7 @@ export default function MegaMenu({ settings }) {
     }
   };
 
-  const className = "px-2 py-3 rounded-sm flex items-center gap-1";
+  const className = "px-2 py-2 lg:py-3 rounded-sm flex items-center gap-1";
 
   return (
     <>
@@ -62,7 +62,7 @@ export default function MegaMenu({ settings }) {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            `relative menuBtn w-[213px] border-r border-slate-300 px-5 cursor-pointer`,
+            `relative menuBtn w-[190px] lg:w-[213px] border-r border-slate-300 text-sm xl:text-base px-5 cursor-pointer`,
             className
           )}
         >
@@ -80,7 +80,7 @@ export default function MegaMenu({ settings }) {
               )}
             >
               {/* Main Categories  */}
-              <div className="bg-[#FCFBF4] min-w-[213px] border border-slate-300 border-t-0">
+              <div className="bg-[#FCFBF4] min-w-[190px] lg:min-w-[213px] border border-slate-300 border-t-0">
                 <div className="container h-full p-4">
                   <div className="grid grid-cols-1 gap-0.5">
                     {categories?.map((category, i) => (
@@ -105,14 +105,14 @@ export default function MegaMenu({ settings }) {
               </div>
               {/* Sub Categories */}
               {selectedCategory && (
-                <div className="bg-white min-w-[438px] border border-slate-300 border-l-0">
+                <div className="bg-white min-w-[190px] lg:min-w-[438px] border border-slate-300 border-l-0">
                   <div className="h-full p-4 pt-2">
                     <div className="border-b border-slate-300 w-full mb-1 pb-1">
                       <h3 className="font-semibold">
                         {selectedCategory.category_name}
                       </h3>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <div>
                         <h5 className="my-1 font-semibold text-sm text-slate-900">
                           Sub Categories
@@ -141,7 +141,7 @@ export default function MegaMenu({ settings }) {
                           )}
                         </div>
                       </div>
-                      <div>
+                      <div className="hidden lg:block">
                         <h5 className="my-1 font-semibold text-sm text-slate-900">Top Brands</h5>
                         <div className="grid grid-cols-1 gap-0.5">
                           {selectedCategory?.brands?.map((brand, i) => (
@@ -164,7 +164,7 @@ export default function MegaMenu({ settings }) {
               )}
               {/* Child Categories  */}
               {selectedSubCategory && (
-                <div className="bg-white min-w-[438px] border border-slate-300 border-l-0">
+                <div className="bg-white min-w-[190px] lg:min-w-[438px] border border-slate-300 border-l-0">
                   <div className="h-full p-4 pt-2">
                     <div className="border-b border-slate-300 w-full mb-1 pb-1">
                       <h3 className="font-semibold">
@@ -172,7 +172,7 @@ export default function MegaMenu({ settings }) {
                       </h3>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <div>
                         <h5 className="my-1 font-semibold text-sm text-slate-900">
                           Child Categories
@@ -194,7 +194,7 @@ export default function MegaMenu({ settings }) {
                           )}
                         </div>
                       </div>
-                      <div>
+                      <div className="hidden lg:block">
                         <h5 className="my-1 font-semibold text-sm text-slate-900">Top Brands</h5>
                         <div className="grid grid-cols-1 gap-0.5">
                           {selectedSubCategory?.brands?.map((brand, i) => (
@@ -219,7 +219,7 @@ export default function MegaMenu({ settings }) {
           )}
         </div>
 
-        <div className="hidden lg:block w-[80%]">
+        <div className="hidden md:block w-[70%] lg:w-[80%]">
           <MegaMenuSlider />
         </div>
       </div>
