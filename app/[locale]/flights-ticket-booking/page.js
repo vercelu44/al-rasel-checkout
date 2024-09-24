@@ -113,7 +113,8 @@ const TicketBookingPage = ({ params }) => {
   return (
     <>
       <Script
-        src="https://test-southeastbank.mtf.gateway.mastercard.com/static/checkout/checkout.min.js"
+        // src="https://test-southeastbank.mtf.gateway.mastercard.com/static/checkout/checkout.min.js"
+        src="https://southeastbank.gateway.mastercard.com/static/checkout/checkout.min.js"
         // data-error="errorCallback"
         // data-cancel="cancelCallback"
       />
@@ -269,7 +270,7 @@ const TicketBookingPage = ({ params }) => {
 
             {/* Display Total Amount */}
             <div className="text-xl font-bold mt-6">
-              Total Amount: ${totalAmount}
+              Total Amount: TK. {totalAmount}
             </div>
 
             <HorizontalScrollView>
@@ -316,7 +317,7 @@ const TicketBookingPage = ({ params }) => {
                 type="submit"
                 className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
               >
-                {selectedMethod === 2 ? "Submit" : `Pay Now $${totalAmount}`}
+                {selectedMethod === 2 ? "Submit" : `Pay Now TK. ${totalAmount}`}
               </button>
             </div>
           </form>
