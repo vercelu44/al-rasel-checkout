@@ -5,59 +5,33 @@ import { postData } from "@/lib/post-data";
 
 export async function POST(request) {
   console.log("Inside webhook");
-  // const body = await request.text();
-  // console.log(body, "boy request text.. line 9")
+  const reqData = await request.json();
+  console.log(reqData, "reqData, line 9");
+  const webHookSecret = request.headers.get("X-Notification-Secret");
+  console.log(webHookSecret, "notification secret, line 11");
 
-  const something = await request.json();
-  console.log(something, "something, line 12")
-  // const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  // const sig = headers().get("stripe-signature");
-  const notificationsSecret = request.headers.get("X-Notification-Secret");
-  console.log(notificationsSecret, 'notification secret, line 16')
-
-  if(something) {
-    console.log("inside something");
-    console.log(something?.merchant, "something merchant, line 20");
-    console.log(something?.response?.gatewayCode, "something response, line 21");
-  }
-
-  let event;
-  // try {
-  //   event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
-  // } catch (err) {
-  //   return NextResponse.json(
-  //     { message: `Webhook Error: ${err}` },
-  //     {
-  //       status: 400,
-  //     }
-  //   );
-  // }
-
-  // console.log("✅ event contracted successfully:", event.id);
-
-  const eventType = event?.type;
   if (
-    eventType !== "checkout.session.completed" &&
-    eventType !== "checkout.session.async_payment_succeeded"
-  )
+    !reqData?.response?.gatewayCode !== "APPROVED" &&
+    !reqData?.result !== "SUCCESS" &&
+    webHookSecret !== process.env.SOUTHEST_WEBHOOK_SECRET
+  ) {
+    console.log("Your failed in your exam");
     return NextResponse.json(
-      { message: "Test success by touhid" },
+      { message: "Something went wrong" },
       {
-        status: 200,
+        status: 401,
       }
     );
-  const data = event.data.object;
-  const metadata = data.metadata;
-  const orderId = metadata.orderId;
-  const amount = data.amount_total;
-  const paymentIntentId = data.payment_intent;
+  }
 
   const paymentData = {
-    air_ticket_id: orderId,
-    transaction_id: paymentIntentId,
+    air_ticket_id: reqData?.order?.id,
+    transaction_id: reqData?.transaction?.id,
     payment_method: "southeastbank",
-    amount: amount / 100 || 0,
+    amount: reqData?.transaction?.amount,
   };
+
+  console.log(paymentData, "paymentData, line 34");
 
   try {
     //Updating payment info of order
