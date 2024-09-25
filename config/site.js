@@ -2,12 +2,12 @@ import { TbCurrencyDirham, TbCurrencyTaka } from "react-icons/tb";
 
 export const siteConfig = {
   currency: {
-    locale: "Arabic",
-    sign: "AED",
-    code: "AED",
-    shortForm: "AED",
-    icon: <TbCurrencyDirham size={16} />, // Optional, replace with an appropriate icon if needed
-  },
+		locale: "টাকা",
+		sign: "৳",
+		code: "BDT",
+		shortForm: "Tk",
+		icon: <TbCurrencyTaka size={16} />, //Optional
+	},
   phone: {
     country: "Bangladesh",
     prefix: "(BD) +88",
