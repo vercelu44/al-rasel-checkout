@@ -23,7 +23,7 @@ const PersistUser = () => {
 					dispatch(setUserLoading(false));
 				} catch (error) {
 					console.log(error); 
-					console.log(error); 
+					// console.log(error); 
 					// dispatch(setUser(null));
 					dispatch(setUserLoading(false));
 				}
