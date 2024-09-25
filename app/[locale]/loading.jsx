@@ -1,18 +1,17 @@
 // import Image from "next/image";
-import Image from "next/image";
 import React from "react";
 
 export default function loading({ ...props }) {
-  return (
-    <div className="flex h-[70vh] w-screen justify-center items-center">
-        <Image
-          className={`h-auto w-[200px] md:w-[400px] object-contain`}
-          src={"/assets/loader-al-rasel.gif"}
-          alt={"loader"}
-          width={226}
-          height={226}
-        />
-      {/* <svg
+	return (
+		<div className="flex h-[70vh] w-screen justify-center items-center">
+			{/* 			<Image
+				className={`h-[200px] lg:h-[300px] w-[200px] lg:w-[300px]`}
+				src={"/assets/images/logo.svg"}
+				alt={"loader"}
+				width={226}
+				height={226}
+			/> */}
+			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width={200}
 				height={200}
@@ -35,7 +34,7 @@ export default function loading({ ...props }) {
 						values="0 50 50.5;360 50 50.5"
 					/>
 				</path>
-			</svg> */}
-    </div>
-  );
+			</svg>
+		</div>
+	);
 }
