@@ -329,9 +329,9 @@ const ProductDetails = ({ product, settings, translations }) => {
 											{translations["delivery-charge"] || "Delivery Charge"}:{" "}
 										</p>
 										<p className="text-slate-600">
-											{translations["inside-dhaka"] || "ঢাকার ভিতরে"} -{" "}
+											Inside {settings?.delivery_region} -{" "}
 											{settings?.inside_dhaka_delivery_charges}{" "}
-											{translations["currency-locale"] || "টাকা"}
+											{siteConfig.currency.shortForm}
 										</p>
 									</div>
 								</div>
@@ -349,9 +349,9 @@ const ProductDetails = ({ product, settings, translations }) => {
 											{translations["delivery-charge"] || "Delivery Charge"}:{" "}
 										</p>
 										<p className="text-slate-600">
-											{translations["outside-dhaka"] || "ঢাকার বাইরে"} -{" "}
+											Outside {settings?.delivery_region} -{" "}
 											{settings?.outside_dhaka_delivery_charges}{" "}
-											{translations["currency-locale"] || "টাকা"}
+											{siteConfig.currency.shortForm}
 										</p>
 									</div>
 								</div>
