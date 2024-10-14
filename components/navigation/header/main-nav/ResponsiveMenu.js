@@ -41,7 +41,7 @@ export default function ResponsiveMenu({ settings, categories }) {
       );
     } else {
       setActiveCategory(null);
-      router.push(`/categories/${cat.slug}`);
+      router.push(`/categories/${cat.slug}?sort_type=new`);
       closeMenu();
     }
   };
@@ -85,7 +85,7 @@ export default function ResponsiveMenu({ settings, categories }) {
             }}
           >
             <Link
-              href={`/categories/${category.slug}`}
+              href={`/categories/${category.slug}?sort_type=new`}
               className="inline-block mt-[2px] font-title font-semibold uppercase"
               style={{ color: settings?.colors?.primary_text }}
             >
@@ -133,7 +133,7 @@ export default function ResponsiveMenu({ settings, categories }) {
                       {category?.child_categories?.map((subCategory, index) => (
                         <li key={subCategory.id} className="my-2">
                           <Link
-                            href={`/categories/${subCategory.slug}`}
+                            href={`/categories/${subCategory.slug}?sort_type=new`}
                             onClick={closeMenu}
                             className="inline-block h-full font-title font-bold uppercase"
                             style={{

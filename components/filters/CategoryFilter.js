@@ -16,7 +16,7 @@ const CategoryFilter = ({ selectedCategory }) => {
 	const [isOpen, setIsOpen] = useState(true);
 
 	const handleCategoryChange = (category) => {
-		router.push(`/categories/${category.slug}`);
+		router.push(`/categories/${category.slug}?sort_type=new`);
 	};
 
 	const categoryWithChildren = (categoryParam) => (
@@ -69,7 +69,7 @@ const CategoryFilter = ({ selectedCategory }) => {
 						<>
 							<button
 								className={`cursor-pointer hover:font-bold`}
-								onClick={() => router.push("/products")}
+								onClick={() => router.push("/products?sort_type=new")}
 							>
 								<IoChevronBackOutline />
 								Categories

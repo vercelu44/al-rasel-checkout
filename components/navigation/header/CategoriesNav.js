@@ -29,7 +29,7 @@ export default function CategoriesNav({ categories = [], settings = {} }) {
 					{subMenuCategories.map((category) => (
 						<li key={category.id} className="nav-item">
 							<Link
-								href={`/categories/${category.slug}`}
+								href={`/categories/${category.slug}?sort_type=new`}
 								className="uppercase font-title !text-sm/5"
 								style={{ color: settings?.colors?.secondary_text }}
 							>

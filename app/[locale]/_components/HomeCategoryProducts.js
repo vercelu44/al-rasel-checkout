@@ -21,7 +21,7 @@ const HomeCategoryProducts = async () => {
 					<div className="py-10 flex items-center justify-between">
 						<h2 className="sec-title pb-3">{category?.category_name}</h2>
 						<Link
-							href={`/categories/${category?.slug}`}
+							href={`/categories/${category?.slug}?sort_type=new`}
 							className="text-lg hover:text-secondary"
 						>
 							{translations["see-all"] || "See All"}{" "}

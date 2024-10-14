@@ -11,7 +11,7 @@ const PopularCategories = async () => {
 			{popularCategories?.map((category) => (
 				<div key={category.id} href="#" className="bg-white py-6 px-4">
 					<Link
-						href={`/categories/${category.slug}`}
+						href={`/categories/${category.slug}?sort_type=new`}
 						className="flex items-center gap-4 hover:scale-105 hover:text-secondary"
 					>
 						<Image

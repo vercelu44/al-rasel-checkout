@@ -12,7 +12,7 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 export default function Paginator({ meta, paginateItems }) {
   const { locale } = useParams();
   let pathname = usePathname();
-  if (pathname === "/" || pathname === "/" + locale) pathname = "/products"; //deactivate if you want pagination in home page
+  if (pathname === "/" || pathname === "/" + locale) pathname = "/products?sort_type=new"; //deactivate if you want pagination in home page
   const searchParams = useSearchParams();
 
   // Get a new searchParams string by merging the current

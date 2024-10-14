@@ -126,7 +126,7 @@ const OrderSuccess = ({ params }) => {
                   </Link>
                 )}
                 <Link
-                  href={"/products"}
+                  href={"/products?sort_type=new"}
                   className="py-3 w-full px-6 text-center active:scale-95"
                   style={{
                     background: settings?.colors?.primary,

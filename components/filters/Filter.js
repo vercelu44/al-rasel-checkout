@@ -59,7 +59,7 @@ const Filter = ({ category }) => {
               <IoCloseOutline
                 size={24}
                 className="text-red-500 cursor-pointer"
-                onClick={() => router.push("/products")}
+                onClick={() => router.push("/products?sort_type=new")}
               />
             </div>
           )}

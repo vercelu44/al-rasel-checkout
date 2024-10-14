@@ -100,7 +100,7 @@ const WishListCard = ({ product }) => {
 							</button>
 						) : (
 							<Link
-								href={`/categories/${product.category?.slug}`}
+								href={`/categories/${product.category?.slug}?sort_type=new`}
 								className="text-center font-bold py-2 px-3 active:scale-95 cursor-pointer rounded"
 								style={{
 									border: `1px solid ${settings?.colors?.primary}`,

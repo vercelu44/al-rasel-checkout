@@ -53,7 +53,7 @@ const DashboardLayout = ({ children, params }) => {
 
 						<div className="justify-self-end flex items-center mr-3">
 							<Link
-								href={"/products"}
+								href={"/products?sort_type=new"}
 								className="px-2 py-3 bg text-center rounded shadow-around"
 								style={{
 									// border: `1px solid ${settings?.colors?.primary_text}`,

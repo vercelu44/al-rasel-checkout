@@ -75,7 +75,7 @@ export default async function Home() {
               <h2 className="sec-title pb-3">
                 {translations["featured-products"] || "Featured Products"}
               </h2>
-              <Link href="/featured-products" className="underline">
+              <Link href="/featured-products?sort_type=new" className="underline">
                 Browse our featured products
               </Link>
             </div>

@@ -41,7 +41,7 @@ const page = async ({ params, searchParams }) => {
 							All Categories
 						</Link>
 						<Link
-							href={`/categories/${category.slug}`}
+							href={`/categories/${category.slug}?sort_type=new`}
 							className={`text-base text-slate-900 hover:text-secondary`}
 						>
 							{category.category_name}
