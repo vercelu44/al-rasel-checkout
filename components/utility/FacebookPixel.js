@@ -1,41 +1,87 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as pixel from "/lib/fpixel";
 import { useDispatch, useSelector } from "react-redux";
 import { setFbPixelInitialized } from "@/store/slices/commonSlice";
+import { generateUniqueId } from "@/utils/get-unique";
+import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 
 const FacebookPixel = ({ fbPixelId }) => {
-	const { isFbPixelInitialized } = useSelector((state) => state.common);
-	// console.log(isFbPixelInitialized);
-	// const [loaded, setLoaded] = useState(false);
-	const pathname = usePathname();
-	const dispatch = useDispatch();
+  const { isFbPixelInitialized, settings } = useSelector(
+    (state) => state.common
+  );
+  const pathname = usePathname();
+  const dispatch = useDispatch();
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
-	const memoizedPixelId = useMemo(() => fbPixelId, [fbPixelId]);
-	// console.log(memoizedPixelId);
+  const memoizedPixelId = useMemo(() => fbPixelId, [fbPixelId]);
 
-	useEffect(() => {
-		if (!isFbPixelInitialized || !memoizedPixelId) return;
-		// console.log("first");
-		pixel.pageview();
-	}, [pathname, isFbPixelInitialized, memoizedPixelId]);
+  const [AddToConversionAPI] = useAddToTrackingMutation();
 
-	return (
-		<div>
-			{memoizedPixelId && (
-				<Script
-					id="fb-pixel"
-					src="/scripts/pixel.js"
-					strategy="afterInteractive"
-					onLoad={() => dispatch(setFbPixelInitialized(true))}
-					data-pixel-id={memoizedPixelId}
-					// data-pixel-id={pixel.FB_PIXEL_ID}
-				/>
-			)}
-		</div>
-	);
+  // Wait for page load before starting pixel tracking
+  useEffect(() => {
+    const handlePageLoad = () => {
+      setIsPageLoaded(true);
+    };
+
+    // Check if the page is already loaded or attach the load event
+    if (document.readyState === "complete") {
+      handlePageLoad();
+    } else {
+      window.addEventListener("load", handlePageLoad);
+    }
+
+    return () => {
+      window.removeEventListener("load", handlePageLoad);
+    };
+  }, []);
+
+  const flag = useRef(true);
+  const flag2 = useRef(true);
+
+  // Meta Pixel events
+  useEffect(() => {
+    if (!isPageLoaded || !memoizedPixelId) return;
+
+    const eventID = generateUniqueId();
+
+    if (isFbPixelInitialized && flag.current) {
+      pixel.pageView({ eventID });
+      flag.current = false;
+    }
+
+    if (settings?.fb_pixel_id && settings?.fb_access_token) {
+      AddToConversionAPI({
+        event_id: eventID,
+        event_name: "PageView",
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
+      });
+      flag2.current = false;
+    }
+  }, [
+    isPageLoaded,
+    pathname,
+    isFbPixelInitialized,
+    memoizedPixelId,
+    settings,
+    AddToConversionAPI,
+  ]);
+
+  return (
+    <div>
+      {memoizedPixelId && (
+        <Script
+          id="fb-pixel"
+          src="/scripts/pixel.js"
+          strategy="afterInteractive"
+          onLoad={() => dispatch(setFbPixelInitialized(true))}
+          data-pixel-id={memoizedPixelId}
+        />
+      )}
+    </div>
+  );
 };
 
 export default FacebookPixel;

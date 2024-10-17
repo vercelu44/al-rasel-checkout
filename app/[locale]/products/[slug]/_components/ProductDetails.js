@@ -60,7 +60,6 @@ const ProductDetails = ({ product, settings, translations }) => {
   useEffect(() => {
     if (!product) return;
     const eventID = generateUniqueId();
-    console.log(eventID, "eventID");
 
     if (isFbPixelInitialized && flag.current) {
       pixel.event("ViewContent", pixel.getProductPixelData(product), {
