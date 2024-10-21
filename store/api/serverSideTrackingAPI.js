@@ -7,6 +7,7 @@ const serverSideTrackingAPI = apiSlice.injectEndpoints({
 				url: "server-side-tracking",
 				method: "POST",
 				body: payload,
+				credentials: "include"
 			}),
 		}),
 	}),
