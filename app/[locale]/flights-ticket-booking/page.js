@@ -8,7 +8,7 @@ import Image from "next/image";
 import { usePlaceTicketOrderMutation } from "@/store/api/airTicketAPI";
 import { toast } from "react-toastify";
 import Script from "next/script";
-import { useParams, useSearchParams } from "next/navigation";
+// import { useParams, useSearchParams } from "next/navigation";
 
 const methods = [
   {
@@ -24,8 +24,8 @@ const methods = [
 ];
 
 const TicketBookingPage = ({ params }) => {
-  const searchParams = useSearchParams();
-  const status = searchParams.get("success");
+  // const searchParams = useSearchParams();
+  // const status = searchParams.get("success");
 
   const {
     register,
@@ -104,17 +104,16 @@ const TicketBookingPage = ({ params }) => {
   //   const errorCallback = (error) => console.log(JSON.stringify(error));
   //   const cancelCallback = () => console.log("Payment cancelled");
 
-  useEffect(() => {
-    if (status) {
-      toast.success("Ticket purchased successfully ");
-    }
-  }, [status]);
+  // useEffect(() => {
+  //   if (status) {
+  //     toast.success("Ticket purchased successfully ");
+  //   }
+  // }, [status]);
 
   return (
     <>
       <Script
-        // src="https://test-southeastbank.mtf.gateway.mastercard.com/static/checkout/checkout.min.js"
-        src="https://southeastbank.gateway.mastercard.com/static/checkout/checkout.min.js"
+        src={process.env.NEXT_PUBLIC_SOUTHEAST_SCRIPT_URI}
         // data-error="errorCallback"
         // data-cancel="cancelCallback"
       />

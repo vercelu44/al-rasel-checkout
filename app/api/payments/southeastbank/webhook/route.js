@@ -13,7 +13,7 @@ export async function POST(request) {
   if (
     !reqData?.response?.gatewayCode !== "APPROVED" &&
     !reqData?.result !== "SUCCESS" &&
-    webHookSecret !== process.env.SOUTHEST_WEBHOOK_SECRET
+    webHookSecret !== process.env.SOUTHEAST_WEBHOOK_SECRET
   ) {
     console.log("Your failed in your exam");
     return NextResponse.json(
@@ -25,19 +25,20 @@ export async function POST(request) {
   }
 
   const paymentData = {
-    air_ticket_id: reqData?.order?.id,
-    transaction_id: reqData?.transaction?.id,
-    payment_method: "southeastbank",
+    order_id: reqData?.order?.id,
+    status: "successful",
     amount: reqData?.transaction?.amount,
+    payment_method: "southeastbank",
+    transaction_id: reqData?.transaction?.id,
   };
 
-  console.log(paymentData, "paymentData, line 34");
+  console.log(paymentData, "paymentData, line 35");
 
   try {
     //Updating payment info of order
     const paymentUpdateResult = await postData(
       {
-        api: "air-ticket/online-payment-status-change",
+        api: "online-payment-status-change",
         // authorization: `Bearer ${result.payerReference}`,
         isPrivate: true,
       },

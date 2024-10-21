@@ -25,6 +25,7 @@ import { useGetPaymentMethodsQuery } from "@/store/api/paymentMethodsAPI";
 import PayOptionIcon from "@/components/elements/svg/PayOptionIcon";
 import { FiPlus } from "react-icons/fi";
 import { cn } from "@/utils";
+import Script from "next/script";
 
 const Checkout = () => {
 	const { settings, translations, isFbPixelInitialized } = useSelector(
@@ -201,7 +202,7 @@ const Checkout = () => {
 			paymentOption: selectedPaymentOption,
 			// note: "",
 		};
-		// console.log(newOrder);
+		console.log(newOrder);
 		handleOrderPlace(newOrder);
 
 		// updating user for the first time only not applicable for guest checkout
@@ -233,366 +234,374 @@ const Checkout = () => {
 	}, [cart, total, isFbPixelInitialized]);
 
 	return (
-		<section className="md:container py-3 lg:py-8 mb-14 lg:mb-0">
-			<div className="grid lg:grid-cols-6 mb-8 gap-4 lg:gap-8">
-				<div className="md:col-span-3">
-					<h3 className="text-slate-700 text-lg/[26px] font-semibold mx-3 pb-4 md:mx-0">
-						{translations["checkout-info-msg"] ||
-							"Please give your Name, Address and Phone number to complete your order."}
-					</h3>
-					<form
-						className="w-full mt-6"
-						onSubmit={handleSubmit(handleCheckoutSubmit)}
-					>
-						{isLoading ? (
-							<ArticleLoader />
-						) : (
-							<div className="mx-3 md:mx-0">
-								<div className="grid lg:grid-cols-2 lg:gap-4">
-									<div className="form-control mb-4">
-										<label className="block text-base text-slate-900 mb-2">
-											{translations["your-name"] || "Your Name"}
-										</label>
-										<input
-											type="text"
-											name="name"
-											defaultValue={user?.name}
-											placeholder={
-												translations["enter-your-name"] || "Write your name"
-											}
-											{...register("name", {
-												required: "Name is required.",
-											})}
-										/>
-										{errors.name && (
-											<p className="errorMsg">{errors.name.message}</p>
-										)}
-									</div>
-
-									<div className="form-control mb-4">
-										<label className="block text-base text-slate-900 mb-2">
-											{translations["phone-number"] || "Phone Number"}
-										</label>
-										<div className="flex items-center group">
-											{process.env.NEXT_PUBLIC_OTP_LOGIN === "YES" ? 
-												<div className="h-12 py-3 min-w-fit text-base font-title font-normal px-2 rounded-s-lg border bg-slate-100 border-gray-300 group-focus-within:border-primary group-focus-within:border-r-gray-300">
-													<p>{siteConfig.phone.prefix}</p>
-												</div> 
-												: null}
+		<>
+			{/* Required for southeastbank payment gateway */}
+			<Script
+				src={process.env.NEXT_PUBLIC_SOUTHEAST_SCRIPT_URI}
+				// data-error="errorCallback"
+				// data-cancel="cancelCallback"
+			/>
+			<section className="md:container py-3 lg:py-8 mb-14 lg:mb-0">
+				<div className="grid lg:grid-cols-6 mb-8 gap-4 lg:gap-8">
+					<div className="md:col-span-3">
+						<h3 className="text-slate-700 text-lg/[26px] font-semibold mx-3 pb-4 md:mx-0">
+							{translations["checkout-info-msg"] ||
+								"Please give your Name, Address and Phone number to complete your order."}
+						</h3>
+						<form
+							className="w-full mt-6"
+							onSubmit={handleSubmit(handleCheckoutSubmit)}
+						>
+							{isLoading ? (
+								<ArticleLoader />
+							) : (
+								<div className="mx-3 md:mx-0">
+									<div className="grid lg:grid-cols-2 lg:gap-4">
+										<div className="form-control mb-4">
+											<label className="block text-base text-slate-900 mb-2">
+												{translations["your-name"] || "Your Name"}
+											</label>
 											<input
-												type="number"
-												className="w-full !pl-2  rounded-lg border border-gray-300 focus:outline-none group-focus:border-primary"
-												name="phone"
-												defaultValue={user?.phone || user?.alt_phone_no}
+												type="text"
+												name="name"
+												defaultValue={user?.name}
 												placeholder={
-													translations["your-mobile-number"] ||
-													"Your Mobile Number"
+													translations["enter-your-name"] || "Write your name"
 												}
-												{...register("phone", {
-													required: "Phone number is required.",
-													// pattern: {
-													// 	value: siteConfig.phone.pattern,
-													// 	message: "Please enter a valid phone number",
-													// },
+												{...register("name", {
+													required: "Name is required.",
 												})}
 											/>
+											{errors.name && (
+												<p className="errorMsg">{errors.name.message}</p>
+											)}
 										</div>
-										{errors.phone && (
-											<p className="errorMsg">{errors.phone.message}</p>
-										)}
-									</div>
-								</div>
-								<div className="form-control mb-4">
-									<label className="block text-base text-slate-900 mb-2">
-										{translations["your-address"] || "Your Address"}
-									</label>
-									<textarea
-										className="h-[148px] border border-slate-300 p-4"
-										type="text"
-										name="address"
-										defaultValue={user?.address}
-										placeholder={
-											translations["type-your-address"] || "Write  your address"
-										}
-										{...register("address", {
-											required: "Address is required.",
-										})}
-									/>
-									{errors.address && (
-										<p className="errorMsg">{errors.address.message}</p>
-									)}
-								</div>
-							</div>
-						)}
-						<div className="form-control my-8 hidden lg:block">
-							<div className="border-b-2 border-slate-300 border-dashed"></div>
-						</div>
 
-						{/* Payment Options Area */}
-						{deliveryArea ? (
-							<div className="form-control">
-								<h4 className="text-xl font-bold">
-									{translations["payment-options"] || "Payment Options"}
-								</h4>
-								<div className="flex flex-col gap-3 pt-3">
-									{paymentOptions.map((payOption) =>
-										payOption.key === "no_payment" &&
-										isDeliveryChargeRequired &&
-										activePaymentMethods?.length > 1 ? null : (
-											<button
-												key={payOption.key}
-												type="button"
-												className="flex gap-2 items-center border border-slate-200 p-3"
-												onClick={() => setSelectedPaymentOption(payOption.key)}
-											>
-												<CustomRadio
-													isChecked={payOption.key === selectedPaymentOption}
-													label={payOption.title}
-													// onClick={() => setDeliveryArea(pt)}
-												/>
-												<p>
-													{siteConfig.currency.sign}{" "}
-													{payOption.value}
-												</p>
-											</button>
-										)
-									)}
-								</div>
-								{!selectedPaymentOption && (
-									<p id="paymentOptionError" className="hidden errorMsg">
-										You must select a payment option
-									</p>
-								)}
-							</div>
-						) : null}
-
-						{/* Payment Methods Area */}
-						{(selectedPaymentOption === "delivery_charge_payment" ||
-							selectedPaymentOption === "total_payment") && (
-							<div className="bg-slate-200 py-2 lg:py-0 mt-6">
-								<div className="form-control py-4 lg:py-0 bg-white">
-									<h3 className="inline-flex gap-2 text-xl font-bold px-4 mb-3 md:px-0">
-										<PayOptionIcon />
-										<span>
-											{translations["how-would-you-like-to-pay?"] ||
-												"How would you like to pay?"}
-										</span>
-									</h3>
-									{/* <div className="flex flex-nowrap space-x-4"> */}
-									<HorizontalScrollView>
-										{Object.keys(paymentMethods).map((method, index) =>
-											paymentMethods[method].status === 1 &&
-											!(paymentMethods[method].key === "COD") ? (
-												<div
-													key={index}
-													onClick={() =>
-														setSelectedPayMethod(paymentMethods[method])
+										<div className="form-control mb-4">
+											<label className="block text-base text-slate-900 mb-2">
+												{translations["phone-number"] || "Phone Number"}
+											</label>
+											<div className="flex items-center group">
+												{process.env.NEXT_PUBLIC_OTP_LOGIN === "YES" ? 
+													<div className="h-12 py-3 min-w-fit text-base font-title font-normal px-2 rounded-s-lg border bg-slate-100 border-gray-300 group-focus-within:border-primary group-focus-within:border-r-gray-300">
+														<p>{siteConfig.phone.prefix}</p>
+													</div> 
+													: null}
+												<input
+													type="number"
+													className="w-full !pl-2  rounded-lg border border-gray-300 focus:outline-none group-focus:border-primary"
+													name="phone"
+													defaultValue={user?.phone || user?.alt_phone_no}
+													placeholder={
+														translations["your-mobile-number"] ||
+														"Your Mobile Number"
 													}
-													className={`rounded-lg flex-shrink-0 w-[196px] h-[112px] p-4 ${
-														paymentMethods[method].title ===
-														selectedPayMethod?.title
-															? "bg-amber-200 border border-primary"
-															: "bg-slate-100"
-													} relative text-slate-700 flex flex-col justify-between gap-2`}
-												>
-													<div className="flex justify-end">
-														<CustomRadio
-															isChecked={
-																paymentMethods[method].title ===
-																selectedPayMethod?.title
-															}
-														/>
-													</div>
-													<div className="w-2/3">
-														<Image
-															src={paymentMethods[method].icon}
-															height={32}
-															width={150}
-															alt="icon"
-															className="h-8 w-auto object-left object-contain"
-														/>
-													</div>
-													<h3>{paymentMethods[method].title}</h3>
-												</div>
-											) : null
-										)}
-									</HorizontalScrollView>
-									{/* </div> */}
-								</div>
-							</div>
-						)}
-
-						{/* oder confirm button  */}
-						<div className="form-control md:mt-11 responsive-action flex lg:block justify-between items-center">
-							<div className="lg:hidden">
-								<p className="">{translations["total"] || "মোট"}:</p>
-								<h3 className="text-slate-900 font-bold">
-									{siteConfig.currency.sign}{" "}
-									{grandTotal}
-								</h3>
-							</div>
-							<button
-								disabled={!cart?.length}
-								type="submit"
-								className="primary-btn !rounded-md w-[232px] lg:w-full disabled:bg-slate-300 disabled:cursor-not-allowed"
-							>
-								{translations["confirm-order"] || "Confirm Order"}
-							</button>
-						</div>
-					</form>
-				</div>
-				<div className="md:col-span-3 p-3 lg:p-6 pl-8 mx-3 md:mx-0 border-l border-slate-200">
-					<h3 className="text-lg/[26px] text-slate-700 font-semibold">
-						{translations["your-order"] || "Your Order"}
-					</h3>
-					<div
-						className={`overflow-auto scrollbar-hide ${
-							orderCollapsed && "md:h-[748px]"
-						}`}
-					>
-						<div className="mt-4">
-							{cartItems.map((item, index) =>
-								index == 2 && !orderCollapsed ? (
-									<div key={item.barcodeId} className="relative">
-										<CartCard item={item} />
-										<div className="w-full h-full rounded absolute left-0 top-0 flex-center backdrop-opacity-90 bg-white/90">
-											<button
-												className="text-btn mt-20 font-bold"
-												onClick={() => setOrderCollapsed(true)}
-											>
-												<FiPlus />
-												{translations["more"] || "More"} {cart.length - 2}
-											</button>
+													{...register("phone", {
+														required: "Phone number is required.",
+														// pattern: {
+														// 	value: siteConfig.phone.pattern,
+														// 	message: "Please enter a valid phone number",
+														// },
+													})}
+												/>
+											</div>
+											{errors.phone && (
+												<p className="errorMsg">{errors.phone.message}</p>
+											)}
 										</div>
 									</div>
-								) : (
-									<CartCard key={item.barcodeId} item={item} />
-								)
+									<div className="form-control mb-4">
+										<label className="block text-base text-slate-900 mb-2">
+											{translations["your-address"] || "Your Address"}
+										</label>
+										<textarea
+											className="h-[148px] border border-slate-300 p-4"
+											type="text"
+											name="address"
+											defaultValue={user?.address}
+											placeholder={
+												translations["type-your-address"] || "Write  your address"
+											}
+											{...register("address", {
+												required: "Address is required.",
+											})}
+										/>
+										{errors.address && (
+											<p className="errorMsg">{errors.address.message}</p>
+										)}
+									</div>
+								</div>
+							)}
+							<div className="form-control my-8 hidden lg:block">
+								<div className="border-b-2 border-slate-300 border-dashed"></div>
+							</div>
+
+							{/* Payment Options Area */}
+							{deliveryArea ? (
+								<div className="form-control">
+									<h4 className="text-xl font-bold">
+										{translations["payment-options"] || "Payment Options"}
+									</h4>
+									<div className="flex flex-col gap-3 pt-3">
+										{paymentOptions.map((payOption) =>
+											payOption.key === "no_payment" &&
+											isDeliveryChargeRequired &&
+											activePaymentMethods?.length > 1 ? null : (
+												<button
+													key={payOption.key}
+													type="button"
+													className="flex gap-2 items-center border border-slate-200 p-3"
+													onClick={() => setSelectedPaymentOption(payOption.key)}
+												>
+													<CustomRadio
+														isChecked={payOption.key === selectedPaymentOption}
+														label={payOption.title}
+														// onClick={() => setDeliveryArea(pt)}
+													/>
+													<p>
+														{siteConfig.currency.sign}{" "}
+														{payOption.value}
+													</p>
+												</button>
+											)
+										)}
+									</div>
+									{!selectedPaymentOption && (
+										<p id="paymentOptionError" className="hidden errorMsg">
+											You must select a payment option
+										</p>
+									)}
+								</div>
+							) : null}
+
+							{/* Payment Methods Area */}
+							{(selectedPaymentOption === "delivery_charge_payment" ||
+								selectedPaymentOption === "total_payment") && (
+								<div className="bg-slate-200 py-2 lg:py-0 mt-6">
+									<div className="form-control py-4 lg:py-0 bg-white">
+										<h3 className="inline-flex gap-2 text-xl font-bold px-4 mb-3 md:px-0">
+											<PayOptionIcon />
+											<span>
+												{translations["how-would-you-like-to-pay?"] ||
+													"How would you like to pay?"}
+											</span>
+										</h3>
+										{/* <div className="flex flex-nowrap space-x-4"> */}
+										<HorizontalScrollView>
+											{Object.keys(paymentMethods).map((method, index) =>
+												paymentMethods[method].status === 1 &&
+												!(paymentMethods[method].key === "COD") ? (
+													<div
+														key={index}
+														onClick={() =>
+															setSelectedPayMethod(paymentMethods[method])
+														}
+														className={`rounded-lg flex-shrink-0 w-[196px] h-[112px] p-4 ${
+															paymentMethods[method].title ===
+															selectedPayMethod?.title
+																? "bg-amber-200 border border-primary"
+																: "bg-slate-100"
+														} relative text-slate-700 flex flex-col justify-between gap-2`}
+													>
+														<div className="flex justify-end">
+															<CustomRadio
+																isChecked={
+																	paymentMethods[method].title ===
+																	selectedPayMethod?.title
+																}
+															/>
+														</div>
+														<div className="w-2/3">
+															<Image
+																src={paymentMethods[method].icon}
+																height={32}
+																width={150}
+																alt="icon"
+																className="h-8 w-auto object-left object-contain"
+															/>
+														</div>
+														<h3>{paymentMethods[method].title}</h3>
+													</div>
+												) : null
+											)}
+										</HorizontalScrollView>
+										{/* </div> */}
+									</div>
+								</div>
 							)}
 
-							<div className="my-3 border-t border-b py-3 md:py-6 border-slate-200">
-								<CouponField />
+							{/* oder confirm button  */}
+							<div className="form-control md:mt-11 responsive-action flex lg:block justify-between items-center">
+								<div className="lg:hidden">
+									<p className="">{translations["total"] || "মোট"}:</p>
+									<h3 className="text-slate-900 font-bold">
+										{siteConfig.currency.sign}{" "}
+										{grandTotal}
+									</h3>
+								</div>
+								<button
+									disabled={!cart?.length}
+									type="submit"
+									className="primary-btn !rounded-md w-[232px] lg:w-full disabled:bg-slate-300 disabled:cursor-not-allowed"
+								>
+									{translations["confirm-order"] || "Confirm Order"}
+								</button>
 							</div>
-						</div>
-
-						{/* Delivery Options  */}
-
+						</form>
+					</div>
+					<div className="md:col-span-3 p-3 lg:p-6 pl-8 mx-3 md:mx-0 border-l border-slate-200">
+						<h3 className="text-lg/[26px] text-slate-700 font-semibold">
+							{translations["your-order"] || "Your Order"}
+						</h3>
 						<div
-							className={`p-4 mt-4 lg:mt-8 bg-slate-100 shadow border ${
-								deliveryArea ? "border-green-500" : "border-primary"
+							className={`overflow-auto scrollbar-hide ${
+								orderCollapsed && "md:h-[748px]"
 							}`}
 						>
-							<h4 className="text-slate-700">
-								{translations["select-delivery-area"] || "Select Delivery Area"}
-							</h4>
-							<div className="flex flex-col lg:flex-row gap-3 lg:gap-12 lg:items-center py-3">
-								{deliveryAreas.map((area) => (
-									<button
-										key={area.key}
-										className={`flex gap-2 items-center`}
-										onClick={() => handleDeliveryAreaChange(area)}
-									>
-										<CustomRadio
-											isChecked={deliveryArea?.key === area.key}
-											label={area.title}
-											// onClick={() => setDeliveryArea(area)}
-										/>
-										<p
-											className={cn(
-												`font-semibold`,
-												!deliveryCharge && deliveryArea && "line-through"
-											)}
-										>
-											{siteConfig.currency.sign}{" "}{" "}
-											{area.charges}
-										</p>
-									</button>
-								))}
-							</div>
-						</div>
-						{!deliveryArea && (
-							<p id="deliveryAreaError" className="hidden errorMsg">
-								You must select delivery area
-							</p>
-						)}
-
-						<div className="text-slate-700 p-4 rounded-lg shadow bg-white mt-2">
-							<div className="flex-between my-2">
-								<p>{translations["total"] || "Total"}</p>
-								<p>
-									{siteConfig.currency.sign}{" "}
-									{total}
-								</p>
-							</div>
-							<div className="flex-between my-2">
-								<p>{translations["coupon-discount"] || "Coupon Discount"}</p>
-								{discountCoupon ? (
-									<span className="text-primary">{discountCoupon.code}</span>
-								) : (
-									<button
-										className=" text-black"
-										// onClick={() => setShowModal(true)}
-									>
-										{translations["coupon-code"] || "Coupon Code"}
-									</button>
+							<div className="mt-4">
+								{cartItems.map((item, index) =>
+									index == 2 && !orderCollapsed ? (
+										<div key={item.barcodeId} className="relative">
+											<CartCard item={item} />
+											<div className="w-full h-full rounded absolute left-0 top-0 flex-center backdrop-opacity-90 bg-white/90">
+												<button
+													className="text-btn mt-20 font-bold"
+													onClick={() => setOrderCollapsed(true)}
+												>
+													<FiPlus />
+													{translations["more"] || "More"} {cart.length - 2}
+												</button>
+											</div>
+										</div>
+									) : (
+										<CartCard key={item.barcodeId} item={item} />
+									)
 								)}
-							</div>
-							<div className="flex-between my-2">
-								<p>{translations["discount-amount"] || "Discount Amount"}</p>
-								<p className="text-red-500">
-									-{siteConfig.currency.sign}{" "}
-									{discountedPrice}
-								</p>
+
+								<div className="my-3 border-t border-b py-3 md:py-6 border-slate-200">
+									<CouponField />
+								</div>
 							</div>
 
-							<div className="border-b border-slate-300 my-2"></div>
-							<div className="flex-between my-2">
-								<p>
-									{translations["total-with-discount"] || "Total With Discount"}
-								</p>
-								<p>
-									{siteConfig.currency.sign}{" "}
-									{totalWithDiscount}
-								</p>
-							</div>
+							{/* Delivery Options  */}
 
-							{deliveryArea && (
+							<div
+								className={`p-4 mt-4 lg:mt-8 bg-slate-100 shadow border ${
+									deliveryArea ? "border-green-500" : "border-primary"
+								}`}
+							>
+								<h4 className="text-slate-700">
+									{translations["select-delivery-area"] || "Select Delivery Area"}
+								</h4>
+								<div className="flex flex-col lg:flex-row gap-3 lg:gap-12 lg:items-center py-3">
+									{deliveryAreas.map((area) => (
+										<button
+											key={area.key}
+											className={`flex gap-2 items-center`}
+											onClick={() => handleDeliveryAreaChange(area)}
+										>
+											<CustomRadio
+												isChecked={deliveryArea?.key === area.key}
+												label={area.title}
+												// onClick={() => setDeliveryArea(area)}
+											/>
+											<p
+												className={cn(
+													`font-semibold`,
+													!deliveryCharge && deliveryArea && "line-through"
+												)}
+											>
+												{siteConfig.currency.sign}{" "}{" "}
+												{area.charges}
+											</p>
+										</button>
+									))}
+								</div>
+							</div>
+							{!deliveryArea && (
+								<p id="deliveryAreaError" className="hidden errorMsg">
+									You must select delivery area
+								</p>
+							)}
+
+							<div className="text-slate-700 p-4 rounded-lg shadow bg-white mt-2">
 								<div className="flex-between my-2">
+									<p>{translations["total"] || "Total"}</p>
 									<p>
-										{translations["delivery-charge"] || "Delivery Charge"}{" "}
-										{!deliveryCharge && (
-											<span className="bg-green-100 px-2 text-green-500">
-												Free
-											</span>
-										)}
-									</p>
-									<p>
-										{siteConfig.currency.shortForm}
-										{deliveryCharge}
+										{siteConfig.currency.sign}{" "}
+										{total}
 									</p>
 								</div>
-							)}
-							<div className="border-b border-slate-900 my-2"></div>
-							<div className="flex-between my-2 font-bold">
-								<p>{translations["grand-total"] || "Grand Total"}</p>
+								<div className="flex-between my-2">
+									<p>{translations["coupon-discount"] || "Coupon Discount"}</p>
+									{discountCoupon ? (
+										<span className="text-primary">{discountCoupon.code}</span>
+									) : (
+										<button
+											className=" text-black"
+											// onClick={() => setShowModal(true)}
+										>
+											{translations["coupon-code"] || "Coupon Code"}
+										</button>
+									)}
+								</div>
+								<div className="flex-between my-2">
+									<p>{translations["discount-amount"] || "Discount Amount"}</p>
+									<p className="text-red-500">
+										-{siteConfig.currency.sign}{" "}
+										{discountedPrice}
+									</p>
+								</div>
 
-								<p>
-									{siteConfig.currency.sign}{" "}
-									{grandTotal}
-								</p>
+								<div className="border-b border-slate-300 my-2"></div>
+								<div className="flex-between my-2">
+									<p>
+										{translations["total-with-discount"] || "Total With Discount"}
+									</p>
+									<p>
+										{siteConfig.currency.sign}{" "}
+										{totalWithDiscount}
+									</p>
+								</div>
+
+								{deliveryArea && (
+									<div className="flex-between my-2">
+										<p>
+											{translations["delivery-charge"] || "Delivery Charge"}{" "}
+											{!deliveryCharge && (
+												<span className="bg-green-100 px-2 text-green-500">
+													Free
+												</span>
+											)}
+										</p>
+										<p>
+											{siteConfig.currency.shortForm}
+											{deliveryCharge}
+										</p>
+									</div>
+								)}
+								<div className="border-b border-slate-900 my-2"></div>
+								<div className="flex-between my-2 font-bold">
+									<p>{translations["grand-total"] || "Grand Total"}</p>
+
+									<p>
+										{siteConfig.currency.sign}{" "}
+										{grandTotal}
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			{showModal && (
-				<CouponModal
-					showModal={showModal}
-					setShowModal={setShowModal}
-					total={total}
-				/>
-			)}
-		</section>
+				{showModal && (
+					<CouponModal
+						showModal={showModal}
+						setShowModal={setShowModal}
+						total={total}
+					/>
+				)}
+			</section>
+		</>
 	);
 };
 

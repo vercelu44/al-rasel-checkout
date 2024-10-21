@@ -44,8 +44,18 @@ const useOrderPlace = () => {
         });
         const data = await res.json();
         dispatch(setGlobalLoader(false));
-        // console.log(data);
-        if (data?.sessionId) {
+
+        if (data?.southeastSession) {
+          toast.success("SouthEast payment is processing please wait");
+          dispatch(clearDiscountInfo());
+          dispatch(clearCart());
+          Checkout.configure({
+            session: {
+              id: data?.southeastSession?.id,
+            },
+          });
+          Checkout.showPaymentPage();
+        } else if (data?.sessionId) {
           toast.success("Stripe payment is processing please wait");
           dispatch(clearDiscountInfo());
           dispatch(clearCart());
