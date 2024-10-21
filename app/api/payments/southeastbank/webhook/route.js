@@ -28,7 +28,7 @@ export async function POST(request) {
     order_id: reqData?.order?.id,
     status: "successful",
     amount: reqData?.transaction?.amount,
-    payment_method: "southeastbank",
+    payment_method: "stripe", // need to change later
     transaction_id: reqData?.transaction?.id,
   };
 
