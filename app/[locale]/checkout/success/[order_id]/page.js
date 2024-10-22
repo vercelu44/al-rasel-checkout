@@ -77,8 +77,8 @@ const OrderSuccess = ({ params }) => {
 									{siteConfig.currency.sign} {order?.total_amount}
 								</p>
 							</div>
-							<div className="border-b border-slate-700 my-2"></div>
-							<div className="flex-between my-2 font-bold">
+							{/* <div className="border-b border-slate-700 my-2"></div> */}
+							{/* <div className="flex-between my-2 font-bold">
 								<p>
 									{translations["amount-payable"] || "Amount Payable"}{" "}
 									{getPaymentLabel(
@@ -90,7 +90,7 @@ const OrderSuccess = ({ params }) => {
 								<p>
 									{siteConfig.currency.sign} {order?.due_amount}
 								</p>
-							</div>
+							</div> */}
 						</div>
 						<div className="actions my-6 flex gap-3 lg:gap-4 justify-between items-center">
 							{isGuestCheckout ? (

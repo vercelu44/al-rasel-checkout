@@ -4,7 +4,7 @@ const CustomRadio = ({ isChecked, label, ...props }) => {
     <div {...props} className="flex items-center gap-2">
       <div
         className={`rounded-full p-1 border ${
-          isChecked ? "border-primary" : "border-slate-100"
+          isChecked ? "border-primary" : "border-primary"
         } bg-white`}
       >
         <div

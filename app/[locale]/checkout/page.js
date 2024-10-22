@@ -350,7 +350,7 @@ const Checkout = () => {
 												<button
 													key={payOption.key}
 													type="button"
-													className="flex gap-2 items-center border border-slate-200 p-3"
+													className="flex gap-2 items-center border bg-slate-100 border-slate-200 p-3"
 													onClick={() => setSelectedPaymentOption(payOption.key)}
 												>
 													<CustomRadio
