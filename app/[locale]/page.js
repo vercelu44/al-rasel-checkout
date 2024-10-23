@@ -36,13 +36,13 @@ export default async function Home() {
     <>
       {settings?.slider_section ? (
         <>
-          <section className="banner hidden md:block">
+          {/* <section className="banner hidden md:block">
             <div className="bg-white pt-3">
               <MiniBanner />
             </div>
-          </section>
+          </section> */}
           <section className="banner">
-            <div className="bg-white pt-3 lg:pt-0">
+            <div className="bg-white pt-3">
               <Intro />
             </div>
           </section>
@@ -56,12 +56,7 @@ export default async function Home() {
       <FlashSale translations={translations} />
       {settings?.category_section ? (
         <section className="lg:pb-6 mt-6 lg:mt-6 relative">
-          <div
-            className="all-category py-4 md:py-0 lg:py-6"
-            // style={{
-            // 	backgroundImage: "linear-gradient(90deg, #603990 0%, #283990 100%)",
-            // }}
-          >
+          <div className="all-category py-4 md:py-0 lg:py-6 bg-gradient-custom from-amber-400 to-primary md:bg-none">
             <div className="container">
               <SectionTitle
                 title={translations["popular-category"] || "Popular Category"}

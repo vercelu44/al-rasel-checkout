@@ -62,34 +62,34 @@ export default function BottomNavigation() {
 	const menuList = [
 		{
 			href: "/",
-			name: translations["home"],
+			name: translations["home"] || "Home",
 			icon: <HomeIcon />,
 			activeIcon: <HomeIFillIcon />,
 		},
 		{
 			href: "/categories",
-			name: translations["category"],
+			name: translations["category"] || "Category",
 			icon: <CategoryIcon />,
 			activeIcon: <CategoryFillIcon />,
 		},
 		{
 			href: isGuestCheckout ? null : `${user ? "/dashboard" : "/mobile-login"}`,
 			name: isGuestCheckout
-				? translations["cart"] || "কার্ট"
-				: translations["profile"] || "প্রোফাইল",
+				? translations["cart"] || "Cart"
+				: translations["profile"] || "Profile",
 			icon: isGuestCheckout ? <CartIcon /> : <ProfileIcon />,
 			activeIcon: isGuestCheckout ? <CartIcon /> : <ProfileFillIcon />,
 			onClick: () => dispatch(toggleCart()), // Properly defining onClick handler,
 		},
 		{
 			href: `https://m.me/${messengerUser}`,
-			name: translations["chat"],
+			name: translations["chat"] || "Chat",
 			icon: <MessengerIcon />,
 			activeIcon: <MessengerFillIcon />,
 		},
 		{
 			href: `tel:${phone[0]}`,
-			name: translations["call"],
+			name: translations["call"] || "Call",
 			icon: <CallIcon />,
 			activeIcon: <CallFillIcon />,
 		},

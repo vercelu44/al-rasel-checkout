@@ -97,7 +97,7 @@
 }
 
 .buy-btn {
-  @apply text-center text-base/[16px] font-semibold font-title text-black bg-[#F6E921] w-full rounded-md h-[36px] active:scale-95;
+  @apply text-center text-base/[16px] font-semibold font-title text-white bg-primary w-full rounded-md h-[36px] active:scale-95;
 }
 
 .submit-btn {
@@ -145,7 +145,7 @@
 
 .nav-menu a,
 .nav-menu .menuBtn {
-  @apply  font-title  text-slate-500 font-semibold md:text-slate-700 ease-in duration-100 hover:text-primary;
+  @apply  font-title  text-slate-500 font-semibold md:text-header-foreground ease-in duration-100 hover:text-header-foreground;
 }
 
 /* since nested groupes are not supported we have to use 
@@ -178,7 +178,7 @@
 }
 
 .header-actions .single-action {
-  @apply w-12 md:w-10 md:h-10 xl:h-12 xl:w-12 inline-flex items-center justify-center text-[#475569] md:text-slate-900 md:border md:border-slate-900 md:rounded-full ease-in duration-100 md:hover:bg-primary md:hover:text-white hover:border-transparent;
+  @apply w-12 md:w-10 md:h-10 xl:h-12 xl:w-12 inline-flex items-center justify-center text-[#475569] md:text-header-foreground md:border md:border-header-foreground md:rounded-full ease-in duration-100 md:hover:bg-primary md:hover:text-white md:hover:border-white md:hover:shadow-[0_0_6px_rgba(0,0,0,0.1)];
 }
 /* Service Features */
 
@@ -209,7 +209,7 @@
 }
 
 .product-actions .action-btn {
-  @apply p-[5px] w-9 h-9 text-black border border-[#F6E921] rounded-lg cursor-pointer ease-in duration-100 hover:bg-[#F6E921] hover:text-black hover:border-[#F6E921];
+  @apply p-[5px] w-9 h-9 text-primary border border-primary rounded-lg cursor-pointer ease-in duration-100 hover:bg-primary hover:text-white hover:border-primary;
 }
 
 .wishlist-action-btn {

@@ -108,7 +108,7 @@ export default function MainNav({ settings }) {
         }}
         className={`fixed left-0 top-0 w-full z-30 `}
       >
-        <div className="py-3 md:py-1 xl:py-4 md:bg-[#F6E921] bg-white border-b border-slate-300">
+        <div className="py-3 md:py-1 xl:py-4 bg-white md:bg-header border-b border-slate-300">
           <div className="container">
             <div className="header-wrap flex justify-between items-center">
               {/* Nav Items  */}
@@ -196,7 +196,9 @@ export default function MainNav({ settings }) {
                     </div>
                   ) : null}
                   {/* <div className="hidden md:block"> */}
-                  <LanguageSelector locale={locale} />
+                  {process.env.NEXT_PUBLIC_LOCALIZATION !== "NO" && (
+                    <LanguageSelector locale={locale} />
+                  )}
                   {/* </div> */}
                 </div>
               </div>
