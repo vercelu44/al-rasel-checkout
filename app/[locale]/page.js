@@ -82,7 +82,7 @@ export default async function Home() {
       ) : null}
 
       {settings?.best_selling_section ? (
-        <section className="best-sell bg-primary mt-8 md:mt-0 py-4 md:py-10 lg:pb-14">
+        <section className="best-sell bg-primary/20 mt-8 md:mt-0 py-4 md:py-10 lg:pb-14">
           <BestSell translations={translations} />
         </section>
       ) : null}

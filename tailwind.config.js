@@ -37,7 +37,7 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: "#283990",
+          DEFAULT: process.env.NEXT_PUBLIC_PRIMARY_COLOR || "#283990",
           50: "#FFF6EB",
           200: "#483990",
         },
