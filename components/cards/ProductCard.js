@@ -59,7 +59,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
       {!loading ? (
         <>
           <div
-            className="product-card-wrap bg-white rounded shadow p-3 mb-4"
+            className="relative product-card-wrap bg-white rounded shadow p-3 mb-4"
             // style={{ border: `1px solid ${settings?.colors?.primary}` }}
           >
             <div className="product-img-action-wrap relative @container">
@@ -127,18 +127,18 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
                   {product_name}
                 </Link>
               </h2>
-              <div className="product-price mb-3 flex flex-col md:flex-row font-title md:items-center gap-2">
+              <div className="product-price mb-3 flex flex-row font-title items-center gap-2">
                 <span className="font-semibold ">
                   {siteConfig.currency.shortForm}
                   {new_price}
                 </span>
                 {old_price > new_price ? (
-                  <div className="hidden md:flex items-center gap-2">
+                  <div className="flex items-center gap-2">
                     <del className="old-price text-sm font-normal text-slate-400">
                       {siteConfig.currency.shortForm}
                       {old_price}
                     </del>
-                    <span className="discount-badge rounded text-white bg-red-500 px-1 ml-1 !text-[12px]">
+                    <span className="absolute md:static bottom-28 left-2 z-20 discount-badge rounded text-white bg-red-500 px-1 ml-1 !text-[12px]">
                       {getDiscountPercent(old_price, new_price)}% OFF
                     </span>
                   </div>
