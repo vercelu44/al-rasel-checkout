@@ -23,7 +23,7 @@ const SocialLogin = () => {
 					/>
 					<span>{translations["google"] || "Google"}</span>
 				</button>
-				<button onClick={() => signIn("facebook")} className="social-icon-btn">
+				{/* <button onClick={() => signIn("facebook")} className="social-icon-btn">
 					<Image
 						src={"/assets/icons/social/facebook.png"}
 						alt="facebook"
@@ -32,7 +32,7 @@ const SocialLogin = () => {
 						sizes="100vh"
 					/>
 					<span>{translations["facebook"] || "Facebook"}</span>
-				</button>
+				</button> */}
 				{/*         <button className="social-icon-btn">
           <Image
             src={"/assets/icons/social/twitter.png"}

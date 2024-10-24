@@ -105,7 +105,7 @@ export default async function Home() {
       ) : null} */}
 
       {settings?.shop_section ? (
-        <section className="new-products pt-6 lg:pt-14">
+        <section className="new-products py-6 lg:py-12">
           <div className="container">
             <SectionTitle
               title={translations["new-in-shop"]}
@@ -123,12 +123,12 @@ export default async function Home() {
         </section>
       ) : null}
 
-      <section className="home-category-products mb-3">
+      <section className="home-category-products pb-3 lg:pb-14 bg-custom-bg">
         <HomeCategoryProducts />
       </section>
 
       {settings?.video_section ? (
-        <section className="mt-6 lg:mt-14">
+        <section className="mt-6 lg:mt-6">
           <VideoBanner translations={translations} />
         </section>
       ) : null}

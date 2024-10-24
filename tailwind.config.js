@@ -62,7 +62,8 @@ module.exports = {
         header: {
           DEFAULT:process.env.NEXT_PUBLIC_HEADER_BACKGROUND ||"#283990",
           foreground: process.env.NEXT_PUBLIC_HEADER_FOREGROUND || "#FFF",
-        } 
+        },
+        "custom-bg": process.env.NEXT_PUBLIC_CUSTOM_BG || "#FFF",
       },
       backgroundImage: {
         'gradient-custom': 'linear-gradient(90deg, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%)',
