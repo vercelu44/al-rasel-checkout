@@ -16,7 +16,7 @@ const CategoriesMenuList = ({ setShow, categories }) => {
 						<Link
 							key={category.id}
 							onClick={() => setShow(false)}
-							href={`categories/${category.slug}?sort_type=new`}
+							href={`/categories/${category.slug}?sort_type=new`}
 							className="hover:transform hover:translate-x-2 transition ease-in-out duration-300"
 						>
 							{category.category_name}
