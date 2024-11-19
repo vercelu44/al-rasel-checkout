@@ -1,13 +1,13 @@
-import { TbCurrencyDirham, TbCurrencyTaka } from "react-icons/tb";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 export const siteConfig = {
   currency: {
-		locale: "টাকা",
-		sign: "৳",
-		code: "BDT",
-		shortForm: "Tk",
-		icon: <TbCurrencyTaka size={16} />, //Optional
-	},
+    locale: process.env.NEXT_PUBLIC_CURRENCY || "টাকা",
+    sign: process.env.NEXT_PUBLIC_CURRENCY || "৳",
+    code: process.env.NEXT_PUBLIC_CURRENCY || "BDT",
+    shortForm: process.env.NEXT_PUBLIC_CURRENCY || "Tk",
+    icon: process.env.NEXT_PUBLIC_CURRENCY || <TbCurrencyTaka size={16} />, //Optional
+  },
   phone: {
     country: "Bangladesh",
     prefix: "(BD) +88",
