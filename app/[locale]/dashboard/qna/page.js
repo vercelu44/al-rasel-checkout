@@ -9,7 +9,7 @@ export default function QNAPage() {
 	return (
 		<div className="mb-6">
 			<NestedPageTitle
-				title={translations["questions-and-answers"] || "প্রশ্ন ও উত্তর"}
+				title={translations["q&a"] || "Q&A"}
 				href={"/dashboard"}
 			/>
 			<div className="px-3 lg:px-10">

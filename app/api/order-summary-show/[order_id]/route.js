@@ -39,6 +39,7 @@ export async function GET(request, { params }) {
 			},
 			customer: sale?.customer,
 			sale_date: sale?.sale_date,
+			invoice_url: sale?.invoice_url,
 		};
 
 		return NextResponse.json(orderSummary, { status: 200 });

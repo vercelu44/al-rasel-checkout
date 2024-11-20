@@ -17,17 +17,17 @@ export default function NoProducts() {
 					<Lottie animationData={notFound} loop={false} />
 				</div>
 				<h2 className="text-2xl lg:text-3xl font-bold font-title text-slate-900">
-					{translations["no-products"] || "দুঃখিত, কোন প্রাডাক্ট পাওয়া যায় নি"}
+					{translations["no-products"] || "No products found"}
 				</h2>
 				<p className="text-base text-center lg:text-lg text-slate-600 mt-6 mb-8">
 					{translations["no-products-msg"] ||
-						"আমরা আপনার অনুসন্ধান এর সাথে কোনো মিল খুঁজে পাচ্ছি না"}
+						"We couldn't find any matches for your search"}
 				</p>
 				<Link
 					href="/"
 					className="inline-block font-semibold text-white bg-primary rounded-lg px-8 py-3"
 				>
-					{translations["back-to-home"] || "হোমে ফিরে যান"}
+					{translations["back-to-home"] || "Back to Home"}
 				</Link>
 			</div>
 			<CallInquiry />

@@ -214,7 +214,7 @@ const ProductDetails = ({ product, settings, translations }) => {
 										className="hover:text-primary"
 									>
 										{formatLongNumber(product?.total_question_answer || 0)}{" "}
-										{translations["questions-and-answers"] || "Q&A"}
+										{translations["q&a"] || "Q&A"}
 									</Link>
 								</p>
 

@@ -63,22 +63,22 @@ const ProductTabsView = ({ product, settings, translations }) => {
   const tabItems = [
     {
       id: 1,
-      title: translations["product-description"] || "প্রডাক্টের বিবরণ",
+      title: translations["product-description"] || "Description",
       key: `p-descriptions`,
     },
     {
       id: 2,
-      title: translations["specifications"] || "স্পেসিফিকেশন",
+      title: translations["specifications"] || "Specifications",
       key: `p-specifications`,
     },
     {
       id: 3,
-      title: translations["ratings-and-reviews"] || "রেটিং ও রিভিউ",
+      title: translations["ratings-and-reviews"] || "Ratings & Reviews",
       key: `p-rating-reviews`,
     },
     {
       id: 4,
-      title: translations["questions-and-answers"] || "প্রশ্ন ও উত্তর",
+      title: translations["q&a"] || "Q&A",
       key: `p-qna`,
     },
   ];

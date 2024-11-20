@@ -21,22 +21,22 @@ const DashboardLayout = ({ children, params }) => {
 
 	const navItems = [
 		{
-			text: translations["my-profile"] || "আমার প্রফাইল",
+			text: translations["my-profile"] || "My Profile",
 			icon: <FaUser />,
 			path: "profile",
 		},
 		{
-			text: translations["my-order"] || "আমার অর্ডার",
+			text: translations["my-order"] || "My Orders",
 			icon: <FaClipboardList />,
 			path: "my-orders",
 		},
 		{
-			text: translations["my-wish-list"] || "আমার উইশ লিষ্ট",
+			text: translations["my-wish-list"] || "My Wish List",
 			icon: <HiHeart />,
 			path: "my-wishlist",
 		},
 		{
-			text: translations["my-review"] || "আমার রিভিউ",
+			text: translations["my-review"] || "My Reviews",
 			icon: <MdRateReview />,
 			path: "my-reviews",
 		},
@@ -46,12 +46,12 @@ const DashboardLayout = ({ children, params }) => {
 		// 	path: "my-voucher",
 		// },
 		{
-			text: translations["questions-and-answers"] || "প্রশ্ন ও উত্তর",
+			text: translations["q&a"] || "Q&A",
 			icon: <RiQuestionAnswerFill />,
 			path: "qna",
 		},
 		{
-			text: translations["support-ticket"] || "সাপোর্ট টিকিট",
+			text: translations["support-ticket"] || "Support Ticket",
 			icon: <HiTicket />,
 			path: "support-ticket",
 		},
@@ -104,7 +104,7 @@ const DashboardLayout = ({ children, params }) => {
 											<span className={`text-amber-400`}>
 												<IoLogOut />
 											</span>
-											<span>{translations["log-out"] || "লগ-আউট"}</span>
+											<span>{translations["log-out"] || "Log Out"}</span>
 										</button>
 									</li>
 								</div>

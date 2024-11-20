@@ -25,7 +25,7 @@ const QnA = () => {
 							href={`/help/qna`}
 							className="text-base text-slate-900 hover:text-primary"
 						>
-							{translations["questions-and-answers"] || "প্রশ্ন ও উত্তর"}
+							{translations["q&a"] || "Q&A"}
 						</Link>
 					</div>
 				</div>
@@ -33,7 +33,7 @@ const QnA = () => {
 
 			<div className="lg:container">
 				<NestedPageTitle
-					title={translations["questions-and-answers"] || "প্রশ্ন ও উত্তর"}
+					title={translations["q&a"] || "Q&A"}
 					href={"/mobile-login"}
 					className={"lg:px-0"}
 				/>

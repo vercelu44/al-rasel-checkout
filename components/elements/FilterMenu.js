@@ -17,7 +17,7 @@ export default function FilterMenu() {
 		>
 			<HiOutlineFilter size={20} />
 			<span className="text-base text-slate-900">
-				{translations["filter"] || "ফিল্টার করুন"}
+				{translations["filter"] || "Filter"}
 			</span>
 		</div>
 	);

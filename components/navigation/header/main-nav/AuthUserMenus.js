@@ -49,7 +49,7 @@ export default function AuthUserMenus({ togglePopover }) {
       path: "/dashboard/my-voucher",
     },
     {
-      text: translations["questions-and-answers"] || "Q&A",
+      text: translations["q&a"] || "Q&A",
       icon: <RiQuestionAnswerFill />,
       path: "/dashboard/qna",
     },

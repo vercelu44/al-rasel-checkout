@@ -18,17 +18,17 @@ export default function NotFound() {
 					className="mb-12 h-[200px] w-[200px] lg:h-[340px] lg:w-[340px]"
 				/>
 				<h2 className="text-2xl lg:text-3xl font-bold font-title text-slate-900">
-					{translations["page-not-found!"] || "পৃষ্ঠা খুঁজে পাওয়া যায়নি!"}
+					{translations["page-not-found!"] || "Page not found!"}
 				</h2>
 				<p className="text-base text-center lg:text-lg text-slate-600 mt-6 mb-8">
 					{translations["page-not-found"] ||
-						"আমরা দুঃখিত, কিন্তু আপনার অনুরোধ করা পৃষ্ঠাটি পাওয়া যায়নি"}
+						"We're sorry, but the page you requested could not be found"}
 				</p>
 				<Link
 					href="/"
 					className="inline-block font-semibold text-white bg-primary rounded-lg px-8 py-3"
 				>
-					{translations["back-to-home"] || "হোমে ফিরে যান"}
+					{translations["back-to-home"] || "Back to Home"}
 				</Link>
 			</div>
 			<CallInquiry />

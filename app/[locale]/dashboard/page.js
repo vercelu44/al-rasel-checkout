@@ -29,34 +29,34 @@ export default function MobileDashboardLayout({ params }) {
 	if (!isMobile) router.push("/dashboard/profile"); //redirecting user to profile for desktop
 
 	const navItems = [
-		{ text: "আমার প্রফাইল", icon: <FaUser />, path: "/dashboard/profile" },
+		{ text: translations["my-profile"] || "My Profile", icon: <FaUser />, path: "/dashboard/profile" },
 		{
-			text: translations["my-order"] || "আমার অর্ডার",
+			text: translations["my-order"] || "My Orders",
 			icon: <FaClipboardList />,
 			path: "/dashboard/my-orders",
 		},
 		{
-			text: translations["wishlist"] || "উইশ লিষ্ট",
+			text: translations["wishlist"] || "Wishlist",
 			icon: <HiHeart />,
 			path: "/dashboard/my-wishlist",
 		},
 		{
-			text: translations["my-review"] || "আমার রিভিউ",
+			text: translations["my-review"] || "My Reviews",
 			icon: <MdRateReview />,
 			path: "/dashboard/my-reviews",
 		},
 		{
-			text: translations["voucher"] || "ভাউচার",
+			text: translations["voucher"] || "Voucher",
 			icon: <HiReceiptPercent />,
 			path: "/dashboard/my-voucher",
 		},
 		{
-			text: translations["questions-and-answers"] || "প্রশ্ন ও উত্তর",
+			text: translations["q&a"] || "Q&A",
 			icon: <RiQuestionAnswerFill />,
 			path: "/dashboard/qna",
 		},
 		{
-			text: translations["support-ticket"] || "সাপোর্ট টিকিট",
+			text: translations["support-ticket"] || "Support Ticket",
 			icon: <HiTicket />,
 			path: "/dashboard/support-ticket",
 		},
@@ -64,27 +64,27 @@ export default function MobileDashboardLayout({ params }) {
 
 	const companyLinks = [
 		{
-			text: translations["about-us"] || "আমাদের সম্পর্কে",
+			text: translations["about-us"] || "About Us",
 			icon: <BsInfoCircleFill />,
 			path: "/pages/about-us",
 		},
 		{
-			text: translations["booking-policy"] || "বুকিং পলিসি",
+			text: translations["booking-policy"] || "Booking Policy",
 			icon: <MdLibraryBooks />,
 			path: "/pages/booking-policy",
 		},
 		{
-			text: translations["trams-and-conditions"] || "ট্রামস এন্ড কন্ডিশন",
+			text: translations["trams-and-conditions"] || "Terms & Conditions",
 			icon: <IoIosWarning />,
 			path: "/pages/terms-and-conditions",
 		},
 		{
-			text: translations["privacy-policy"] || "প্রাইভেসি পলিসি",
+			text: translations["privacy-policy"] || "Privacy Policy",
 			icon: <SiSpringsecurity />,
 			path: "/pages/privacy-policy",
 		},
 		{
-			text: translations["log-out"] || "লগ-আউট",
+			text: translations["log-out"] || "Log Out",
 			icon: <IoLogOut />,
 			path: "logout",
 		},
@@ -111,7 +111,7 @@ export default function MobileDashboardLayout({ params }) {
 					</div>
 					<div>
 						<h3 className="text-slate-800 font-semibold">
-							{user?.name || <span className="text-slate-300">নাম নেই</span>}
+							{user?.name || <span className="text-slate-300">No Name</span>}
 						</h3>
 						<p className="text-slate-500 text-sm">
 							{user?.phone && user?.country_code + user.phone}
@@ -138,15 +138,15 @@ export default function MobileDashboardLayout({ params }) {
 			</div>
 			<div id="user-additional-menu" className="my-4 p-3">
 				<MenuCard
-					title={translations["offer"] || "অফার"}
+					title={translations["offer"] || "Offer"}
 					menuItems={navItems.slice(4, 5)}
 				/>
 				<MenuCard
-					title={translations["help"] || "হেল্প"}
+					title={translations["help"] || "Help"}
 					menuItems={navItems.slice(5, 7)}
 				/>
 				<MenuCard
-					title={translations["company"] || "কোম্পানি"}
+					title={translations["company"] || "Company"}
 					menuItems={companyLinks}
 				/>
 			</div>

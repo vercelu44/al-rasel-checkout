@@ -12,33 +12,33 @@ const SortingBottomSheet = ({ showModal, setShowModal }) => {
 	const selected = new URLSearchParams(searchParams).get("sort_type");
 
 	const sortOptions = [
-		{ value: "default", displayText: translations["random"] || "এলোমেলো" },
+		{ value: "default", displayText: translations["random"] || "Random" },
 		{
 			value: "new",
-			displayText: translations["new-product"] || "নতুন প্রডাক্ট",
+			displayText: translations["new-product"] || "New Product",
 		},
 		{
 			value: "best_selling",
 			displayText:
-				translations["best-selling-product"] || "বেস্ট সেলিং প্রডাক্ট",
+				translations["best-selling-product"] || "Best Selling Product",
 		},
 		{
 			value: "low_high",
-			displayText: translations["price-(low-to-high)"] || "দাম (কম থেকে বেশি)",
+			displayText: translations["price-(low-to-high)"] || "Price (Low to High)",
 		},
 		{
 			value: "high_low",
-			displayText: translations["price-(high-to-low)"] || "দাম (বেশি থেকে কম)",
+			displayText: translations["price-(high-to-low)"] || "Price (High to Low)",
 		},
 		{
 			value: "rating_low_high",
 			displayText:
-				translations["rating-(low-to-high)"] || "রেটিং (কম থেকে বেশি)",
+				translations["rating-(low-to-high)"] || "Rating (Low to High)",
 		},
 		{
 			value: "rating_high_low",
 			displayText:
-				translations["rating-(high-to-low)"] || "রেটিং (বেশি থেকে কম)",
+				translations["rating-(high-to-low)"] || "Rating (High to Low)",
 		},
 	];
 
@@ -51,7 +51,7 @@ const SortingBottomSheet = ({ showModal, setShowModal }) => {
 		<Modal
 			showModal={showModal}
 			setShowModal={setShowModal}
-			title={translations["sort"] || "শর্টিং করুন"}
+			title={translations["sort"] || "Sort by"}
 		>
 			<div className="w-full lg:min-w-[27rem] text-slate-600 px-4">
 				<ul>

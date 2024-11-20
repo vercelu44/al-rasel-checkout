@@ -64,7 +64,7 @@ const CategoryFilter = ({ selectedCategory }) => {
 							onClick={() => router.push("/products")}
 						>
 							<IoChevronBackOutline />
-							{translations["all-categories"] || "সব ক্যাটাগরি"}
+							{translations["all-categories"] || "All categories"}
 						</button>
 						{!selectedCategory.parent_id ? (
 							categoryWithChildren(selectedCategory)

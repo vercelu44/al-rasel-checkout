@@ -16,7 +16,7 @@ export default function SortMenu() {
 			>
 				<SortIcon />
 				<span className="text-base text-slate-900">
-					{translations["sort"] || "শর্টিং করুন"}
+					{translations["sort"] || "Sort by"}
 				</span>
 			</div>
 			{isSort && (

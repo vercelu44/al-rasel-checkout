@@ -64,7 +64,7 @@ const BrandFilter = ({ filteredBrands, selectedBrandIds }) => {
           {!isSearch ? (
             <div className="flex justify-between items-center pt-1 pr-2">
               <h6 className="text-[16px] font-bold text-slate-900">
-                {translations["brands"] || "ব্র্যান্ড সমূহ"}
+                {translations["brands"] || "All Brands"}
               </h6>
               <button
                 className="p-2 bg-white rounded-full border-2 border-[#E2E8F0] flex justify-center items-center  mt-[-4px]"
@@ -84,7 +84,7 @@ const BrandFilter = ({ filteredBrands, selectedBrandIds }) => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder={
-                    translations["search-for-brands"] || "ব্রান্ড সার্চ করুন"
+                    translations["search-for-brands"] || "Search for brands"
                   }
                   className="h-[40px] w-full border border-[#E2E8F0] bg-slate-100  focus:bg-white focus:border-primary focus:outline-none rounded-full"
                 />
@@ -134,7 +134,7 @@ const BrandFilter = ({ filteredBrands, selectedBrandIds }) => {
                 <span className="mr-1">
                   <GoPlus />
                 </span>
-                {translations["see-all"] || "আরও"}
+                {translations["see-all"] || "See All"}
               </span>
             </div>
           ) : null}
@@ -147,7 +147,7 @@ const BrandFilter = ({ filteredBrands, selectedBrandIds }) => {
                 <span className="mr-1">
                   <FiMinus size={20} />
                 </span>
-                {translations["see-less"] || "কমান"}
+                {translations["see-less"] || "See Less"}
               </span>
             </div>
           ) : null}

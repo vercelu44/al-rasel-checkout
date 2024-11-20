@@ -166,7 +166,8 @@ const OrderDetail = ({ params }) => {
                 ) : (
                   <a
                     target="_blank"
-                    href={`${process.env.serverBaseUrl}/in/${sale.customer.id}/${sale.id}/sale`}
+                    // href={`${process.env.serverBaseUrl}/in/${sale.customer.id}/${sale.id}/sale`}
+                    href={sale?.invoice_url || "#"}
                     className="bg-slate-200 p-3 block text-center w-full  mt-3 lg:mt-5 rounded-lg"
                   >
                     <FaCloudDownloadAlt

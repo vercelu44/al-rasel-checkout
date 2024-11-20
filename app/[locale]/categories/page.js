@@ -25,13 +25,13 @@ const page = async () => {
 							href={`/`}
 							className="text-base text-slate-600 hover:text-primary"
 						>
-							{translations["home"] || "হোম"}
+							{translations["home"] || "Home"}
 						</Link>
 						<Link
 							href={`/categories`}
 							className="text-base text-slate-900 hover:text-primary"
 						>
-							{translations["category"] || "ক্যাটাগরি"}
+							{translations["category"] || "Category"}
 						</Link>
 					</div>
 				</div>
@@ -40,7 +40,7 @@ const page = async () => {
 			<div className="h-screen lg:h-auto lg:pt-12 py-3 lg:pb-8 bg-white">
 				<div className="container">
 					<h3 className="font-title text-center text-lg/7 lg:text-3xl text-slate-900 my-5 lg:my-12 font-bold">
-						{translations["all-categories"] || "সব ক্যাটেগরি"}
+						{translations["all-categories"] || "All Categories"}
 					</h3>
 					<div className="grid grid-cols-4 lg:grid-cols-6 gap-3 lg:gap-5 pt-2">
 						{categories?.map((category, i) => (

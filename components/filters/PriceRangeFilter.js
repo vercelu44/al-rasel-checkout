@@ -47,7 +47,7 @@ const PriceRangeSlider = ({ min_price, max_price }) => {
 	return (
 		<div className="price-range pr-5">
 			<h6 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-3 mb-3">
-				{translations["price"] || "প্রইজ"}
+				{translations["price"] || "Price"}
 			</h6>
 			<div className="px-2 py-1">
 				<Slider

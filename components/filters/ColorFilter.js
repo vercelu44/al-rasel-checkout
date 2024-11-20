@@ -24,7 +24,7 @@ const ColorFilter = ({ colors, selectedColors }) => {
 		<>
 			<div className="pr-5">
 				<h6 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-3">
-					{translations["color"] || "কালার"}
+					{translations["color"] || "Color"}
 				</h6>
 				<div className="category-filter">
 					{/* bg-blue-500 */}

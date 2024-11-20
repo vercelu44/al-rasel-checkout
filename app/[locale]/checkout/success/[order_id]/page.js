@@ -96,7 +96,8 @@ const OrderSuccess = ({ params }) => {
 							{isGuestCheckout ? (
 								<Link
 									target="_blank"
-									href={`${process.env.serverBaseUrl}/in/${order?.customer?.id}/${order?.id}/sale`}
+									// href={`${process.env.serverBaseUrl}/in/${order?.customer?.id}/${order?.id}/sale`}
+									href={order?.invoice_url || "#"}
 									className="border border-primary rounded-lg w-full p-[11px] text-center active:scale-95"
 								>
 									{translations["download-invoice"] || "Download Invoice"}

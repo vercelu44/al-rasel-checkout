@@ -23,29 +23,29 @@ export default function MobileLogin({ params }) {
 
 	const helpLink = [
 		{
-			text: translations["questions-and-answers"] || "প্রশ্ন ও উত্তর",
+			text: translations["q&a"] || "Q&A",
 			icon: <RiQuestionAnswerFill />,
 			path: "/help/qna",
 		},
 	];
 	const companyLinks = [
 		{
-			text: translations["about-us"] || "আমাদের সম্পর্কে",
+			text: translations["about-us"] || "About Us",
 			icon: <BsInfoCircleFill />,
 			path: "/pages/about-us",
 		},
 		{
-			text: translations["booking-policy"] || "বুকিং পলিসি",
+			text: translations["booking-policy"] || "Booking Policy",
 			icon: <MdLibraryBooks />,
 			path: "/pages/booking-policy",
 		},
 		{
-			text: translations["trams-and-conditions"] || "ট্রামস এন্ড কন্ডিশন",
+			text: translations["trams-and-conditions"] || "Terms & Conditions",
 			icon: <IoIosWarning />,
 			path: "/pages/terms-and-conditions",
 		},
 		{
-			text: translations["privacy-policy"] || "প্রাইভেসি পলিসি",
+			text: translations["privacy-policy"] || "Privacy Policy",
 			icon: <SiSpringsecurity />,
 			path: "/pages/privacy-policy",
 		},
@@ -58,7 +58,7 @@ export default function MobileLogin({ params }) {
 			>
 				<div className="profile flex flex-col items-center justify-center gap-3 bg-white rounded-xl p-4">
 					<span className="font-normal text-slate-500 text-base">
-						{translations["login-status"] || "আপনার একাউন্ট লগ-ইন করা নেই"}
+						{translations["login-status"] || "Your account is not logged in"}
 					</span>
 					<div className="flex justify-center">
 						<button
@@ -73,11 +73,11 @@ export default function MobileLogin({ params }) {
 			</div>
 			<div id="user-additional-menu" className="my-4 p-3">
 				<MenuCard
-					title={translations["help"] || "হেল্প"}
+					title={translations["help"] || "Help"}
 					menuItems={helpLink}
 				/>
 				<MenuCard
-					title={translations["company"] || "কোম্পানি"}
+					title={translations["company"] || "Company"}
 					menuItems={companyLinks}
 				/>
 			</div>
