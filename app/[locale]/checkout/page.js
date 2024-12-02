@@ -234,14 +234,15 @@ const Checkout = () => {
 
   // Facebook Pixel Initiate Checkout Event
   useEffect(() => {
-    if(cart.length === 0) return;
+    if (cart.length === 0) return;
 
     const eventID = generateUniqueId();
     // Check if product ID exists to avoid errors
     if (isFbPixelInitialized && flag.current) {
       pixel.event(
         "InitiateCheckout",
-        pixel.getInitiateCheckoutPixelData(cart, total), {
+        pixel.getInitiateCheckoutPixelData(cart, total),
+        {
           eventID: eventID,
         }
       );
@@ -259,17 +260,15 @@ const Checkout = () => {
     }
   }, [cart, total, isFbPixelInitialized, settings, AddToConversionAPI]);
 
-  const isDisabled = !!(!cart?.length ||
-  (settings?.terms_and_condition_link &&
-    settings?.terms_and_condition_link !== "#")
+  const isDisabled = !!(!cart?.length || settings?.agreement_links?.length
     ? !isTermChecked
     : false);
 
-    useEffect(() => {
-      if (paymentOptions.length === 1) {
-        setSelectedPaymentOption(paymentOptions[0].key);
-      }
-    }, [paymentOptions]);
+  useEffect(() => {
+    if (paymentOptions.length === 1) {
+      setSelectedPaymentOption(paymentOptions[0].key);
+    }
+  }, [paymentOptions]);
 
   return (
     <section className="container pb-8">
@@ -538,8 +537,7 @@ const Checkout = () => {
           </div>
           {/* Order Now Button  */}
           <div className="form-control mt-7">
-            {settings?.terms_and_condition_link &&
-            settings?.terms_and_condition_link !== "#" ? (
+            {settings?.agreement_links?.length ? (
               <div className="grid grid-cols-[20px_1fr] items-start  mb-4">
                 <div className="flex items-center h-5 w-5">
                   <input
@@ -557,20 +555,23 @@ const Checkout = () => {
                     className="font-medium text-gray-900"
                   >
                     I have read and agree to the website
-                    <Link
-                      href={settings.terms_and_condition_link}
-                      target="_blank"
-                      className="ml-1 text-blue-500 hover:underline"
-                    >
-                      terms and conditions
-                    </Link>
-                     *
+                    {settings.agreement_links.map((item, index) => (
+                      <span key={index}>
+                        <Link
+                          href={item?.link}
+                          target="_blank"
+                          className="ml-1 text-blue-500 hover:underline"
+                        >
+                          {item?.link_type}
+                        </Link>
+                        {index < settings.agreement_links.length - 1 && ","}
+                      </span>
+                    ))}
                   </label>
                   <div className="text-gray-500">
                     <span className="font-normal text-xs">
-                      Your personal data will be used to process your order,
-                      support your experience throughout this website, and for
-                      other purposes described in our privacy policy.
+                      {settings?.agreement_text ??
+                        "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy."}
                     </span>
                   </div>
                 </div>
