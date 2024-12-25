@@ -32,6 +32,7 @@ import VideoPlayerModal from "@/components/modals/VideoPlayerModal";
 import AuthProvider from "@/provider/AuthProvider";
 import { fetchData } from "@/lib/fetch-data";
 import { locales } from "@/navigation";
+import GeoLocation from "@/components/utility/GeoLocation";
 
 export const generateMetadata = async ({ params }) => {
 	let settings = {};
@@ -136,6 +137,7 @@ export default function RootLayout({ children, params }) {
 						<GlobalLoader />
 						{/* Fb pixel and MS clarity added in ServerDataProvider*/}
 						<ServerDataProvider />
+						<GeoLocation />
 					</ReduxProvider>
 				</AuthProvider>
 			</body>
