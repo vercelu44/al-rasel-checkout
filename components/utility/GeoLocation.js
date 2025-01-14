@@ -11,10 +11,10 @@ function GeoLocation() {
       try {
         const response = await fetch(url);
         const data = await response.json();
-        // console.log(data, "sdsdsdsdsds");
+        console.log(data, "sdsdsdsdsds");
         if (data.display_name) {
           const humanReadableLocation = data.display_name;
-          console.log(humanReadableLocation, "hei hei");
+          // console.log(humanReadableLocation, "hei hei");
           //   setLocationName(humanReadableLocation);
 
           // Save to localStorage

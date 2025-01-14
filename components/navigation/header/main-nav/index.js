@@ -56,7 +56,7 @@ export default function MainNav({ settings }) {
   );
   const { translations } = useSelector((state) => state.common);
   const { getWishlistCount } = useWishList();
-	const isTablet = useMediaQuery("(max-width: 992px)");
+  const isTablet = useMediaQuery("(max-width: 992px)");
 
   const dispatch = useDispatch();
 
@@ -99,6 +99,18 @@ export default function MainNav({ settings }) {
 
   const wishlistCount = getWishlistCount();
 
+  const [defaultAddress, setDefaultAddress] = useState("");
+  // const defaultAddress = settings?.guest_checkout
+  //   ? localStorage?.getItem("userLocation")
+  //   : user?.address || localStorage?.getItem("userLocation");
+  useEffect(() => {
+    // Ensure `localStorage` is accessed on the client only
+    const address = settings?.guest_checkout
+      ? localStorage?.getItem("userLocation")
+      : user?.address || localStorage?.getItem("userLocation");
+    setDefaultAddress(address || "");
+  }, [settings?.guest_checkout, user?.address]);
+
   return (
     <div className={"!mt-[73px] md:!mt-24 lg:!mt-32"}>
       <div
@@ -126,6 +138,36 @@ export default function MainNav({ settings }) {
               </div>
               <div className="header-right flex justify-between items-center ml-4 gap-2 lg:gap-6">
                 <ResponsiveSearch />
+                {defaultAddress && (
+                  <div className="hidden lg:flex items-center space-x-2 p-1 bg-gray-100 rounded-md">
+                    <div className="text-blue-500">
+                      {/* Replace with your location icon component */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 11c1.656 0 3-1.344 3-3s-1.344-3-3-3-3 1.344-3 3 1.344 3 3 3zM12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700">
+                        Delivery to
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        {defaultAddress.slice(0, 20)}...
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="header-actions flex items-center gap-3 lg:gap-4">
                   {!settings?.guest_checkout ? (
                     <Link

@@ -235,7 +235,7 @@ const Checkout = () => {
 
   const defaultAddress = settings?.guest_checkout
     ? localStorage.getItem("userLocation")
-    : user?.address || localStorage.getItem("userLocation");
+    : user?.address || localStorage?.getItem("userLocation");
 
   return (
     <>
