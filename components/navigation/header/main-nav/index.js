@@ -27,6 +27,8 @@ import useWishList from "@/hooks/useWishList";
 // import logo from "@/public/assets/logo-2.jpeg";
 import MegaMenu from "../mega-menu";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { setDeliveryAddressModalOpen } from "@/store/slices/commonSlice";
+import { IoIosArrowDown } from "react-icons/io";
 
 export default function MainNav({ settings }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -139,9 +141,11 @@ export default function MainNav({ settings }) {
               <div className="header-right flex justify-between items-center ml-4 gap-2 lg:gap-6">
                 <ResponsiveSearch />
                 {defaultAddress && (
-                  <div className="hidden lg:flex items-center space-x-2 p-1 bg-gray-100 rounded-md">
+                  <div
+                    onClick={() => dispatch(setDeliveryAddressModalOpen(true))}
+                    className="relative hidden lg:flex items-center space-x-2 p-1 bg-gray-100 rounded-md cursor-pointer group"
+                  >
                     <div className="text-blue-500">
-                      {/* Replace with your location icon component */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -165,6 +169,17 @@ export default function MainNav({ settings }) {
                         {defaultAddress.slice(0, 20)}...
                       </p>
                     </div>
+                    <IoIosArrowDown className="h-5 w-5 text-blue-500" />
+                    {/* <div className="absolute top-full left-0 w-48 p-2 bg-white shadow-md rounded-md border border-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <p
+                        className="text-sm text-blue-500 hover:underline cursor-pointer"
+                        onClick={() =>
+                          dispatch(setDeliveryAddressModalOpen(true))
+                        }
+                      >
+                        Update delivery location
+                      </p>
+                    </div> */}
                   </div>
                 )}
 

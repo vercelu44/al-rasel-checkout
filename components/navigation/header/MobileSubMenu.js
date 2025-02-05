@@ -1,13 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Link } from "@/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useParams, usePathname } from "next/navigation";
+import { IoIosArrowDown } from "react-icons/io";
+import { setDeliveryAddressModalOpen } from "@/store/slices/commonSlice";
 
 export default function MobileSubMenu({ settings }) {
   const { locale } = useParams();
   const pathname = usePathname();
+  const dispatch = useDispatch();
+
   const { translations } = useSelector((state) => state.common);
   const { user } = useSelector((state) => state.auth);
   // const pathArray = usePathname().split("/");
@@ -40,7 +44,10 @@ export default function MobileSubMenu({ settings }) {
     isActiveForMobile && (
       <>
         {defaultAddress && (
-          <div className="flex items-center space-x-2 p-1 bg-white rounded-md py-2">
+          <div
+            onClick={() => dispatch(setDeliveryAddressModalOpen(true))}
+            className="flex items-center space-x-2 p-1 bg-white rounded-md py-2 shadow m-1.5"
+          >
             <div className="text-blue-500">
               {/* Replace with your location icon component */}
               <svg
@@ -64,6 +71,7 @@ export default function MobileSubMenu({ settings }) {
                 {defaultAddress.slice(0, 40)}...
               </p>
             </div>
+            <IoIosArrowDown className="h-5 w-5 text-blue-500" />
           </div>
         )}
         <div className="mobile-menu bg-slate-100 container py-3 flex items-center gap-2">
