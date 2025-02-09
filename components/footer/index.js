@@ -173,23 +173,11 @@ const Footer = async () => {
                       icon={"/assets/icons/social/fb.svg"}
                     />
                   )}
-                  {settings.youtube_link && settings.youtube_link !== "#" && (
-                    <SocialIcon
-                      href={settings.youtube_link}
-                      icon={"/assets/icons/social/YouTube.svg"}
-                    />
-                  )}
                   {settings.whatsapp_link && settings.whatsapp_link !== "#" && (
                     <SocialIcon
                       href={settings.whatsapp_link}
                       icon={"/assets/icons/social/whatsapp.svg"}
                       iconClass={"w-7 h-7"}
-                    />
-                  )}
-                  {settings.tiktok_link && settings.tiktok_link !== "#" && (
-                    <SocialIcon
-                      href={settings.tiktok_link}
-                      icon={"/assets/icons/social/TikTok.svg"}
                     />
                   )}
                   {settings.instagram_link &&
@@ -199,6 +187,34 @@ const Footer = async () => {
                         icon={"/assets/icons/social/instagram.svg"}
                       />
                     )}
+
+                 {settings.twitter_link && settings.twitter_link !== "#" && (
+                    <SocialIcon
+                      href={settings.twitter_link}
+                      icon={"/assets/icons/social/twitter.svg"}
+                    />
+                  )}
+
+                  {settings.linkedin_link && settings.linkedin_link !== "#" && (
+                    <SocialIcon
+                      href={settings.linkedin_link}
+                      icon={"/assets/icons/social/linkedin.svg"}
+                    />
+                  )}
+                  {settings.youtube_link && settings.youtube_link !== "#" && (
+                    <SocialIcon
+                      href={settings.youtube_link}
+                      icon={"/assets/icons/social/YouTube.svg"}
+                    />
+                  )}
+
+                  {settings.tiktok_link && settings.tiktok_link !== "#" && (
+                    <SocialIcon
+                      href={settings.tiktok_link}
+                      icon={"/assets/icons/social/TikTok.svg"}
+                    />
+                  )}
+
                   {settings.pinterest_link &&
                     settings.pinterest_link !== "#" && (
                       <SocialIcon
