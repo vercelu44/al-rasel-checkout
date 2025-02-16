@@ -86,14 +86,16 @@ export const generateMetadata = async ({ params }) => {
 			canonical: `/`,
 		},
 		verification: {
-			// google: "google",
+			// google: "google_site_verification",
 			other: {
 				// me: ["my-email", "my-link"],
 				"facebook-domain-verification": settings.fb_domain_verification,
+				"google-adsense-account": settings.google_adsense_verification,
 			},
 		},
 		// other: {
 		// 	"custom_meta_name": "meta_content",
+			
 		// },
 	};
 };
