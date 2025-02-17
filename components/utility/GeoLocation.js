@@ -4,6 +4,10 @@ import Modal from "../elements/Modal";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useDispatch, useSelector } from "react-redux";
 import { setDeliveryAddressModalOpen } from "@/store/slices/commonSlice";
+import dynamic from "next/dynamic";
+
+// Dynamically import the MapComponent to prevent SSR issues
+const MapPicker = dynamic(() => import("./MapPicker"), { ssr: false });
 
 function GeoLocation() {
   const dispatch = useDispatch();
@@ -11,20 +15,18 @@ function GeoLocation() {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [userLocation, setUserLocation] = useState("");
-
+  const [selectedCoords, setSelectedCoords] = useState(null);
+  
   const debouncedSearchText = useDebounce(searchTerm, 300);
 
-  // Function to fetch location name from coordinates
   const getLocationName = async (latitude, longitude) => {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch location");
-
       const data = await response.json();
       if (data.display_name) {
-        // setUserLocation(data.display_name);
+        setUserLocation(data.display_name);
         localStorage.setItem("userLocation", JSON.stringify(data.display_name));
       }
     } catch (error) {
@@ -32,19 +34,15 @@ function GeoLocation() {
     }
   };
 
-  // Function to fetch search suggestions
   const fetchSuggestions = useCallback(async (query) => {
     if (!query || query.length < 2) {
       setSuggestions([]);
       return;
     }
-
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
-
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch suggestions");
-
       const data = await response.json();
       setSuggestions(data.map((place) => place.display_name));
     } catch (error) {
@@ -52,7 +50,6 @@ function GeoLocation() {
     }
   }, []);
 
-  // Handle selecting a suggestion
   const handleSelectLocation = (location) => {
     setUserLocation(location);
     setSearchTerm("");
@@ -70,7 +67,9 @@ function GeoLocation() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          getLocationName(position.coords.latitude, position.coords.longitude);
+          const { latitude, longitude } = position.coords;
+          setSelectedCoords([latitude, longitude]);
+          getLocationName(latitude, longitude);
         },
         (error) => {
           console.error("Error obtaining location:", error);
@@ -97,6 +96,7 @@ function GeoLocation() {
       setShowModal={handlePopupClose}
     >
       <div className="relative mx-auto mt-4 h-[80vh] lg:h-[500px] lg:w-[600px]">
+        {/* Search Box */}
         <input
           type="text"
           placeholder="Search location..."
@@ -107,15 +107,10 @@ function GeoLocation() {
 
         {/* Suggestions Dropdown */}
         {suggestions.length > 0 && (
-          <ul
-            role="listbox"
-            className="absolute w-full bg-white border rounded-md mt-1 max-h-60 overflow-auto shadow-md"
-          >
+          <ul className="absolute z-[9999] w-full bg-white border rounded-md mt-1 max-h-60 overflow-auto shadow-md">
             {suggestions.map((suggestion, index) => (
               <li
                 key={index}
-                role="option"
-                aria-selected="false"
                 onClick={() => handleSelectLocation(suggestion)}
                 className="px-3 py-2 hover:bg-gray-200 cursor-pointer"
               >
@@ -125,12 +120,22 @@ function GeoLocation() {
           </ul>
         )}
 
-        {/* Display Selected Location */}
+        {/* Leaflet Map */}
+        <div className="mt-4 w-full h-[330px]">
+          <MapPicker
+            selectedCoords={selectedCoords}
+            setSelectedCoords={setSelectedCoords}
+            getLocationName={getLocationName}
+          />
+        </div>
+
+        {/* Selected Location */}
         {userLocation && (
           <p className="mt-2 text-sm text-gray-700">
             <strong>Selected Location:</strong> {userLocation}
           </p>
         )}
+
         {/* Buttons */}
         <div className="flex mt-2 justify-end gap-4">
           <button
@@ -146,7 +151,6 @@ function GeoLocation() {
             Apply
           </button>
         </div>
-
       </div>
     </Modal>
   );
