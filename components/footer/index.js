@@ -100,7 +100,7 @@ const Footer = () => {
 										<SocialIcon
 											href={settings.whatsapp_link}
 											icon={"/assets/icons/social/whatsapp.svg"}
-											// iconClass={"h-7 w-7"}
+											// iconclassName={"h-7 w-7"}
 										/>
 										<SocialIcon
 											href={settings.twitter_link}

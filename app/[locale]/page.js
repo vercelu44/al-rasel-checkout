@@ -67,7 +67,7 @@ export default async function Home() {
                 <PopularCategories />
               </div>
               <SeeAll
-                href="/products"
+                href="/categories"
                 buttonText={translations["see-all"] || "See All"}
                 invert={true}
               />

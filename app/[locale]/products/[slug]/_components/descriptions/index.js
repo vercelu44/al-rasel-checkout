@@ -1,7 +1,5 @@
-import { Link } from "@/navigation";
 import Image from "next/image";
 import ViewHTML from "@/components/elements/ViewHTML";
-import { BsFillTelephoneFill } from "react-icons/bs";
 import VideoPlayer from "@/components/elements/VideoPlayer";
 
 const Descriptions = ({ settings, product, translations }) => {
@@ -16,7 +14,7 @@ const Descriptions = ({ settings, product, translations }) => {
 			{product?.includedProducts?.length ? (
 				<div className="mt-6 lg:mt-8">
 					<h4 className="text-2xl font-bold font-title text-slate-900">
-						{translations["product-includes"] || "যা যা সাথে থাকবে"}
+						{translations["product-includes"] || "Product Includes"}
 					</h4>
 					<Image
 						src={product.includedProducts[0]?.image}
@@ -30,7 +28,7 @@ const Descriptions = ({ settings, product, translations }) => {
 			{product?.review_video && (
 				<div className="mt-6 lg:mt-8">
 					<h4 className="text-2xl font-bold font-title text-slate-900">
-						{translations["review-video"] || "রিভিউ ভিডিও"}
+						{translations["review-video"] || "Review Video"}
 					</h4>
 					<div className="mt-3">
 						<VideoPlayer

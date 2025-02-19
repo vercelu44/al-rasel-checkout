@@ -1,17 +1,20 @@
 import {
 	useGetPopularSearchQuery,
 	useGetSearchHistoriesQuery,
+	useLazyGetSearchSuggestionsQuery,
 	useRemoveSearchHistoryMutation,
 } from "@/store/api/searchAPI";
 import { toast } from "react-toastify";
 import { getSlicedText } from "@/utils/format-text";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 
 // ** Import Icons
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "@/navigation";
+import { useDebounce } from "@/hooks/useDebounce";
+import Image from "next/image";
 
 const Search = () => {
 	const [showSuggestionResults, setShowSuggestionResults] = useState(false);
@@ -102,6 +105,18 @@ const Search = () => {
 		}
 	};
 
+	// dynamic search suggestions
+	const debouncedSearchText = useDebounce(searchTerm, 300);
+	const [trigger, { data }] = useLazyGetSearchSuggestionsQuery();
+	const searchSuggestions = data?.data || [];
+
+	useEffect(() => {
+		if (debouncedSearchText) {
+			trigger(debouncedSearchText);
+		}
+	}, [debouncedSearchText, trigger]);
+
+
 	return (
 		<div className="nav-search md:relative">
 			<div>
@@ -128,9 +143,9 @@ const Search = () => {
 					</button>
 				</div>
 			</div>
-			{showSuggestionResults && (searchHistory?.length || popular?.length) ? (
+			{showSuggestionResults && (searchHistory?.length || popular?.length || searchSuggestions ?.length) ? (
 				<div className="z-20 absolute font-title text-slate-600 mt-5 left-0 md:mt-2 py-2 w-full h-screen md:h-auto overflow-hidden rounded-md bg-white">
-					{searchHistory?.length ? (
+					{searchHistory?.length && (!searchSuggestions?.length || !searchTerm) ? (
 						<div className="mx-2 mb-4">
 							<h3 className="mb-2 mx-2">{translations["recently-searched"]}</h3>
 							{searchHistory?.slice(0, 5)?.map((keyword) => (
@@ -178,7 +193,7 @@ const Search = () => {
 							))}
 						</div>
 					) : null}
-					{popular?.length ? (
+					{popular?.length && (!searchSuggestions?.length || !searchTerm) ? (
 						<div className="mx-2">
 							<h3 className="mb-2 mx-2">{translations["popular-keywords"]}</h3>
 							{popular?.slice(0, 5)?.map((keyword) => (
@@ -190,6 +205,35 @@ const Search = () => {
 									<FiSearch />
 									<p className="text-sm font-medium">
 										{getSlicedText(keyword.search_name, 40)}
+									</p>
+								</div>
+							))}
+						</div>
+					) : null}
+					{searchSuggestions?.length && searchTerm ? (
+						<div className="mx-2">
+							{searchSuggestions?.map((suggestion, index) => (
+								<div
+									key={index}
+									className="cursor-pointer px-2 py-2 flex gap-4 hover:bg-slate-100 rounded-lg"
+									onClick={() => handleSuggestionsSelect(suggestion.text)}
+								>
+									{suggestion.image ? (
+										<Image
+											src={suggestion.image}
+											alt={suggestion.text}
+											width={20}
+											height={20}
+											className="h-5 w-5 rounded-sm object-cover"
+										/>
+									) : (
+										<FiSearch />
+									)}
+									<p className="text-sm font-medium">
+										{/* <span className="text-slate-400">
+											{suggestion.sku}-
+										</span> */}
+										 {getSlicedText(suggestion.text, 40)}
 									</p>
 								</div>
 							))}

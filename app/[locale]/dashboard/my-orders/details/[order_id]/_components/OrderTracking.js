@@ -13,7 +13,7 @@ export default function OrderTracking({ orderData, isLoading, translations }) {
 				{isLoading ? (
 					<ItemsListLoader numItems={3} noImage={true} viewBoxWidth={900} />
 				) : (
-					<ol class="relative text-slate-600 capitalize">
+					<ol className="relative text-slate-600 capitalize">
 						<OrderStep
 							date={saleStatus?.Complete?.created_at}
 							title={translations["done"] || "Completed"}
