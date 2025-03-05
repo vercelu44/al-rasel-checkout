@@ -1,3 +1,4 @@
+"use client";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +11,7 @@ import { useRouter } from "@/navigation";
 import * as pixel from "/lib/fpixel";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
+import { Cookies } from "@/components/utility/cookies";
 
 /**
  * The `useCart` function is a custom hook in JavaScript that provides methods for adding products to
@@ -37,6 +39,8 @@ const useCart = () => {
         event_id: eventID,
         event_name: "AddToCart",
         product_ids: [product.id],
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
       });
     }
   };

@@ -28,6 +28,7 @@ import { getFirstVariantOfColor } from "@/lib/product-variant";
 import SocialShare from "@/components/elements/SocialShare";
 import { generateUniqueId } from "@/utils/get-unique";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
+import { Cookies } from "@/components/utility/cookies";
 
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
@@ -73,6 +74,8 @@ const ProductDetails = ({ product, settings, translations }) => {
         event_id: eventID,
         event_name: "ViewContent",
         product_ids: [product.id],
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
       });
       flag2.current = false;
     }

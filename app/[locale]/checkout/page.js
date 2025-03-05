@@ -31,6 +31,7 @@ import { toast } from "react-toastify";
 import { cn } from "@/utils";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
+import { Cookies } from "@/components/utility/cookies";
 
 const Checkout = () => {
   // Dynamic delivery charges
@@ -209,6 +210,8 @@ const Checkout = () => {
       grand_total: grandTotal,
       paymentOption: selectedPaymentOption,
       // note: "",
+      fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+      fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
     };
     // console.log(newOrder);
     handleOrderPlace(newOrder);
@@ -255,6 +258,8 @@ const Checkout = () => {
         event_id: eventID,
         event_name: "InitiateCheckout",
         products: pixel.contentItems(cart),
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
       });
       flag2.current = false;
     }

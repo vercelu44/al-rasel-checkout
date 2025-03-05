@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFbPixelInitialized } from "@/store/slices/commonSlice";
 import { generateUniqueId } from "@/utils/get-unique";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
+import { Cookies } from "./cookies";
 
 const FacebookPixel = ({ fbPixelId }) => {
   const { isFbPixelInitialized, settings } = useSelector(
@@ -57,6 +58,8 @@ const FacebookPixel = ({ fbPixelId }) => {
         event_id: eventID,
         event_name: "PageView",
         url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
       });
       flag2.current = false;
     }
