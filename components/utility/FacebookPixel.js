@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFbPixelInitialized } from "@/store/slices/commonSlice";
 import { generateUniqueId } from "@/utils/get-unique";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
-import { Cookies } from "./cookies";
+import { Cookies } from "../../utils/cookies";
 
 const FacebookPixel = ({ fbPixelId }) => {
   const { isFbPixelInitialized, settings } = useSelector(

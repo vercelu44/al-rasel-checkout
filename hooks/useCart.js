@@ -11,7 +11,7 @@ import { useRouter } from "@/navigation";
 import * as pixel from "/lib/fpixel";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
-import { Cookies } from "@/components/utility/cookies";
+import { Cookies } from "@/utils/cookies";
 
 /**
  * The `useCart` function is a custom hook in JavaScript that provides methods for adding products to

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -28,7 +29,7 @@ import { getFirstVariantOfColor } from "@/lib/product-variant";
 import SocialShare from "@/components/elements/SocialShare";
 import { generateUniqueId } from "@/utils/get-unique";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
-import { Cookies } from "@/components/utility/cookies";
+import { Cookies } from "@/utils/cookies";
 
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
@@ -36,6 +37,7 @@ const ProductDetails = ({ product, settings, translations }) => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
   const productViewSwiperRef = useRef(null);
+  const pathname = usePathname();
 
   // Get first variant of selected color to display prices
   const firstVariantOfColor = getFirstVariantOfColor(
@@ -74,12 +76,13 @@ const ProductDetails = ({ product, settings, translations }) => {
         event_id: eventID,
         event_name: "ViewContent",
         product_ids: [product.id],
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
         fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
         fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
       });
       flag2.current = false;
     }
-  }, [product, isFbPixelInitialized, settings, AddToConversionAPI]);
+  }, [product, pathname, isFbPixelInitialized, settings, AddToConversionAPI]);
 
   return (
     <>

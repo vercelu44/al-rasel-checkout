@@ -31,7 +31,7 @@ import { toast } from "react-toastify";
 import { cn } from "@/utils";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
-import { Cookies } from "@/components/utility/cookies";
+import { Cookies } from "@/utils/cookies";
 
 const Checkout = () => {
   // Dynamic delivery charges
