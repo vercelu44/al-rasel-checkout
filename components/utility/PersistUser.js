@@ -15,6 +15,7 @@ const PersistUser = () => {
 				dispatch(setUser(response.data.data));
 				dispatch(setUserLoading(false));
 			} catch (error) {
+				// console.log(error);
 				console.log(error);
 				dispatch(setUser(null));
 				dispatch(setUserLoading(false));
