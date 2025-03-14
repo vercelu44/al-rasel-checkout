@@ -4,18 +4,30 @@ import { NextResponse } from "next/server";
 import generateGrantToken from "./helpers/grant-token";
 import { getAuthHeaders } from "./helpers/bkash-headers";
 import { postData } from "@/lib/post-data";
+import { getTokenFromDB, saveTokenToDB } from "./helpers/token-persist";
 
-let bkashGrantToken = null;
 let orderIdForError = null;
 
 export async function POST(request) {
-	// Call grantToken to generate the token before proceeding
-	const { grantToken } = await generateGrantToken();
-	if (!grantToken) {
-		return NextResponse.json({ status: "token generation failed" });
+	let bkashGrantToken = null;
+	const savedTokenInfo = await getTokenFromDB(); // Fetch token from DB
+	// console.log(savedTokenInfo, "savedTokenInfo");
+
+	if (!savedTokenInfo || !savedTokenInfo?.data?.is_valid) {
+		// Call grantToken to generate the token before proceeding
+		const { grantToken } = await generateGrantToken();
+		// console.log(grantToken, "Inside grant token generate");
+		if (!grantToken) {
+			return NextResponse.json({ status: "token generation failed" });
+		}
+		bkashGrantToken = grantToken;
+		const savedToken = await saveTokenToDB(grantToken); // Save token to DB
+		// console.log(savedToken, "new token generated and saved");
+	} else {
+		bkashGrantToken = savedTokenInfo?.data?.token;
+		// console.log(bkashGrantToken, "existing token used");
 	}
 
-	bkashGrantToken = grantToken; // set the global token
 	const { origin: baseUrl } = new URL(request.url);
 	const { orderId, newOrder, isGuestCheckout, isDeliveryChargePayment } =
 		await request.json();
@@ -48,7 +60,7 @@ export async function POST(request) {
 			// console.log(order);
 		}
 		if (!order || order?.status === false) {
-			console.log(order, "order creation response in bkash");
+			// console.log(order, "order creation response in bkash");
 			return NextResponse.error(
 				{ message: "Order Creation failed" },
 				{ status: 500 }
@@ -103,6 +115,9 @@ export async function GET(request) {
 	const { searchParams, origin: baseUrl } = new URL(request.url);
 	const paymentID = searchParams.get("paymentID");
 	const status = searchParams.get("status");
+	const savedTokenInfo = await getTokenFromDB(); // Fetch token from DB
+	const bkashGrantToken = savedTokenInfo?.data?.token;
+	// console.log(savedTokenInfo, "savedTokenInfo from bkash request");
 
 	try {
 		if (status === "success") {

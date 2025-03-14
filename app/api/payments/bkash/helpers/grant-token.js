@@ -24,6 +24,7 @@ const generateGrantToken = async () => {
 			}
 		);
 		const tokenResult = await tokenResponse.json();
+		// console.log(tokenResult, "tokenResult");
 		return { grantToken: tokenResult?.id_token }; // Indicate success
 	} catch (e) {
 		console.error("Error generating token:", e);
