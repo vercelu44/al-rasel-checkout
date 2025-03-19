@@ -28,7 +28,8 @@ export async function POST(request) {
 		// console.log(bkashGrantToken, "existing token used");
 	}
 
-	const { origin: baseUrl } = new URL(request.url);
+	const { origin: baseUrlFromRequest } = new URL(request.url);
+	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
 	const { orderId, newOrder, isGuestCheckout, isDeliveryChargePayment } =
 		await request.json();
 	const headersList = headers();
@@ -112,7 +113,8 @@ export async function POST(request) {
 }
 
 export async function GET(request) {
-	const { searchParams, origin: baseUrl } = new URL(request.url);
+	const { searchParams, origin: baseUrlFromRequest } = new URL(request.url);
+	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
 	const paymentID = searchParams.get("paymentID");
 	const status = searchParams.get("status");
 	const savedTokenInfo = await getTokenFromDB(); // Fetch token from DB
