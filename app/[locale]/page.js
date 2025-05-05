@@ -31,16 +31,19 @@ export default async function Home() {
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   const translations =
     transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
-
+  const key = process.env.AMS_PUBLIC_KEY;
   return (
     <>
       {settings?.slider_section ? (
         <>
-          {/* <section className="banner hidden md:block">
-            <div className="bg-white pt-3">
-              <MiniBanner />
-            </div>
-          </section> */}
+          {key === "pub_njADJt8yGye3OvlVxNnLKIHE0tJleDOwr3P" ? (
+            <section className="banner hidden md:block">
+              <div className="bg-white pt-3">
+                <MiniBanner />
+              </div>
+            </section>
+          ) : null}
+
           <section className="banner">
             <div className="bg-white pt-3">
               <Intro />

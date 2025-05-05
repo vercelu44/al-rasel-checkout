@@ -2,15 +2,20 @@
 
 import { Link } from "@/navigation";
 import Image from "next/image";
-import { Autoplay, FreeMode, Pagination } from "swiper/modules";
+import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import noImage from "@/public/assets/images/no-image.png";
-
+import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
+import ProductCard from "@/components/cards/ProductCard";
 const CategorySlider = ({ categoryList }) => {
   return (
     <>
       <Swiper
-        modules={[Pagination, Autoplay, FreeMode]}
+        modules={[Pagination, Autoplay, FreeMode, Navigation]}
+        navigation={{
+          prevEl: ".custom_prev_b",
+          nextEl: ".custom_next_b",
+        }}
         spaceBetween={50}
         slidesPerGroup={1}
         slidesPerView={"auto"}
@@ -19,11 +24,16 @@ const CategorySlider = ({ categoryList }) => {
         pagination={{ clickable: true }}
         autoplay={{ delay: 4000 }}
         speed={2000}
-        className="category-slider !static"
+        className="category-slider !static "
       >
         {categoryList?.map((category, i) => (
           <SwiperSlide key={i} style={{ width: "fit-content" }}>
-            <div key={category?.id} className="mb-5 lg:mb-0 w-[92px] md:w-[100px] lg:w-[116px]">
+   
+
+            <div
+              key={category?.id}
+              className="mb-5 lg:mb-10 w-[92px] md:w-[100px] lg:w-[116px] relative"
+            >
               <Link
                 href={`/categories/${category.slug}`}
                 className="category-img flex justify-center items-center h-[92px] md:h-[100px] lg:h-[116px] bg-slate-200 rounded-full overflow-hidden"
@@ -46,8 +56,17 @@ const CategorySlider = ({ categoryList }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className="slider-arrow hidden lg:block container absolute top-14">
+        <span className="slider-btn slider-prev slick-arrow custom_prev_b">
+          <TfiAngleLeft />
+        </span>
+        <span className="slider-btn slider-next slick-arrow custom_next_b">
+          <TfiAngleRight />
+        </span>
+      </div>
     </>
   );
 };
 
 export default CategorySlider;
+

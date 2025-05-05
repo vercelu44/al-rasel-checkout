@@ -7,19 +7,24 @@ const CategoryList = dynamic(() => import("./CategoryList"));
 import { useGetPopularCategoriesQuery } from "@/store/api/categoriesAPI";
 
 const PopularCategories = () => {
-	const { locale } = useParams();
-	const { data: categoriesData } = useGetPopularCategoriesQuery({ locale });
-	const popularCategories = categoriesData?.data || [];
-	const isMobile = useMediaQuery("(max-width: 767px)");
-	return (
-		<>
-			{!isMobile ? (
-				<CategorySlider categoryList={popularCategories} />
-			) : (
-				<CategoryList categories={popularCategories} />
-			)}
-		</>
-	);
+  const { locale } = useParams();
+  const { data: categoriesData } = useGetPopularCategoriesQuery({ locale });
+  const popularCategories = categoriesData?.data || [];
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  return (
+    <>
+	<div className="container">
+		<div className="bestSell-slider  relative">
+        {!isMobile ? (
+          <CategorySlider categoryList={popularCategories} />
+        ) : (
+          <CategoryList categories={popularCategories} />
+        )}
+      </div>
+	</div>
+      
+    </>
+  );
 };
 
 export default PopularCategories;

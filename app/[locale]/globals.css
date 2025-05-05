@@ -250,7 +250,7 @@
 }
 
 .category-slider > .swiper-pagination {
-  @apply bg-white !bottom-7;
+  @apply bg-white !bottom-0;
 }
 
 .product-preview-slider .swiper-pagination-bullet,
