@@ -2,7 +2,7 @@
 
 import { Link } from "@/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import Image from "next/image";
 import img1 from "@/public/assets/1.jpeg";
 import img2 from "@/public/assets/2.jpeg";
@@ -32,12 +32,12 @@ const MiniBannerSlider = ({ sliders }) => {
   return (
     <>
       <Swiper
-        modules={[Pagination, Autoplay, EffectFade]}
+        modules={[Autoplay, EffectFade]}
         slidesPerView={1}
         spaceBetween={0}
         loop={true}
         pagination={{ clickable: true }}
-        className="intro-slider [&_.swiper-wrapper]:pb-6"
+        className="intro-slider "
         autoplay={{ delay: 5000 }}
         effect="fade"
         speed={2000}

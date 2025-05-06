@@ -24,7 +24,7 @@ const FlashSale = ({ translations }) => {
 		return null;
 
 	return (
-		<section className="flash-sale mt-28">
+		<section className="flash-sale mt-10">
 			<div className="container">
 				<div className="relative">
 					<div className="sec-heading absolute top-[-95px] lg:top-[-30px] left-0 w-full flex justify-center lg:justify-between items-center px-4">

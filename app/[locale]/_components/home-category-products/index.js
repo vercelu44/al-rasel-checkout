@@ -3,8 +3,9 @@ import SectionTitle from "@/components/elements/SectionTitle";
 import { SeeAll } from "@/components/elements/buttons";
 import { fetchData } from "@/lib/fetch-data";
 import HomeCategoryBannerSlider from "./HomeCategoryBannerSlider";
+import { cn } from "@/utils";
 
-const HomeCategoryProducts = async () => {
+const HomeCategoryProducts = async ({ className }) => {
   const [transRes] = await Promise.allSettled([
     fetchData({ api: "translations" }),
   ]);
@@ -14,14 +15,14 @@ const HomeCategoryProducts = async () => {
   const categoryWiseProducts = data?.data || [];
 
   return categoryWiseProducts.map(({ category, products, images }, index) => (
-    <div key={index} className="container">
-      <div className="pt-10">
+    <div key={index} className={cn(`container`, className)}>
+      <div className={cn(`pt-10`, className)}>
         <HomeCategoryBannerSlider
           sliders={images}
           url={`/categories/${category?.slug}`}
         />
       </div>
-      <div className="pb-10 flex items-center justify-between">
+      <div className={cn(`pb-10 flex items-center justify-between`, className)}>
         <SectionTitle
           title={category?.category_name}
           href={`/categories/${category?.slug}`}
