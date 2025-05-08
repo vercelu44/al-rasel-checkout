@@ -113,6 +113,12 @@ const Footer = async () => {
                     "Questions and Answer"}
                 </Link>
               </li>
+              <li>
+                <Link className="" href={"/blogs"}>
+                  {translations["Blogs"] ||
+                    "Blogs"}
+                </Link>
+              </li>
               {helpPage.map((page) => (
                 <li key={page?.path}>
                   <Link className="" href={page?.path}>
