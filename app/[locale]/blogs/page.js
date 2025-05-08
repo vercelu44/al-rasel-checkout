@@ -10,9 +10,10 @@ const Page = async () => {
   const blogs = blogRes.status === "fulfilled" ? blogRes.value?.data || [] : [];
   return (
     <div className="container">
-    <div className="p-6 w-full flex flex-col md:flex-row gap-4 items-center justify-around h-[500px]">
+      <div className="p-6 w-full flex flex-col md:flex-row gap-4 items-center justify-around h-[500px]">
         {blogs.map((blog) => (
           <Link
+            key={blog.slug}
             href={`/blogs/${blog.slug}`}
             className={`group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md hover:border-gray-300 `}
           >
