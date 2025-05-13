@@ -61,13 +61,17 @@ export default function MainNav({ settings, categories }) {
             href="/"
             className="logo h-[45px] lg:h-[68px] max-w-[150px] lg:max-w-[250px] -mr-10 sm:-mr-12 md:mr-0"
           >
-            <Image
-              src={settings?.logo}
-              alt={settings?.name}
-              width={200}
-              height={68}
-              className="h-full w-auto object-contain"
-            />
+            {settings?.logo ? (
+              <Image
+                src={settings?.logo}
+                alt={settings?.name}
+                width={200}
+                height={68}
+                className="h-full w-auto object-contain"
+              />
+            ) : (
+              <span className="text-3xl font-bold inline-block pt-4">{settings?.name}</span>
+            )}
           </Link>
           <div className="hidden lg:flex items-center gap-10">
             <Search />
