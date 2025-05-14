@@ -2,10 +2,7 @@ import { Link } from "@/navigation";
 import Image from "next/image";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
-
-// ** Imoprt icons
-import noImage from "@/public/assets/images/no-image.png";
-import HorizontalScrollView from "@/components/elements/HorizontalScrollView";
+import ProductPageSlider from "../../_components/best-sale/productPageSlider";
 
 const page = async ({ params, searchParams }) => {
   const { slug } = params;
@@ -30,8 +27,6 @@ const page = async ({ params, searchParams }) => {
     category_id: category?.id,
     ...searchParams,
   };
-
-  // console.log(category);
 
   return (
     <>
@@ -102,38 +97,12 @@ const page = async ({ params, searchParams }) => {
 
       <div className="border-b border-slate-200 pt-3 lg:py-8">
         <h6 className="container text-base font-semibold font-title text-slate-900 lg:mb-4">
-          {translations["top-5-categories"] || "সেরা ৫টি ক্যাটাগরি"}
+          {translations["best-selling-product" || "সেরা বিক্রিত পণ্য"]}
         </h6>
         <div className="lg:container">
-          <HorizontalScrollView
-            className={"space-x-2 lg:space-x-4 py-3 lg:px-0"}
-          >
-            {popularCategories?.slice(0, 5)?.map((cat, i) => (
-
-              <div
-                key={i}
-                className="flex flex-col items-center justify-center"
-                title={cat.category_name}
-              >
-                <Link href={`/categories/${cat.slug}`} className="flex flex-col items-center group gap-2">
-                  <div
-                    className={`relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 border-2 bg-slate-200`}
-                  >
-                    <Image
-              				src={cat?.icon || noImage}
-              				alt={cat.category_name}
-              				width={48}
-              				height={31}
-              				className=" object-contain"
-              			/>
-                  </div>
-                  <span className="text-base text-slate-900 line-clamp-1 text-ellipsis">
-                  {cat.category_name}
-                  </span>
-                </Link>
-              </div>
-            ))}
-          </HorizontalScrollView>
+          {category?.child_categories?.[0]?.parent_id && (
+            <ProductPageSlider id={category.child_categories[0].parent_id} />
+          )}
         </div>
       </div>
 
