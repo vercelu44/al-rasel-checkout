@@ -28,8 +28,6 @@ const page = async ({ params, searchParams }) => {
     ...searchParams,
   };
 
-  // console.log(category);
-
   return (
     <>
       {/* breadcrumb */}
