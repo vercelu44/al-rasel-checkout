@@ -31,16 +31,16 @@ export default async function Home2() {
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   const translations =
     transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
- 
+
   return (
     <>
       {settings?.slider_section ? (
         <>
-            <section className="banner hidden md:block">
-              <div className="bg-white">
-                <MiniBanner />
-              </div>
-            </section>
+          <section className="banner hidden md:block">
+            <div className="bg-white">
+              <MiniBanner />
+            </div>
+          </section>
 
           <section className="banner">
             <div className="bg-white">
@@ -59,7 +59,7 @@ export default async function Home2() {
         <section className="lg:pb-0 mt-6 lg:mt-0 relative">
           <div className="all-category py-4 md:py-0 lg:py-0 bg-gradient-custom from-amber-400 to-primary md:bg-none">
             <div className="container">
-                {/* <SectionTitle
+              {/* <SectionTitle
                   title={translations["popular-category"] || "Popular Category"}
                   href="/categories"
                   buttonText={translations["see-all"] || "See All"}
@@ -68,7 +68,7 @@ export default async function Home2() {
               <div className="mt-6 lg:mt-10 md:pb-12 lg:pb-0">
                 <PopularCategories />
               </div>
-                {/* <SeeAll
+              {/* <SeeAll
                   href="/categories"
                   buttonText={translations["see-all"] || "See All"}
                   invert={true}
@@ -79,7 +79,7 @@ export default async function Home2() {
       ) : null}
 
       {settings?.best_selling_section ? (
-        <section className="best-sell bg-primary/20 mt-8 md:mt-0 py-4 md:py-0 lg:pb-0">
+        <section className="best-sell bg-primary/20 mt-8 md:mt-0 py-4 md:py-4 lg:pb-0">
           <BestSell translations={translations} />
         </section>
       ) : null}
@@ -126,7 +126,7 @@ export default async function Home2() {
       ) : null}
 
       <section className="home-category-products pb-3 lg:pb-0 bg-custom-bg">
-        <HomeCategoryProducts className="py-1 "/>
+        <HomeCategoryProducts className="py-1 " />
       </section>
 
       {settings?.video_section ? (
