@@ -6,15 +6,14 @@ import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import noImage from "@/public/assets/images/no-image.png";
 import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
-import ProductCard from "@/components/cards/ProductCard";
 const CategorySlider = ({ categoryList }) => {
   return (
     <>
       <Swiper
         modules={[Pagination, Autoplay, FreeMode, Navigation]}
         navigation={{
-          prevEl: "#category_prev_btn",
-          nextEl: "#category_next_btn",
+          prevEl: ".custom_prev_category_btn",
+          nextEl: ".custom_next_category_btn",
         }}
         spaceBetween={10}
         slidesPerGroup={1}
@@ -30,7 +29,7 @@ const CategorySlider = ({ categoryList }) => {
           <SwiperSlide key={i} style={{ width: "fit-content" }}>
             <div
               key={category?.id}
-              className="mb-5 lg:mb-10 w-[92px] md:w-[100px] lg:w-[116px] relative"
+              className="mb-5 lg:mb-10 w-[92px] md:w-[100px] lg:w-[118px] relative"
             >
               <Link
                 href={`/categories/${category.slug}`}
@@ -55,16 +54,10 @@ const CategorySlider = ({ categoryList }) => {
         ))}
       </Swiper>
       <div className="slider-arrow hidden lg:block container absolute top-14">
-        <span
-          id="category_prev_btn"
-          className="slider-btn slider-prev slick-arrow custom_prev_b"
-        >
+        <span className="slider-btn slider-prev slick-arrow custom_prev_category_btn">
           <TfiAngleLeft />
         </span>
-        <span
-          id="category_next_btn"
-          className="slider-btn slider-next slick-arrow custom_next_b"
-        >
+        <span className="slider-btn slider-next slick-arrow custom_next_category_btn">
           <TfiAngleRight />
         </span>
       </div>

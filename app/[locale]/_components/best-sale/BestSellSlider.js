@@ -16,8 +16,8 @@ const BestSellSlider = ({ bestProducts, translations }) => {
 				spaceBetween={24}
 				loop={false}
 				navigation={{
-					prevEl: ".custom_prev_b",
-					nextEl: ".custom_next_b",
+					prevEl: ".custom_prev_best_sell_btn",
+					nextEl: ".custom_next_best_sell_btn",
 				}}
 			>
 				{bestProducts?.map((product, i) => (
@@ -32,10 +32,10 @@ const BestSellSlider = ({ bestProducts, translations }) => {
 			</Swiper>
 
 			<div className="slider-arrow hidden lg:block">
-				<span className="slider-btn slider-prev slick-arrow custom_prev_b">
+				<span className="slider-btn slider-prev slick-arrow custom_prev_best_sell_btn">
 					<TfiAngleLeft />
 				</span>
-				<span className="slider-btn slider-next slick-arrow custom_next_b">
+				<span className="slider-btn slider-next slick-arrow custom_next_best_sell_btn">
 					<TfiAngleRight />
 				</span>
 			</div>

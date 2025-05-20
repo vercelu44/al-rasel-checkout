@@ -1,14 +1,14 @@
 import { Link } from "@/navigation";
-import Image from "next/image";
+// import Image from "next/image";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
-import BestProductsContainer from "../../_components/best-sale/BestProductsContainer";
+// import BestProductsContainer from "../../_components/best-sale/BestProductsContainer";
+import CategorySlider from "../../_components/popular-categories/CategorySlider";
 
 const page = async ({ params, searchParams }) => {
   const { slug } = params;
-  const [categoryResponse, dataResponse, tranRes] = await Promise.allSettled([
+  const [categoryResponse, tranRes] = await Promise.allSettled([
     fetchData({ api: `category/${slug}` }),
-    fetchData({ api: "popular-categories" }),
     fetchData({ api: `translations` }),
   ]);
 
@@ -16,8 +16,6 @@ const page = async ({ params, searchParams }) => {
     categoryResponse.status === "fulfilled"
       ? categoryResponse.value?.data || {}
       : {};
-  const popularCategories =
-    dataResponse.status === "fulfilled" ? dataResponse.value?.data || [] : [];
 
   const translations =
     tranRes.status === "fulfilled" ? tranRes.value?.data || {} : {};
@@ -27,6 +25,7 @@ const page = async ({ params, searchParams }) => {
     category_id: category?.id,
     ...searchParams,
   };
+
 
   return (
     <>
@@ -39,7 +38,7 @@ const page = async ({ params, searchParams }) => {
           }}
         >
           <div className="container">
-            <div className="text-center capitalize">
+            {/* <div className="text-center capitalize">
               <h3 className="text-2xl font-bold font-title text-white mb-4">
                 {category?.category_name}
               </h3>
@@ -64,7 +63,7 @@ const page = async ({ params, searchParams }) => {
                   {category?.category_name}
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       ) : (
@@ -95,16 +94,17 @@ const page = async ({ params, searchParams }) => {
         </div>
       )}
 
-      <div className="border-b border-slate-200 pt-3 lg:py-8">
-        <h6 className="container text-base font-semibold font-title text-slate-900 lg:mb-4">
-            {translations["best-selling-product" || "সেরা বিক্রিত পণ্য"]}
-        </h6>
-        <div className="lg:container">
-          {category?.child_categories?.[0]?.parent_id && (
-            <BestProductsContainer id={category.child_categories[0].parent_id} />
-          )}
+      {category?.child_categories?.length ? (
+        <div className="border-b border-slate-200 pt-3 lg:py-8">
+          <h6 className="container text-base font-semibold font-title text-slate-900 lg:mb-4">
+            {translations["related-categories"] || "Related Categories"}
+          </h6>
+          <div className="lg:container">
+            {/* <BestProductsContainer id={category.child_categories[0].parent_id} /> */}
+            <CategorySlider categoryList={category?.child_categories} />
+          </div>
         </div>
-      </div>
+      ): null}
 
       <ProductsWithFilter
         customSearchParams={customSearchParams}
