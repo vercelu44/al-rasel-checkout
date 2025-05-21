@@ -1,6 +1,7 @@
 "use client";
 import { Link } from "@/navigation";
 import Image from "next/image";
+import amarsolutionLogo from "../../public/assets/icons/social/amarsolution-logo.png";
 
 // ** Import Icons
 import { BsFillTelephoneFill } from "react-icons/bs";
@@ -158,13 +159,33 @@ const Footer = () => {
         </div>
         <div className="footer-bottom border-t border-slate-700 py-5">
           <div className="container">
-            <div className="grid grid-cols-12 ">
+            <div className="grid grid-cols-12">
               <div className="col-span-12">
-                <p className="text-sm font-normal font-body text-slate-400 text-center">
-                  {translations["copyright"] || "Copyright"}{" "}
-                  {new Date().getFullYear()}{" "}
-                  {translations["copyright-msg"] || "All Rights Reserved"}.
-                </p>
+                <div className="flex flex-wrap justify-center items-center text-sm font-normal font-body text-slate-400 text-center gap-2">
+                  <span>
+                    {translations["copyright"]} {new Date().getFullYear()}{" "}
+                    {translations["copyright-msg"] || "All Rights Reserved "} By
+                    <Link
+                      href="/"
+                      className="ml-1 text-slate-300 hover:underline"
+                    >
+                      {settings?.name}
+                    </Link>
+                  </span>
+
+                  <span className="">|</span>
+
+                  <div className="flex items-center gap-1">
+                    <span>Developed By</span>
+                    <Image
+                      src={amarsolutionLogo}
+                      alt="logo"
+                      width={117}
+                      height={42}
+                      className="mt-1 cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
