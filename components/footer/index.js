@@ -152,6 +152,7 @@ const Footer = () => {
           >
             <Image
               src={"/assets/icons/social/whatsapp.png"}
+              alt="whatsapp"
               width={45}
               height={45}
             />
