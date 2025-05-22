@@ -178,13 +178,19 @@ const Footer = () => {
 
                   <div className="flex items-center gap-1">
                     <span>Developed By</span>
-                    <Image
-                      src={amarsolutionLogo}
-                      alt="logo"
-                      width={117}
-                      height={42}
-                      className="mt-1 cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
-                    />
+                     <Link
+                      href="https://amarsolution.com/"
+                      target="_blank"
+                      className="text-slate-300 hover:underline"
+                    >
+                      <Image
+                        src={amarsolutionLogo}
+                        alt="logo"
+                        width={117}
+                        height={42}
+                        className="mt-1 cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
+                      />
+                    </Link>
                   </div>
                 </div>
               </div>
