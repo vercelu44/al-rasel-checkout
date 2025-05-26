@@ -51,7 +51,7 @@ const FlashSellingProducts = async ({ searchParams }) => {
 						</p>
 						<Timer targetDate={flashSaleInfo?.expire_time} />
 					</div>
-					<div className="hidden lg:block">
+					{/* <div className="hidden lg:block">
 						<Image
 							src={`/assets/images/banner/robot.png`}
 							alt="image"
@@ -59,7 +59,7 @@ const FlashSellingProducts = async ({ searchParams }) => {
 							height={211}
 							className="h-full w-[307px] object-contain"
 						/>
-					</div>
+					</div> */}
 				</div>
 			</div>
 

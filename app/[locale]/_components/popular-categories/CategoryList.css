@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .category-list-swiper .swiper-pagination {
+    margin-top: 12px !important; /* Increased specificity and !important to override Swiper */
+    position: relative; /* Ensure pagination isn’t stuck to Swiper’s default positioning */
+  }
+}
