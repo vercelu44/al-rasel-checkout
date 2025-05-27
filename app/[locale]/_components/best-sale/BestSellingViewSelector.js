@@ -5,7 +5,7 @@ import HorizontalScrollView from "@/components/elements/HorizontalScrollView";
 import BestSellSlider from "./BestSellSlider";
 import ProductCard from "@/components/cards/ProductCard";
 import dynamic from "next/dynamic";
-const Lottie = dynamic(() => import("lottie-react"));
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import fire from "@/public/assets/lottie/fire.json";
 import SectionTitle from "@/components/elements/SectionTitle";
 import { SeeAll } from "@/components/elements/buttons";
