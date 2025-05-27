@@ -5,11 +5,12 @@ import Image from "next/image";
 import noImage from "@/public/assets/images/no-image.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Pagination, Grid } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/grid";
 import "./CategoryList.css";
 
 const CategoryList = ({ categories }) => {
+  if (!categories?.length) {
+    return <></>;
+  }
   return (
     <Swiper
       modules={[Pagination, FreeMode, Navigation, Grid]}
