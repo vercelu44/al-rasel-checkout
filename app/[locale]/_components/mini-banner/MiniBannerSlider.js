@@ -50,9 +50,9 @@ const MiniBannerSlider = ({ sliders }) => {
             <Image
               src={slide.image}
               alt={`Slide ${slide.id}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
+              width={100}
+              height={40}
+              className="rounded-lg object-cover w-full h-full"
             />
             {slide.url && (
               <Link
