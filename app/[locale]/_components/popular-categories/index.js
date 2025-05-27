@@ -8,7 +8,6 @@ import { useGetPopularCategoriesQuery, useGetCategoriesQuery } from "@/store/api
 
 const PopularCategories = () => {
   const { locale } = useParams();
-  // const { data: categoriesData } = useGetPopularCategoriesQuery({ locale });
   const { data: categoriesData } = useGetCategoriesQuery({ locale });
   const popularCategories = categoriesData?.data || [];
   const isMobile = useMediaQuery("(max-width: 767px)");

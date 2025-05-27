@@ -2,8 +2,7 @@ import { Link } from "@/navigation";
 // import Image from "next/image";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
-// import BestProductsContainer from "../../_components/best-sale/BestProductsContainer";
-import CategorySlider from "../../_components/popular-categories/CategorySlider";
+import ResponsiveSlider from "./ResponsiveSlider";
 
 const page = async ({ params, searchParams }) => {
   const { slug } = params;
@@ -100,8 +99,7 @@ const page = async ({ params, searchParams }) => {
             {translations["related-categories"] || "Related Categories"}
           </h6>
           <div className="lg:container">
-            {/* <BestProductsContainer id={category.child_categories[0].parent_id} /> */}
-            <CategorySlider categoryList={category?.child_categories} />
+            <ResponsiveSlider categories={category?.child_categories} />
           </div>
         </div>
       ): null}
