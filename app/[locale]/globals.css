@@ -174,7 +174,7 @@
 }
 
 .nav-search button {
-  @apply absolute w-12 md:w-10 md:h-10 xl:h-12 xl:w-12 border border-l-0 border-slate-300 md:bg-white rounded-e-full md:rounded-e-lg outline-none text-center;
+  @apply absolute  w-12 md:w-10 xl:w-12 h-12 md:h-10 xl:h-12 border border-slate-300 ltr:border-l-0 rtl:border-r-0 bg-white ltr:rounded-r-full rtl:rounded-l-full md:ltr:rounded-r-lg md:rtl:rounded-l-lg outline-none;
 }
 
 .header-actions .single-action {

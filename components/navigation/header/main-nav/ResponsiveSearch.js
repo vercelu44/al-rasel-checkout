@@ -38,7 +38,7 @@ export default function ResponsiveSearch() {
 			<div className="header-actions md:hidden">
 				<button
 					onClick={() => setSearchOpen(!searchOpen)}
-					className="single-action"
+					className="single-action border-none"
 				>
 					<HiMagnifyingGlass size={24} />
 				</button>

@@ -36,7 +36,7 @@ export default async function Home() {
     <>
       {settings?.slider_section ? (
         <>
-          <section className="banner hidden md:block">
+          <section className="banner">
             <div className="bg-white">
               <MiniBanner />
             </div>
