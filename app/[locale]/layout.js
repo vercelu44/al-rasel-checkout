@@ -86,7 +86,7 @@ export const generateMetadata = async ({ params }) => {
       canonical: `/`,
     },
     verification: {
-      // google: "google_site_verification",
+      google: settings.google_site_verification,
       other: {
         // me: ["my-email", "my-link"],
         "facebook-domain-verification": settings.fb_domain_verification,
