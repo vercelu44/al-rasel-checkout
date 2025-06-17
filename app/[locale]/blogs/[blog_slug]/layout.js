@@ -5,7 +5,6 @@ export const generateMetadata = async ({ params }, parent) => {
   try {
     const res = await fetchData({ api: `pages?type=blog&slug=${params.blog_slug}` });
     const blog = res?.data?.[0]; // assuming API returns an array
-
     if (!blog) return notFound();
 
     return {
@@ -13,6 +12,7 @@ export const generateMetadata = async ({ params }, parent) => {
       openGraph: {
         title: `${blog.title || blog.name}`,
         url: `/blogs/${blog.slug}`,
+        
       },
       alternates: {
         canonical: `/blogs/${blog.slug}`,

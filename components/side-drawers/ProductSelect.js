@@ -120,7 +120,7 @@ const ProductSelect = () => {
 				</button>
 			</div>
 			<Link
-				href="/products/productIdOrSlug"
+				href={`/products/${selectedProduct?.slug}`}
 				className="text-secondary-700 text-sm"
 			>
 				<p className="text-center">
