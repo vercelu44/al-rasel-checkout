@@ -11,7 +11,14 @@ export async function GET() {
   });
 
   const data = await res.json();
-  const staticPages = ["/help/contact-us", "/help/qna"];
+  const staticPages = [
+    {
+      url: "/help/contact-us",
+      priority: 1,
+      updated_at: new Date().toISOString(),
+    },
+    { url: "/help/qna", priority: 1, updated_at: new Date().toISOString() },
+  ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -25,19 +32,19 @@ export async function GET() {
             page.slug
           }</loc>
         <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
+        <priority>${page.priority || 1}</priority>
         <lastmod>${page.updated_at}</lastmod>
       </url>`
         )
         .join("")}
     ${staticPages
       .map(
-        (url) => `
+        (page) => `
       <url>
-        <loc>${DOMAIN}${url}</loc>
+        <loc>${DOMAIN}${page.url}</loc>
         <changefreq>monthly</changefreq>
-        <priority>${url === "/" ? 1.0 : 0.8}</priority>
-        <lastmod>${new Date().toISOString()}</lastmod>
+        <priority>${page.priority || 1}</priority>
+        <lastmod>${page.updated_at}</lastmod>
       </url>`
       )
       .join("")}
@@ -48,7 +55,7 @@ export async function GET() {
       <url>
         <loc>${DOMAIN}/products/${product.slug}</loc>
         <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
+        <priority>${product.priority || 1}</priority>
         <lastmod>${product.updated_at}</lastmod>
       </url>`
       )
@@ -60,7 +67,7 @@ export async function GET() {
       <url>
         <loc>${DOMAIN}/categories/${category.slug}</loc>
         <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
+        <priority>${category.priority || 1}</priority>
         <lastmod>${category.updated_at}</lastmod>
       </url>`
       )
