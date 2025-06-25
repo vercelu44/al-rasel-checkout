@@ -58,7 +58,7 @@ export default async function Home() {
       
       {settings?.category_section ? (
         <section className="lg:pb-0 mt-6 lg:mt-0 relative">
-          <div className="all-category py-4 md:py-0 lg:py-0 ">
+          <div className="all-category py-0 ">
             <div className="container">
               {/* <SectionTitle
                   title={translations["popular-category"] || "Popular Category"}
@@ -80,7 +80,7 @@ export default async function Home() {
       ) : null}
 
       {settings?.best_selling_section ? (
-        <section className="best-sell bg-primary/20 mt-8 md:mt-0 py-4 md:py-4 lg:pb-0">
+        <section className="best-sell bg-primary/20 py-4 md:py-4 lg:pb-0">
           <BestSell translations={translations} />
         </section>
       ) : null}
@@ -108,7 +108,7 @@ export default async function Home() {
       ) : null} */}
 
       {settings?.shop_section ? (
-        <section className="new-products py-6 lg:py-0 lg:-mb-6">
+        <section className="new-products pt-6 lg:py-0 lg:-mb-6">
           <div className="container">
             <SectionTitle
               title={translations["new-in-shop"]}
