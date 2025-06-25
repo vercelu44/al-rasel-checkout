@@ -20,6 +20,13 @@ export async function GET() {
     { url: "/help/qna", priority: 1, updated_at: new Date().toISOString() },
   ];
 
+  function getDateOnlyFromISO(dateTimeStr) {
+    let normalized = dateTimeStr.includes(" ")
+      ? dateTimeStr.replace(" ", "T")
+      : dateTimeStr;
+    const date = new Date(normalized);
+    return date.toISOString().split("T")[0];
+  }
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
@@ -33,7 +40,7 @@ export async function GET() {
           }</loc>
         <changefreq>weekly</changefreq>
         <priority>${page.priority || 1}</priority>
-        <lastmod>${page.updated_at}</lastmod>
+        <lastmod>${getDateOnlyFromISO(page.updated_at)}</lastmod>
       </url>`
         )
         .join("")}
@@ -44,7 +51,7 @@ export async function GET() {
         <loc>${DOMAIN}${page.url}</loc>
         <changefreq>monthly</changefreq>
         <priority>${page.priority || 1}</priority>
-        <lastmod>${page.updated_at}</lastmod>
+        <lastmod>${getDateOnlyFromISO(page.updated_at)}</lastmod>
       </url>`
       )
       .join("")}
@@ -56,7 +63,7 @@ export async function GET() {
         <loc>${DOMAIN}/products/${product.slug}</loc>
         <changefreq>weekly</changefreq>
         <priority>${product.priority || 1}</priority>
-        <lastmod>${product.updated_at}</lastmod>
+        <lastmod>${getDateOnlyFromISO(product.updated_at)}</lastmod>
       </url>`
       )
       .join("")}
@@ -68,7 +75,7 @@ export async function GET() {
         <loc>${DOMAIN}/categories/${category.slug}</loc>
         <changefreq>weekly</changefreq>
         <priority>${category.priority || 1}</priority>
-        <lastmod>${category.updated_at}</lastmod>
+        <lastmod>${getDateOnlyFromISO(category.updated_at)}</lastmod>
       </url>`
       )
       .join("")}
