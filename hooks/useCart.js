@@ -12,6 +12,7 @@ import * as pixel from "/lib/fpixel";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
 import { Cookies } from "@/utils/cookies";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 /**
  * The `useCart` function is a custom hook in JavaScript that provides methods for adding products to
@@ -44,7 +45,36 @@ const useCart = () => {
       });
     }
   };
+  const handleGTMAddToCart = (product) => {
+    const payload = {
+      event: "add_to_cart",
+      ecommerce: {
+        currency: "BDT", // Change to your store's currency
+        value: product.new_price, // Total value of the added item(s)
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.product_name,
+            image: product.image,
+            price: product.new_price,
+            item_brand: product?.brand?.brand_name || "no-brand",
+            item_category: product?.category?.category_name,
+            item_category2: product?.sub_category?.category_name,
+            item_category3: product?.child_category?.category_name,
+            quantity: 1,
+          },
+        ],
+      },
+    };
+    // console.log(payload, " GTM Add to cart event"); // console success
 
+    //Google Tag Manager
+    if (settings?.gtm_id) {
+      sendGTMEvent(payload);
+    }
+  };
   /**
    * The function `handleAddToCart` adds a product to the cart, taking into account the selected variant
    * and checking for stock availability.
@@ -86,6 +116,7 @@ const useCart = () => {
     }
 
     handleMetaPixelAddToCart(product); //Pixel Add to cart event
+    handleGTMAddToCart(product); //GTM Add to cart event
 
     dispatch(
       addToCart({

@@ -2,6 +2,7 @@ import { fetchData } from "@/lib/fetch-data";
 import ClientLoader from "./ClientLoader";
 import FacebookPixel from "./FacebookPixel";
 import GoogleAdsense from "./GoogleAdsense";
+import { GTM } from "@/utils/GTM";
 // import { useLocale } from "next-intl";
 
 const ServerDataProvider = async () => {
@@ -25,9 +26,15 @@ const ServerDataProvider = async () => {
   // console.log(FB_PIXEL_ID);
   // console.log(settings?.fb_pixel_id);
 
-  const GOOGLE_ADSENSE_VERIFICATION_ID = settings?.google_adsense_verification
+  const GOOGLE_ADSENSE_VERIFICATION_ID = settings?.google_adsense_verification;
   // console.log(GOOGLE_ADSENSE_VERIFICATION_ID);
 
+  // -------------------  GTM ENABLED CHECK -------------------
+  const GTM_ID = settings?.gtm_id;
+  const isGTMEnabled =
+    process.env.NEXT_PUBLIC_GTM_ENABLED === "YES" && GTM_ID ? true : false;
+
+  console.log(isGTMEnabled);
   return (
     <>
       {/* Loading setting for client uses */}
@@ -40,6 +47,7 @@ const ServerDataProvider = async () => {
       {GOOGLE_ADSENSE_VERIFICATION_ID && (
         <GoogleAdsense verificationId={GOOGLE_ADSENSE_VERIFICATION_ID} />
       )}
+      {isGTMEnabled && <GTM gtmId={GTM_ID} />}
     </>
   );
 };

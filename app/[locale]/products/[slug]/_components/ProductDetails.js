@@ -30,7 +30,7 @@ import SocialShare from "@/components/elements/SocialShare";
 import { generateUniqueId } from "@/utils/get-unique";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { Cookies } from "@/utils/cookies";
-
+import { sendGTMEvent } from "@next/third-parties/google";
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
   const [showSizeChart, setShowSizeChart] = useState(false);
@@ -83,7 +83,41 @@ const ProductDetails = ({ product, settings, translations }) => {
       flag2.current = false;
     }
   }, [product, pathname, isFbPixelInitialized, settings, AddToConversionAPI]);
+  // Google Tag Manager
+  const gtmFlag = useRef(true);
+  useEffect(() => {
+    if (!product) return;
+    const payload = {
+      event: "view_item",
+      ecommerce: {
+        currency: "BDT", // Change to your store's currency
+        value: product.new_price, // Total value of the added item(s)
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.product_name,
+            image: product.image,
+            price: product.new_price,
+            item_brand: product?.brand?.brand_name || "no-brand",
+            item_category: product?.category?.category_name,
+            item_category2: product?.sub_category?.category_name,
+            item_category3: product?.child_category?.category_name,
+            quantity: 1,
+          },
+        ],
+      },
+    };
 
+    //Client side tracking
+    if (gtmFlag.current && settings?.gtm_id) {
+      sendGTMEvent(payload);
+      // console.log("view_item occured"); // console success
+      gtmFlag.current = false;
+    }
+  }, [product, pathname, settings]);
   return (
     <>
       <div className="relative product-details">

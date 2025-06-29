@@ -35,6 +35,8 @@ import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
 import { Cookies } from "@/utils/cookies";
 import DeliveryIcon from "@/public/assets/icons/customIcon/DeliveryIcon";
+import { getGTMFormattedCartItems } from "@/lib/gtm-data-formatter";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const Checkout = () => {
   // Dynamic delivery charges
@@ -47,8 +49,7 @@ const Checkout = () => {
       key: `inside dhaka`,
       title: `Inside ${settings?.delivery_region || "Dhaka"}`,
       charges: settings?.inside_dhaka_delivery_charges,
-      icon:<FaTruckFast  className="w-6 h-6"/>
-
+      icon: <FaTruckFast className="w-6 h-6" />,
     },
     // {
     // 	key: "sub dhaka",
@@ -59,7 +60,7 @@ const Checkout = () => {
       key: "outside dhaka",
       title: `Outside ${settings?.delivery_region || "Dhaka"}`,
       charges: settings?.outside_dhaka_delivery_charges,
-      icon:<DeliveryIcon  className="w-6 h-6"/>
+      icon: <DeliveryIcon className="w-6 h-6" />,
     },
   ];
 
@@ -281,6 +282,29 @@ const Checkout = () => {
     }
   }, [paymentOptions]);
 
+  // Google Tag Manager
+  const gtmFlag = useRef(true);
+  useEffect(() => {
+    if (cart.length === 0) return;
+    const formattedItems = getGTMFormattedCartItems(cart);
+    const payload = {
+      event: "begin_checkout",
+      ecommerce: {
+        currency: "BDT", // Change to your store's currency
+        value: total, // Total value of the added item(s)
+        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
+        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+        items: formattedItems,
+      },
+    };
+
+    if (settings?.gtm_id && gtmFlag.current) {
+      sendGTMEvent(payload);
+      gtmFlag.current = false;
+      console.log("gtm begin_checkout occurred");
+    }
+  }, [cart, total, settings]);
+
   return (
     <section className="container pb-8">
       <div className="breadcrumb breadcrumb-2 py-5">
@@ -330,14 +354,13 @@ const Checkout = () => {
                   className="flex gap-2 items-center border border-slate-200 p-3"
                   onClick={() => handleDeliveryAreaChange(area)}
                 >
-               
                   <CustomRadio
                     isChecked={deliveryArea?.key === area.key}
-                    icon={area.icon} 
+                    icon={area.icon}
                     label={area.title}
                     // onClick={() => setDeliveryArea(area)}
                   />
-                 
+
                   <p
                     className={cn(
                       `font-semibold`,
