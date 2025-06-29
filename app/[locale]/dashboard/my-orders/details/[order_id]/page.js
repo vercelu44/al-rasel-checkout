@@ -14,19 +14,20 @@ import locationImage from "@/public/assets/images/locationImage.png";
 import { siteConfig } from "@/config/site";
 import PaymentModal from "@/components/modals/PaymentModal";
 import { HiArrowLongLeft } from "react-icons/hi2";
+import OrderTracking from "./_components/OrderTracking";
 
 const OrderDetail = ({ params }) => {
 	const { order_id, locale } = params;
 	const { settings } = useSelector((state) => state.common);
 	const [selectedOrder, setSelectedOrder] = useState(null);
+	const { translations } = useSelector((state) => state.common);
 	const { data: orderData, isLoading } = useGetOrderByIdQuery({
 		order_id,
 		locale,
 	});
-
 	const sale = orderData?.sale || {};
 	const saleProducts = orderData?.saleProducts || [];
-
+   
 	return (
 		<>
 			<div className="px-3 md:px-10 py-3 md:py-6">
@@ -40,7 +41,7 @@ const OrderDetail = ({ params }) => {
 					</Link>
 				</div>
 				<div className="content text-slate-700">
-					{/* <OrderTracking orderData={orderData} isLoading={isLoading} /> */}
+					<OrderTracking orderData={orderData} isLoading={isLoading}  translations={translations}/>
 					<div className="bg-white py-4 md:mt-5">
 						<h3 className="text-xl font-bold font-title mb-4">Products</h3>
 						{isLoading ? (

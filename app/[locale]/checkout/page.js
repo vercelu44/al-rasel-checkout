@@ -21,6 +21,8 @@ import * as pixel from "/lib/fpixel";
 //Icons
 import { FiPlus } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
+import { FaTruckFast } from "react-icons/fa6";
+
 import { useGetPaymentMethodsQuery } from "@/store/api/paymentMethodsAPI";
 import { siteConfig } from "@/config/site";
 import useOrderPlace from "@/hooks/useOrderPlace";
@@ -32,6 +34,7 @@ import { cn } from "@/utils";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
 import { Cookies } from "@/utils/cookies";
+import DeliveryIcon from "@/public/assets/icons/customIcon/DeliveryIcon";
 
 const Checkout = () => {
   // Dynamic delivery charges
@@ -44,6 +47,8 @@ const Checkout = () => {
       key: `inside dhaka`,
       title: `Inside ${settings?.delivery_region || "Dhaka"}`,
       charges: settings?.inside_dhaka_delivery_charges,
+      icon:<FaTruckFast  className="w-6 h-6"/>
+
     },
     // {
     // 	key: "sub dhaka",
@@ -54,6 +59,7 @@ const Checkout = () => {
       key: "outside dhaka",
       title: `Outside ${settings?.delivery_region || "Dhaka"}`,
       charges: settings?.outside_dhaka_delivery_charges,
+      icon:<DeliveryIcon  className="w-6 h-6"/>
     },
   ];
 
@@ -324,11 +330,14 @@ const Checkout = () => {
                   className="flex gap-2 items-center border border-slate-200 p-3"
                   onClick={() => handleDeliveryAreaChange(area)}
                 >
+               
                   <CustomRadio
                     isChecked={deliveryArea?.key === area.key}
+                    icon={area.icon} 
                     label={area.title}
                     // onClick={() => setDeliveryArea(area)}
                   />
+                 
                   <p
                     className={cn(
                       `font-semibold`,
