@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Link from "next/link";
 import Image from "next/image";
@@ -37,8 +38,16 @@ import { Cookies } from "@/utils/cookies";
 import DeliveryIcon from "@/public/assets/icons/customIcon/DeliveryIcon";
 import { getGTMFormattedCartItems } from "@/lib/gtm-data-formatter";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
 
 const Checkout = () => {
+  //--------------------get default form values----------------
+  const getDefaultFormValues = () => ({
+    name: localStorage.getItem("name") || "",
+    address: localStorage.getItem("address") || "",
+    phone: localStorage.getItem("phone") || "",
+    city: localStorage.getItem("city") || "",
+  });
   // Dynamic delivery charges
   const { settings, translations, isFbPixelInitialized } = useSelector(
     (state) => state.common
@@ -80,6 +89,8 @@ const Checkout = () => {
   const isMobile = useMediaQuery("(max-width: 768px)"); // checking for mobile
 
   const { data: paymentMethodsData } = useGetPaymentMethodsQuery();
+  const [placeIncompleteOrder] = usePlaceIncompleteOrderMutation();
+
   const paymentMethods = useMemo(
     () => paymentMethodsData?.data || {},
     [paymentMethodsData]
@@ -93,7 +104,15 @@ const Checkout = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+    watch,
+  } = useForm({
+    defaultValues: getDefaultFormValues(),
+  });
+  //----watch values----
+  const phoneValue = watch("phone");
+  const nameValue = watch("name");
+  const addressValue = watch("address");
+  const cityValue = watch("city");
 
   useEffect(() => {
     reset();
@@ -222,6 +241,11 @@ const Checkout = () => {
     };
     // console.log(newOrder);
     handleOrderPlace(newOrder);
+    //--------------------remove local storage items after checkout----------------
+    localStorage.removeItem("name");
+    localStorage.removeItem("address");
+    localStorage.removeItem("phone");
+    localStorage.removeItem("city");
 
     // updating user for the first time only not applicable for guest checkout
     if (
@@ -305,6 +329,49 @@ const Checkout = () => {
     }
   }, [cart, total, settings]);
 
+  //------------------ checkout on valid phone handler----------------
+  const handleIncompleteOrder = async (data) => {
+    let phone = data?.phone;
+    let alt_phone = data?.phone;
+    let fullAddress = data?.address + ", " + data?.city;
+    const newOrder = {
+      name: data?.name,
+      alt_name: data?.name,
+      phone: phone,
+      alt_phone: alt_phone,
+      address: fullAddress,
+      alt_address: fullAddress,
+      order_items: getOrderFormattedCartItems(cart),
+      payment_method: selectedPayMethod,
+      delivery_type: deliveryCharge ? deliveryArea.key : "free delivery",
+      delivery_charge: deliveryCharge,
+      coupon: discountCoupon?.code || null,
+      coupon_discount: discountedPrice,
+      subtotal: total,
+      after_discount: totalWithDiscount,
+      grand_total: grandTotal,
+      paymentOption: selectedPaymentOption,
+      // note: "",
+    };
+
+    try {
+      await placeIncompleteOrder(newOrder).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    localStorage.setItem("name", nameValue);
+    localStorage.setItem("address", addressValue);
+    localStorage.setItem("phone", phoneValue);
+    localStorage.setItem("city", cityValue);
+    const phonePattern = siteConfig.phone.pattern;
+    if (phoneValue && phonePattern.test(phoneValue)) {
+      const formValues = watch();
+
+      handleIncompleteOrder(formValues);
+    }
+  }, [phoneValue, nameValue, addressValue, cityValue, watch]);
   return (
     <section className="container pb-8">
       <div className="breadcrumb breadcrumb-2 py-5">
