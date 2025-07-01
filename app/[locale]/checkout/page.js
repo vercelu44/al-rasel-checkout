@@ -447,7 +447,7 @@ const Checkout = () => {
                 <button
                   disabled={!cart?.length}
                   type="submit"
-                  className="primary-btn !rounded-md w-[232px] lg:w-full disabled:bg-slate-300 disabled:cursor-not-allowed"
+                  className="bg-primary text-white px-4 py-3 !rounded-md w-[232px] lg:w-full disabled:bg-slate-300 disabled:cursor-not-allowed"
                 >
                   {translations["confirm-order"] || "Confirm Order"}
                 </button>
