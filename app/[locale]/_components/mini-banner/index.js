@@ -1,13 +1,15 @@
+import { fetchData } from "@/lib/fetch-data";
 import MiniBannerSlider from "./MiniBannerSlider";
 
-const MiniBanner = () => {
-	return (
-		<div className="container">
-			<MiniBannerSlider 
-			// sliders={sliders} 
-			/>
-		</div>
-	);
+const MiniBanner = async () => {
+  const { data: sliders = [] } = await fetchData({
+    api: "mini-sliders",
+  });
+  return (
+    <div className="container">
+      <MiniBannerSlider sliders={sliders} />
+    </div>
+  );
 };
 
 export default MiniBanner;

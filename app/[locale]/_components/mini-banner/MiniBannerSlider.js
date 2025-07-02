@@ -4,29 +4,6 @@ import { Link } from "@/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import Image from "next/image";
-import img1 from "@/public/assets/1.jpeg";
-import img2 from "@/public/assets/2.jpeg";
-import img3 from "@/public/assets/3.jpeg";
-
-// ** Import Icons
-
-const miniSlides = [
-  {
-    id: 1,
-    image: img1,
-    url: "/",
-  },
-  {
-    id: 2,
-    image: img2,
-    url: "/",
-  },
-  {
-    id: 3,
-    image: img3,
-    url: "/",
-  },
-];
 
 const MiniBannerSlider = ({ sliders }) => {
   return (
@@ -42,9 +19,9 @@ const MiniBannerSlider = ({ sliders }) => {
         effect="fade"
         speed={2000}
       >
-        {miniSlides.map((slide) => (
+        {sliders.map((slide, i) => (
           <SwiperSlide
-            key={slide?.id}
+            key={i}
             className="rounded-lg !flex items-end !h-[40px] lg:!h-[60px] bg-cover"
           >
             <Image
