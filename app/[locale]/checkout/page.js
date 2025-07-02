@@ -140,11 +140,11 @@ const Checkout = () => {
   }, [paymentMethods]);
 
   const paymentOptions = [
-    // {
-    //   key: "no_payment",
-    //   title: `Cash on deliveryhdhd`,
-    //   value: grandTotal,
-    // },
+    {
+      key: "no_payment",
+      title: `Cash on deliveryhdhd`,
+      value: grandTotal,
+    },
     activePaymentMethods?.length > 1 && deliveryArea?.charges
       ? {
           key: "delivery_charge_payment",
