@@ -439,7 +439,7 @@ const Checkout = () => {
               {/* oder confirm button  */}
               <div className="form-control md:mt-11 responsive-action flex lg:block justify-between items-center">
                 <div className="lg:hidden">
-                  <p className="">{translations["total"] || "Total"}:</p>
+                  <p className="">{translations["total:"] || "Total:"}</p>
                   <h3 className="text-slate-900 font-bold">
                     {siteConfig.currency.sign} {grandTotal}
                   </h3>
