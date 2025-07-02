@@ -127,7 +127,7 @@ export default async function Home() {
       ) : null}
 
       <section className="home-category-products pb-3 lg:pb-0 bg-custom-bg">
-        <HomeCategoryProducts className="py-1 " />
+        <HomeCategoryProducts className="" />
       </section>
 
       {settings?.video_section ? (

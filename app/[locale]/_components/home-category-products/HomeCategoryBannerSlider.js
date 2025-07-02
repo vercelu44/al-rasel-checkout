@@ -25,8 +25,9 @@ const HomeCategoryBannerSlider = ({ sliders, url }) => {
               backgroundImage: `url(${slide})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
+              backgroundSize: "contain"
             }}
-            className="rounded-2xl !flex items-end !h-[170px] lg:!h-[250px] bg-cover"
+            className="rounded-2xl !flex items-end h-full min-h-[140px] lg:!h-[250px] bg-cover"
           >
             {url && (
               <Link
