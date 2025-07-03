@@ -15,7 +15,7 @@ const MiniBannerSlider = ({ sliders }) => {
         loop={true}
         pagination={{ clickable: true }}
         className="intro-slider "
-        autoplay={{ delay: 2000 }}
+        autoplay={{ delay: 5000 }}
         effect="fade"
         speed={2000}
       >
