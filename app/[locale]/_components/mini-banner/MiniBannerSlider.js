@@ -15,14 +15,14 @@ const MiniBannerSlider = ({ sliders }) => {
         loop={true}
         pagination={{ clickable: true }}
         className="intro-slider "
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 2000 }}
         effect="fade"
         speed={2000}
       >
         {sliders.map((slide, i) => (
           <SwiperSlide
             key={i}
-            className="rounded-lg !flex items-end !h-[40px] lg:!h-[60px] bg-cover"
+            className="rounded-lg !flex items-end !h-[20px] lg:!h-[60px] bg-cover"
           >
             <Image
               src={slide.image}
