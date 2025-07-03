@@ -37,15 +37,15 @@ const SubscriptionForm = ({ settings }) => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="flex md:justify-center pt-2">
-				<div className="w-full flex items-center">
+				<div className="w-[90vw] lg:w-[400px] h-10 lg:h-12 flex items-center">
 					<input
 						style={{
 							border: `1px solid ${settings?.colors?.primary}`,
 						}}
-						className="rounded-l w-full h-10"
+						className="rounded-l w-full h-full"
 						type="email"
 						name="email"
-						placeholder="example@email.com"
+						placeholder="Enter your email"
 						{...register("email", {
 							pattern: {
 								value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
@@ -55,11 +55,11 @@ const SubscriptionForm = ({ settings }) => {
 						})}
 					/>
 					<button
-						className="inline-block h-10 px-4 py-1 border-none text-center rounded-r"
+						className="inline-block h-full px-4 py-1 border-none text-center rounded-r"
 						type="submit"
 						style={{
-							backgroundColor: settings?.colors?.primary,
-							color: settings?.colors?.primary_text,
+							backgroundColor: settings?.colors?.primary_text,
+							color: settings?.colors?.primary,
 						}}
 					>
 						{translations["submit"] || "Submit"}

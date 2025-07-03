@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { fetchData } from "@/lib/fetch-data";
-import SubscriptionForm from "./SubscriptionForm";
+// import SubscriptionForm from "./SubscriptionForm";
 
 // ** Import Icons
 import SocialIcon from "../elements/SocialIcon";
@@ -92,10 +92,10 @@ const Footer = async () => {
                 </li>
               )}
             </ul>
-            <div className="mt-4 pr-4">
+            {/* <div className="mt-4 pr-4">
               <p>Subscribe Us</p>
               <SubscriptionForm settings={settings} />
-            </div>
+            </div> */}
           </div>
           <div className="text-sm/6 font-light">
             <h6 className="mb-4 font-title uppercase font-medium">

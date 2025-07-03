@@ -9,6 +9,7 @@ import { Link } from "@/navigation";
 import Featured from "./_components/Featured";
 import Popup from "./_components/Popup";
 import BestSell from "./_components/best-sale";
+import SubscriptionForm from "@/components/footer/SubscriptionForm";
 
 export default async function Home() {
   const [settingsRes, transRes] = await Promise.allSettled([
@@ -55,19 +56,21 @@ export default async function Home() {
               <h2 className="sec-title pb-3">
                 {translations["Best Selling"] || "Best Selling"}
               </h2>
-               <Link href="/products?sort_type=best_selling" className="underline">
+              <Link
+                href="/products?sort_type=best_selling"
+                className="underline"
+              >
                 {translations["The Most Popular Picks This Season"] ||
                   "The Most Popular Picks This Season"}
               </Link>
             </div>
 
             <div className="">
-              <BestSell/>
+              <BestSell />
             </div>
           </div>
         </section>
       ) : null}
-
 
       {settings?.shop_section ? (
         <section className="new-products">
@@ -96,7 +99,10 @@ export default async function Home() {
               <h2 className="sec-title pb-3">
                 {translations["featured-products"] || "Featured Products"}
               </h2>
-              <Link href="/featured-products?sort_type=new" className="underline">
+              <Link
+                href="/featured-products?sort_type=new"
+                className="underline"
+              >
                 Browse our featured products
               </Link>
             </div>
@@ -110,6 +116,15 @@ export default async function Home() {
 
       <section className="home-category-products mb-10">
         <HomeCategoryProducts />
+      </section>
+
+      <section
+        className="mt-4 pr-4 bg-red-600 h-[120px] lg:h-[200px] bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/images/banner/subscribe-banner.png')" }}
+      >
+        <div className="flex h-full w-full lg:justify-end items-center container">
+          <SubscriptionForm settings={settings} />
+        </div>
       </section>
 
       <Popup popup={settings?.popup} />
