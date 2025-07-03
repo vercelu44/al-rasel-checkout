@@ -98,7 +98,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
                   `product-img overflow-hidden`,
                   isSquareImage
                     ? "h-[141.5px] @[160px]:h-[161px] @[200px]:h-[207px] @[220px]:h-[242px] @[250px]:h-[260px] @[260px]:h-[271px]  @[300px]:h-[95vw]"
-                    : "h-[200px] @[200px]:h-[270px] @[250px]:h-[340px]  @[300px]:h-[115vw]"
+                    : "h-[200px] @[200px]:h-[270px] @[250px]:h-[340px] "
                 )}
               >
                 <Link href="/products/[slug]" as={`/products/${slug}`}>

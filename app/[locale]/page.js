@@ -8,6 +8,7 @@ import { fetchData } from "@/lib/fetch-data";
 import { Link } from "@/navigation";
 import Featured from "./_components/Featured";
 import Popup from "./_components/Popup";
+import BestSell from "./_components/best-sale";
 
 export default async function Home() {
   const [settingsRes, transRes] = await Promise.allSettled([
@@ -19,7 +20,6 @@ export default async function Home() {
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   const translations =
     transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
-
   return (
     <>
       {settings?.slider_section ? (
@@ -47,6 +47,27 @@ export default async function Home() {
           <VideoBanner />
         </section>
       ) : null}
+
+      {settings?.best_selling_section ? (
+        <section className="new-products">
+          <div className="container">
+            <div className="py-10 text-center">
+              <h2 className="sec-title pb-3">
+                {translations["Best Selling"] || "Best Selling"}
+              </h2>
+               <Link href="/products?sort_type=best_selling" className="underline">
+                {translations["The Most Popular Picks This Season"] ||
+                  "The Most Popular Picks This Season"}
+              </Link>
+            </div>
+
+            <div className="">
+              <BestSell/>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
 
       {settings?.shop_section ? (
         <section className="new-products">
