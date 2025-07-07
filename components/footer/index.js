@@ -236,13 +236,15 @@ const Footer = async () => {
           <div className="w-1/2 flex flex-col md:flex-row items-center gap-1 text-center">
             <p className=" text-sm/6 font-light flex flex-wrap gap-1 justify-center">
               &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
-              <Link href="/">{settings?.name}</Link> | Powered by <SocialIcon
+              <Link href="/">{settings?.name}</Link> | Powered by 
+              <Link href="https://amarsolution.com" className="font-semibold">AmarSolution</Link> 
+              {/* <SocialIcon
                 href={"https://amarsolution.com/"}
                 icon={"/assets/icons/amarsolution-logo.png"}
                 iconClass={
                   "w-auto h-[25px] transition delay-150 duration-300 ease-in-out hover:-translate-1 hover:scale-105"
                 }
-              />
+              /> */}
             </p>
           </div>
           <div className="w-1/2">
