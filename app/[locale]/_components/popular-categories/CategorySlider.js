@@ -21,7 +21,7 @@ const CategorySlider = ({ categoryList }) => {
         freeMode={true}
         loop={true}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 4000 }}
+        autoplay={{ delay: 3000 }}
         speed={500}
         className="category-slider !static "
       >

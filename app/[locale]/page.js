@@ -108,7 +108,7 @@ export default async function Home() {
       ) : null} */}
 
       {settings?.shop_section ? (
-        <section className="new-products pt-6 lg:py-0 lg:-mb-6">
+        <section className="new-products pt-6 lg:py-0 ">
           <div className="container">
             <SectionTitle
               title={translations["new-in-shop"]}

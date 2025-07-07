@@ -13,7 +13,7 @@ const HomeCategoryBannerSlider = ({ sliders, url }) => {
         spaceBetween={0}
         loop={true}
         pagination={{ clickable: true }}
-        className="intro-slider [&_.swiper-wrapper]:pb-6"
+        className="intro-slider"
         autoplay={{ delay: 2000 }}
         effect="fade"
         speed={2000}

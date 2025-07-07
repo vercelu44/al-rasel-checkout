@@ -16,7 +16,7 @@ const HomeCategoryProducts = async ({ className }) => {
 
   return categoryWiseProducts.map(({ category, products, images }, index) => (
     <div key={index} className={cn(`container`, className)}>
-      <div className={cn(`pt-10`, className)}>
+      <div className={cn(`pt-0`, className)}>
         <HomeCategoryBannerSlider
           sliders={images}
           url={`/categories/${category?.slug}`}
