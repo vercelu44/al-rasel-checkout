@@ -28,7 +28,7 @@ export default function BestSellingViewSelector({
         </SectionTitle>
       </div>
       <div className="bestSell-slider lg:mt-6 relative md:container">
-        {isTablet ? (
+        {/* {isTablet ? (
           <HorizontalScrollView className={"space-x-2 py-0 px-3"}>
             {bestProducts.map((product, index) => (
               <div key={index} className="md:w-[240px]">
@@ -46,7 +46,11 @@ export default function BestSellingViewSelector({
             bestProducts={bestProducts}
             translations={translations}
           />
-        )}
+        )} */}
+        <BestSellSlider
+          bestProducts={bestProducts}
+          translations={translations}
+        />
       </div>
       <div className="container">
         <SeeAll

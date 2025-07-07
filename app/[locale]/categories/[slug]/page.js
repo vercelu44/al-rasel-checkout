@@ -1,8 +1,8 @@
 import { Link } from "@/navigation";
-// import Image from "next/image";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
+import Image from "next/image";
 
 const page = async ({ params, searchParams }) => {
   const { slug } = params;
@@ -25,19 +25,19 @@ const page = async ({ params, searchParams }) => {
     ...searchParams,
   };
 
-
   return (
     <>
       {/* breadcrumb */}
       {category?.image ? (
-        <div
-          className="hidden lg:block bg-no-repeat bg-cover w-full h-[240px] breadcrumb py-20"
-          style={{
-            backgroundImage: `url(${category?.image})`,
-          }}
-        >
-          <div className="container">
-            {/* <div className="text-center capitalize">
+        <>
+          <div
+            className="hidden lg:block bg-no-repeat bg-cover w-full h-[240px] breadcrumb py-20"
+            style={{
+              backgroundImage: `url(${category?.image})`,
+            }}
+          >
+            <div className="container">
+              {/* <div className="text-center capitalize">
               <h3 className="text-2xl font-bold font-title text-white mb-4">
                 {category?.category_name}
               </h3>
@@ -63,8 +63,16 @@ const page = async ({ params, searchParams }) => {
                 </Link>
               </div>
             </div> */}
+            </div>
           </div>
-        </div>
+          <Image
+            src={category?.image}
+            alt={category?.category_name}
+            width={1000}
+            height={240}
+            className="w-full h-full object-cover block lg:hidden"
+          />
+        </>
       ) : (
         <div className="breadcrumb breadcrumb-2 py-5 border-b border-slate-200 hidden lg:block">
           <div className="container capitalize">
@@ -102,7 +110,7 @@ const page = async ({ params, searchParams }) => {
             <ResponsiveSlider categories={category?.child_categories} />
           </div>
         </div>
-      ): null}
+      ) : null}
 
       <ProductsWithFilter
         customSearchParams={customSearchParams}

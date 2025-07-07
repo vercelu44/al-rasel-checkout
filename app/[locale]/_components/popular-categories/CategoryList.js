@@ -4,7 +4,13 @@ import { Link } from "@/navigation";
 import Image from "next/image";
 import noImage from "@/public/assets/images/no-image.png";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Pagination, Grid } from "swiper/modules";
+import {
+  FreeMode,
+  Navigation,
+  Pagination,
+  Grid,
+  Autoplay,
+} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
@@ -18,12 +24,14 @@ const CategoryList = ({ categories }) => {
 
   return (
     <Swiper
-      modules={[Pagination, FreeMode, Navigation, Grid]}
+      modules={[Pagination, FreeMode, Navigation, Grid, Autoplay]}
       spaceBetween={20} // Reduced for better spacing with 5 items
       pagination={{ clickable: true }}
       freeMode={true}
       loop={true}
       slidesPerView={5} // Set to 5 items per row
+      autoplay={{ delay: 3000 }}
+      speed={500}
       grid={{ rows: 2, fill: "row" }} // 2 rows
       className="category-list-swiper w-screen relative left-1/2 -translate-x-1/2"
     >

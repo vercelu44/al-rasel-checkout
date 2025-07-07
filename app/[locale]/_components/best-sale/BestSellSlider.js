@@ -6,13 +6,15 @@ import ProductCard from "@/components/cards/ProductCard";
 
 // ** Import Icons
 import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const BestSellSlider = ({ bestProducts, translations }) => {
+  const isTablet = useMediaQuery("(max-width: 992px)");
   return (
     <>
       <Swiper
         modules={[Pagination, Autoplay, FreeMode, Navigation]}
-        slidesPerView={5}
+        slidesPerView={isTablet ? 2 : 5}
         spaceBetween={24}
         freeMode={true}
         loop={true}
