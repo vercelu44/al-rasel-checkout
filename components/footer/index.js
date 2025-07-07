@@ -67,23 +67,24 @@ const Footer = async () => {
                 <span className="rtl:text-right" dir="ltr">
                   {settings?.phone?.map((e, index) => (
                     <Link key={index} href={`tel:${settings?.phone[index]}`}>
-                      {`${settings?.phone[index]}${
-                        index + 1 < settings.phone.length ? "," : ""
-                      }`}
+                      {`${settings?.phone[index]}${index + 1 < settings.phone.length ? "," : ""
+                        }`}
                     </Link>
                   ))}
                 </span>
               </li>
-              <li className="flex items-center flex-wrap gap-2">
-                <FaEnvelope ize={16} />
-                {settings?.email?.map((e, index) => (
-                  <Link key={index} href={`mailto:${settings?.email[index]}`}>
-                    {`${settings?.email[index]}${
-                      index + 1 < settings.email.length ? "," : ""
-                    }`}
-                  </Link>
-                ))}
+
+              <li className="flex items-center gap-2 w-full max-w-full lg:flex-nowrap">
+                <FaEnvelope size={16} className="shrink-0" />
+                <div className="flex flex-wrap gap-x-1 gap-y-0.5 min-w-0">
+                  {settings?.email?.map((e, index) => (
+                    <Link key={index} href={`mailto:${e}`}>
+                      {`${e}${index + 1 < settings.email.length ? ',' : ''}`}
+                    </Link>
+                  ))}
+                </div>
               </li>
+
               {settings?.trade_licence_no && (
                 <li className="flex items-center flex-wrap gap-2">
                   {/* <FaEnvelope ize={16} /> */}
@@ -97,8 +98,8 @@ const Footer = async () => {
               <SubscriptionForm settings={settings} />
             </div> */}
           </div>
-          <div className="text-sm/6 font-light">
-            <h6 className="mb-4 font-title uppercase font-medium">
+          <div className="text-lg font-light">
+            <h6 className="mb-4 font-title uppercase font-bold">
               {translations["customer-service"] || "CUSTOMER SERVICE"}
             </h6>
             <ul className="widget-list">
@@ -128,8 +129,8 @@ const Footer = async () => {
               ))}
             </ul>
           </div>
-          <div className="text-sm/6 font-light">
-            <h6 className="mb-4 font-title uppercase font-medium">
+          <div className="text-lg font-light">
+            <h6 className="mb-4 font-title uppercase font-bold">
               {translations["company"] || "COMPANY"}
             </h6>
             <ul className="widget-list">
@@ -170,7 +171,7 @@ const Footer = async () => {
                 </div>
               ) : null}
               <div className="social-links ">
-                <p>Follow Us</p>
+                <h6 className="text-lg font-title uppercase font-bold">Follow Us</h6>
                 <div className="text-center py-4 flex gap-3 items-center">
                   {settings.facebook_link && settings.facebook_link !== "#" && (
                     <SocialIcon

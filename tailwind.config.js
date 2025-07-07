@@ -14,6 +14,7 @@ module.exports = {
 				body: ["Noto Sans Bengali", ...defaultTheme.fontFamily.sans],
 				title: ["Zen Kaku Gothic New", ...defaultTheme.fontFamily.serif],
 				// title: ["Hind Siliguri", ...defaultTheme.fontFamily.serif],
+				poppins: ["Poppins", ...defaultTheme.fontFamily.sans],
 			},
 			boxShadow: {
 				around: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",

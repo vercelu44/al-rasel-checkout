@@ -50,33 +50,41 @@ export default async function Home() {
       ) : null}
 
       {settings?.best_selling_section ? (
-        <section className="new-products">
+        <section className="new-products bg-gray-50 py-14">
           <div className="container">
-            <div className="py-10 text-center">
-              <h2 className="sec-title pb-3">
-                {translations["Best Selling"] || "Best Selling"}
-              </h2>
-              <Link
-                href="/products?sort_type=best_selling"
-                className="underline"
+            <div className="text-center mb-10">
+              {/* <h2 className="text-4xl md:text-5xl font-bold  mb-4 font-poppins"
               >
-                {translations["The Most Popular Picks This Season"] ||
-                  "The Most Popular Picks This Season"}
-              </Link>
+                {translations["Best Selling"] || "Best Selling"}
+              </h2> */}
+              <h2 className="text-4xl md:text-5xl font-normal mb-4">
+                <span className="inline-block font-poppins">{translations["Best"] || "Best"}</span>
+                <span className="inline-block ml-2 transform rotate-2  px-2 font-poppins" style={{ backgroundColor: settings?.colors?.primary }}>{translations["Selling"] || "Selling"}</span>
+              </h2>
+              <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto italic">
+                <Link
+                  href="/products?sort_type=best_selling"
+                  className=" transition-colors underline hover:no-underline"
+                >
+                  {translations["The Most Popular Picks This Season"] ||
+                    "The Most Popular Picks This Season"}
+                </Link>
+              </p>
             </div>
 
-            <div className="">
+            <div className="shadow-lg bg-white rounded-xl p-6">
               <BestSell />
             </div>
           </div>
         </section>
       ) : null}
 
+
       {settings?.shop_section ? (
         <section className="new-products">
           <div className="container">
             <div className="py-10 text-center">
-              <h2 className="sec-title pb-3">
+              <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
                 {translations["new-arrival"] || "New Collection"}
               </h2>
               <Link href="/products?sort_type=new" className="underline">
@@ -96,7 +104,7 @@ export default async function Home() {
         <section className="new-products">
           <div className="container">
             <div className="py-10 text-center">
-              <h2 className="sec-title pb-3">
+              <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
                 {translations["featured-products"] || "Featured Products"}
               </h2>
               <Link
@@ -118,14 +126,17 @@ export default async function Home() {
         <HomeCategoryProducts />
       </section>
 
+      {settings?.newsletter_section? (
       <section
-        className="mt-4 pr-4 bg-red-600 h-[120px] lg:h-[200px] bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/images/banner/subscribe-banner.png')" }}
+        className=" mt-4 pr-4 h-[120px] lg:h-[400px] bg-cover bg-center border border-blue-500"
+        style={{
+          backgroundImage: "url('/assets/images/banner/newsletter-banner-img.png')"
+        }}
       >
-        <div className="flex h-full w-full lg:justify-end items-center container">
+        <div className="flex h-full w-full justify-end items-center lg:pr-16">
           <SubscriptionForm settings={settings} />
         </div>
-      </section>
+      </section>):null}
 
       <Popup popup={settings?.popup} />
     </>
