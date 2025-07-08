@@ -36,7 +36,10 @@ const OtpForm = ({ phone, setShowModal, setOtpSent, translations }) => {
 			dispatch(setUser(user.data));
 			setShowModal(false);
 			setOtpSent(false);
-			router.push(redirect || "/dashboard");
+			// router.push(redirect || "/dashboard");
+				if (redirect) {
+				router.push(redirect);
+			}
 			// console.log(user, "user Data");
 		} else if (isError) {
 			toast.error("Oops! OTP not Matched");

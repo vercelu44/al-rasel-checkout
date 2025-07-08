@@ -58,17 +58,21 @@ const Footer = async () => {
               />
             </Link>
             <ul className="info-list pr-4 space-y-2 text-sm font-light">
-              <li className="flex items-start gap-2">
-                <FaMapMarkerAlt size={24} color="#EF4444" />
-                <p className="">{settings?.address}</p>
-              </li>
+              {settings?.address?.map((addr, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <span className="pt-1">
+                    <FaMapMarkerAlt size={16} color="#000" />
+                  </span>
+                  <p className="leading-snug">{addr}</p>
+                </li>
+              ))}
+
               <li className="flex items-center flex-wrap gap-2">
-                <BsFillTelephoneFill ize={16} />
+                <BsFillTelephoneFill size={16} />
                 <span className="rtl:text-right" dir="ltr">
                   {settings?.phone?.map((e, index) => (
-                    <Link key={index} href={`tel:${settings?.phone[index]}`}>
-                      {`${settings?.phone[index]}${index + 1 < settings.phone.length ? "," : ""
-                        }`}
+                    <Link key={index} href={`tel:${e}`}>
+                      {`${e}${index + 1 < settings.phone.length ? "," : ""}`}
                     </Link>
                   ))}
                 </span>
@@ -79,7 +83,7 @@ const Footer = async () => {
                 <div className="flex flex-wrap gap-x-1 gap-y-0.5 min-w-0">
                   {settings?.email?.map((e, index) => (
                     <Link key={index} href={`mailto:${e}`}>
-                      {`${e}${index + 1 < settings.email.length ? ',' : ''}`}
+                      {`${e}${index + 1 < settings.email.length ? "," : ""}`}
                     </Link>
                   ))}
                 </div>
@@ -87,12 +91,12 @@ const Footer = async () => {
 
               {settings?.trade_licence_no && (
                 <li className="flex items-center flex-wrap gap-2">
-                  {/* <FaEnvelope ize={16} /> */}
                   <span className="font-semibold">Trade license No:</span>
                   {settings?.trade_licence_no}
                 </li>
               )}
             </ul>
+
             {/* <div className="mt-4 pr-4">
               <p>Subscribe Us</p>
               <SubscriptionForm settings={settings} />
@@ -237,8 +241,8 @@ const Footer = async () => {
           <div className="w-1/2 flex flex-col md:flex-row items-center gap-1 text-center">
             <p className=" text-sm/6 font-light flex flex-wrap gap-1 justify-center">
               &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
-              <Link href="/">{settings?.name}</Link> | Powered by 
-              <Link href="https://amarsolution.com" className="font-semibold">AmarSolution</Link> 
+              <Link href="/">{settings?.name}</Link> | Powered by
+              <Link href="https://amarsolution.com" className="font-semibold">AmarSolution</Link>
               {/* <SocialIcon
                 href={"https://amarsolution.com/"}
                 icon={"/assets/icons/amarsolution-logo.png"}
