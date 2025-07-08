@@ -58,8 +58,8 @@ export default async function Home() {
                 {translations["Best Selling"] || "Best Selling"}
               </h2> */}
               <h2 className="text-4xl md:text-5xl font-normal mb-4">
-                <span className="inline-block font-poppins">{translations["Best"] || "Best"}</span>
-                <span className="inline-block ml-2 transform rotate-2  px-2 font-poppins" style={{ backgroundColor: settings?.colors?.primary }}>{translations["Selling"] || "Selling"}</span>
+                <span className="inline-block font-poppins" style={{color: settings?.colors?.primary}}>{translations["Best"] || "Best"}</span>
+                <span className="inline-block ml-2  px-2 font-poppins" >{translations["Selling"] || "Selling"}</span>
               </h2>
               <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto italic">
                 <Link
@@ -85,8 +85,10 @@ export default async function Home() {
           <div className="container">
             <div className="py-10 text-center">
               <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
-                {translations["new-arrival"] || "New Collection"}
+                 <span className="inline-block font-poppins" style={{color: settings?.colors?.primary}}>{translations["New"] || "New"}</span>
+                <span className="inline-block ml-2  px-2 font-poppins" >{translations["Collection"] || "Collection"}</span>
               </h2>
+              
               <Link href="/products?sort_type=new" className="underline">
                 {translations["browse-our-new-collections"] ||
                   "Browse our new collections"}
@@ -105,7 +107,8 @@ export default async function Home() {
           <div className="container">
             <div className="py-10 text-center">
               <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
-                {translations["featured-products"] || "Featured Products"}
+                 <span className="inline-block font-poppins" style={{color: settings?.colors?.primary}}>{translations["Featured"] || "Featured"}</span>
+                <span className="inline-block ml-2  px-2 font-poppins" >{translations["Products"] || "Products"}</span>
               </h2>
               <Link
                 href="/featured-products?sort_type=new"

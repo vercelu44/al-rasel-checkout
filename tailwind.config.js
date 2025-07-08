@@ -29,7 +29,7 @@ module.exports = {
 			container: {
 				center: true,
 				padding: "1rem",
-				
+
 			},
 			colors: {
 				primary: {
@@ -58,6 +58,22 @@ module.exports = {
 			maxWidth: {
 				"1/2": "50%",
 			},
+			// animation add
+			keyframes: {
+				countup: {
+					'from': {
+						transform: 'translateY(-5px)',
+						opacity: '0'
+					},
+					'to': {
+						transform: 'translateY(0)',
+						opacity: '1'
+					},
+				}
+			},
+			animation: {
+				countup: 'countup 0.3s ease-out',
+			}
 		},
 	},
 	plugins: [
