@@ -22,25 +22,36 @@ const IntroSlider = ({ sliders }) => {
         effect="fade"
         speed={2000}
       >
-        {sliders.map((slide) => (
-          <SwiperSlide
-            key={slide?.id}
-            style={{
-              backgroundImage: `url(${slide?.image})`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover", 
-            }}
-            className="rounded-2xl !flex items-end w-full h-full min-h-[140px] lg:!h-[354px] bg-cover" 
-          >
-            {slide.url && (
-              <Link
-                href={slide?.url}
-                className="h-full w-full flex items-center justify-center"
-              ></Link>
-            )}
-          </SwiperSlide>
-        ))}
+        {sliders.map((slide) => {
+          const slideContent = (
+            <div
+              style={{
+                backgroundImage: `url(${slide?.image})`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+              className="rounded-2xl !flex items-end w-full h-full min-h-[140px] lg:!h-[354px] bg-cover relative"
+            >
+              {/* Add overlay or content here if needed */}
+            </div>
+          );
+          return (
+            <SwiperSlide key={slide?.id}>
+              {slide.url ? (
+                <Link
+                  href={slide?.url}
+                  aria-label="Intro banner link"
+                  className="block h-full w-full"
+                >
+                  {slideContent}
+                </Link>
+              ) : (
+                slideContent
+              )}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </>
   );
