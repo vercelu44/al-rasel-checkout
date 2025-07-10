@@ -56,7 +56,7 @@ const Footer = async () => {
               />
             </Link>
             <ul className="info-list pr-4 space-y-2 text-sm font-light">
-              {settings?.address?.map((addr, index) => (
+              {settings?.addresses?.map((addr, index) => (
                 <li key={index} className="flex items-start gap-2">
                   <span className="pt-1">
                     <FaMapMarkerAlt size={16} color="#000" />

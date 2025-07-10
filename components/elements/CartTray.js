@@ -38,17 +38,18 @@ const CartTray = () => {
 					}}
 				>
 					{/* <BsCart3 size={28} className="m-1" /> */}
-					<HiOutlineShoppingBag size={28} className="" />
-					<p className="text-sm mt-1">
+					<HiOutlineShoppingBag size={28} className="" style={{color: settings?.colors?.secondary_text,}}/>
+					<p className="text-sm mt-1" style={{ color: settings?.colors?.secondary_text}}>
 						{cart?.length} {translations["ITEMS"] || "ITEMS"}
 					</p>
 				</div>
+				 <hr className="border-slate-200" ></hr>
 				<div
 					className="text-center p-2"
 					style={{ backgroundColor: settings?.colors?.primary }}
 				>
 
-					<div className="text-sm font-semibold flex gap-1 items-center justify-center">
+					<div className="text-sm font-semibold flex gap-1 items-center justify-center" style={{ color: settings?.colors?.primary_text}}>
 						{/* <p>{siteConfig.currency.shortForm}</p> */}
 						<span>৳</span>
 						<span key={getCartTotal(cart)} className="animate-countup">	{getCartTotal(cart) || "0.00"}</span>
