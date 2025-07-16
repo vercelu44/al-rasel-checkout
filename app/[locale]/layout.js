@@ -33,6 +33,7 @@ import AuthProvider from "@/provider/AuthProvider";
 import { fetchData } from "@/lib/fetch-data";
 import { locales } from "@/navigation";
 import GeoLocation from "@/components/utility/GeoLocation";
+import Script from "next/script";
 
 export const generateMetadata = async ({ params }) => {
   let settings = {};
