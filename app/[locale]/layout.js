@@ -17,7 +17,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
-import 'swiper/css/free-mode';
+import "swiper/css/free-mode";
 
 import Cart from "@/components/side-drawers/Cart";
 import ProductSelect from "@/components/side-drawers/ProductSelect";
@@ -35,70 +35,70 @@ import { locales } from "@/navigation";
 import GeoLocation from "@/components/utility/GeoLocation";
 
 export const generateMetadata = async ({ params }) => {
-	let settings = {};
-	let appName = "E-commerce app";
-	let favicon = "/favicon.ico";
-	try {
-		const settingsRes = await fetchData({
-			api: `info/basic`,
-			locale: params?.locale,
-		});
-		settings = settingsRes?.data || {};
-		appName = settings?.name;
-		favicon = settings?.favicon;
-		// console.log(settings);
-	} catch (error) {
-		console.log(error);
-		return {
-			title: appName,
-			applicationName: appName,
-		};
-	}
+  let settings = {};
+  let appName = "E-commerce app";
+  let favicon = "/favicon.ico";
+  try {
+    const settingsRes = await fetchData({
+      api: `info/basic`,
+      locale: params?.locale,
+    });
+    settings = settingsRes?.data || {};
+    appName = settings?.name;
+    favicon = settings?.favicon;
+    // console.log(settings);
+  } catch (error) {
+    console.log(error);
+    return {
+      title: appName,
+      applicationName: appName,
+    };
+  }
 
-	return {
-		title: {
-			default: `${appName}`,
-			template: `%s || ${appName}`,
-		},
-		description:
-			settings?.seo?.meta_description ||
-			`Discover Elegance, Shop with Confidence at ${appName}`,
-		applicationName: appName,
-		openGraph: {
-			title: `${appName}`,
-			description:
-				settings?.seo?.meta_description ||
-				`Discover Elegance, Shop with Confidence at ${appName}`,
-			url: `/`,
-			siteName: appName,
-			// images: [product?.data?.image],
-			type: "website",
-		},
-		icons: {
-			icon: [
-				{
-					type: "image/x-icon",
-					sizes: "64x73",
-					url: favicon || `/favicon.ico`,
-				},
-			],
-			// apple: [],
-		},
-		metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
-		alternates: {
-			canonical: `/`,
-		},
-		verification: {
-			// google: "google",
-			other: {
-				// me: ["my-email", "my-link"],
-				"facebook-domain-verification": settings.fb_domain_verification,
-			},
-		},
-		// other: {
-		// 	"custom_meta_name": "meta_content",
-		// },
-	};
+  return {
+    title: {
+      default: `${appName}`,
+      template: `%s || ${appName}`,
+    },
+    description:
+      settings?.seo?.meta_description ||
+      `Discover Elegance, Shop with Confidence at ${appName}`,
+    applicationName: appName,
+    openGraph: {
+      title: `${appName}`,
+      description:
+        settings?.seo?.meta_description ||
+        `Discover Elegance, Shop with Confidence at ${appName}`,
+      url: `/`,
+      siteName: appName,
+      // images: [product?.data?.image],
+      type: "website",
+    },
+    icons: {
+      icon: [
+        {
+          type: "image/x-icon",
+          sizes: "64x73",
+          url: favicon || `/favicon.ico`,
+        },
+      ],
+      // apple: [],
+    },
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+    alternates: {
+      canonical: `/`,
+    },
+    verification: {
+      google: "25eRS-pi2hGtpOj2mrII9fv9Gbo2N5DkfZQmhG8Aie4",
+      other: {
+        // me: ["my-email", "my-link"],
+        "facebook-domain-verification": settings.fb_domain_verification,
+      },
+    },
+    // other: {
+    // 	"custom_meta_name": "meta_content",
+    // },
+  };
 };
 
 // export function generateStaticParams() {
@@ -106,41 +106,56 @@ export const generateMetadata = async ({ params }) => {
 // }
 
 export default function RootLayout({ children, params }) {
-	// const locale = useLocale();
-	// // Show a 404 error if the user requests an unknown locale
-	// if (params.locale !== locale) {
-	// 	notFound();
-	// }
+  // const locale = useLocale();
+  // // Show a 404 error if the user requests an unknown locale
+  // if (params.locale !== locale) {
+  // 	notFound();
+  // }
 
-	const isValidLocale = locales.some((cur) => cur === params.locale);
-	if (!isValidLocale) notFound();
+  const isValidLocale = locales.some((cur) => cur === params.locale);
+  if (!isValidLocale) notFound();
 
-	// unstable_setRequestLocale(params.locale);
+  // unstable_setRequestLocale(params.locale);
 
-	return (
-		<html lang={params.locale} dir={params.locale === "ar" ? "rtl" : "ltr"}>
-			<body>
-				<AuthProvider>
-					<ReduxProvider>
-						<Header />
-						<CheckConnection>
-							<main>{children}</main>
-						</CheckConnection>
-						<Footer />
-						<BottomNavigation />
-						<CartTray />
-						<Cart />
-						<ProductSelect />
-						<SizeChangeModal />
-						<VideoPlayerModal />
-						<PersistUser />
-						<GlobalLoader />
-						{/* Fb pixel and MS clarity added in ServerDataProvider*/}
-						<ServerDataProvider />
-						<GeoLocation />
-					</ReduxProvider>
-				</AuthProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang={params.locale} dir={params.locale === "ar" ? "rtl" : "ltr"}>
+      <head>
+        {/* Google Analytics Tag */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-2SHK5NBJ7L"
+        ></Script>
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-2SHK5NBJ7L');
+          `}
+        </Script>
+      </head>
+
+      <body>
+        <AuthProvider>
+          <ReduxProvider>
+            <Header />
+            <CheckConnection>
+              <main>{children}</main>
+            </CheckConnection>
+            <Footer />
+            <BottomNavigation />
+            <CartTray />
+            <Cart />
+            <ProductSelect />
+            <SizeChangeModal />
+            <VideoPlayerModal />
+            <PersistUser />
+            <GlobalLoader />
+            <ServerDataProvider />
+            <GeoLocation />
+          </ReduxProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }
