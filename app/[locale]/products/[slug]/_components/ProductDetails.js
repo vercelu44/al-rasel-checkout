@@ -139,9 +139,9 @@ const ProductDetails = ({ product, settings, translations }) => {
                   {product.brand.brand_name}
                 </p>
               )}
-              <h5 className="text-2xl font-title font-bold text-slate-900">
-                {getSlicedText(product?.product_name, 100)}
-              </h5>
+              <h1 className="text-2xl font-title font-bold text-slate-900">
+                {product?.product_name}
+              </h1>
               {/* Product Dynamic Pricing Area  */}
               <div className="product-price flex items-center gap-4 lg:border-b border-slate-200 py-3 lg:py-5">
                 <span className="text-2xl lg:text-3xl/[48px] font-bold font-title text-slate-900">

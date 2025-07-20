@@ -49,7 +49,7 @@ const ShippingForm = ({
                 <p className="errorMsg">{errors.address.message}</p>
               )}
             </div>
-            <div className="form-control mb-6">
+            {/* <div className="form-control mb-6">
               <FieldsetInput
                 label={translations["city"] || "City"}
                 name="city"
@@ -59,7 +59,7 @@ const ShippingForm = ({
                 })}
               />
               {errors.city && <p className="errorMsg">{errors.city.message}</p>}
-            </div>
+            </div> */}
             <div className="form-control mb-6">
               <FieldsetInput
                 label={`${translations["phone-number"] || "Phone Number"}`}

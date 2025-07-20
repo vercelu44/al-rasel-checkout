@@ -73,7 +73,7 @@ const Checkout = () => {
     },
   ];
 
-  const [deliveryArea, setDeliveryArea] = useState(null); // default delivery area removed
+  const [deliveryArea, setDeliveryArea] = useState(deliveryAreas[1]); // default delivery area removed
   const [isDeliveryChargeRequired, setIsDeliveryChargeRequired] =
     useState(false);
   const [activePaymentMethods, setActivePaymentMethods] = useState(null);
