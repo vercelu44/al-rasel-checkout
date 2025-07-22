@@ -127,7 +127,7 @@ const Checkout = () => {
   //Handling free delivery charge
   const deliveryCharge =
     settings?.free_delivery_charges_limit > totalWithDiscount ||
-    settings?.free_delivery_charges_limit <= 0
+      settings?.free_delivery_charges_limit <= 0
       ? deliveryArea?.charges || 0
       : 0;
 
@@ -182,21 +182,31 @@ const Checkout = () => {
     },
     activePaymentMethods?.length > 1 && deliveryArea?.charges
       ? {
-          key: "delivery_charge_payment",
-          title: `Pay delivery charge only`,
-          value: deliveryArea.charges,
-        }
+        key: "delivery_charge_payment",
+        title: `Pay delivery charge only`,
+        value: deliveryArea.charges,
+      }
       : null,
     activePaymentMethods?.length > 1
       ? {
-          key: "total_payment",
-          title: `Pay total amount`,
-          value: grandTotal,
-        }
+        key: "total_payment",
+        title: `Pay total amount`,
+        value: grandTotal,
+      }
       : null,
   ].filter((option) => option !== null);
 
+useEffect(() => {
+  let incompleteId = localStorage.getItem("incomplete_unique_id");
+  if (!incompleteId) {
+    const newId = generateUniqueId();
+    localStorage.setItem("incomplete_unique_id", newId);
+  }
+}, []);
   const handleCheckoutSubmit = async (data) => {
+   const incompleteId = localStorage.getItem("incomplete_unique_id");
+
+
     if (!deliveryArea) {
       document.getElementById("deliveryAreaError").classList.remove("hidden");
       toast.error("Please select delivery area");
@@ -238,6 +248,7 @@ const Checkout = () => {
       // note: "",
       fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
       fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+      incomplete_unique_id: incompleteId
     };
     // console.log(newOrder);
     handleOrderPlace(newOrder);
@@ -246,7 +257,7 @@ const Checkout = () => {
     localStorage.removeItem("address");
     localStorage.removeItem("phone");
     localStorage.removeItem("city");
-
+    localStorage.removeItem("incomplete_unique_id");
     // updating user for the first time only not applicable for guest checkout
     if (
       ((!user?.phone && !user?.alt_phone_no) || !user?.address) &&
@@ -331,6 +342,7 @@ const Checkout = () => {
 
   //------------------ checkout on valid phone handler----------------
   const handleIncompleteOrder = async (data) => {
+    const incompleteId = localStorage.getItem("incomplete_unique_id");
     let phone = data?.phone;
     let alt_phone = data?.phone;
     let fullAddress = data?.address + ", " + data?.city;
@@ -351,6 +363,7 @@ const Checkout = () => {
       after_discount: totalWithDiscount,
       grand_total: grandTotal,
       paymentOption: selectedPaymentOption,
+      incomplete_unique_id: incompleteId
       // note: "",
     };
 
@@ -425,7 +438,7 @@ const Checkout = () => {
                     isChecked={deliveryArea?.key === area.key}
                     icon={area.icon}
                     label={area.title}
-                    // onClick={() => setDeliveryArea(area)}
+                  // onClick={() => setDeliveryArea(area)}
                   />
 
                   <p
@@ -569,8 +582,8 @@ const Checkout = () => {
                 <div className="flex flex-col gap-3 pt-3">
                   {paymentOptions.map((payOption) =>
                     payOption.key === "no_payment" &&
-                    isDeliveryChargeRequired &&
-                    activePaymentMethods?.length > 1 ? null : (
+                      isDeliveryChargeRequired &&
+                      activePaymentMethods?.length > 1 ? null : (
                       <button
                         key={payOption.key}
                         type="button"
@@ -580,7 +593,7 @@ const Checkout = () => {
                         <CustomRadio
                           isChecked={payOption.key === selectedPaymentOption}
                           label={payOption.title}
-                          // onClick={() => setDeliveryArea(pt)}
+                        // onClick={() => setDeliveryArea(pt)}
                         />
                         <p>
                           {siteConfig.currency.sign}
@@ -600,44 +613,44 @@ const Checkout = () => {
             {/* Payment Methods Area */}
             {(selectedPaymentOption === "delivery_charge_payment" ||
               selectedPaymentOption === "total_payment") && (
-              <div className="form-control mt-4">
-                <h4 className="text-slate-700 font-bold">
-                  {translations["payment-method"] || "Payment Method"}
-                </h4>
-                <div className="flex flex-col gap-3 mt-3">
-                  {Object.keys(paymentMethods).map((method, index) =>
-                    paymentMethods[method].status === 1 &&
-                    !(paymentMethods[method].key === "COD") ? (
-                      <div
-                        key={index}
-                        type="button"
-                        onClick={() =>
-                          setSelectedPayMethod(paymentMethods[method])
-                        }
-                        className="flex items-center justify-between border border-slate-200 p-3 cursor-pointer"
-                      >
-                        <CustomRadio
-                          isChecked={
-                            paymentMethods[method].title ===
-                            selectedPayMethod?.title
+                <div className="form-control mt-4">
+                  <h4 className="text-slate-700 font-bold">
+                    {translations["payment-method"] || "Payment Method"}
+                  </h4>
+                  <div className="flex flex-col gap-3 mt-3">
+                    {Object.keys(paymentMethods).map((method, index) =>
+                      paymentMethods[method].status === 1 &&
+                        !(paymentMethods[method].key === "COD") ? (
+                        <div
+                          key={index}
+                          type="button"
+                          onClick={() =>
+                            setSelectedPayMethod(paymentMethods[method])
                           }
-                          label={paymentMethods[method].title}
-                        />
-                        <div className="">
-                          <Image
-                            src={paymentMethods[method].icon}
-                            height={32}
-                            width={150}
-                            alt="icon"
-                            className="h-8 w-fit max-w-[150px]"
+                          className="flex items-center justify-between border border-slate-200 p-3 cursor-pointer"
+                        >
+                          <CustomRadio
+                            isChecked={
+                              paymentMethods[method].title ===
+                              selectedPayMethod?.title
+                            }
+                            label={paymentMethods[method].title}
                           />
+                          <div className="">
+                            <Image
+                              src={paymentMethods[method].icon}
+                              height={32}
+                              width={150}
+                              alt="icon"
+                              className="h-8 w-fit max-w-[150px]"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ) : null
-                  )}
+                      ) : null
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
           {/* Order Now Button  */}
           <div className="form-control mt-7">
@@ -704,7 +717,7 @@ const Checkout = () => {
       <CouponModal
         showModal={showModal}
         setShowModal={setShowModal}
-        // total={total} //cart items total
+      // total={total} //cart items total
       />
     </section>
   );
