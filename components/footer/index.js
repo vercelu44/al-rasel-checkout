@@ -33,7 +33,7 @@ const Footer = () => {
 
   const footerPage = settings?.footer_page || [];
   const helpPage = settings?.help_page || [];
-  console.log(settings, "settingss");
+
   return (
     <>
       <footer className="footer relative bg-slate-900 rounded-t-2xl lg:rounded-none pt-6 lg:pt-14 overflow-hidden z-10">
@@ -119,7 +119,7 @@ const Footer = () => {
                     />
                     <SocialIcon
                       href={settings.tiktok_link}
-                      icon={"/assets/icons/social/tiktok.svg"}
+                      icon={"/assets/icons/social/TikTok.svg"}
                     />
                     <SocialIcon
                       href={settings.pinterest_link}
