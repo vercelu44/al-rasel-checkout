@@ -33,7 +33,7 @@ const Footer = () => {
 
   const footerPage = settings?.footer_page || [];
   const helpPage = settings?.help_page || [];
-
+  console.log(settings, "settingss");
   return (
     <>
       <footer className="footer relative bg-slate-900 rounded-t-2xl lg:rounded-none pt-6 lg:pt-14 overflow-hidden z-10">
@@ -97,6 +97,10 @@ const Footer = () => {
                       icon={"/assets/icons/social/fb.svg"}
                     />
                     <SocialIcon
+                      href={settings.instagram_link}
+                      icon={"/assets/icons/social/instagram.svg"}
+                    />
+                    <SocialIcon
                       href={settings.youtube_link}
                       icon={"/assets/icons/social/YouTube.svg"}
                     />
@@ -112,6 +116,14 @@ const Footer = () => {
                     <SocialIcon
                       href={settings.linkedin_link}
                       icon={"/assets/icons/social/linkedin.svg"}
+                    />
+                    <SocialIcon
+                      href={settings.tiktok_link}
+                      icon={"/assets/icons/social/tiktok.svg"}
+                    />
+                    <SocialIcon
+                      href={settings.pinterest_link}
+                      icon={"/assets/icons/social/pinterest.svg"}
                     />
                   </div>
                 </div>
@@ -134,6 +146,24 @@ const Footer = () => {
                       src="/assets/icons/payments/visa.png"
                       alt="visa"
                       width={52}
+                      height={23}
+                    />
+                    <Image
+                      src="/assets/icons/payments/mastercard.svg"
+                      alt="Bkash"
+                      width={32}
+                      height={23}
+                    />
+                    <Image
+                      src="/assets/icons/payments/apple-pay.svg"
+                      alt="Bkash"
+                      width={32}
+                      height={23}
+                    />
+                    <Image
+                      src="/assets/icons/payments/google-pay.svg"
+                      alt="Bkash"
+                      width={32}
                       height={23}
                     />
                     <p className="!text-xs/[100%] !mb-0 text-white w-1/5">
@@ -178,7 +208,7 @@ const Footer = () => {
 
                   <div className="flex items-center gap-1">
                     <span>Developed By</span>
-                     <Link
+                    <Link
                       href="https://amarsolution.com/"
                       target="_blank"
                       className="text-slate-300 hover:underline"
