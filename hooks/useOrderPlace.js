@@ -97,7 +97,7 @@ const useOrderPlace = () => {
 				.catch((error) => {
 					// Handle the error if necessary
 					dispatch(setGlobalLoader(false));
-					toast.error(error.data.message || "You have already a pending order, please try again later");
+					toast.error(error.data.message || "Failed to place an order, something went wrong, please try again");
 				});
 		}
 	};
