@@ -1,10 +1,24 @@
 import Link from "next/link";
 import { fetchData } from "@/lib/fetch-data";
-
-// ** Imoprt icons
 import ViewHTML from "@/components/elements/ViewHTML";
 import { notFound } from "next/navigation";
-// import Image from "next/image";
+
+
+export async function generateMetadata({ params }) {
+  const { blog_slug } = params;
+
+  const [blogRes] = await Promise.allSettled([
+    fetchData({ api: `pages/${blog_slug}?type=blog` }),
+  ]);
+
+  const blog = blogRes.status === "fulfilled" ? blogRes.value?.data || {} : {};
+  if (!blog?.title) return {};
+
+  return {
+    title: blog.title,
+    description: blog.meta_description || "", // optional meta description
+  };
+}
 
 const DynamicPage = async ({ params }) => {
   const { blog_slug } = params;
