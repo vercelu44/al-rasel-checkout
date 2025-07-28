@@ -18,6 +18,15 @@ export async function GET() {
       updated_at: new Date().toISOString(),
     },
     { url: "/help/qna", priority: 1, updated_at: new Date().toISOString() },
+
+    // Manually add these specific pages:
+    { url: "/bn", priority: 1, updated_at: new Date().toISOString() },
+    { url: "/ar", priority: 1, updated_at: new Date().toISOString() },
+    {
+      url: "/ar/products",
+      priority: 0.8,
+      updated_at: new Date().toISOString(),
+    },
   ];
 
   function getDateOnlyFromISO(dateTimeStr) {
