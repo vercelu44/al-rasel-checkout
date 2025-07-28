@@ -117,7 +117,6 @@ const Checkout = () => {
   useEffect(() => {
     reset();
   }, [user, reset]);
-
   //Summary calculation
   // const total = getMultipliedColumnTotal(cart, "quantity", "new_price");
   const total = getCartTotal(cart);
@@ -133,31 +132,33 @@ const Checkout = () => {
 
   const grandTotal = totalWithDiscount + deliveryCharge;
 
-  //Handling delivery area and delivery charge Required
-  const handleDeliveryAreaChange = (area) => {
-    setDeliveryArea(area);
-    setSelectedPaymentOption(null);
-    switch (area?.key) {
-      case "inside dhaka":
-        settings?.is_delivery_charge_required_for_inside
-          ? setIsDeliveryChargeRequired(true)
-          : setIsDeliveryChargeRequired(false);
-        break;
-      case "sub dhaka":
-        settings?.is_delivery_charge_required_for_sub_region
-          ? setIsDeliveryChargeRequired(true)
-          : setIsDeliveryChargeRequired(false);
-        break;
-      case "outside dhaka":
-        settings?.is_delivery_charge_required_for_outside
-          ? setIsDeliveryChargeRequired(true)
-          : setIsDeliveryChargeRequired(false);
-        break;
-      default:
-        setIsDeliveryChargeRequired(false);
-        break;
-    }
-  };
+//Handling delivery area and delivery charge Required
+  const updateDeliveryChargeRequirement = (areaKey) => {
+  switch (areaKey) {
+    case "inside dhaka":
+      setIsDeliveryChargeRequired(!!settings?.is_delivery_charge_required_for_inside);
+      break;
+    case "sub dhaka":
+      setIsDeliveryChargeRequired(!!settings?.is_delivery_charge_required_for_sub_region);
+      break;
+    case "outside dhaka":
+      setIsDeliveryChargeRequired(!!settings?.is_delivery_charge_required_for_outside);
+      break;
+    default:
+      setIsDeliveryChargeRequired(false);
+  }
+};
+
+useEffect(() => {
+  updateDeliveryChargeRequirement(deliveryArea?.key);
+}, [deliveryArea?.key, settings]);
+
+const handleDeliveryAreaChange = (area) => {
+  setDeliveryArea(area);
+  setSelectedPaymentOption(null);
+  updateDeliveryChargeRequirement(area?.key);
+};
+
   //auto select payment method
   useEffect(() => {
     if (Object.keys(paymentMethods).length > 0) {
