@@ -197,6 +197,14 @@ const handleDeliveryAreaChange = (area) => {
       : null,
   ].filter((option) => option !== null);
 
+
+  // console.log(activePaymentMethods, "activePaymentMethods");
+  useEffect(() => {
+    if (activePaymentMethods?.length === 1) {
+      setSelectedPaymentOption(paymentOptions[0].key);
+    }
+  }, [activePaymentMethods]);
+
 useEffect(() => {
   let incompleteId = localStorage.getItem("incomplete_unique_id");
   if (!incompleteId) {
@@ -204,6 +212,11 @@ useEffect(() => {
     localStorage.setItem("incomplete_unique_id", newId);
   }
 }, []);
+
+  const isDisabled = !!(!cart?.length || settings?.agreement_links?.length
+    ? !isTermChecked
+    : false);
+
   const handleCheckoutSubmit = async (data) => {
    const incompleteId = localStorage.getItem("incomplete_unique_id");
 
@@ -213,7 +226,6 @@ useEffect(() => {
       toast.error("Please select delivery area");
       return;
     }
-
     if (!selectedPaymentOption) {
       document.getElementById("paymentOptionError").classList.remove("hidden");
       toast.error("Please select payment option");
@@ -253,25 +265,8 @@ useEffect(() => {
     };
     // console.log(newOrder);
     handleOrderPlace(newOrder);
-    //--------------------remove local storage items after checkout----------------
-    localStorage.removeItem("name");
-    localStorage.removeItem("address");
-    localStorage.removeItem("phone");
-    localStorage.removeItem("city");
-    localStorage.removeItem("incomplete_unique_id");
-    // updating user for the first time only not applicable for guest checkout
-    if (
-      ((!user?.phone && !user?.alt_phone_no) || !user?.address) &&
-      !settings?.guest_checkout
-    ) {
-      handleUserUpdate({
-        ...user,
-        alt_phone_no: user?.alt_phone_no || data?.phone,
-        address: user.address || data?.address,
-        city: data?.city,
-      });
-    }
-    // else alert("user not updated");
+    
+    localStorage.removeItem("incomplete_unique_id"); // remove incomplete unique id
   };
 
   const [AddToConversionAPI] = useAddToTrackingMutation();
@@ -307,16 +302,6 @@ useEffect(() => {
       flag2.current = false;
     }
   }, [cart, total, isFbPixelInitialized, settings, AddToConversionAPI]);
-
-  const isDisabled = !!(!cart?.length || settings?.agreement_links?.length
-    ? !isTermChecked
-    : false);
-
-  useEffect(() => {
-    if (paymentOptions.length === 1) {
-      setSelectedPaymentOption(paymentOptions[0].key);
-    }
-  }, [paymentOptions]);
 
   // Google Tag Manager
   const gtmFlag = useRef(true);
@@ -386,6 +371,7 @@ useEffect(() => {
       handleIncompleteOrder(formValues);
     }
   }, [phoneValue, nameValue, addressValue, cityValue, watch]);
+
   return (
     <section className="container pb-8">
       <div className="breadcrumb breadcrumb-2 py-5">
