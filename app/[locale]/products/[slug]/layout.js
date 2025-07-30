@@ -11,13 +11,16 @@ export const generateMetadata = async ({ params }, parent) => {
 		return notFound();
 	}
 
+	// console.log(product, "product");
+
+
 	return {
-		title: `${product?.data?.product_name} || ${parentMetaData.applicationName}`,
+		title: `${product?.data?.meta_title || product?.data?.product_name} || ${parentMetaData.applicationName}`,
 		description:
 			product?.data?.meta_description ||
 			`${product?.data?.product_name} a product of ${parentMetaData.applicationName}`,
 		openGraph: {
-			title: product?.data?.product_name,
+			title: product?.data?.meta_title || product?.data?.product_name,
 			description:
 				product?.data?.meta_description ||
 				`${product?.data?.product_name} a product of ${parentMetaData.applicationName}`,

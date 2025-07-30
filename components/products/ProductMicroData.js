@@ -20,6 +20,10 @@ const ProductMicroData = ({ product }) => {
 			<meta property="product:price:currency" content="BDT" />
 			<meta property="product:retailer_item_id" content={product?.id} />
 			{/* <meta property="product:item_group_id" content="fb_tshirts" /> */}
+
+			<script type="application/ld+json">
+				{product?.header_script}
+			</script>
 		</>
 	);
 };
