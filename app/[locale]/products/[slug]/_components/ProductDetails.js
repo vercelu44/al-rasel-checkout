@@ -31,6 +31,7 @@ import { generateUniqueId } from "@/utils/get-unique";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { Cookies } from "@/utils/cookies";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { RxCopy } from "react-icons/rx";
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
   const [showSizeChart, setShowSizeChart] = useState(false);
@@ -118,6 +119,22 @@ const ProductDetails = ({ product, settings, translations }) => {
       gtmFlag.current = false;
     }
   }, [product, pathname, settings]);
+
+
+  const [copied, setCopied] = useState(false);
+
+  const barcode =
+    product.barcodes?.length === 1
+      ? product.barcodes[0].barcode
+      : selectedVariant?.barcode;
+
+  const handleCopy = () => {
+    if (barcode) {
+      navigator.clipboard.writeText(barcode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // show for 2 sec
+    }
+  };
   return (
     <>
       <div className="relative product-details">
@@ -171,7 +188,31 @@ const ProductDetails = ({ product, settings, translations }) => {
 							)} */}
               <div className="flex items-center gap-2 lg:py-3 font-title text-lg">
                 <span className="text-slate-900">SKU:</span>
-                <span className="text-secondary">{product?.sku}</span>
+                <span className="">{product?.sku}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <h1 className="text-slate-700 font-semibold text-lg">
+                  Barcode:
+                </h1>
+
+                <h1 className="text-secondary text-lg font-mono break-all">
+                  {barcode || "N/A"}
+                </h1>
+
+                <button
+                  title="Copy Barcode"
+                  onClick={handleCopy}
+                  className="flex items-center gap-1 text-sm border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition"
+                >
+                  {copied ? (
+                    "Copied!"
+                  ) : (
+                    <>
+                      <RxCopy className="text-base" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
               </div>
               {/* short description  */}
               <ViewHTML
