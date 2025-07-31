@@ -4,6 +4,34 @@ import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Image from "next/image";
 
+export const generateMetadata = async ({ params, searchParams }, parent) => {
+  const parentMetaData = await parent;
+  let category = {};
+  const queryString = new URLSearchParams(searchParams).toString();
+  const fullUrl = queryString
+    ? `/categories/${params.slug}?${queryString}`
+    : `/categories/${params.slug}`;
+  // console.log(fullUrl, "7834342874");
+  try {
+    const categoryRes = await fetchData({ api: `category/${params?.slug}` });
+    category = categoryRes?.data;
+    return {
+      title: `${category?.category_name} || ${parentMetaData.applicationName}`,
+      description: `${category?.category_name} a category of ${parentMetaData.applicationName}`,
+      openGraph: {
+        title: `${category?.category_name} || ${parentMetaData.applicationName}`,
+        description: `All ${category?.category_name} products of ${parentMetaData.applicationName}`,
+        url: fullUrl,
+      },
+      alternates: {
+        canonical: fullUrl,
+      },
+    };
+  } catch (error) {
+    return notFound();
+  }
+};
+
 const page = async ({ params, searchParams }) => {
   const { slug } = params;
   const [categoryResponse, tranRes] = await Promise.allSettled([

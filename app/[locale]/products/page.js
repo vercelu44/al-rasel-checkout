@@ -2,6 +2,24 @@ import { Link } from "@/navigation";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import { fetchData } from "@/lib/fetch-data";
 
+export async function generateMetadata({ searchParams }) {
+  const queryString = new URLSearchParams(searchParams).toString();
+  const fullUrl = queryString ? `/products?${queryString}` : `/products`;
+  // console.log(fullUrl, "-------");
+  return {
+    title: "All Products",
+    description: "ALL Products",
+    openGraph: {
+      title: "All Products",
+      description: "All Products",
+      url: fullUrl,
+    },
+    alternates: {
+      canonical: fullUrl,
+    },
+  };
+}
+
 const page = async ({ params, searchParams }) => {
   const [settingsRes, tranRes] = await Promise.allSettled([
     fetchData({ api: `info/basic` }),
