@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -21,7 +21,7 @@ import { siteConfig } from "@/config/site";
 import { IoIosFlash } from "react-icons/io";
 import { getDiscountPercent } from "@/utils/percent";
 import useCart from "@/hooks/useCart";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import VideoPlayer from "@/components/elements/VideoPlayer";
 import { MdArrowForwardIos } from "react-icons/md";
 import SizeChartModal from "@/components/modals/SizeChartModal";
@@ -32,6 +32,8 @@ import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { Cookies } from "@/utils/cookies";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { RxCopy } from "react-icons/rx";
+import { setLoginModalOpen } from "@/store/slices/authSlice";
+import { toast } from "react-toastify";
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
   const [showSizeChart, setShowSizeChart] = useState(false);
@@ -39,6 +41,13 @@ const ProductDetails = ({ product, settings, translations }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const productViewSwiperRef = useRef(null);
   const pathname = usePathname();
+
+
+  // ------------------------FOR AUTHENTICATION ------------------------
+  const {user} = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+ 
+
 
   // Get first variant of selected color to display prices
   const firstVariantOfColor = getFirstVariantOfColor(
@@ -316,7 +325,19 @@ const ProductDetails = ({ product, settings, translations }) => {
                   </span>
                 </button>
                 <button
-                  onClick={() => handleAddAndCheckout(product, selectedVariant)}
+                  onClick={() => {
+                    if (!user) {
+                      if (!settings?.guest_checkout) {
+                        toast.error("Please login first before checkout");
+                        dispatch(setLoginModalOpen(true));
+                        // set redirect to checkout
+                        localStorage.setItem("redirect", "/checkout");
+                        return;
+                      }
+                      // If guest checkout is allowed, let them proceed
+                    }
+                    handleAddAndCheckout(product, selectedVariant);
+                  }}
                   className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                   style={{
                     backgroundColor: settings?.colors?.primary,

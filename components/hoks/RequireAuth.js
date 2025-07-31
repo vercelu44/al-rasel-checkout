@@ -26,6 +26,7 @@ const RequireAuth = (WrappedComponent) => {
 				toast.error("Please login first");
 				dispatch(setLoginModalOpen(true));
 				router.push("/?redirect=" + pathName);
+				localStorage.setItem("redirect", pathName);
 				return null;
 			}
 
