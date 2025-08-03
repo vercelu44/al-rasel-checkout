@@ -174,9 +174,9 @@ const ProductDetails = ({ product, settings, translations }) => {
 							<p className="text-sm font-bold text-primary capitalize  leading-none">
 								{product?.brand?.brand_name || "No Brand"}
 							</p>
-							<h5 className="text-2xl font-bold font-title text-slate-900 mt-3">
+							<h1 className="text-2xl font-bold font-title text-slate-900 mt-3">
 								{getSlicedText(product?.product_name, 100)}
-							</h5>
+							</h1>
 							<div className="product-summary grid grid-cols-2 lg:flex gap-y-3 lg:gap-3 items-center mt-3">
 								<div
 									onClick={(e) => handleTabItemToView(e, "p-rating-reviews")}

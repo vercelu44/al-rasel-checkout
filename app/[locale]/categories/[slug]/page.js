@@ -3,6 +3,7 @@ import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 export const generateMetadata = async ({ params, searchParams }, parent) => {
   const parentMetaData = await parent;
@@ -52,7 +53,7 @@ const page = async ({ params, searchParams }) => {
     category_id: category?.id,
     ...searchParams,
   };
-
+  console.log("inside category details");
   return (
     <>
       {/* breadcrumb */}
@@ -104,7 +105,7 @@ const page = async ({ params, searchParams }) => {
       ) : (
         <div className="breadcrumb breadcrumb-2 py-5 border-b border-slate-200 hidden lg:block">
           <div className="container capitalize">
-            <div>
+            <div className="flex">
               <Link
                 href={`/`}
                 className="text-base text-slate-600 hover:text-primary"
@@ -122,7 +123,7 @@ const page = async ({ params, searchParams }) => {
                 aria-disabled="true"
                 className="text-base text-slate-900 pointer-events-none"
               >
-                {category?.category_name}
+                <h1>{category?.category_name}</h1>
               </Link>
             </div>
           </div>

@@ -62,9 +62,9 @@ const page = async ({ params, searchParams }) => {
         >
           <div className="container">
             <div className="text-center">
-              <h3 className="text-2xl font-bold font-title text-white mb-4">
+              <h1 className="text-2xl font-bold font-title text-white mb-4">
                 {getPathBasedOnSortType(searchParams?.sort_type).title}
-              </h3>
+              </h1>
               <div>
                 <Link
                   href={`/`}
