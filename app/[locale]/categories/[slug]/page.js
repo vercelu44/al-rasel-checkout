@@ -9,19 +9,25 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
   const parentMetaData = await parent;
   let category = {};
   const queryString = new URLSearchParams(searchParams).toString();
+  // Use absolute URLs for Open Graph and canonical
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com';
   const fullUrl = queryString
-    ? `/categories/${params.slug}?${queryString}`
-    : `/categories/${params.slug}`;
-  // console.log({ fullUrl }, "7834342874");
+    ? `${baseUrl}/categories/${params.slug}?${queryString}`
+    : `${baseUrl}/categories/${params.slug}`;
+console.log({fullUrl})
   try {
     const categoryRes = await fetchData({ api: `category/${params?.slug}` });
-    category = categoryRes?.data;
+    category = categoryRes?.data || {};
+    const categoryName = category.category_name || 'Category';
+    const appName = parentMetaData?.applicationName || 'App';
+
     return {
-      title: `${category?.category_name} || ${parentMetaData.applicationName}`,
-      description: `${category?.category_name} a category of ${parentMetaData.applicationName}`,
+      title: `${categoryName} | ${appName}`,
+      description: `${categoryName} - a category of ${appName}`,
+      domain: baseUrl,
       openGraph: {
-        title: `${category?.category_name} || ${parentMetaData.applicationName}`,
-        description: `All ${category?.category_name} products of ${parentMetaData.applicationName}`,
+        title: `${categoryName} | ${appName}`,
+        description: `All ${categoryName} products of ${appName}`,
         url: fullUrl,
       },
       alternates: {
@@ -29,6 +35,10 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
       },
     };
   } catch (error) {
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.error('Error in generateMetadata:', error);
+    }
     return notFound();
   }
 };

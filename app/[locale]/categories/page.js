@@ -18,6 +18,7 @@ const page = async () => {
 
   return (
     <section>
+      <h1 className="sr-only">Important Heading</h1>
       <div className="breadcrumb breadcrumb-2 py-5 border-b border-slate-200 hidden lg:block">
         <div className="container">
           <div>
