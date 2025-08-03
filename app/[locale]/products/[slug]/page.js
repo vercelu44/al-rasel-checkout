@@ -32,6 +32,7 @@ const ProductDetailsView = async ({ params }) => {
 
 	return (
 		<>
+		   <h1 className="sr-only">Important Heading</h1>
 			<ProductMicroData product={product} />
 			<div className="mb-32 lg:mb-0">
 				<div className="container hidden lg:block">
