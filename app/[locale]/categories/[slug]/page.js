@@ -7,36 +7,61 @@ import { notFound } from "next/navigation";
 
 export const generateMetadata = async ({ params, searchParams }, parent) => {
   const parentMetaData = await parent;
-  let category = {};
-  const queryString = new URLSearchParams(searchParams).toString();
-  // Use absolute URLs for Open Graph and canonical
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com';
-  const fullUrl = queryString
-    ? `${baseUrl}/categories/${params.slug}?${queryString}`
-    : `${baseUrl}/categories/${params.slug}`;
-console.log({fullUrl})
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.alrasel.net';
+  const defaultLocale = process.env.DEFAULT_LOCALE || 'en';
+  
   try {
-    const categoryRes = await fetchData({ api: `category/${params?.slug}` });
-    category = categoryRes?.data || {};
+    // Extract category ID from slug (format: "slug-id")
+    const categoryId = params.slug.split('-').pop();
+    const categoryRes = await fetchData({ api: `category/${categoryId}` });
+    const category = categoryRes?.data || {};
+    
+    // Base path without domain or query params
+    const basePath = `/categories/${params.slug}`;
+    const queryString = new URLSearchParams(searchParams).toString();
+    
+    // Full URL with query params if they exist
+    const fullUrl = queryString 
+      ? `${baseUrl}${basePath}?${queryString}`
+      : `${baseUrl}${basePath}`;
+
     const categoryName = category.category_name || 'Category';
     const appName = parentMetaData?.applicationName || 'App';
 
     return {
       title: `${categoryName} | ${appName}`,
       description: `${categoryName} - a category of ${appName}`,
-      domain: baseUrl,
+      metadataBase: new URL(baseUrl), // Required for proper URL resolution
+      alternates: {
+        canonical: fullUrl,
+        languages: {
+          en: `${baseUrl}${basePath}`, // Default language
+          bn: `${baseUrl}/bn${basePath}`,
+          ar: `${baseUrl}/ar${basePath}`,
+          'x-default': `${baseUrl}${basePath}`
+        },
+      },
       openGraph: {
         title: `${categoryName} | ${appName}`,
         description: `All ${categoryName} products of ${appName}`,
         url: fullUrl,
+        images: [
+          {
+            url: category.image_url || '/default-og-image.jpg', // Add fallback image
+            width: 1200,
+            height: 630,
+            alt: categoryName,
+          },
+        ],
       },
-      alternates: {
-        canonical: fullUrl,
-      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${categoryName} | ${appName}`,
+        description: `Browse ${categoryName} products`,
+      }
     };
   } catch (error) {
     if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
       console.error('Error in generateMetadata:', error);
     }
     return notFound();
