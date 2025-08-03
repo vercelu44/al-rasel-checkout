@@ -12,7 +12,7 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
   const fullUrl = queryString
     ? `/categories/${params.slug}?${queryString}`
     : `/categories/${params.slug}`;
-  console.log({fullUrl}, "7834342874");
+  console.log({ fullUrl }, "7834342874");
   try {
     const categoryRes = await fetchData({ api: `category/${params?.slug}` });
     category = categoryRes?.data;
@@ -53,7 +53,7 @@ const page = async ({ params, searchParams }) => {
     category_id: category?.id,
     ...searchParams,
   };
-  
+
   return (
     <>
       {/* breadcrumb */}
@@ -123,6 +123,7 @@ const page = async ({ params, searchParams }) => {
                 aria-disabled="true"
                 className="text-base text-slate-900 pointer-events-none"
               >
+                <h1 className="sr-only">Important SEO Heading</h1>
                 <h1>{category?.category_name}</h1>
               </Link>
             </div>
