@@ -22,7 +22,7 @@ export default function SectionTitle({
 		>
 			<div className={"flex gap-2 items-center"}>
 				{children}
-				<h2 className={cn(`sec-title capitalize`)}>{title}</h2>
+				<h1 className={cn(`sec-title capitalize`)}>{title}</h1>
 			</div>
 			{href && (
 				<Link href={href} className="all-btn !hidden lg:!block capitalize">
