@@ -84,14 +84,6 @@ export async function GET() {
         </url>`;
       }).join("");
     }).join("")}
-    ${staticPages.map((page) => `
-      <url>
-        <loc>${DOMAIN}${page.url === "/" ? "" : page.url}</loc>
-        ${generateHreflangLinks(page.url)}
-        <changefreq>monthly</changefreq>
-        <priority>${page.priority}</priority>
-        <lastmod>${getDateOnlyFromISO(page.updated_at)}</lastmod>
-      </url>`).join("")}
 
     <!-- Localized Section Pages -->
     ${sectionPages.map((section) => `
