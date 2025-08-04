@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { siteConfig } from "@/config/site";
 import RequireAuth from "@/components/hoks/RequireAuth";
 import {
+  getAutoSelectedPaymentOption,
   getCartTotal,
   getCouponDiscount,
   getOrderFormattedCartItems,
@@ -50,7 +51,7 @@ const Checkout = () => {
     },
   ];
 
-  const [deliveryArea, setDeliveryArea] = useState(null); // default delivery area removed
+  const [deliveryArea, setDeliveryArea] = useState(deliveryAreas[1]); // default delivery area removed
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(null);
   const [isDeliveryChargeRequired, setIsDeliveryChargeRequired] =
     useState(false);
@@ -97,30 +98,42 @@ const Checkout = () => {
 
   const grandTotal = totalWithDiscount + deliveryCharge;
 
-  //Handling delivery area and delivery charge Required
-  const handleDeliveryAreaChange = (area) => {
-    setDeliveryArea(area);
-    setSelectedPaymentOption(null);
-    switch (area?.key) {
+  const updateDeliveryChargeRequirement = (areaKey) => {
+    switch (areaKey) {
       case "inside dhaka":
-        settings?.is_delivery_charge_required_for_inside
-          ? setIsDeliveryChargeRequired(true)
-          : setIsDeliveryChargeRequired(false);
+        setIsDeliveryChargeRequired(
+          !!settings?.is_delivery_charge_required_for_inside
+        );
         break;
       case "sub dhaka":
-        settings?.is_delivery_charge_required_for_sub_region
-          ? setIsDeliveryChargeRequired(true)
-          : setIsDeliveryChargeRequired(false);
+        setIsDeliveryChargeRequired(
+          !!settings?.is_delivery_charge_required_for_sub_region
+        );
         break;
       case "outside dhaka":
-        settings?.is_delivery_charge_required_for_outside
-          ? setIsDeliveryChargeRequired(true)
-          : setIsDeliveryChargeRequired(false);
+        setIsDeliveryChargeRequired(
+          !!settings?.is_delivery_charge_required_for_outside
+        );
         break;
       default:
         setIsDeliveryChargeRequired(false);
-        break;
     }
+  };
+
+  useEffect(() => {
+    updateDeliveryChargeRequirement(deliveryArea?.key);
+  }, [deliveryArea?.key, settings]);
+
+  //Handling delivery area and delivery charge Required
+  const handleDeliveryAreaChange = (area) => {
+    setDeliveryArea(area);
+    updateDeliveryChargeRequirement(area?.key);
+
+    //auto select payment option
+    const autoSelectedPaymentOption =
+      getAutoSelectedPaymentOption(activePaymentMethods);
+    if (autoSelectedPaymentOption)
+      setSelectedPaymentOption(autoSelectedPaymentOption);
   };
 
   //auto select payment method
@@ -139,27 +152,46 @@ const Checkout = () => {
     }
   }, [paymentMethods]);
 
+  const isCodPayEnabled =
+    activePaymentMethods?.length > 0 &&
+    activePaymentMethods?.find((payMethod) => payMethod?.key === "COD")
+      ?.status === 1;
+
   const paymentOptions = [
-    {
-      key: "no_payment",
-      title: `Cash on deliveryhdhd`,
-      value: grandTotal,
-    },
-    activePaymentMethods?.length > 1 && deliveryArea?.charges
+    isCodPayEnabled &&
+    (!isDeliveryChargeRequired || activePaymentMethods?.length == 1)
+      ? {
+          key: "no_payment",
+          title: `Cash on delivery`,
+          value: grandTotal,
+        }
+      : null,
+    activePaymentMethods?.length > 1 &&
+    isDeliveryChargeRequired &&
+    isCodPayEnabled
       ? {
           key: "delivery_charge_payment",
           title: `Pay delivery charge only`,
           value: deliveryArea.charges,
         }
       : null,
-    activePaymentMethods?.length > 1
-      ? {
+    (activePaymentMethods?.length === 1 &&
+      activePaymentMethods[0].key === "COD") ||
+    activePaymentMethods?.length === 0
+      ? null
+      : {
           key: "total_payment",
           title: `Pay total amount`,
           value: grandTotal,
-        }
-      : null,
+        },
   ].filter((option) => option !== null);
+
+  useEffect(() => {
+    const autoSelectedPaymentOption =
+      getAutoSelectedPaymentOption(activePaymentMethods);
+    if (autoSelectedPaymentOption)
+      setSelectedPaymentOption(autoSelectedPaymentOption);
+  }, [activePaymentMethods]);
 
   const handleCheckoutSubmit = async (data) => {
     if (!deliveryArea) {
@@ -344,33 +376,28 @@ const Checkout = () => {
               {/* Payment Options Area */}
               {deliveryArea ? (
                 <div className="form-control">
-                  <h4 className="text-xl font-bold">
+                  <h4 className="text-slate-700 font-bold">
                     {translations["payment-options"] || "Payment Options"}
                   </h4>
                   <div className="flex flex-col gap-3 pt-3">
-                    {paymentOptions.map((payOption) =>
-                      payOption.key === "no_payment" &&
-                      isDeliveryChargeRequired &&
-                      activePaymentMethods?.length > 1 ? null : (
-                        <button
-                          key={payOption.key}
-                          type="button"
-                          className="flex gap-2 items-center border bg-slate-100 border-slate-200 p-3"
-                          onClick={() =>
-                            setSelectedPaymentOption(payOption.key)
-                          }
-                        >
-                          <CustomRadio
-                            isChecked={payOption.key === selectedPaymentOption}
-                            label={payOption.title}
-                            // onClick={() => setDeliveryArea(pt)}
-                          />
-                          <p>
-                            {siteConfig.currency.sign} {payOption.value}
-                          </p>
-                        </button>
-                      )
-                    )}
+                    {paymentOptions.map((payOption) => (
+                      <button
+                        key={payOption.key}
+                        type="button"
+                        className="flex gap-2 items-center border border-slate-200 p-3"
+                        onClick={() => setSelectedPaymentOption(payOption.key)}
+                      >
+                        <CustomRadio
+                          isChecked={payOption.key === selectedPaymentOption}
+                          label={payOption.title}
+                          // onClick={() => setDeliveryArea(pt)}
+                        />
+                        <p>
+                          {siteConfig.currency.sign}
+                          {payOption.value}
+                        </p>
+                      </button>
+                    ))}
                   </div>
                   {!selectedPaymentOption && (
                     <p id="paymentOptionError" className="hidden errorMsg">
