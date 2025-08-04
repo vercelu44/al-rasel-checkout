@@ -65,18 +65,35 @@ export async function GET() {
     return new Date(dateTimeStr).toISOString().split("T")[0];
   }
 
-  // Updated function to prevent duplicates
-  const generateHreflangLinks = (DOMAIN, languages, DEFAULT_LOCALE, path) => {
+  // Update the generateHreflangLinks function to use DEFAULT_LOCALE
+  function generateHreflangLinks(DOMAIN, languages, DEFAULT_LOCALE, path) {
     const links = new Map();
+
+    // Add self-reference first (important for hreflang completeness)
+    const currentLang =
+      languages.find((lang) => path.startsWith(lang.prefix))?.code ||
+      DEFAULT_LOCALE;
+    links.set(currentLang, `${DOMAIN}${path}`);
 
     // Add all language variants
     languages.forEach((lang) => {
-      const localizedPath = lang.prefix + path;
+      const localizedPath =
+        lang.prefix +
+        (lang.code === DEFAULT_LOCALE
+          ? path
+          : path.replace(new RegExp(`^/${DEFAULT_LOCALE}`), ""));
       links.set(lang.code, `${DOMAIN}${localizedPath}`);
     });
 
     // Add x-default (default language version)
-    links.set("x-default", `${DOMAIN}${path}`);
+    links.set(
+      "x-default",
+      `${DOMAIN}${
+        DEFAULT_LOCALE === "en"
+          ? path
+          : path.replace(new RegExp(`^/${DEFAULT_LOCALE}`), "")
+      }`
+    );
 
     // Generate XML links ensuring no duplicates
     return Array.from(links.entries())
@@ -85,7 +102,7 @@ export async function GET() {
           `<xhtml:link rel="alternate" hreflang="${code}" href="${url}" />`
       )
       .join("\n");
-  };
+  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
