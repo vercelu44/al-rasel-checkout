@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+// export const dynamic = "force-dynamic";
 import { locales } from "@/navigation";
 
 export async function GET() {
@@ -27,6 +28,8 @@ export async function GET() {
     { url: "/help/contact-us", priority: 1, updated_at: new Date().toISOString() },
     { url: "/help/qna", priority: 1, updated_at: new Date().toISOString() },
   ];
+
+  const sectionPages = ["/products", "/categories"];
 
   // Only include the most SEO-valuable sorts
   const sortTypes = ['best_selling', 'new'];
