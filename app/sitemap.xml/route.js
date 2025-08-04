@@ -28,7 +28,25 @@ export async function GET() {
     { url: "/help/qna", priority: 1, updated_at: new Date().toISOString() },
   ];
 
-  const sectionPages = ["/products", "/categories"]; // Sections to localize
+  // Only include the most SEO-valuable sorts
+  const sortTypes = ['best_selling', 'new'];
+  const maxPages = 3; // Limit to first 3 pages per sort
+  const productsQueryCombos = [];
+
+  // For each important sort type
+  sortTypes.forEach(sort => {
+    // Page 1 (with and without page param)
+    productsQueryCombos.push({ params: `?sort_type=${sort}`, priority: 0.8 });
+    productsQueryCombos.push({ params: `?sort_type=${sort}&page=1`, priority: 0.8 });
+    // Pages 2 to maxPages
+    for (let page = 2; page <= maxPages; page++) {
+      productsQueryCombos.push({ params: `?sort_type=${sort}&page=${page}`, priority: 0.7 });
+    }
+  });
+  // Plain pagination (no sort)
+  for (let page = 1; page <= maxPages; page++) {
+    productsQueryCombos.push({ params: `?page=${page}`, priority: 0.7 });
+  }
 
   function getDateOnlyFromISO(dateTimeStr) {
     return new Date(dateTimeStr).toISOString().split("T")[0];
