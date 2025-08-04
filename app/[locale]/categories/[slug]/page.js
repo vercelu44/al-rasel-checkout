@@ -7,26 +7,23 @@ import { notFound } from "next/navigation";
 
 export const generateMetadata = async ({ params, searchParams }, parent) => {
   const parentMetaData = await parent;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.alrasel.net';
-  const defaultLocale = process.env.DEFAULT_LOCALE || 'en';
-  
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
+
   try {
-    // Extract category ID from slug (format: "slug-id")
-    const categoryId = params.slug.split('-').pop();
-    const categoryRes = await fetchData({ api: `category/${categoryId}` });
+    const categoryRes = await fetchData({ api: `category/${params.slug}` });
     const category = categoryRes?.data || {};
-    
+
     // Base path without domain or query params
     const basePath = `/categories/${params.slug}`;
     const queryString = new URLSearchParams(searchParams).toString();
-    
+
     // Full URL with query params if they exist
-    const fullUrl = queryString 
+    const fullUrl = queryString
       ? `${baseUrl}${basePath}?${queryString}`
       : `${baseUrl}${basePath}`;
 
-    const categoryName = category.category_name || 'Category';
-    const appName = parentMetaData?.applicationName || 'App';
+    const categoryName = category.category_name || "Category";
+    const appName = parentMetaData?.applicationName || "App";
 
     return {
       title: `${categoryName} | ${appName}`,
@@ -38,7 +35,7 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
           en: `${baseUrl}${basePath}`, // Default language
           bn: `${baseUrl}/bn${basePath}`,
           ar: `${baseUrl}/ar${basePath}`,
-          'x-default': `${baseUrl}${basePath}`
+          "x-default": `${baseUrl}${basePath}`,
         },
       },
       openGraph: {
@@ -47,7 +44,7 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
         url: fullUrl,
         images: [
           {
-            url: category.image_url || '/default-og-image.jpg', // Add fallback image
+            url: category.image_url || "/default-og-image.jpg", // Add fallback image
             width: 1200,
             height: 630,
             alt: categoryName,
@@ -55,14 +52,14 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
         ],
       },
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title: `${categoryName} | ${appName}`,
         description: `Browse ${categoryName} products`,
-      }
+      },
     };
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('Error in generateMetadata:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Error in generateMetadata:", error);
     }
     return notFound();
   }

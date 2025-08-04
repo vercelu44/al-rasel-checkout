@@ -13,7 +13,7 @@ const HomeCategoryProducts = async ({ className }) => {
     transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
   const data = await fetchData({ api: "homepage-category?no_child=1" });
   const categoryWiseProducts = data?.data || [];
-
+  categoryWiseProducts.map((category)=>console.log(category?.category?.slug, "lol1"))
   return categoryWiseProducts.map(({ category, products, images }, index) => (
     <div key={index} className={cn(`container`, className)}>
       <div className={cn(`pt-0`, className)}>

@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
-const page = async ({ params, searchParams }) => {
+const page = async ({ searchParams }) => {
   const [settingsRes, tranRes] = await Promise.allSettled([
     fetchData({ api: `info/basic` }),
     fetchData({ api: `translations` }),
