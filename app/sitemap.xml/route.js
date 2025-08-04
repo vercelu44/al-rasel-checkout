@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+// export const dynamic = "force-dynamic";
 import { locales } from "@/navigation";
 
 export async function GET() {
@@ -28,21 +29,41 @@ export async function GET() {
     { url: "/help/qna", priority: 1, updated_at: new Date().toISOString() },
   ];
 
-  const sectionPages = ["/products", "/categories"]; // Sections to localize
+  const sectionPages = ["/products", "/categories"];
+
+  // Only include the most SEO-valuable sorts
+  const sortTypes = ['best_selling', 'new'];
+  const maxPages = 3; // Limit to first 3 pages per sort
+  const productsQueryCombos = [];
+
+  // For each important sort type
+  sortTypes.forEach(sort => {
+    // Page 1 (with and without page param)
+    productsQueryCombos.push({ params: `?sort_type=${sort}`, priority: 0.8 });
+    productsQueryCombos.push({ params: `?sort_type=${sort}&page=1`, priority: 0.8 });
+    // Pages 2 to maxPages
+    for (let page = 2; page <= maxPages; page++) {
+      productsQueryCombos.push({ params: `?sort_type=${sort}&page=${page}`, priority: 0.7 });
+    }
+  });
+  // Plain pagination (no sort)
+  for (let page = 1; page <= maxPages; page++) {
+    productsQueryCombos.push({ params: `?page=${page}`, priority: 0.7 });
+  }
 
   function getDateOnlyFromISO(dateTimeStr) {
     return new Date(dateTimeStr).toISOString().split("T")[0];
   }
 
   function generateHreflangLinks(path) {
-    const links = languages.map((lang) => {
-      const localizedPath = path === "/" && lang.code === DEFAULT_LOCALE 
-        ? "/" 
-        : `${lang.prefix}${path}`;
+    return languages.map((lang) => {
+      const localizedPath = lang.prefix + path;
       return `<xhtml:link rel="alternate" hreflang="${lang.code}" href="${DOMAIN}${localizedPath}" />`;
-    });
-    links.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}${path}" />`);
-    return links.join("\n");
+    })
+    .concat([
+      `<xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}${path}" />`
+    ])
+    .join("\n");
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -50,6 +71,19 @@ export async function GET() {
           xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
     <!-- Static Pages -->
+    ${languages.map((lang) => {
+      return staticPages.map((page) => {
+        const localizedPath = lang.prefix + page.url;
+        return `
+        <url>
+          <loc>${DOMAIN}${localizedPath}</loc>
+          ${generateHreflangLinks(localizedPath)}
+          <changefreq>monthly</changefreq>
+          <priority>${page.priority}</priority>
+          <lastmod>${getDateOnlyFromISO(page.updated_at)}</lastmod>
+        </url>`;
+      }).join("");
+    }).join("")}
     ${staticPages.map((page) => `
       <url>
         <loc>${DOMAIN}${page.url === "/" ? "" : page.url}</loc>
