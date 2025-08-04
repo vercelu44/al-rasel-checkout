@@ -32,9 +32,15 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
       alternates: {
         canonical: fullUrl,
         languages: {
-          en: `${baseUrl}${basePath}`, // Default language
+          en: `${baseUrl}${basePath}`,
           bn: `${baseUrl}/bn${basePath}`,
           ar: `${baseUrl}/ar${basePath}`,
+          ...(locales.reduce((acc, lang) => {
+            if (lang !== DEFAULT_LOCALE) {
+              acc[lang] = `${baseUrl}/${lang}${basePath}`;
+            }
+            return acc;
+          }, {})),
           "x-default": `${baseUrl}${basePath}`,
         },
       },
