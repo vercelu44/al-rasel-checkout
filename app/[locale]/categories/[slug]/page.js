@@ -3,9 +3,24 @@ import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 export const generateMetadata = async ({ params, searchParams }, parent) => {
   const parentMetaData = await parent;
+
+  // --- Hreflang alternates logic ---
+  const { slug, locale } = params;
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+  const locales = ["en", "bn", "ar"];
+  const defaultLocale = "en";
+  const path = `/categories/${slug}`;
+
+  const alternates = {};
+  locales.forEach(l => {
+    alternates[l] = l === defaultLocale ? `${base}${path}` : `${base}/${l}${path}`;
+  });
+  alternates["x-default"] = `${base}${path}`;
+  // --- End hreflang alternates logic ---
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
 
   try {
@@ -64,6 +79,10 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
           },
         ],
       },
+      alternates: {
+        canonical: alternates[locale] || alternates[defaultLocale],
+        languages: alternates,
+      },
     };
   } catch (error) {
     if (process.env.NODE_ENV !== "production") {
@@ -81,7 +100,7 @@ const page = async ({ params, searchParams }) => {
     fetchData({ api: `category/${slugOnly}` }),
     fetchData({ api: `translations` }),
   ]);
-
+console.log(`category/${slugOnly}`, "sajfgsljd=============")
   const category = categoryResponse.status === "fulfilled" ? categoryResponse.value?.data || {} : {};
   const translations = tranRes.status === "fulfilled" ? tranRes.value?.data || {} : {};
 
