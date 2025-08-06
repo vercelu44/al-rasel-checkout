@@ -1,80 +1,45 @@
-import { Link } from "@/navigation";
+import { Link, locales } from "@/navigation";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Image from "next/image";
-// import { notFound } from "next/navigation";
 
-// export const generateMetadata = async ({ params, searchParams }, parent) => {
-//   const parentMetaData = await parent;
-//   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
+export async function generateMetadata({ params, searchParams }) {
+  const queryString = new URLSearchParams(searchParams).toString();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.example.com";
 
-//   try {
-//     const categoryRes = await fetchData({ api: `category/${params.slug}` });
-//     const category = categoryRes?.data || {};
+  // Detect current locale from params
+  const currentLocale = params?.locale || "en";
 
-//     // Base path without domain or query params
-//     const basePath = `/categories/${params.slug}`;
-//     const queryString = new URLSearchParams(searchParams).toString();
+  // Current page path
+  const fullPath = queryString
+    ? `/${currentLocale}/categories?${queryString}`
+    : `/${currentLocale}/categories`;
 
-//     // Full URL with query params if they exist
-//     const fullUrl = queryString
-//       ? `${baseUrl}${basePath}?${queryString}`
-//       : `${baseUrl}${basePath}`;
+  const fullUrl = `${baseUrl}${fullPath}`;
 
-//     const categoryName = category.category_name || "Category";
-//     const appName = parentMetaData?.applicationName || "App";
+  // Build alternate language URLs dynamically
+  const languageAlternates = {};
+  locales.forEach((locale) => {
+    languageAlternates[locale] = `${baseUrl}/${locale}/categories${
+      queryString ? "?" + queryString : ""
+    }`;
+  });
 
-//     // Supported locales
-//     const supportedLocales = ["en", "bn", "ar"];
-//     const currentLocale = params.locale || "en";
-//     const localePrefix = currentLocale !== "en" ? `/${currentLocale}` : "";
-
-//     // Build alternates object dynamically
-//     const alternates = {
-//       canonical: `${baseUrl}${localePrefix}${basePath}`,
-//       languages: {},
-//     };
-
-//     supportedLocales.forEach((loc) => {
-//       alternates.languages[loc] =
-//         loc === "en"
-//           ? `${baseUrl}${basePath}`
-//           : `${baseUrl}/${loc}${basePath}`;
-//     });
-//     alternates.languages["x-default"] = `${baseUrl}${basePath}`;
-
-//     return {
-//       title: `${categoryName} | ${appName}`,
-//       description: `${categoryName} - a category of ${appName}`,
-//       metadataBase: new URL(baseUrl), // Required for proper URL resolution
-//       alternates,
-//       openGraph: {
-//         title: `${categoryName} | ${appName}`,
-//         description: `All ${categoryName} products of ${appName}`,
-//         url: fullUrl,
-//         images: [
-//           {
-//             url: category.image_url || "/default-og-image.jpg", // Add fallback image
-//             width: 1200,
-//             height: 630,
-//             alt: categoryName,
-//           },
-//         ],
-//       },
-//       twitter: {
-//         card: "summary_large_image",
-//         title: `${categoryName} | ${appName}`,
-//         description: `Browse ${categoryName} products`,
-//       },
-//     };
-//   } catch (error) {
-//     if (process.env.NODE_ENV !== "production") {
-//       console.error("Error in generateMetadata:", error);
-//     }
-//     return notFound();
-//   }
-// };
+  return {
+    title: "All Categories",
+    description: "ALL Categories",
+    openGraph: {
+      title: "All Categories",
+      description: "All Categories",
+      url: fullUrl,
+    },
+    alternates: {
+      canonical: fullUrl,
+      languages: languageAlternates, // hreflang tags
+    },
+  };
+}
 
 const page = async ({ params, searchParams }) => {
   const { slug } = params;
