@@ -53,6 +53,7 @@ const page = async ({ searchParams }) => {
 
   return (
     <>
+      <h1 className="sr-only">Products Details</h1>
       {settings?.all_product_banner ? (
         <div
           className="hidden lg:block bg-no-repeat bg-cover w-full h-[240px] breadcrumb py-20"

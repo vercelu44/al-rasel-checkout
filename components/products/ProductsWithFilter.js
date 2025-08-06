@@ -22,6 +22,7 @@ const ProductsWithFilter = async ({
 
 	return (
 		<>
+		<h1 className="sr-only">Products</h1>
 			<div className="lg:mb-20">
 				<div className="lg:container toolbar lg:grid grid-cols-5 gap-5 mb-5">
 					<div className="relative col-span-1 hidden lg:block">
