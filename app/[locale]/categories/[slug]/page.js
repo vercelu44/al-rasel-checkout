@@ -1,4 +1,4 @@
-import { Link, locales } from "@/navigation";
+import { Link } from "@/navigation";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
@@ -12,15 +12,17 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
   const { slug, locale } = params;
   const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
   const locales = ["en", "bn", "ar"];
-  const defaultLocale = "en";
+  const primaryLocale = "en";
   const path = `/categories/${slug}`;
 
-  const alternates = {};
+  // Generate hreflang alternates
+  const hreflangAlternates = {};
   locales.forEach(l => {
-    alternates[l] = l === defaultLocale ? `${base}${path}` : `${base}/${l}${path}`;
+    hreflangAlternates[l] = l === primaryLocale ? `${base}${path}` : `${base}/${l}${path}`;
   });
-  alternates["x-default"] = `${base}${path}`;
+  hreflangAlternates["x-default"] = `${base}${path}`;
   // --- End hreflang alternates logic ---
+
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
 
   try {
@@ -41,31 +43,31 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
     // Ensure unique locales
     const supportedLocales = [...new Set(locales)];
 
-    const defaultLocale = process.env.DEFAULT_LOCALE || "en";
-    const localePrefix = currentLocale !== defaultLocale ? `/${currentLocale}` : "";
+    const configDefaultLocale = process.env.DEFAULT_LOCALE || "en";
+    const localePrefix = currentLocale !== configDefaultLocale ? `/${currentLocale}` : "";
     const canonicalUrl = searchParams.page
       ? `${baseUrl}${localePrefix}${basePath}?page=${searchParams.page}`
       : `${baseUrl}${localePrefix}${basePath}`;
 
-    const alternates = {
-      canonical: canonicalUrl,
-      languages: {},
-    };
-
+    // Language alternates for SEO
+    const languageAlternates = {};
     supportedLocales.forEach((loc) => {
-      const prefix = loc === defaultLocale ? "" : `/${loc}`;
-      alternates.languages[loc] = searchParams.page
+      const prefix = loc === configDefaultLocale ? "" : `/${loc}`;
+      languageAlternates[loc] = searchParams.page
         ? `${baseUrl}${prefix}${basePath}?page=${searchParams.page}`
         : `${baseUrl}${prefix}${basePath}`;
     });
-    // x-default always points to the default locale version (same as alternates.languages[defaultLocale])
-    alternates.languages["x-default"] = alternates.languages[defaultLocale];
+    // x-default always points to the default locale version
+    languageAlternates["x-default"] = languageAlternates[configDefaultLocale];
 
     return {
       title: `${categoryName} | ${appName}`,
       description: `${categoryName} - a category of ${appName}`,
       metadataBase: new URL(baseUrl),
-      alternates,
+      alternates: {
+        canonical: canonicalUrl,
+        languages: languageAlternates,
+      },
       openGraph: {
         title: `${categoryName} | ${appName}`,
         description: `All ${categoryName} products of ${appName}`,
@@ -78,10 +80,6 @@ export const generateMetadata = async ({ params, searchParams }, parent) => {
             alt: categoryName,
           },
         ],
-      },
-      alternates: {
-        canonical: alternates[locale] || alternates[defaultLocale],
-        languages: alternates,
       },
     };
   } catch (error) {
