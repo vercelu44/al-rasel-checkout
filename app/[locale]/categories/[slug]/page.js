@@ -3,80 +3,82 @@ import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 
-// export const generateMetadata = async ({ params, searchParams }, parent) => {
-//   const parentMetaData = await parent;
-//   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
+export const generateMetadata = async ({ params, searchParams }, parent) => {
+  const parentMetaData = await parent;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
 
-//   try {
-//     // Strip possible `-id` suffix from slug to fetch category by slug only
-//     // const slugOnly = params.slug.split("-")[0];
+  try {
+    const slugOnly = params.slug;
+    const currentLocale = params.locale || "en";
 
-//     // const categoryRes = await fetchData({ api: `category/${slugOnly}` });
-//     // const category = categoryRes?.data || {};
-// const {slug} = params
-//     const basePath = `/categories/${slug}`;
-//     const queryString = new URLSearchParams(searchParams).toString();
+    // Fetch category data
+    const categoryRes = await fetchData({ api: `category/${slugOnly}` });
+    const category = categoryRes?.data || {};
 
-//     const fullUrl = queryString ? `${baseUrl}${basePath}?${queryString}` : `${baseUrl}${basePath}`;
+    const basePath = `/categories/${params.slug}`;
+    const queryString = new URLSearchParams(searchParams).toString();
+    const fullUrl = queryString ? `${baseUrl}${basePath}?${queryString}` : `${baseUrl}${basePath}`;
 
-//     // const categoryName = category.category_name || "Category";
-//     const appName = parentMetaData?.applicationName || "App";
+    const categoryName = category.category_name || "Category";
+    const appName = parentMetaData?.applicationName || "App";
 
-//     const supportedLocales = locales; // import from your locales list
-//     const currentLocale = params.locale || "en";
-//     const localePrefix = currentLocale !== "en" ? `/${currentLocale}` : "";
+    // Ensure unique locales
+    const supportedLocales = [...new Set(locales)];
 
-//     const alternates = {
-//       canonical: `${baseUrl}${localePrefix}${basePath}`,
-//       languages: {},
-//     };
+    const defaultLocale = process.env.DEFAULT_LOCALE || "en";
+    const localePrefix = currentLocale !== defaultLocale ? `/${currentLocale}` : "";
+    const canonicalUrl = searchParams.page
+      ? `${baseUrl}${localePrefix}${basePath}?page=${searchParams.page}`
+      : `${baseUrl}${localePrefix}${basePath}`;
 
-//     supportedLocales.forEach((loc) => {
-//       alternates.languages[loc] =
-//         loc === "en" ? `${baseUrl}${basePath}` : `${baseUrl}/${loc}${basePath}`;
-//     });
-//     alternates.languages["x-default"] = `${baseUrl}${basePath}`;
+    const alternates = {
+      canonical: canonicalUrl,
+      languages: {},
+    };
 
-//     return {
-//       // title: `${categoryName} | ${appName}`,
-//       // description: `${categoryName} - a category of ${appName}`,
-//       title: "title",
-//       description: "description",
-//       metadataBase: new URL(baseUrl),
-//       alternates,
-//       // openGraph: {
-//       //   title: `${categoryName} | ${appName}`,
-//       //   description: `All ${categoryName} products of ${appName}`,
-//       //   url: fullUrl,
-//       //   images: [
-//       //     {
-//       //       url: category.image_url || "/default-og-image.jpg",
-//       //       width: 1200,
-//       //       height: 630,
-//       //       alt: categoryName,
-//       //     },
-//       //   ],
-//       // },
-//       // twitter: {
-//       //   card: "summary_large_image",
-//       //   title: `${categoryName} | ${appName}`,
-//       //   description: `Browse ${categoryName} products`,
-//       // },
-//     };
-//   } catch (error) {
-//     if (process.env.NODE_ENV !== "production") {
-//       console.error("Error in generateMetadata:", error);
-//     }
-//     return notFound();
-//   }
-// };
+    supportedLocales.forEach((loc) => {
+      const prefix = loc === defaultLocale ? "" : `/${loc}`;
+      alternates.languages[loc] = searchParams.page
+        ? `${baseUrl}${prefix}${basePath}?page=${searchParams.page}`
+        : `${baseUrl}${prefix}${basePath}`;
+    });
+    // x-default always points to the default locale version (same as alternates.languages[defaultLocale])
+    alternates.languages["x-default"] = alternates.languages[defaultLocale];
+
+    return {
+      title: `${categoryName} | ${appName}`,
+      description: `${categoryName} - a category of ${appName}`,
+      metadataBase: new URL(baseUrl),
+      alternates,
+      openGraph: {
+        title: `${categoryName} | ${appName}`,
+        description: `All ${categoryName} products of ${appName}`,
+        url: fullUrl,
+        images: [
+          {
+            url: category.image_url || "/default-og-image.jpg",
+            width: 1200,
+            height: 630,
+            alt: categoryName,
+          },
+        ],
+      },
+    };
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Error in generateMetadata:", error);
+    }
+    return notFound();
+  }
+};
 
 const page = async ({ params, searchParams }) => {
-const {slug} = params
+  // Strip id from slug for fetching backend data
+  const slugOnly = params.slug;
+
   const [categoryResponse, tranRes] = await Promise.allSettled([
-    fetchData({ api: `category/${slug}` }),
+    fetchData({ api: `category/${slugOnly}` }),
     fetchData({ api: `translations` }),
   ]);
 
@@ -90,7 +92,7 @@ const {slug} = params
 
   return (
     <>
-      <h1 className="sr-only">category</h1>
+      <h1 className="sr-only">Category</h1>
       {category?.image ? (
         <>
           <div
