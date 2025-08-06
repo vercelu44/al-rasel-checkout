@@ -4,59 +4,84 @@ import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Image from "next/image";
 
-export async function generateMetadata({ params, searchParams }) {
-  const queryString = new URLSearchParams(searchParams).toString();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.example.com";
+export const generateMetadata = async ({ params, searchParams }, parent) => {
+  const parentMetaData = await parent;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.alrasel.net";
 
-  // Detect current locale from params
-  const currentLocale = params?.locale || "en";
+  try {
+    // Strip possible `-id` suffix from slug to fetch category by slug only
+    const slugOnly = params.slug.split("-")[0];
 
-  // Current page path
-  const fullPath = queryString
-    ? `/${currentLocale}/categories?${queryString}`
-    : `/${currentLocale}/categories`;
+    const categoryRes = await fetchData({ api: `category/${slugOnly}` });
+    const category = categoryRes?.data || {};
 
-  const fullUrl = `${baseUrl}${fullPath}`;
+    const basePath = `/categories/${params.slug}`;
+    const queryString = new URLSearchParams(searchParams).toString();
 
-  // Build alternate language URLs dynamically
-  const languageAlternates = {};
-  locales.forEach((locale) => {
-    languageAlternates[locale] = `${baseUrl}/${locale}/categories${
-      queryString ? "?" + queryString : ""
-    }`;
-  });
+    const fullUrl = queryString ? `${baseUrl}${basePath}?${queryString}` : `${baseUrl}${basePath}`;
 
-  return {
-    title: "All Categories",
-    description: "ALL Categories",
-    openGraph: {
-      title: "All Categories",
-      description: "All Categories",
-      url: fullUrl,
-    },
-    alternates: {
-      canonical: fullUrl,
-      languages: languageAlternates, // hreflang tags
-    },
-  };
-}
+    const categoryName = category.category_name || "Category";
+    const appName = parentMetaData?.applicationName || "App";
+
+    const supportedLocales = locales; // import from your locales list
+    const currentLocale = params.locale || "en";
+    const localePrefix = currentLocale !== "en" ? `/${currentLocale}` : "";
+
+    const alternates = {
+      canonical: `${baseUrl}${localePrefix}${basePath}`,
+      languages: {},
+    };
+
+    supportedLocales.forEach((loc) => {
+      alternates.languages[loc] =
+        loc === "en" ? `${baseUrl}${basePath}` : `${baseUrl}/${loc}${basePath}`;
+    });
+    alternates.languages["x-default"] = `${baseUrl}${basePath}`;
+
+    return {
+      title: `${categoryName} | ${appName}`,
+      description: `${categoryName} - a category of ${appName}`,
+      metadataBase: new URL(baseUrl),
+      alternates,
+      openGraph: {
+        title: `${categoryName} | ${appName}`,
+        description: `All ${categoryName} products of ${appName}`,
+        url: fullUrl,
+        images: [
+          {
+            url: category.image_url || "/default-og-image.jpg",
+            width: 1200,
+            height: 630,
+            alt: categoryName,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${categoryName} | ${appName}`,
+        description: `Browse ${categoryName} products`,
+      },
+    };
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Error in generateMetadata:", error);
+    }
+    return notFound();
+  }
+};
 
 const page = async ({ params, searchParams }) => {
-  const { slug } = params;
+  // Strip id from slug for fetching backend data
+  const slugOnly = params.slug.split("-")[0];
+
   const [categoryResponse, tranRes] = await Promise.allSettled([
-    fetchData({ api: `category/${slug}` }),
+    fetchData({ api: `category/${slugOnly}` }),
     fetchData({ api: `translations` }),
   ]);
 
-  const category =
-    categoryResponse.status === "fulfilled"
-      ? categoryResponse.value?.data || {}
-      : {};
+  const category = categoryResponse.status === "fulfilled" ? categoryResponse.value?.data || {} : {};
+  const translations = tranRes.status === "fulfilled" ? tranRes.value?.data || {} : {};
 
-  const translations =
-    tranRes.status === "fulfilled" ? tranRes.value?.data || {} : {};
-
-  //forming search params
   const customSearchParams = {
     category_id: category?.id,
     ...searchParams,
@@ -64,48 +89,22 @@ const page = async ({ params, searchParams }) => {
 
   return (
     <>
-      <h1 className="sr-only">Important Heading</h1>
-      {/* breadcrumb */}
+      <h1 className="sr-only">{category.category_name || "Category"}</h1>
       {category?.image ? (
         <>
           <div
             className="hidden lg:block bg-no-repeat bg-cover w-full h-[240px] breadcrumb py-20"
             style={{
-              backgroundImage: `url(${category?.image})`,
+              backgroundImage: `url(${category.image})`,
             }}
           >
             <div className="container">
-              {/* <div className="text-center capitalize">
-              <h3 className="text-2xl font-bold font-title text-white mb-4">
-                {category?.category_name}
-              </h3>
-              <div>
-                <Link
-                  href={`/`}
-                  className="text-base text-white hover:text-primary"
-                >
-                  {translations["home"] || "হোম"}
-                </Link>
-                <Link
-                  href={`/categories`}
-                  className="text-base text-white hover:text-primary"
-                >
-                  {translations["category"] || "ক্যাটাগরি"}
-                </Link>
-                <Link
-                  href={`/categories/${category.slug}`}
-                  aria-disabled="true"
-                  className="text-base text-white pointer-events-none"
-                >
-                  {category?.category_name}
-                </Link>
-              </div>
-            </div> */}
+              {/* You can add semantic breadcrumb markup here for SEO */}
             </div>
           </div>
           <Image
-            src={category?.image}
-            alt={category?.category_name}
+            src={category.image}
+            alt={category.category_name}
             width={1000}
             height={240}
             className="w-full h-full object-cover block lg:hidden"
@@ -115,24 +114,18 @@ const page = async ({ params, searchParams }) => {
         <div className="breadcrumb breadcrumb-2 py-5 border-b border-slate-200 hidden lg:block">
           <div className="container capitalize">
             <div className="flex">
-              <Link
-                href={`/`}
-                className="text-base text-slate-600 hover:text-primary"
-              >
+              <Link href={`/`} className="text-base text-slate-600 hover:text-primary">
                 {translations["home"] || "হোম"}
               </Link>
-              <Link
-                href={`/categories`}
-                className="text-base text-slate-900 hover:text-primary"
-              >
+              <Link href={`/categories`} className="text-base text-slate-900 hover:text-primary">
                 {translations["category"] || "ক্যাটাগরি"}
               </Link>
               <Link
-                href={`/categories/${category.slug}`}
+                href={`/categories/${params.slug}`}
                 aria-disabled="true"
                 className="text-base text-slate-900 pointer-events-none"
               >
-                {category?.category_name}
+                {category.category_name}
               </Link>
             </div>
           </div>
@@ -145,7 +138,7 @@ const page = async ({ params, searchParams }) => {
             {translations["related-categories"] || "Related Categories"}
           </h6>
           <div className="lg:container">
-            <ResponsiveSlider categories={category?.child_categories} />
+            <ResponsiveSlider categories={category.child_categories} />
           </div>
         </div>
       ) : null}
