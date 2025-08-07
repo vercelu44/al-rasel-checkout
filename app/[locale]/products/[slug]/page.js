@@ -1,12 +1,47 @@
 import { fetchData } from "@/lib/fetch-data";
 import ProductDetails from "./_components/ProductDetails";
-import { Link } from "@/navigation";
+import { Link, locales } from "@/navigation";
 import SectionTitle from "@/components/elements/SectionTitle";
 import AllProducts from "@/components/products/AllProducts";
 import { SeeAll } from "@/components/elements/buttons";
 import LastVisitedProducts from "@/components/products/LastVisitedProducts";
 import { getSlicedText } from "@/utils/format-text";
 import ProductMicroData from "@/components/products/ProductMicroData";
+
+export async function generateMetadata({ params, searchParams }) {
+  const slug = params.slug;
+  const defaultLocale = "en";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "http://localhost:3001";
+
+  // Normalize query string: omit ?page=1 for canonical and hreflang
+  let pageParam = searchParams.page;
+  if (pageParam === "1") {
+	pageParam = undefined;
+  }
+  const queryPart = pageParam ? `?page=${pageParam}` : "";
+
+  // Build canonical URL for current page
+  const canonicalUrl = `${baseUrl}/products/${slug}${queryPart}`;
+
+  // Build hreflang URLs for the current page (all locales)
+  const languageAlternates = {};
+  locales.forEach((locale) => {
+	const prefix = locale === defaultLocale ? "" : `/${locale}`;
+	languageAlternates[locale] = `${baseUrl}${prefix}/products/${slug}${queryPart}`;
+  });
+  languageAlternates["x-default"] = languageAlternates[defaultLocale];
+console.log(languageAlternates, "++++++++++++++++++++++++++____________")
+  return {
+	alternates: {
+	  canonical: canonicalUrl,
+	  languages: languageAlternates,
+	},
+	title: `Product: ${slug} - Page ${pageParam || 1}`,
+	description: `Browse page ${pageParam || 1} of ${slug} product.`,
+  };
+}
+
+
 
 const ProductDetailsView = async ({ params }) => {
 	const { slug } = params;
@@ -84,7 +119,7 @@ const ProductDetailsView = async ({ params }) => {
 								translations={translations}
 							/>
 							<SeeAll
-								href={`/categories/${product?.category?.slug}`}
+								href={`/products/${product?.category?.slug}`}
 								buttonText={translations["see-all"]}
 							/>
 						</div>
