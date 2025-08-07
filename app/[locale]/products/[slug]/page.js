@@ -13,32 +13,34 @@ export async function generateMetadata({ params, searchParams }) {
   const defaultLocale = "en";
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "http://localhost:3001";
 
-  // Normalize query string: omit ?page=1 for canonical and hreflang
+  // Get and normalize pagination
   let pageParam = searchParams.page;
-  if (pageParam === "1") {
-	pageParam = undefined;
-  }
-  const queryPart = pageParam ? `?page=${pageParam}` : "";
+  const isBasePage = !pageParam || pageParam === "1";
 
-  // Build canonical URL for current page
-  const canonicalUrl = `${baseUrl}/products/${slug}${queryPart}`;
+  // Canonical should always point to the base (no page param)
+  const canonicalUrl = `${baseUrl}/products/${slug}`;
 
-  // Build hreflang URLs for the current page (all locales)
-  const languageAlternates = {};
-  locales.forEach((locale) => {
-	const prefix = locale === defaultLocale ? "" : `/${locale}`;
-	languageAlternates[locale] = `${baseUrl}${prefix}/products/${slug}${queryPart}`;
-  });
-  languageAlternates["x-default"] = languageAlternates[defaultLocale];
-console.log(languageAlternates, "++++++++++++++++++++++++++____________")
-  return {
-	alternates: {
-	  canonical: canonicalUrl,
-	  languages: languageAlternates,
-	},
+  const metadata = {
 	title: `Product: ${slug} - Page ${pageParam || 1}`,
 	description: `Browse page ${pageParam || 1} of ${slug} product.`,
+	alternates: {
+	  canonical: canonicalUrl,
+	},
   };
+
+  // Only add hreflang for base page
+  if (isBasePage) {
+	const languageAlternates = {};
+	locales.forEach((locale) => {
+	  const prefix = locale === defaultLocale ? "" : `/${locale}`;
+	  languageAlternates[locale] = `${baseUrl}${prefix}/products/${slug}`;
+	});
+	languageAlternates["x-default"] = languageAlternates[defaultLocale];
+
+	metadata.alternates.languages = languageAlternates;
+  }
+
+  return metadata;
 }
 
 
