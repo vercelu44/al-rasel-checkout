@@ -8,7 +8,7 @@ export const generateMetadata = async ({ params }, parent) => {
   try {
     const pageRes = await fetchData({ api: `pages/${params.page_slug}` });
     page = pageRes?.data;
-    // console.log(page);
+    // console.log(`/pages/${page?.slug}`);
     return {
       title: `${page?.title}`,
       // description: `${page?.title} a category of ${parentMetaData.applicationName}`,
@@ -17,7 +17,7 @@ export const generateMetadata = async ({ params }, parent) => {
         url: `/pages/${page?.slug}`,
       },
       alternates: {
-        canonical: `/pages/${page?.slug}`,
+        canonical: `/${page?.slug}`,
       },
     };
   } catch (error) {
