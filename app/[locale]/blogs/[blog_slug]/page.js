@@ -16,7 +16,15 @@ export async function generateMetadata({ params }) {
 
   return {
     title: blog.title,
-    description: blog.meta_description || "", // optional meta description
+    description: blog.meta_description || "",
+    alternates: {
+      canonical: `/blogs/${blog_slug}`,
+    },
+    openGraph: {
+      title: blog.title,
+      description: blog.meta_description || blog.excerpt || "",
+      type: 'article',
+    },
   };
 }
 

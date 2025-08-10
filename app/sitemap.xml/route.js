@@ -33,15 +33,22 @@ export async function GET() {
 
       ${data.data.pages
         .map(
-          (page) => `
+          (page) => {
+            // For pages, the slug already includes the full path
+            const url = page.type === "blog" 
+              ? `${DOMAIN}/blogs/${page.slug}`
+              : page.slug.startsWith('pages/') 
+                ? `${DOMAIN}/${page.slug}`
+                : `${DOMAIN}/pages/${page.slug}`;
+                
+            return `
       <url>
-        <loc>${DOMAIN}/${page.type === "blog" ? "blogs" : "pages"}/${
-            page.slug
-          }</loc>
+        <loc>${url}</loc>
         <changefreq>weekly</changefreq>
         <priority>${page.priority || 1}</priority>
         <lastmod>${getDateOnlyFromISO(page.updated_at)}</lastmod>
       </url>`
+          }
         )
         .join("")}
     ${staticPages
