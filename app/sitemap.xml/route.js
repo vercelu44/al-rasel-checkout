@@ -34,12 +34,13 @@ export async function GET() {
       ${data.data.pages
         .map(
           (page) => {
-            // For pages, the slug already includes the full path
+            // Clean the slug to remove any leading/trailing slashes and 'pages/' prefix if it exists
+            const cleanSlug = page.slug.replace(/^\/+|\/+$/g, '').replace(/^pages\//i, '');
+            
+            // Generate URL based on page type
             const url = page.type === "blog" 
-              ? `${DOMAIN}/blogs/${page.slug}`
-              : page.slug.startsWith('pages/') 
-                ? `${DOMAIN}/${page.slug}`
-                : `${DOMAIN}/pages/${page.slug}`;
+              ? `${DOMAIN}/blogs/${cleanSlug}`
+              : `${DOMAIN}/pages/${cleanSlug}`;
                 
             return `
       <url>
