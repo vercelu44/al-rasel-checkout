@@ -30,7 +30,7 @@ const ContactUs = async () => {
 							href={`/help/contact-us`}
 							className="text-base text-slate-900 hover:text-secondary"
 						>
-							Contact Us
+							<h1>Contact Us</h1> 
 						</Link>
 					</div>
 				</div>

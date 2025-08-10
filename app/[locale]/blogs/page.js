@@ -3,6 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 
+export async function generateMetadata() {
+  return {
+    alternates: {
+      canonical: '/blogs',
+    },
+  };
+}
+
 const Page = async () => {
   const [blogRes] = await Promise.allSettled([
     fetchData({ api: `pages?type=blog` }),
@@ -23,7 +31,7 @@ const Page = async () => {
               href={`/blogs`}
               className="text-base text-slate-600 hover:text-secondary"
             >
-              Blogs
+              <h1>Blogs</h1>
             </Link>
           </div>
         </div>

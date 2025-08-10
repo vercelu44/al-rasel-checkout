@@ -19,7 +19,7 @@ const QnA = () => {
               href={`/help/qna`}
               className="text-base text-slate-900 hover:text-secondary"
             >
-              QnA
+             <h1>QnA</h1> 
             </Link>
           </div>
         </div>

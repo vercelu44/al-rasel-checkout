@@ -17,6 +17,7 @@ const DynamicPage = async ({ params }) => {
 
   return (
     <>
+    <h1 className="sr-only">Pages</h1>
       <div className="breadcrumb breadcrumb-2 py-5">
         <div className="container">
           <div>
@@ -30,7 +31,8 @@ const DynamicPage = async ({ params }) => {
               href={`pages/${page.slug}`}
               className="text-base text-slate-900 hover:text-secondary"
             >
-              {page.title}
+             <h1>{page.title}</h1> 
+             
             </Link>
           </div>
         </div>

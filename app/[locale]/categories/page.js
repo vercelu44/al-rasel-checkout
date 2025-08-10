@@ -9,6 +9,7 @@ const page = async () => {
 
 	return (
 		<>
+
 			<div className="breadcrumb breadcrumb-2 pt-5">
 				<div className="container border-b border-slate-200 pb-5">
 					<div>
@@ -22,7 +23,7 @@ const page = async () => {
 							href={`/categories`}
 							className="text-base text-slate-900 hover:text-secondary"
 						>
-							All Categories
+							<h1>All Categories</h1>
 						</Link>
 					</div>
 				</div>

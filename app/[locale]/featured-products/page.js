@@ -60,7 +60,7 @@ const FeaturedProducts = async ({ searchParams }) => {
               href="/featured-products?sort_type=new"
               className="text-base text-slate-700 hover:text-primary ml-2"
             >
-              Featured Products
+              <h1>Featured Products</h1>
             </Link>
           </div>
         </div>
