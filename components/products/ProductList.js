@@ -5,6 +5,8 @@ import { siteConfig } from "@/config/site";
 
 export default function ProductList({ products, isFlashSale, fixedItems }) {
   return (
+    <>
+    <h1 className="sr-only">Detail category</h1>
     <div className="products-wpr w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5  gap-3 md:gap-5 mb-3 md:mb-12 h-fit">
       {products?.map((product, i) => (
         <div
@@ -22,5 +24,6 @@ export default function ProductList({ products, isFlashSale, fixedItems }) {
         </div>
       ))}
     </div>
+    </>
   );
 }

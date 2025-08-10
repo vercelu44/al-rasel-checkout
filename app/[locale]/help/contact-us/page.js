@@ -39,9 +39,9 @@ const ContactUs = async () => {
 			<div className="container">
 				<div className="contact-us mb-20">
 					<div className="heading border-b border-slate-200 py-4 mb-6">
-						<h3 className="text-3xl font-thin font-title text-slate-900">
+						<h1 className="text-3xl font-thin font-title text-slate-900">
 							Contact Us
-						</h3>
+						</h1>
 					</div>
 					<div className="contact-wpr grid lg:grid-cols-2 items-center gap-12">
 						<div className="address basis-2/5">

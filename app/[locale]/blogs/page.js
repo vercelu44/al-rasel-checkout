@@ -17,6 +17,8 @@ const Page = async () => {
   ]);
   const blogs = blogRes.status === "fulfilled" ? blogRes.value?.data || [] : [];
   return (
+    <>
+    <h1 className="sr-only">blog details</h1>
     <div className="container">
       <div className="breadcrumb breadcrumb-2 py-6">
         <div className="container">
@@ -66,6 +68,7 @@ const Page = async () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 

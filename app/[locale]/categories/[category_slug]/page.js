@@ -28,7 +28,7 @@ const page = async ({ params, searchParams }) => {
 		<h1 className="sr-only">Detail category</h1>
 			<div className="breadcrumb breadcrumb-2 py-5">
 				<div className="container">
-					<div>
+					<div className="flex">
 						<Link
 							href={`/`}
 							className="text-base text-slate-600 hover:text-secondary"
@@ -47,6 +47,7 @@ const page = async ({ params, searchParams }) => {
 						>
 							{category.category_name}
 						</Link>
+						
 					</div>
 				</div>
 			</div>

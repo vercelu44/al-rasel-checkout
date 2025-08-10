@@ -19,6 +19,7 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category }) => {
 
 	return (
 		<>
+		<h1 className="sr-only">Detail category</h1>
 			<div className="container mb-3 md:mb-20">
 				<div className="actions-bar flex justify-between items-center mb-3 md:mb-8">
 					<div className="flex items-center gap-48 w-1/2">
