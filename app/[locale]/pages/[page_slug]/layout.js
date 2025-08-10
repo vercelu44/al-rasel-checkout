@@ -17,7 +17,7 @@ export const generateMetadata = async ({ params }, parent) => {
         url: `/pages/${page?.slug}`,
       },
       alternates: {
-        canonical: `/${page?.slug}`,
+        canonical: `/pages/${page?.slug}`,
       },
     };
   } catch (error) {
