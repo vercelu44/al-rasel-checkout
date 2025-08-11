@@ -15,7 +15,7 @@ export const generateMetadata = async ({ params }, parent) => {
 
 
 	return {
-		title: `${product?.data?.meta_title || product?.data?.product_name} || ${parentMetaData.applicationName}`,
+		title: `${product?.data?.meta_title || product?.data?.product_name}`,
 		description:
 			product?.data?.meta_description ||
 			`${product?.data?.product_name} a product of ${parentMetaData.applicationName}`,
