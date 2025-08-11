@@ -35,7 +35,7 @@ export async function GET() {
         .map(
           (page) => `
       <url>
-        <loc>${DOMAIN}${page.type === "blog" ? "/blogs/" : "/"}${
+       <loc>${DOMAIN}/${page.type === "blog" ? "blogs" : "pages"}/${
             page.slug
           }</loc>
         <changefreq>weekly</changefreq>
