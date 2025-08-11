@@ -40,6 +40,7 @@ const DynamicPage = async ({ params }) => {
 
   return (
     <>
+    <h1 className="sr-only">Header for seo</h1>
       <div className="breadcrumb breadcrumb-2 py-5">
         <div className="container">
           <div>

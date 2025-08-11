@@ -31,25 +31,17 @@ export async function GET() {
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 
-      ${data.data.pages
+       ${data.data.pages
         .map(
-          (page) => {
-            // Clean the slug to remove any leading/trailing slashes and 'pages/' prefix if it exists
-            const cleanSlug = page.slug.replace(/^\/+|\/+$/g, '').replace(/^pages\//i, '');
-            
-            // Generate URL based on page type
-            const url = page.type === "blog" 
-              ? `${DOMAIN}/blogs/${cleanSlug}`
-              : `${DOMAIN}/pages/${cleanSlug}`;
-                
-            return `
+          (page) => `
       <url>
-        <loc>${url}</loc>
+        <loc>${DOMAIN}${page.type === "blog" ? "/blogs/" : "/"}${
+            page.slug
+          }</loc>
         <changefreq>weekly</changefreq>
         <priority>${page.priority || 1}</priority>
         <lastmod>${getDateOnlyFromISO(page.updated_at)}</lastmod>
       </url>`
-          }
         )
         .join("")}
     ${staticPages

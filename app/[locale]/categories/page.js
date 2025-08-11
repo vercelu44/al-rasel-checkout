@@ -9,7 +9,6 @@ const page = async () => {
 
 	return (
 		<>
-
 			<div className="breadcrumb breadcrumb-2 pt-5">
 				<div className="container border-b border-slate-200 pb-5">
 					<div>
