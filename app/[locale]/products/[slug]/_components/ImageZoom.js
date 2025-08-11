@@ -47,7 +47,7 @@ const ZoomExample = ({ image, zoomImage, productTitle, isSquareImage }) => {
         ref={imgRef}
         data-zoom={zoomImage}
         src={image}
-        alt={productTitle}
+        alt={productTitle|| "Not Found"}
         width={700}
         height={700}
       />

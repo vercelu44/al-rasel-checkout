@@ -18,7 +18,7 @@ const Brands = async () => {
 						<Link href={`/brands/${brand.id}`} className="">
 							<Image
 								src={brand.brand_image || noImage}
-								alt={brand.title}
+								alt={brand.title || "Not Found"}
 								width={150}
 								height={150}
 								className="w-full h-full object-contain hover:scale-125 transition-all duration-300 ease-in-out"

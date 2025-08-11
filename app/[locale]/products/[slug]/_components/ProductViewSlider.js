@@ -94,7 +94,7 @@ const ProductViewSlider = forwardRef(
                     <Image
                       
                       src={slide?.image}
-                      alt=""
+                      alt="image"
                       width={64}
                       height={64}
                       className="border border-transparent h-16 w-16 cursor-pointer rounded-lg"
@@ -157,7 +157,7 @@ const ProductViewSlider = forwardRef(
     <>
       <Image
         src={slide?.image}
-        alt=""
+        alt="image"
         width={524}
         height={659}
         className="object-contain h-full w-full"
@@ -186,7 +186,7 @@ const ProductViewSlider = forwardRef(
     <Image
       onClick={() => handleOpenZoom(index)}
       src={slide?.image}
-      alt=""
+      alt="image"
       width={524}
       height={524}
       className="object-cover h-full w-full cursor-zoom-in"

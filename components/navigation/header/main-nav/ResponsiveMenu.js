@@ -63,7 +63,7 @@ export default function ResponsiveMenu({ settings, categories }) {
       <Link href="/" className="logo">
         <Image
           src={settings?.logo}
-          alt={settings?.name}
+          alt={settings?.name || "Not Found"}
           width={150}
           height={56}
           className="h-full max-h-[60px] py-2 object-contain lg:w-auto"

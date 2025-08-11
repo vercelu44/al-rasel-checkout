@@ -64,7 +64,7 @@ export default function MainNav({ settings, categories }) {
             {settings?.logo ? (
               <Image
                 src={settings?.logo}
-                alt={settings?.name}
+                alt={settings?.name || "Not Found"}
                 width={200}
                 height={68}
                 className="h-full w-auto object-contain"

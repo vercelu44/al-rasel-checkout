@@ -110,7 +110,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
                         ? hover_image || image || noImage
                         : image || noImage
                     }
-                    alt={product_name}
+                    alt={product_name || "Not Found"}
                     width={226}
                     height={400}
                     onMouseEnter={() => setHovered(true)}

@@ -209,7 +209,7 @@ const Search = () => {
 									{suggestion.image ? (
 										<Image
 											src={suggestion.image}
-											alt={suggestion.text}
+											alt={suggestion.text || "Not Found"}
 											width={20}
 											height={20}
 											className="h-5 w-5 rounded-sm object-cover"

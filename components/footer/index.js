@@ -50,7 +50,7 @@ const Footer = async () => {
             <Link href="/" className="logo inline-block mb-3">
               <Image
                 src={settings?.footer_logo}
-                alt={settings?.name}
+                alt={settings?.name || "Not Found"}
                 width={200}
                 height={48}
                 className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
