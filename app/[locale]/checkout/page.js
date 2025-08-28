@@ -7,8 +7,10 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 import {
+  getAutoSelectedPaymentOption,
   getCartTotal,
   getCouponDiscount,
+  getDefaultFormValues,
   getOrderFormattedCartItems,
 } from "@/lib/checkout";
 
@@ -27,7 +29,6 @@ import { FaTruckFast } from "react-icons/fa6";
 import { useGetPaymentMethodsQuery } from "@/store/api/paymentMethodsAPI";
 import { siteConfig } from "@/config/site";
 import useOrderPlace from "@/hooks/useOrderPlace";
-import useProfileUpdate from "@/hooks/useProfileUpdate";
 import ShippingForm from "./ShippingForm";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { toast } from "react-toastify";
@@ -41,17 +42,11 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
 
 const Checkout = () => {
-  //--------------------get default form values----------------
-  const getDefaultFormValues = () => ({
-    name: localStorage.getItem("name") || "",
-    address: localStorage.getItem("address") || "",
-    phone: localStorage.getItem("phone") || "",
-    city: localStorage.getItem("city") || "",
-  });
   // Dynamic delivery charges
   const { settings, translations, isFbPixelInitialized } = useSelector(
     (state) => state.common
   );
+
   // console.log(settings);
   const deliveryAreas = [
     {
@@ -85,7 +80,6 @@ const Checkout = () => {
   const { cart, discountCoupon } = useSelector((state) => state.cart);
   const { user, isLoading } = useSelector((state) => state.auth);
   const { handleOrderPlace } = useOrderPlace(); //custom hook for separating order place business logics
-  const { handleUserUpdate } = useProfileUpdate(); //custom hook for separating profile update business logics
   const isMobile = useMediaQuery("(max-width: 768px)"); // checking for mobile
 
   const { data: paymentMethodsData } = useGetPaymentMethodsQuery();
@@ -161,8 +155,13 @@ const Checkout = () => {
 
   const handleDeliveryAreaChange = (area) => {
     setDeliveryArea(area);
-    setSelectedPaymentOption(null);
     updateDeliveryChargeRequirement(area?.key);
+
+    //auto select payment option
+    const autoSelectedPaymentOption =
+      getAutoSelectedPaymentOption(activePaymentMethods);
+    if (autoSelectedPaymentOption)
+      setSelectedPaymentOption(autoSelectedPaymentOption);
   };
 
   //auto select payment method
@@ -181,33 +180,52 @@ const Checkout = () => {
     }
   }, [paymentMethods]);
 
+  const isCodPayEnabled =
+    activePaymentMethods?.length > 0 &&
+    activePaymentMethods?.find((payMethod) => payMethod?.key === "COD")
+      ?.status === 1;
+
   const paymentOptions = [
-    {
-      key: "no_payment",
-      title: `Cash on delivery`,
-      value: grandTotal,
-    },
-    activePaymentMethods?.length > 1 && deliveryArea?.charges
+    isCodPayEnabled &&
+    (!isDeliveryChargeRequired || activePaymentMethods?.length == 1)
+      ? {
+          key: "no_payment",
+          title: `Cash on delivery`,
+          value: grandTotal,
+        }
+      : null,
+    activePaymentMethods?.length > 1 &&
+    isDeliveryChargeRequired &&
+    isCodPayEnabled
       ? {
           key: "delivery_charge_payment",
           title: `Pay delivery charge only`,
           value: deliveryArea.charges,
         }
       : null,
-    activePaymentMethods?.length > 1
-      ? {
+    (activePaymentMethods?.length === 1 &&
+      activePaymentMethods[0].key === "COD") ||
+    activePaymentMethods?.length === 0
+      ? null
+      : {
           key: "total_payment",
           title: `Pay total amount`,
           value: grandTotal,
-        }
-      : null,
+        },
   ].filter((option) => option !== null);
 
-  // console.log(activePaymentMethods, "activePaymentMethods");
+  console.log(deliveryArea, "deliveryArea");
+
+  console.log(paymentOptions, "paymentOptions");
+
+  console.log(activePaymentMethods, "activePaymentMethods");
+
+  // Auto select payment option
   useEffect(() => {
-    if (activePaymentMethods?.length === 1) {
-      setSelectedPaymentOption(paymentOptions[0].key);
-    }
+    const autoSelectedPaymentOption =
+      getAutoSelectedPaymentOption(activePaymentMethods);
+    if (autoSelectedPaymentOption)
+      setSelectedPaymentOption(autoSelectedPaymentOption);
   }, [activePaymentMethods]);
 
   useEffect(() => {
@@ -228,6 +246,12 @@ const Checkout = () => {
     if (!deliveryArea) {
       document.getElementById("deliveryAreaError").classList.remove("hidden");
       toast.error("Please select delivery area");
+      return;
+    }
+    if (activePaymentMethods?.length === 0) {
+      toast.error(
+        "Checkout is not available now, please contact us for more info"
+      );
       return;
     }
     if (!selectedPaymentOption) {
@@ -571,28 +595,24 @@ const Checkout = () => {
                   {translations["payment-options"] || "Payment Options"}
                 </h4>
                 <div className="flex flex-col gap-3 pt-3">
-                  {paymentOptions.map((payOption) =>
-                    payOption.key === "no_payment" &&
-                    isDeliveryChargeRequired &&
-                    activePaymentMethods?.length > 1 ? null : (
-                      <button
-                        key={payOption.key}
-                        type="button"
-                        className="flex gap-2 items-center border border-slate-200 p-3"
-                        onClick={() => setSelectedPaymentOption(payOption.key)}
-                      >
-                        <CustomRadio
-                          isChecked={payOption.key === selectedPaymentOption}
-                          label={payOption.title}
-                          // onClick={() => setDeliveryArea(pt)}
-                        />
-                        <p>
-                          {siteConfig.currency.sign}
-                          {payOption.value}
-                        </p>
-                      </button>
-                    )
-                  )}
+                  {paymentOptions.map((payOption) => (
+                    <button
+                      key={payOption.key}
+                      type="button"
+                      className="flex gap-2 items-center border border-slate-200 p-3"
+                      onClick={() => setSelectedPaymentOption(payOption.key)}
+                    >
+                      <CustomRadio
+                        isChecked={payOption.key === selectedPaymentOption}
+                        label={payOption.title}
+                        // onClick={() => setDeliveryArea(pt)}
+                      />
+                      <p>
+                        {siteConfig.currency.sign}
+                        {payOption.value}
+                      </p>
+                    </button>
+                  ))}
                 </div>
                 {!selectedPaymentOption && (
                   <p id="paymentOptionError" className="hidden errorMsg">
