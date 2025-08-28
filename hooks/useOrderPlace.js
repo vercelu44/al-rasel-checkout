@@ -66,11 +66,12 @@ const useOrderPlace = () => {
 					dispatch(clearCart());
 					window.location.replace(data.GatewayPageURL);
 				} else {
-					toast.error("Something went wrong");
+					toast.error(data.message ||"Something went wrong");
 				}
 			} catch (error) {
 				dispatch(setGlobalLoader(false));
-				toast.error("Something went wrong...", error);
+				console.log(error, "hei hei")
+				toast.error(error.data.message || "Something went wrong...", error);
 			}
 		} else {
 			newOrder.payment_type = "COD"; //forcing to use payment type COD

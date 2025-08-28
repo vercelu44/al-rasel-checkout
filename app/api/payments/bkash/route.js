@@ -62,9 +62,8 @@ export async function POST(request) {
 		}
 		if (!order || order?.status === false) {
 			// console.log(order, "order creation response in bkash");
-			return NextResponse.error(
-				{ message: "Order Creation failed" },
-				{ status: 500 }
+			return NextResponse.json(
+				{ message: order?.message || "Order Creation failed", status: false },
 			);
 		}
 		// after order creation we need to initialize bkash payment

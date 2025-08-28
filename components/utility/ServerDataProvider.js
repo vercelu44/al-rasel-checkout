@@ -34,7 +34,7 @@ const ServerDataProvider = async () => {
   const isGTMEnabled =
     process.env.NEXT_PUBLIC_GTM_ENABLED === "YES" && GTM_ID ? true : false;
 
-  console.log(isGTMEnabled);
+  // console.log(isGTMEnabled);
   return (
     <>
       {/* Loading setting for client uses */}

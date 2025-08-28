@@ -23,7 +23,7 @@ const Footer = async () => {
 
   const footerPage = settings?.footer_page || [];
   const helpPage = settings?.help_page || [];
-  console.log(helpPage,"helppafeee",footerPage[0].path)
+  // console.log(helpPage,"helppafeee",footerPage[0].path)
 
   const messengerUser = settings?.facebook_link?.split("/")[3] || "no-user";
   return (

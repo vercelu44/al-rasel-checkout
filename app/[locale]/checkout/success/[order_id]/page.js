@@ -11,9 +11,10 @@ import useOrderSummary from "@/hooks/useOrderSummary";
 import { useSelector } from "react-redux";
 import * as pixel from "/lib/fpixel";
 import { getGTMFormattedSaleProducts } from "@/lib/gtm-data-formatter";
-import { Cookies } from "@/utils/cookies";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { getPixelFormattedOrderItems } from "@/app/api/order-summary-show/[order_id]/helpers/format-items";
+import { Cookies } from "@/utils/cookies";
+import SHA256 from "crypto-js/sha256";
+
 const OrderSuccess = ({ params }) => {
   const { order_id } = params;
   const { order, loading, error } = useOrderSummary(order_id);
@@ -29,15 +30,15 @@ const OrderSuccess = ({ params }) => {
     if (isFbPixelInitialized && flag.current && order?.id) {
       pixel.event(
         "Purchase",
-        pixel.getPurchasedItemsPixelData(
-          getPixelFormattedOrderItems(order?.ordered_items),
-          order.sub_total
-        ),
+        pixel.getPurchasedItemsPixelData(order?.ordered_items, order.sub_total),
         {
           eventID: order.id, // to prevent duplicate events from conversations API
+          fn: order?.customer?.name ? SHA256(order.customer.name).toString() : undefined,
+          ph: order?.customer?.mobile ? SHA256(order.customer.mobile).toString() : undefined,
+          // Meta Pixel doesn’t have a parameter for a full address, only ct (city), st (state), zp (ZIP), and country.
         }
       );
-      console.log("purchase complete");
+      // console.log("purchase complete");
       flag.current = false;
     }
   }, [order, isFbPixelInitialized]);

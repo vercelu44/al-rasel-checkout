@@ -214,11 +214,10 @@ const Checkout = () => {
         },
   ].filter((option) => option !== null);
 
-  console.log(deliveryArea, "deliveryArea");
-
-  console.log(paymentOptions, "paymentOptions");
-
-  console.log(activePaymentMethods, "activePaymentMethods");
+  // logs for debugging
+  // console.log(deliveryArea, "deliveryArea");
+  // console.log(paymentOptions, "paymentOptions");
+  // console.log(activePaymentMethods, "activePaymentMethods");
 
   // Auto select payment option
   useEffect(() => {
