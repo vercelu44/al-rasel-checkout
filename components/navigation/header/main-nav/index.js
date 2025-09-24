@@ -57,9 +57,21 @@ export default function MainNav({ settings, categories }) {
     >
       <div className="main-nav container">
         <div className="flex items-center justify-between gap-x-2">
+          <button
+            onClick={() => setSideMenuOpen(!sideMenuOpen)}
+            className=" md:hidden"
+          >
+            {!sideMenuOpen ? (
+              <HiMenuAlt1 size={24} />
+            ) : (
+              <AiOutlineClose size={24} />
+            )}
+          </button>
           <Link
             href="/"
-            className="logo h-[45px] lg:h-[68px] max-w-[150px] lg:max-w-[250px] -mr-10 sm:-mr-12 md:mr-0"
+            className={`logo h-[45px] lg:h-[68px] max-w-[150px] lg:max-w-[250px] ${
+              !settings?.guest_checkout ? "-mr-10 sm:-mr-12 md:mr-0" : ""
+            }`}
           >
             {settings?.logo ? (
               <Image
@@ -70,7 +82,9 @@ export default function MainNav({ settings, categories }) {
                 className="h-full w-auto object-contain"
               />
             ) : (
-              <span className="text-3xl font-bold inline-block pt-4">{settings?.name}</span>
+              <span className="text-3xl font-bold inline-block pt-4">
+                {settings?.name}
+              </span>
             )}
           </Link>
           <div className="hidden lg:flex items-center gap-10">
@@ -151,16 +165,6 @@ export default function MainNav({ settings, categories }) {
             <span className="hidden md:block">
               <LanguageSelector />
             </span>
-            <button
-              onClick={() => setSideMenuOpen(!sideMenuOpen)}
-              className=" md:hidden"
-            >
-              {!sideMenuOpen ? (
-                <HiMenuAlt1 size={24} />
-              ) : (
-                <AiOutlineClose size={24} />
-              )}
-            </button>
           </div>
         </div>
       </div>
