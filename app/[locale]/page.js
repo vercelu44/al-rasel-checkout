@@ -21,6 +21,7 @@ export default async function Home() {
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   const translations =
     transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
+    const headerColor = process.env.NEXT_PUBLIC_HEADER_COLOR;
   return (
     <>
       {settings?.slider_section ? (
@@ -59,7 +60,7 @@ export default async function Home() {
               </h2> */}
                 <Link href="/products?sort_type=best_selling">
               <h2 className="text-4xl md:text-5xl font-normal mb-4">
-                <span className="inline-block font-poppins" style={{color: settings?.colors?.primary}}>{translations["Best"] || "Best"}</span>
+                <span className="inline-block font-poppins" style={{color: headerColor || settings?.colors?.primary}}>{translations["Best"] || "Best"}</span>
                 <span className="inline-block ml-2  px-2 font-poppins" >{translations["Selling"] || "Selling"}</span>
               </h2>
               </Link>
@@ -88,7 +89,7 @@ export default async function Home() {
             <div className="py-10 text-center">
               <Link href="/products?sort_type=new">
               <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
-                 <span className="inline-block font-poppins" style={{color: settings?.colors?.primary}}>{translations["New"] || "New"}</span>
+                 <span className="inline-block font-poppins" style={{color: headerColor || settings?.colors?.primary}}>{translations["New"] || "New"}</span>
                 <span className="inline-block ml-2  px-2 font-poppins" >{translations["Collection"] || "Collection"}</span>
               </h2>
               </Link>
@@ -108,7 +109,7 @@ export default async function Home() {
                  <Link
                 href="/featured-products?sort_type=new">
               <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
-                 <span className="inline-block font-poppins" style={{color: settings?.colors?.primary}}>{translations["Featured"] || "Featured"}</span>
+                 <span className="inline-block font-poppins" style={{color: headerColor || settings?.colors?.primary}}>{translations["Featured"] || "Featured"}</span>
                 <span className="inline-block ml-2  px-2 font-poppins" >{translations["Products"] || "Products"}</span>
               </h2>
               </Link>
