@@ -3,7 +3,10 @@ import { postData } from "@/lib/post-data";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-	const { searchParams, origin } = new URL(request.url);
+	// This is to handle req from localhost on custom server
+	const { searchParams, origin: baseUrlFromRequest } = new URL(request.url);
+    const nextBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
+
 	// console.log(origin);
 	const orderId = searchParams.get("order");
 	const tranId = searchParams.get("tran");
@@ -29,7 +32,7 @@ export async function POST(request) {
 	);
 
 	// const successUrl = new URL(`/checkout/success/${orderId}`, request.url);
-	return NextResponse.redirect(`${origin}/checkout/success/${orderId}`, {
+	return NextResponse.redirect(`${nextBaseUrl}/checkout/success/${orderId}`, {
 		status: 301,
 	});
 

@@ -5,11 +5,11 @@ const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASS;
 const is_live = process.env.IS_LIVE === "YES" ? true : false;
 
-export const handleOrderSSLPay = async (order, isDeliveryChargePayment) => {
-	const headersList = headers();
-	const protocol = headersList.get("x-forwarded-proto") || "http";
-	const host = headersList.get("host");
-	const nextBaseUrl = `${protocol}://${host}`;
+export const handleOrderSSLPay = async (order, nextBaseUrl, isDeliveryChargePayment) => {
+	// const headersList = headers();
+	// const protocol = headersList.get("x-forwarded-proto") || "http";
+	// const host = headersList.get("host");
+	// const nextBaseUrl = `${protocol}://${host}`;
 
 	const { sale } = order;
 	const tranId = generateUniqueId(); // generating unique Id

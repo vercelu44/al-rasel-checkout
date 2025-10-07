@@ -2,12 +2,15 @@
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const { searchParams, origin } = new URL(request.url);
+  // This is to handle req from localhost on custom server
+  const { searchParams, origin: baseUrlFromRequest } = new URL(request.url);
+  const nextBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
+
   const orderId = searchParams.get("order");
   // redirect(`/checkout/fail/${orderId}`);
 
   // const failUrl = new URL(`/checkout/fail/${orderId}`, request.url);
-  return NextResponse.redirect(`${origin}/checkout/fail/${orderId}`, {
+  return NextResponse.redirect(`${nextBaseUrl}/checkout/fail/${orderId}`, {
     status: 301,
   });
 }

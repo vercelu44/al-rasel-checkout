@@ -11,6 +11,10 @@ export async function POST(request) {
 	// console.log(bearerToken);
 	let order = null;
 
+	// This is to handle req from localhost on custom server
+	const { origin: baseUrlFromRequest } = new URL(request.url);
+    const nextBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
+
 	try {
 		if (orderId) {
 			//getting existing order
@@ -42,7 +46,7 @@ export async function POST(request) {
 		}
 		// console.log(order);
 		//Initializing SSL payment using order data
-		const sslResponse = await handleOrderSSLPay(order, isDeliveryChargePayment);
+		const sslResponse = await handleOrderSSLPay(order, nextBaseUrl, isDeliveryChargePayment);
 
 		return NextResponse.json(
 			{
