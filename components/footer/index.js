@@ -1,20 +1,29 @@
 import Link from "next/link";
 import { fetchData } from "@/lib/fetch-data";
-// import SubscriptionForm from "./SubscriptionForm";
 
 // ** Import Icons
 import SocialIcon from "../elements/SocialIcon";
 import ScrollToTopButton from "../ScrollToTopButton";
+import MessagingButton from "./MessagingButton";
 import {
   FaEnvelope,
-  FaFacebookMessenger,
   FaMapMarkerAlt,
+  FaPinterest,
+  FaTiktok,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import Image from "next/image";
 import AppleAppDownload from "../elements/svg/AppleAppDownload";
 import AndroidAppDownload from "../elements/svg/AndroidAppDownload";
 import sslImage from "@/public/assets/images/ssl.png";
+import {
+  FiFacebook,
+  FiInstagram,
+  FiLinkedin,
+  FiTwitter,
+  FiYoutube,
+} from "react-icons/fi";
 
 const Footer = async () => {
   const translationData = await fetchData({ api: "translations" });
@@ -23,9 +32,7 @@ const Footer = async () => {
 
   const footerPage = settings?.footer_page || [];
   const helpPage = settings?.help_page || [];
-  // console.log(helpPage,"helppafeee",footerPage[0].path)
 
-  const messengerUser = settings?.facebook_link?.split("/")[3] || "no-user";
   return (
     <footer
       className="footer py-5"
@@ -35,22 +42,12 @@ const Footer = async () => {
       }}
     >
       <div className="container">
-        {/* <div className="text-center">
-          <h2 className="text-3xl/[40px] font-title font-medium my-5">
-            {translations["treat-your-inbox"] || "Treat your inbox"}
-          </h2>
-          <p className="mb-8 text-sm/6 font-light">
-            {translations["receive-newsletter"] ||
-              "Receive our newsletter on the latest deals and happenings. You can unsubscribe any time you want."}
-          </p>
-          <SubscriptionForm settings={settings} />
-        </div> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between gap-5 lg:gap-12 mt-8">
           <div className="footer-business-info">
             <Link href="/" className="logo inline-block mb-3">
               <Image
                 src={settings?.footer_logo}
-                alt={settings?.name || "Not Found"}
+                alt={settings?.name}
                 width={200}
                 height={48}
                 className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
@@ -95,11 +92,6 @@ const Footer = async () => {
                 </li>
               )}
             </ul>
-
-            {/* <div className="mt-4 pr-4">
-              <p>Subscribe Us</p>
-              <SubscriptionForm settings={settings} />
-            </div> */}
           </div>
           <div className="text-lg font-light">
             <h6 className="mb-4 font-title uppercase font-bold">
@@ -119,8 +111,7 @@ const Footer = async () => {
               </li>
               <li>
                 <Link className="" href={"/blogs"}>
-                  {translations["Blogs"] ||
-                    "Blogs"}
+                  {translations["Blogs"] || "Blogs"}
                 </Link>
               </li>
               {helpPage.map((page) => (
@@ -174,7 +165,9 @@ const Footer = async () => {
                 </div>
               ) : null}
               <div className="social-links ">
-                <h6 className="text-lg font-title uppercase font-bold">Follow Us</h6>
+                <h6 className="text-lg font-title uppercase font-bold">
+                  Follow Us
+                </h6>
                 <div className="text-center py-4 flex gap-3 items-center">
                   {settings.facebook_link && settings.facebook_link !== "#" && (
                     <SocialIcon
@@ -242,7 +235,9 @@ const Footer = async () => {
               <p className=" text-sm/6 font-light flex flex-wrap gap-1 justify-center">
                 &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
                 <Link href="/">{settings?.name}</Link> | Powered by
-                <Link href="https://amarsolution.com" className="font-semibold">AmarSolution</Link>
+                <Link href="https://amarsolution.com" className="font-semibold">
+                  AmarSolution
+                </Link>
                 {/* <SocialIcon
                 href={"https://amarsolution.com/"}
                 icon={"/assets/icons/amarsolution-logo.png"}
@@ -250,29 +245,29 @@ const Footer = async () => {
                   "w-auto h-[25px] transition delay-150 duration-300 ease-in-out hover:-translate-1 hover:scale-105"
                 }
               /> */}
+                <Link href="https://amarsolution.com" className="font-semibold">
+                  AmarSolution
+                </Link>
               </p>
             </div>
             <div className="w-1/2">
               <Image src={sslImage} alt="no-image" className="object-contain" />
             </div>
-          </div>) : <div className="flex justify-between items-center border-t border-slate-50  mt-4">
-          <div className="w-full text-center">
-            <p className="text-sm/6 font-light mt-4">
-              &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
-              <Link href="/">{settings?.name}</Link>
-            </p>
           </div>
-        </div>
-        }
+        ) : (
+          <div className="flex justify-between items-center border-t border-slate-50  mt-4">
+            <div className="w-full text-center">
+              <p className="text-sm/6 font-light mt-4">
+                &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
+                <Link href="/">{settings?.name}</Link>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
       <ScrollToTopButton settings={settings} />
-      <Link
-        className="fixed z-30 bottom-[75px] right-5 text-blue-500"
-        target="_blank"
-        href={`https://m.me/${messengerUser}`}
-      >
-        <FaFacebookMessenger size={45} />
-      </Link>
+
+      <MessagingButton settings={settings} />
     </footer>
   );
 };
