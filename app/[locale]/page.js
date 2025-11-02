@@ -21,7 +21,10 @@ export default async function Home() {
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   const translations =
     transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
-    const headerColor = process.env.NEXT_PUBLIC_HEADER_COLOR;
+  const headerColor =
+    process.env.NEXT_PUBLIC_HEADER_COLOR ||
+    settings?.colors?.primary ||
+    "#000000";
   return (
     <>
       {settings?.slider_section ? (
@@ -58,21 +61,22 @@ export default async function Home() {
               >
                 {translations["Best Selling"] || "Best Selling"}
               </h2> */}
-                <Link href="/products?sort_type=best_selling">
-              <h2 className="text-4xl md:text-5xl font-normal mb-4">
-                <span className="inline-block font-poppins" style={{color: headerColor || settings?.colors?.primary}}>{translations["Best"] || "Best"}</span>
-                <span className="inline-block ml-2  px-2 font-poppins" >{translations["Selling"] || "Selling"}</span>
-              </h2>
+              <Link href="/products?sort_type=best_selling">
+                <h2 className="text-4xl md:text-5xl font-normal mb-4">
+                  <span
+                    className="inline-block font-poppins"
+                    style={{ color: headerColor }}
+                  >
+                    {translations["Best"] || "Best"}
+                  </span>
+                  <span className="inline-block ml-2  px-2 font-poppins">
+                    {translations["Selling"] || "Selling"}
+                  </span>
+                </h2>
+                <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto capitalize italic">
+                  {translations["see-all-products"] || "See All Products"}
+                </p>
               </Link>
-              {/* <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto italic">
-                <Link
-                  href="/products?sort_type=best_selling"
-                  className=" transition-colors underline hover:no-underline"
-                >
-                  {translations["The Most Popular Picks This Season"] ||
-                    "The Most Popular Picks This Season"}
-                </Link>
-              </p> */}
             </div>
 
             <div className="shadow-lg bg-white rounded-xl p-6">
@@ -82,16 +86,25 @@ export default async function Home() {
         </section>
       ) : null}
 
-
       {settings?.shop_section ? (
         <section className="new-products">
           <div className="container">
             <div className="py-10 text-center">
               <Link href="/products?sort_type=new">
-              <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
-                 <span className="inline-block font-poppins" style={{color: headerColor || settings?.colors?.primary}}>{translations["New"] || "New"}</span>
-                <span className="inline-block ml-2  px-2 font-poppins" >{translations["Collection"] || "Collection"}</span>
-              </h2>
+                <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
+                  <span
+                    className="inline-block font-poppins"
+                    style={{ color: headerColor }}
+                  >
+                    {translations["New"] || "New"}
+                  </span>
+                  <span className="inline-block ml-2  px-2 font-poppins">
+                    {translations["Collection"] || "Collection"}
+                  </span>
+                </h2>
+                <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto capitalize italic">
+                  {translations["see-all-products"] || "See All Products"}
+                </p>
               </Link>
             </div>
 
@@ -106,12 +119,21 @@ export default async function Home() {
         <section className="new-products">
           <div className="container">
             <div className="py-10 text-center">
-                 <Link
-                href="/featured-products?sort_type=new">
-              <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
-                 <span className="inline-block font-poppins" style={{color: headerColor || settings?.colors?.primary}}>{translations["Featured"] || "Featured"}</span>
-                <span className="inline-block ml-2  px-2 font-poppins" >{translations["Products"] || "Products"}</span>
-              </h2>
+              <Link href="/featured-products?sort_type=new">
+                <h2 className=" pb-3 font-poppins text-4xl md:text-5xl font-normal">
+                  <span
+                    className="inline-block font-poppins"
+                    style={{ color: headerColor }}
+                  >
+                    {translations["Featured"] || "Featured"}
+                  </span>
+                  <span className="inline-block ml-2  px-2 font-poppins">
+                    {translations["Products"] || "Products"}
+                  </span>
+                </h2>
+                 <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto capitalize italic">
+                  {translations["see-all-products"] || "See All Products"}
+                </p>
               </Link>
             </div>
 
@@ -126,17 +148,19 @@ export default async function Home() {
         <HomeCategoryProducts />
       </section>
 
-      {settings?.newsletter_section? (
-      <section
-        className=" mt-4 pr-4 h-[120px] lg:h-[400px] bg-cover bg-center border border-blue-500"
-        style={{
-          backgroundImage: "url('/assets/images/banner/newsletter-banner-img.png')"
-        }}
-      >
-        <div className="flex h-full w-full justify-end items-center lg:pr-16">
-          <SubscriptionForm settings={settings} />
-        </div>
-      </section>):null}
+      {settings?.newsletter_section ? (
+        <section
+          className=" mt-4 pr-4 h-[120px] lg:h-[400px] bg-cover bg-center border border-blue-500"
+          style={{
+            backgroundImage:
+              "url('/assets/images/banner/newsletter-banner-img.png')",
+          }}
+        >
+          <div className="flex h-full w-full justify-end items-center lg:pr-16">
+            <SubscriptionForm settings={settings} />
+          </div>
+        </section>
+      ) : null}
 
       <Popup popup={settings?.popup} />
     </>

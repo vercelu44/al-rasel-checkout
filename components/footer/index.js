@@ -245,9 +245,6 @@ const Footer = async () => {
                   "w-auto h-[25px] transition delay-150 duration-300 ease-in-out hover:-translate-1 hover:scale-105"
                 }
               /> */}
-                <Link href="https://amarsolution.com" className="font-semibold">
-                  AmarSolution
-                </Link>
               </p>
             </div>
             <div className="w-1/2">
