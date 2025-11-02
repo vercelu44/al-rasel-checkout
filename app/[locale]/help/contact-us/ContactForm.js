@@ -4,9 +4,11 @@ import { MdPerson, MdMail, MdPhone, MdMessage } from "react-icons/md";
 import { TbTag } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useContactNowMutation } from "@/store/api/contactAPI";
+import { useSelector } from "react-redux";
 
 const ContactForm = () => {
   const [contactNow] = useContactNowMutation();
+  	const { settings, translations } = useSelector((state) => state.common);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -256,8 +258,12 @@ const ContactForm = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-red-800 text-white rounded-lg font-medium hover:bg-red-900 transition text-sm sm:text-base order-1 sm:order-2"
-          >
+            className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3   rounded-lg font-medium  transition text-sm sm:text-base order-1 sm:order-2"
+             style={{
+                    border: `1px solid ${settings?.colors?.primary}`,
+                    backgroundColor: settings?.colors?.secondary
+                  }}
+             >
             Send Message
           </button>
         </div>

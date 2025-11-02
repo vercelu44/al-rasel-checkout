@@ -44,7 +44,11 @@ const ContactUs = async () => {
           {/* Header */}
           <div className="mb-8">
             <div className="flex  items-center gap-3 mb-2">
-              <div className="w-12 h-12 bg-red-800 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+              <div style={{
+						color: settings?.colors?.default_text,
+						backgroundColor: settings?.colors?.secondary
+					}}
+          className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-xl">
                 G
               </div>
               <div>
@@ -63,7 +67,10 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdStorefront className="text-red-800 text-2xl" />
+                    <MdStorefront className=" text-2xl" style={{
+                      color: settings?.colors?.default_text,
+                     
+                    }} />
                   </div>
 
                   <div className="flex-1">
@@ -84,7 +91,11 @@ const ContactUs = async () => {
                       <div className="mt-2 sm:mt-0">
                         <Link
                           href="/pages/our-locations"
-                          className="px-4 lg:px-8 py-2 text-center text-red-800 border border-red-800 rounded-full text-sm font-medium hover:bg-red-50 transition whitespace-nowrap block sm:inline-block"
+                          className="px-4 lg:px-8 py-2 text-center  border  rounded-full text-sm font-medium hover:bg-red-50 transition whitespace-nowrap block sm:inline-block"
+                          style={{
+                            color: settings?.colors?.default_text,
+                            border: `1px solid ${settings?.colors?.primary}`,
+                          }}
                         >
                           View
                         </Link>
@@ -98,7 +109,10 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdEmail className="text-red-800 text-2xl" />
+                    <MdEmail className="text-red-800 text-2xl" style={{
+                      color: settings?.colors?.default_text,
+                     
+                    }} />
                   </div>
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -128,7 +142,11 @@ const ContactUs = async () => {
                         <Link
                           href={`mailto:${settings?.email?.[0]}`}
                           className="px-4 lg:px-8 py-2 text-center text-red-800 border border-red-800 rounded-full text-sm font-medium hover:bg-red-50 transition block sm:inline-block"
-                        >
+                          style={{
+                            color: settings?.colors?.default_text,
+                            border: `1px solid ${settings?.colors?.primary}`,
+                          }}
+                         >
                           Write
                         </Link>
                       </div>
@@ -142,7 +160,10 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdPhone className="text-red-800 text-2xl" />
+                    <MdPhone className="text-red-800 text-2xl"   style={{
+                      color: settings?.colors?.default_text,
+                     
+                    }} />
                   </div>
 
                   <div className="flex-1">
@@ -172,7 +193,11 @@ const ContactUs = async () => {
                       <div className="mt-2 sm:mt-0">
                         <Link
                           href={`tel:${settings?.phone?.[0]}`}
-                          className="px-6 lg:px-8 py-2 text-center text-red-800 border border-red-800 rounded-full text-sm font-medium hover:bg-red-50 transition block sm:inline-block"
+                          className="px-6 lg:px-8 py-2 text-center  border border-red-800 rounded-full text-sm font-medium hover:bg-red-50 transition block sm:inline-block"
+                          style={{
+                            color: settings?.colors?.default_text,
+                            border: `1px solid ${settings?.colors?.primary}`,
+                          }}
                         >
                           Call
                         </Link>
