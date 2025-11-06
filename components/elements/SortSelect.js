@@ -19,6 +19,8 @@ const SortSelect = () => {
             <option value="randomly">Random</option>
             <option value="low_high">Price (Low to High)</option>
             <option value="high_low">Price (High to Low)</option> 
+            <option value="stock_low_high"> Stock (Low to High)</option>
+            <option value="stock_high_low"> Stock (High to Low)</option>
           </select>
         </div>
       </div>

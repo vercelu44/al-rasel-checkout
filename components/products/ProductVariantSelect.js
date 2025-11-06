@@ -22,49 +22,30 @@ const ProductVariantSelect = forwardRef(
 
     const handleVariantSelect = (variantProp) => {
       if (variantProp.stock_qty <= 0) {
-        setSelectedVariant(null); // clear selected variant when out of stock
+        setSelectedVariant(null);
         toast.error("Oops! this variant isn't available");
         return;
       }
       setSelectedVariant(variantProp);
     };
 
-    /**
-     * The function `triggerColorImgToView` filters an array of photos based on a given color name and
-     * selects the first image as the active slide in a slider.
-     * @param colorName - The color name parameter is a string that represents the name of a color.
-     */
     const triggerColorImgToView = (colorName) => {
       if (ref) {
-        //added for color wise image filtering and selecting first image as active slide in slider
         let filteredSlides = photos.filter(
           (slide) => slide.color_name === colorName
         );
         !filteredSlides.length && (filteredSlides = photos);
         ref.current.swiper.slideTo(0);
-        // ref.current.swiper.autoplay.stop();
-
-        //selecting first image as active slide in slider
-        // filteredSlides.some((photo, index) => {
-        // 	if (photo.color_name === colorName) {
-        // 		ref.current.swiper.slideTo(index);
-        // 		ref.current.swiper.autoplay.stop();
-        // 		return true;
-        // 	}
-        // 	return false;
-        // });
       }
     };
 
     const handleColorSelect = (colorProp) => {
       setSelectedColor(colorProp);
-      // Only if one size available for a color following block of code
-      // will try to add/remove this variant when color gets selected
+
       if (colorsGroup[colorProp].length === 1) {
         let firstVariantOfColor = colorsGroup[colorProp][0];
         handleVariantSelect(firstVariantOfColor);
       } else {
-        // if size available for new selected color it keeps the current size otherwise clear the selected variant
         const isSizeAvailable = colorsGroup[colorProp].find(
           (variant) =>
             variant.size === selectedVariant?.size && variant.stock_qty > 0
@@ -74,24 +55,20 @@ const ProductVariantSelect = forwardRef(
           ? setSelectedVariant(isSizeAvailable)
           : setSelectedVariant(null);
       }
+
       triggerColorImgToView(colorProp);
     };
 
     useEffect(() => {
-      // console.log(photos);
       const variants = productBarCodes || [];
       if (variants.length) {
-        const colorVariantsGroup = groupByKey(variants, "color"); // Group the data based on color
+        const colorVariantsGroup = groupByKey(variants, "color");
         setColorsGroup(colorVariantsGroup);
 
-        // Activate this block to auto variant select onload
         const tempColors = Object.keys(colorVariantsGroup);
-        
         if (tempColors.length === 1) {
-          // handleColorSelect(tempColors[0]);
           const firstColor = tempColors[0];
           setSelectedColor(firstColor);
-          // setSelectedVariant([colorVariantsGroup[firstColor][0]]);
         }
       }
     }, [productBarCodes, setSelectedColor, setSelectedVariant]);
@@ -126,13 +103,10 @@ const ProductVariantSelect = forwardRef(
                         height={52}
                         width={52}
                         title={color}
-                        className={`h-full w-12 lg:w-[52px] rounded-md object-contain`}
+                        className="h-full w-12 lg:w-[52px] rounded-md object-contain"
                       />
                     ) : (
-                      <span
-                        className={`h-full w-full flex items-center justify-center text-sm lg:text-base text-slate-700`}
-                        // style={{ backgroundColor: colorImgInfo?.color_code }}
-                      >
+                      <span className="h-full w-full flex items-center justify-center text-sm lg:text-base text-slate-700">
                         {color}
                       </span>
                     )}
@@ -152,23 +126,38 @@ const ProductVariantSelect = forwardRef(
               </h4>
             </div>
             <div className="flex gap-2 lg:gap-3 flex-wrap mt-2 lg:mt-3">
-              {colorsGroup[selectedColor]?.map((variant) => (
-                <div
-                  key={variant.id}
-                  className={`py-2 lg:py-3 px-4 rounded-lg border text-sm lg:text-base ${
-                    selectedVariant?.id === variant.id
-                      ? "border-2 border-primary"
-                      : "border-slate-300"
-                  } cursor-pointer  ${
-                    variant.stock_qty <= 0
-                      ? "bg-slate-300 text-slate-400 cursor-not-allowed"
-                      : "text-slate-700"
-                  }`}
-                  onClick={() => handleVariantSelect(variant)}
-                >
-                  {variant.size}
-                </div>
-              ))}
+              {colorsGroup[selectedColor]
+                ?.slice()
+                .sort((a, b) => {
+                  const aNum = parseFloat(a.size);
+                  const bNum = parseFloat(b.size);
+
+                  if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return aNum - bNum;
+                  }
+
+                  return a.size.localeCompare(b.size, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                  });
+                })
+                .map((variant) => (
+                  <div
+                    key={variant.id}
+                    className={`py-2 lg:py-3 px-4 rounded-lg border text-sm lg:text-base ${
+                      selectedVariant?.id === variant.id
+                        ? "border-2 border-primary"
+                        : "border-slate-300"
+                    } cursor-pointer ${
+                      variant.stock_qty <= 0
+                        ? "bg-slate-300 text-slate-400 cursor-not-allowed"
+                        : "text-slate-700"
+                    }`}
+                    onClick={() => handleVariantSelect(variant)}
+                  >
+                    {variant.size}
+                  </div>
+                ))}
             </div>
           </div>
         ) : null}
