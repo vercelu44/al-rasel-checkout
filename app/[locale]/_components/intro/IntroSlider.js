@@ -103,7 +103,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image"; // ✅ USE NEXT/IMAGE
+import Image from "next/image"; 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { useSelector } from "react-redux";
@@ -126,12 +126,12 @@ const IntroSlider = ({ sliders, settings }) => {
       autoplay={{ 
         delay: 3000,
         disableOnInteraction: false,
-        pauseOnMouseEnter: true, // ✅ Better UX
+        pauseOnMouseEnter: true, 
       }}
       effect="fade"
       speed={1200}
       lazy={{
-        loadPrevNext: true, // ✅ Preload next slide
+        loadPrevNext: true, 
         loadPrevNextAmount: 1,
       }}
     >
@@ -144,26 +144,23 @@ const IntroSlider = ({ sliders, settings }) => {
                 : "h-[213px] md:h-[363px] lg:h-[88vh]"
             }`}
           >
-            {/* ✅ OPTIMIZED IMAGE WITH NEXT/IMAGE */}
             <Image
               src={slide?.image || '/assets/images/banner/banner-1.png'}
               alt={slide?.title_2 || slide?.title || `Slide ${i + 1}`}
               fill
-              priority={i === 0} // ✅ ONLY FIRST SLIDE GETS PRIORITY
-              loading={i === 0 ? "eager" : "lazy"} // ✅ LAZY LOAD OTHER SLIDES
-              quality={85} // ✅ GOOD BALANCE OF QUALITY/SIZE
+              priority={i === 0} 
+              loading={i === 0 ? "eager" : "lazy"} 
+              quality={85} 
               sizes="100vw"
               className="object-cover object-center"
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4=" // ✅ BLUR PLACEHOLDER
             />
 
-            {/* ✅ OVERLAY FOR BETTER TEXT READABILITY */}
             {isBackdrop(slide) && (
               <div className="absolute inset-0 bg-black/20 z-[1]" />
             )}
 
-            {/* CONTENT */}
             <div className="relative z-[2]">
               <div
                 className={cn(
@@ -191,7 +188,6 @@ const IntroSlider = ({ sliders, settings }) => {
               </div>
             </div>
 
-            {/* ✅ CLICKABLE OVERLAY LINK */}
             {slide.url && (
               <Link
                 href={slide?.url}
