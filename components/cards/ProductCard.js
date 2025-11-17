@@ -120,14 +120,14 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
               </div>
             </div>
             <div className="product-content-wrap @container">
-              <h1>
+              <h2>
                 <Link
                   href={`/products/${slug}`}
                   className="product-title text-base text-slate-900 font-body overflow-text"
                 >
                   {product_name}
                 </Link>
-              </h1>
+              </h2>
               <div className="product-price mb-3 flex flex-row font-title items-center gap-2">
                 <span className="font-semibold ">
                   {siteConfig.currency.shortForm}
