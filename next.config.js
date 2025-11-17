@@ -29,7 +29,6 @@ const nextConfig = {
     amsPublickey: process.env.AMS_PUBLIC_KEY,
   },
   
-  // ✅ ENABLE IMAGE OPTIMIZATION (CRITICAL FIX)
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
@@ -67,7 +66,6 @@ const nextConfig = {
     optimizePackageImports: ['react-icons', 'swiper'],
   },
 
-  // ✅ WEBPACK OPTIMIZATION
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization = {
