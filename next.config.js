@@ -1,21 +1,143 @@
+// /** @type {import('next').NextConfig} */
+// const dev = process.env.NODE_ENV !== "production";
+
+// const nextConfig = {
+// 	env: {
+// 		server: dev ? process.env.API_BASE_URL : process.env.API_BASE_URL,
+// 		amsPublickey: process.env.AMS_PUBLIC_KEY,
+// 		// amsPrivateKey: process.env.AMS_PRIVATE_KEY,
+// 		// serverBaseUrl: process.env.API_BASE_URL.split("/api")[0],
+// 	},
+// 	images: {
+// 		unoptimized: true,
+// 	},
+// };
+
+// const withNextIntl = require("next-intl/plugin")(
+// 	// This is the default (also the `src` folder is supported out of the box)
+// 	"./i18n.js"
+// );
+
+// module.exports = withNextIntl(nextConfig);
+
+
 /** @type {import('next').NextConfig} */
 const dev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
-	env: {
-		server: dev ? process.env.API_BASE_URL : process.env.API_BASE_URL,
-		amsPublickey: process.env.AMS_PUBLIC_KEY,
-		// amsPrivateKey: process.env.AMS_PRIVATE_KEY,
-		// serverBaseUrl: process.env.API_BASE_URL.split("/api")[0],
-	},
-	images: {
-		unoptimized: true,
-	},
+  env: {
+    server: dev ? process.env.API_BASE_URL : process.env.API_BASE_URL,
+    amsPublickey: process.env.AMS_PUBLIC_KEY,
+  },
+  
+  // ✅ ENABLE IMAGE OPTIMIZATION
+  images: {
+    // Remove unoptimized: true
+    formats: ['image/avif', 'image/webp'], // Modern formats
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Responsive sizes
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384], // Thumbnail sizes
+    minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    
+    // If you're loading images from external domains, add them here:
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // Replace with your actual image CDN domain
+      },
+      // Example:
+      // {
+      //   protocol: 'https',
+      //   hostname: 'your-cdn-domain.com',
+      //   pathname: '/images/**',
+      // },
+    ],
+  },
+
+  // ✅ ENABLE SWC MINIFICATION (faster than Terser)
+  swcMinify: true,
+
+  // ✅ REMOVE CONSOLE LOGS IN PRODUCTION
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
+
+  // ✅ OPTIMIZE PRODUCTION BUILDS
+  productionBrowserSourceMaps: false, // Disable source maps in production
+  reactStrictMode: true,
+
+  experimental: {
+    optimizeCss: true, // Enable CSS optimization
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-icons',
+      // Add other icon libraries you use
+    ],
+  },
+
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Optimize client-side bundle
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // Vendor chunk
+            vendor: {
+              name: 'vendor',
+              chunks: 'all',
+              test: /node_modules/,
+              priority: 20,
+            },
+            // Common chunk
+            common: {
+              name: 'common',
+              minChunks: 2,
+              chunks: 'all',
+              priority: 10,
+              reuseExistingChunk: true,
+              enforce: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
+  },
+
+  compress: true,
+
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|gif|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
 };
 
-const withNextIntl = require("next-intl/plugin")(
-	// This is the default (also the `src` folder is supported out of the box)
-	"./i18n.js"
-);
+const withNextIntl = require("next-intl/plugin")("./i18n.js");
 
 module.exports = withNextIntl(nextConfig);
