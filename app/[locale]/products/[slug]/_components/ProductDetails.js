@@ -200,13 +200,13 @@ const ProductDetails = ({ product, settings, translations }) => {
                 <span className="">{product?.sku}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <h1 className="text-slate-700 font-semibold text-lg">
+                <h2 className="text-slate-700 font-semibold text-lg">
                   Barcode:
-                </h1>
+                </h2>
 
-                <h1 className="text-secondary text-lg font-mono break-all">
+                <h2 className="text-secondary text-lg font-mono break-all">
                   {barcode || "N/A"}
-                </h1>
+                </h2>
 
                 <button
                   title="Copy Barcode"

@@ -33,7 +33,7 @@ const Page = async () => {
               href={`/blogs`}
               className="text-base text-slate-600 hover:text-secondary"
             >
-              <h1>Blogs</h1>
+              <h2>Blogs</h2>
             </Link>
           </div>
         </div>

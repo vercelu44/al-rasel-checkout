@@ -31,46 +31,127 @@ import ViewHTML from "@/components/elements/ViewHTML";
 // import FacebookPixel from "@/components/utility/FacebookPixel";
 import { GoogleTagManager } from "@next/third-parties/google";
 
+// export const generateMetadata = async ({ params }) => {
+//   let settings = {};
+//   let appName = "E-commerce app";
+//   let favicon = "/favicon.ico";
+//   try {
+//     const settingsRes = await fetchData({
+//       api: `info/basic`,
+//       locale: params?.locale,
+//     });
+//     settings = settingsRes?.data || {};
+//     appName = settings?.name;
+//     favicon = settings?.favicon;
+//     // console.log(settings);
+//   } catch (error) {
+//     console.log(error);
+//     return {
+//       title: appName,
+//       applicationName: appName,
+//     };
+//   }
+
+//   return {
+//     title: {
+//       default: `${appName}`,
+//       template: `%s || ${appName}`,
+//     },
+//     description:
+//       settings?.seo?.meta_description ||
+//       `Discover Elegance, Shop with Confidence at ${appName}`,
+//     applicationName: appName,
+//     openGraph: {
+//       title: `${appName}`,
+//       description:
+//         settings?.seo?.meta_description ||
+//         `Discover Elegance, Shop with Confidence at ${appName}`,
+//       url: `/`,
+//       siteName: appName,
+//       // images: [product?.data?.image],
+//       type: "website",
+//     },
+//     icons: {
+//       icon: [
+//         {
+//           type: "image/x-icon",
+//           sizes: "64x73",
+//           url: favicon || `/favicon.ico`,
+//         },
+//       ],
+//       // apple: [],
+//     },
+//     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+//     alternates: {
+//       canonical: `/`,
+//     },
+//     verification: {
+//       google: settings.google_site_verification,
+//       other: {
+//         // me: ["my-email", "my-link"],
+//         "facebook-domain-verification": settings.fb_domain_verification,
+//         "google-adsense-account": settings.google_adsense_verification,
+//       },
+//     },
+//     // other: {
+//     // 	"custom_meta_name": "meta_content",
+
+//     // },
+//   };
+// };
+
 export const generateMetadata = async ({ params }) => {
   let settings = {};
-  let appName = "E-commerce app";
+  let appName = "";
   let favicon = "/favicon.ico";
+
   try {
     const settingsRes = await fetchData({
       api: `info/basic`,
       locale: params?.locale,
     });
+
     settings = settingsRes?.data || {};
-    appName = settings?.name;
+    appName = settings?.name?.trim();
     favicon = settings?.favicon;
-    // console.log(settings);
   } catch (error) {
     console.log(error);
-    return {
-      title: appName,
-      applicationName: appName,
-    };
   }
 
+  const fallbackSuffix = "Your Trusted Online Store for Best Deals & More";
+  const finalBaseName = appName && appName.length > 0 ? appName : fallbackSuffix;
+
+  const finalTitle =
+    settings?.seo?.meta_title
+      ? `${finalBaseName} - ${settings.seo.meta_title}`
+      : `${finalBaseName} - ${fallbackSuffix}`;
+
+  const fallbackDescription = 
+    `Shop quality products at great prices at ${finalBaseName}. ` +
+    `Discover trending items, fast delivery, secure checkout and an unmatched online shopping experience.`;
+
+  const finalDescription =
+    settings?.seo?.meta_description?.trim()?.length > 0
+      ? settings.seo.meta_description
+      : fallbackDescription;
   return {
     title: {
-      default: `${appName}`,
-      template: `%s || ${appName}`,
+      default: finalTitle,
+      template: `%s || ${finalTitle}`,
     },
-    description:
-      settings?.seo?.meta_description ||
-      `Discover Elegance, Shop with Confidence at ${appName}`,
-    applicationName: appName,
+
+    description: finalDescription,
+
+    applicationName: finalBaseName,
+
     openGraph: {
-      title: `${appName}`,
-      description:
-        settings?.seo?.meta_description ||
-        `Discover Elegance, Shop with Confidence at ${appName}`,
+      title: finalTitle,
+      description: finalDescription,
       url: `/`,
-      siteName: appName,
-      // images: [product?.data?.image],
+      siteName: finalBaseName,
       type: "website",
     },
+
     icons: {
       icon: [
         {
@@ -79,26 +160,24 @@ export const generateMetadata = async ({ params }) => {
           url: favicon || `/favicon.ico`,
         },
       ],
-      // apple: [],
     },
+
     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+
     alternates: {
       canonical: `/`,
     },
+
     verification: {
       google: settings.google_site_verification,
       other: {
-        // me: ["my-email", "my-link"],
         "facebook-domain-verification": settings.fb_domain_verification,
         "google-adsense-account": settings.google_adsense_verification,
       },
     },
-    // other: {
-    // 	"custom_meta_name": "meta_content",
-
-    // },
   };
 };
+
 
 const locales = ["en", "bn"];
 // export function generateStaticParams() {
