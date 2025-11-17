@@ -20,7 +20,6 @@
 
 // module.exports = withNextIntl(nextConfig);
 
-
 /** @type {import('next').NextConfig} */
 const dev = process.env.NODE_ENV !== "production";
 
@@ -30,33 +29,26 @@ const nextConfig = {
     amsPublickey: process.env.AMS_PUBLIC_KEY,
   },
   
-  // ✅ ENABLE IMAGE OPTIMIZATION
+  // ✅ ENABLE IMAGE OPTIMIZATION (CRITICAL FIX)
   images: {
-    // Remove unoptimized: true
-    formats: ['image/avif', 'image/webp'], // Modern formats
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Responsive sizes
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384], // Thumbnail sizes
-    minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 365,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     
-    // If you're loading images from external domains, add them here:
+    // If loading from external domains, add them:
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Replace with your actual image CDN domain
+        hostname: '**',
       },
-      // Example:
-      // {
-      //   protocol: 'https',
-      //   hostname: 'your-cdn-domain.com',
-      //   pathname: '/images/**',
-      // },
     ],
   },
 
-  // ✅ ENABLE SWC MINIFICATION (faster than Terser)
+  // ✅ ENABLE SWC MINIFICATION
   swcMinify: true,
 
   // ✅ REMOVE CONSOLE LOGS IN PRODUCTION
@@ -67,21 +59,17 @@ const nextConfig = {
   },
 
   // ✅ OPTIMIZE PRODUCTION BUILDS
-  productionBrowserSourceMaps: false, // Disable source maps in production
+  productionBrowserSourceMaps: false,
   reactStrictMode: true,
 
+  // ✅ EXPERIMENTAL - WITHOUT PROBLEMATIC OPTIONS
   experimental: {
-    optimizeCss: true, // Enable CSS optimization
-    optimizePackageImports: [
-      'lucide-react',
-      '@radix-ui/react-icons',
-      // Add other icon libraries you use
-    ],
+    optimizePackageImports: ['react-icons', 'swiper'],
   },
 
+  // ✅ WEBPACK OPTIMIZATION
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Optimize client-side bundle
       config.optimization = {
         ...config.optimization,
         splitChunks: {
@@ -89,14 +77,12 @@ const nextConfig = {
           cacheGroups: {
             default: false,
             vendors: false,
-            // Vendor chunk
             vendor: {
               name: 'vendor',
               chunks: 'all',
               test: /node_modules/,
               priority: 20,
             },
-            // Common chunk
             common: {
               name: 'common',
               minChunks: 2,
@@ -112,8 +98,10 @@ const nextConfig = {
     return config;
   },
 
+  // ✅ COMPRESSION
   compress: true,
 
+  // ✅ CACHE HEADERS
   async headers() {
     return [
       {
