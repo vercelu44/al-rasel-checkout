@@ -6,7 +6,7 @@ import noImage from "@/public/assets/images/no-image.png";
 const page = async () => {
 	const data = await fetchData({ api: "categories?no_child=1" });
 	const categories = data?.data || [];
-
+    console.log("Categories Data:", categories);
 	return (
 		<>
 

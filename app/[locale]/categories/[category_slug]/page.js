@@ -2,29 +2,30 @@ import Link from "next/link";
 import { fetchData } from "@/lib/fetch-data";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 
-export async function generateMetadata({ params, searchParams }) {
-	const slug = params.slug;
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "http://localhost:3001";
+// export async function generateMetadata({ params, searchParams }) {
+// 	const slug = params.slug;
+// 	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "http://localhost:3001";
   
-	// Get and normalize pagination
-	let pageParam = searchParams.page;
+// 	// Get and normalize pagination
+// 	let pageParam = searchParams.page;
   
-	// Canonical should always point to the base (no page param)
-	const canonicalUrl = `${baseUrl}/categories/${slug}`;
+// 	// Canonical should always point to the base (no page param)
+// 	const canonicalUrl = `${baseUrl}/categories/${slug}`;
   
-	const metadata = {
-	  title: `Category: ${slug} - Page ${pageParam || 1}`,
-	  description: `Browse page ${pageParam || 1} of ${slug} category.`,
-	  alternates: {
-		canonical: canonicalUrl,
-	  },
-	};
+// 	const metadata = {
+// 	  title: `Category: ${slug} - Page ${pageParam || 1}`,
+// 	  description: `Browse page ${pageParam || 1} of ${slug} category.`,
+// 	  alternates: {
+// 		canonical: canonicalUrl,
+// 	  },
+// 	};
 
-	return metadata;
-  }
+// 	return metadata;
+//   }
   
 
-const page = async ({ params, searchParams }) => {
+
+  const page = async ({ params, searchParams }) => {
 	const { category_slug } = params;
 	const [categoryResponse] = await Promise.allSettled([
 		fetchData({ api: `category/${category_slug}` }),

@@ -1,11 +1,31 @@
+import { fetchData } from "@/lib/fetch-data";
+
 export const generateMetadata = async ({ params }, parent) => {
-	const parentMetaData = await parent;
+	const { category_slug } = params;
+
+	const [categoryResponse] = await Promise.allSettled([
+		fetchData({ api: `category/${category_slug}` }),
+	]);
+
+	const category =
+		categoryResponse.status === "fulfilled"
+			? categoryResponse.value?.data || {}
+			: {};
+
+	const title =
+		category.meta_title ? category.meta_title : category.category_name;
+
+	const description =
+		category.meta_description
+			? category.meta_description
+			: category.description;
+
 	return {
-		title: `${params.category_slug} || ${parentMetaData.applicationName}`,
-		description: `All ${params.category_slug} products of ${parentMetaData.applicationName}`,
+		title,
+		description,
 		openGraph: {
-			title: `${params.category_slug} || ${parentMetaData.applicationName}`,
-			description: `All ${params.category_slug} products of ${parentMetaData.applicationName}`,
+			title,
+			description,
 			url: `/categories/${params.category_slug}`,
 		},
 		alternates: {
