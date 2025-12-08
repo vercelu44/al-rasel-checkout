@@ -23,6 +23,8 @@ export default function CategoriesMegaMenu({ settings, categories }) {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [categories]);
 
+  console.log("settings in mega menu", settings);
+
   return (
     <div
       className="hidden lg:block shadow-sm"
@@ -37,16 +39,18 @@ export default function CategoriesMegaMenu({ settings, categories }) {
           className="border-t border-white !opacity-10"
           style={{ borderColor: settings?.colors?.primary_text }}
         ></div>
+
         <div className="py-3 grid grid-cols-[1fr_124px]">
           <div
             className="w-full flex items-center gap-4 text-sm font-semibold !opacity-90 overflow-hidden line-clamp-1 whitespace-nowrap"
             ref={containerRef}
           >
+            {/* CATEGORY LIST */}
             {categories?.map((category, mainIndex) => (
               <Link
                 href={`/categories/${category.slug}?sort_type=new`}
                 key={mainIndex}
-				title={category.category_name}
+                title={category.category_name}
                 onMouseEnter={() => setSelectedCategory(category)}
                 className={`uppercase ${
                   category?.child_categories?.length
@@ -65,10 +69,26 @@ export default function CategoriesMegaMenu({ settings, categories }) {
                 ) : null}
               </Link>
             ))}
+            {/* HEADER PAGES (Your Requested Section) */}
+            {settings?.header_page?.map((extraPage, idx) => (
+              <Link
+                href={extraPage.path}
+                key={idx}
+                title={extraPage.name}
+                className={`uppercase`}
+                style={{ flexShrink: 0 }}
+              >
+                {extraPage.name}
+              </Link>
+            ))}
+
+            {/* Overflow Indicator */}
             {isOverflowing && (
               <span className="text-sm font-semibold !opacity-90">...</span>
             )}
           </div>
+
+          {/* RIGHT SIDE BUTTONS */}
           <div className="flex items-center gap-3">
             {isOverflowing && (
               <>
@@ -83,6 +103,8 @@ export default function CategoriesMegaMenu({ settings, categories }) {
             )}
           </div>
         </div>
+
+        {/* DROPDOWN MEGA MENU */}
         {selectedCategory?.child_categories?.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-4">
             {selectedCategory?.child_categories?.map((subCategory, index) => (
@@ -95,6 +117,7 @@ export default function CategoriesMegaMenu({ settings, categories }) {
                     {subCategory?.category_name}
                   </Link>
                 </div>
+
                 {subCategory.child_categories &&
                   subCategory.child_categories.length > 0 &&
                   subCategory.child_categories.map(

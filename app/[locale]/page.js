@@ -1,19 +1,22 @@
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import { fetchData } from "@/lib/fetch-data";
 import { Link } from "@/navigation";
 import SubscriptionForm from "@/components/footer/SubscriptionForm";
+import QualityStandard from "./_components/quality_standards";
 
 // Lazy load components that aren't immediately visible
 const Intro = dynamic(() => import("./_components/intro"), {
-  loading: () => <div className="h-[400px] bg-gray-100 animate-pulse" />
+  loading: () => <div className="h-[400px] bg-gray-100 animate-pulse" />,
 });
 
 const FlashSale = dynamic(() => import("./_components/FlashSale"));
 const NewArrival = dynamic(() => import("./_components/NewArrival"));
 const VideoBanner = dynamic(() => import("./_components/VideoBanner"));
 const CategoryBanners = dynamic(() => import("./_components/CategoryBanners"));
-const HomeCategoryProducts = dynamic(() => import("./_components/HomeCategoryProducts"));
+const HomeCategoryProducts = dynamic(() =>
+  import("./_components/HomeCategoryProducts")
+);
 const Featured = dynamic(() => import("./_components/Featured"));
 const BestSell = dynamic(() => import("./_components/best-sale"));
 const Popup = dynamic(() => import("./_components/Popup"), { ssr: false });
@@ -32,6 +35,8 @@ export default async function Home() {
     process.env.NEXT_PUBLIC_HEADER_COLOR ||
     settings?.colors?.primary ||
     "#000000";
+  // ENV-based condition
+  const showQualityStandard = process.env.IS_QUALITY_STANDARDS === "YES";
 
   return (
     <>
@@ -48,7 +53,9 @@ export default async function Home() {
       {settings?.category_section ? (
         <section className="banners pt-14">
           <div className="container">
-            <Suspense fallback={<div className="h-[200px] bg-gray-50 animate-pulse" />}>
+            <Suspense
+              fallback={<div className="h-[200px] bg-gray-50 animate-pulse" />}
+            >
               <CategoryBanners settings={settings} />
             </Suspense>
           </div>
@@ -94,7 +101,9 @@ export default async function Home() {
             </div>
 
             <div className="shadow-lg bg-white rounded-xl p-6">
-              <Suspense fallback={<div className="h-[400px] bg-white animate-pulse" />}>
+              <Suspense
+                fallback={<div className="h-[400px] bg-white animate-pulse" />}
+              >
                 <BestSell />
               </Suspense>
             </div>
@@ -183,6 +192,15 @@ export default async function Home() {
           </div>
         </section>
       ) : null}
+
+      <div>
+        {/* Show Quality Standard Conditionally */}
+        {showQualityStandard && (
+          <div>
+            <QualityStandard />
+          </div>
+        )}
+      </div>
 
       <Popup popup={settings?.popup} />
     </>
