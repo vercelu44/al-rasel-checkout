@@ -94,7 +94,9 @@ const useCart = () => {
       product.barcodes[0].size === "" &&
       product.barcodes[0].color === ""
     ) {
-      if (product.barcodes[0]?.stock_qty <= 0) {
+      // console.log(product.barcodes[0], " single barcode product");
+      // if (product.barcodes[0]?.stock_qty <= 0) {
+      if (product.barcodes[0]?.stock_qty <= 0 && settings?.allow_stock_out_product_add_to_cart === 0) {
         toast.error("Oops! no stock available");
         return false;
       }
@@ -105,6 +107,7 @@ const useCart = () => {
         addToCart({
           product: product,
           selectedBarCode: product.barcodes[0],
+          settings: settings,
         })
       );
       return true;
@@ -122,6 +125,7 @@ const useCart = () => {
       addToCart({
         product: product,
         selectedBarCode: selectedVariant,
+        settings: settings,
       })
     );
 
@@ -152,6 +156,7 @@ const useCart = () => {
       addToCart({
         product: cartItem,
         selectedBarCode: selectedVariant,
+        settings: settings,
       })
     );
   };

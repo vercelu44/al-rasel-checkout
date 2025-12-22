@@ -47,7 +47,7 @@ const cartSlice = createSlice({
 
 		//Adding new item to the cart
 		addToCart: (state, action) => {
-			const { product, selectedBarCode } = action.payload;
+			const { product, selectedBarCode, settings } = action.payload;
 			const index = state.cart
 				.map((item) => item.barcodeId)
 				.indexOf(selectedBarCode.id);
@@ -71,7 +71,7 @@ const cartSlice = createSlice({
 				//checking available stock
 				if (
 					existingProduct.quantity >=
-					existingProduct?.selectedBarCode?.stock_qty
+					existingProduct?.selectedBarCode?.stock_qty && settings?.allow_stock_out_product_add_to_cart === 0
 				) {
 					const { color, size } = existingProduct.selectedBarCode;
 					let message =
@@ -91,12 +91,12 @@ const cartSlice = createSlice({
 
 		// Increasing Item Quantity
 		addQuantity: (state, action) => {
-			const barcodeId = action.payload;
+			const { barcodeId, settings } = action.payload;
 			const index = state.cart.map((item) => item.barcodeId).indexOf(barcodeId);
 			const item = state.cart[index];
 
 			//checking available stock
-			if (item.quantity >= item?.selectedBarCode?.stock_qty) {
+			if (item.quantity >= item?.selectedBarCode?.stock_qty && settings?.allow_stock_out_product_add_to_cart === 0) {
 				toast.error("No more stock");
 				return;
 			}

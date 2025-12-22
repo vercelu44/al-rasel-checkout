@@ -38,7 +38,7 @@ const SizeChangeModal = () => {
 	};
 
 	const handleVariantSelect = (variantProp) => {
-		if (variantProp.stock_qty <= 0) {
+		if (variantProp.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0) {
 			setSelectedVariant(null); // clear selected variant when out of stock
 			toast.error("Oops! this variant isn't available");
 			return;
@@ -121,7 +121,7 @@ const SizeChangeModal = () => {
 											? "border-primary"
 											: "border-slate-300"
 									} cursor-pointer  ${
-										variant.stock_qty <= 0
+										variant.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0
 											? "bg-slate-300 text-slate-400 cursor-not-allowed"
 											: "text-slate-700"
 									}`}

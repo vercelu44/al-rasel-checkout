@@ -23,7 +23,7 @@ export default function CategoriesMegaMenu({ settings, categories }) {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [categories]);
 
-  console.log("settings in mega menu", settings);
+  // console.log("settings in mega menu", settings);
 
   return (
     <div

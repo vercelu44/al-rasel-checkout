@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "@/store/slices/cartSlice";
 import noImage from "@/public/assets/images/no-image.png";
 import { Link } from "@/navigation";
@@ -25,8 +25,10 @@ const CartCard = ({ item }) => {
 		// wholesale_price,
 		// minimum_wholesale_quantity,
 	} = item;
-
+	
+	const { settings } = useSelector((state) => state.common);
 	const dispatch = useDispatch();
+
 	return (
 		<div className="relative cart-card p-4 bg-white border-b border-slate-200 mb-3">
 			<button
@@ -126,7 +128,7 @@ const CartCard = ({ item }) => {
 					<div className="mx-1 font-bold">{quantity || 1}</div>
 					<button
 						className="bg-transparent border border-primary rounded w-7 h-7"
-						onClick={() => dispatch(cartActions.addQuantity(barcodeId))}
+						onClick={() => dispatch(cartActions.addQuantity({barcodeId , settings}))}
 					>
 						<FiPlus size={20} />
 					</button>

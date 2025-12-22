@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { forwardRef, useEffect, useState } from "react";
 import { groupByKey } from "@/utils/format-list";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const ProductVariantSelect = forwardRef(
   (
@@ -17,11 +18,12 @@ const ProductVariantSelect = forwardRef(
     },
     ref
   ) => {
+    const { settings } = useSelector((state) => state.common);
     const [colorsGroup, setColorsGroup] = useState({});
     const colors = Object.keys(colorsGroup);
 
     const handleVariantSelect = (variantProp) => {
-      if (variantProp.stock_qty <= 0) {
+      if (variantProp.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0) {
         setSelectedVariant(null);
         toast.error("Oops! this variant isn't available");
         return;
@@ -42,10 +44,13 @@ const ProductVariantSelect = forwardRef(
     const handleColorSelect = (colorProp) => {
       setSelectedColor(colorProp);
 
+      // auto select size if only one size available for the color
       if (colorsGroup[colorProp].length === 1) {
         let firstVariantOfColor = colorsGroup[colorProp][0];
         handleVariantSelect(firstVariantOfColor);
-      } else {
+      } 
+      // auto select size if only one size available for the color
+      else {
         const isSizeAvailable = colorsGroup[colorProp].find(
           (variant) =>
             variant.size === selectedVariant?.size && variant.stock_qty > 0
@@ -149,7 +154,7 @@ const ProductVariantSelect = forwardRef(
                         ? "border-2 border-primary"
                         : "border-slate-300"
                     } cursor-pointer ${
-                      variant.stock_qty <= 0
+                      variant.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0
                         ? "bg-slate-300 text-slate-400 cursor-not-allowed"
                         : "text-slate-700"
                     }`}
