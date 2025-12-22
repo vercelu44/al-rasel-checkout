@@ -285,7 +285,7 @@ const Checkout = () => {
       after_discount: totalWithDiscount,
       grand_total: grandTotal,
       paymentOption: selectedPaymentOption,
-      // note: "",
+      note: data?.note || "",
       fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
       fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
       incomplete_unique_id: incompleteId,

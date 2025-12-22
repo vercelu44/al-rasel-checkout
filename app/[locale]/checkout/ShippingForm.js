@@ -73,11 +73,23 @@ const ShippingForm = ({
                   },
                 })}
                 type="tel"
-                // disabled={!settings?.guest_ShippingForm}
+              // disabled={!settings?.guest_ShippingForm}
               />
 
               {errors.phone && (
                 <p className="errorMsg">{errors.phone.message}</p>
+              )}
+            </div>
+
+            <div className="form-control mb-6">
+              <FieldsetInput
+                label={translations["Note"] || "Note"}
+                name="note"
+                register={register("note")}
+              />
+
+              {errors.note && (
+                <p className="errorMsg">{errors.note.message}</p>
               )}
             </div>
           </>
