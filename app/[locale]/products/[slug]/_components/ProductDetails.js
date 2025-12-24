@@ -42,12 +42,9 @@ const ProductDetails = ({ product, settings, translations }) => {
   const productViewSwiperRef = useRef(null);
   const pathname = usePathname();
 
-
   // ------------------------FOR AUTHENTICATION ------------------------
-  const {user} = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
- 
-
 
   // Get first variant of selected color to display prices
   const firstVariantOfColor = getFirstVariantOfColor(
@@ -129,7 +126,6 @@ const ProductDetails = ({ product, settings, translations }) => {
     }
   }, [product, pathname, settings]);
 
-
   const [copied, setCopied] = useState(false);
 
   const barcode =
@@ -199,30 +195,33 @@ const ProductDetails = ({ product, settings, translations }) => {
                 <span className="text-slate-900">SKU:</span>
                 <span className="">{product?.sku}</span>
               </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <h2 className="text-slate-700 font-semibold text-lg">
-                  Barcode:
-                </h2>
+              {barcode ? (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <h2 className="text-slate-700 font-semibold text-lg">
+                    Barcode:
+                  </h2>
 
-                <h2 className="text-secondary text-lg font-mono break-all">
-                  {barcode || "N/A"}
-                </h2>
+                  <h2 title="Select a variant to see barcode" className="text-secondary text-lg font-mono break-all">
+                    {barcode || "N/A"}
+                  </h2>
 
-                <button
-                  title="Copy Barcode"
-                  onClick={handleCopy}
-                  className="flex items-center gap-1 text-sm border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition"
-                >
-                  {copied ? (
-                    "Copied!"
-                  ) : (
-                    <>
-                      <RxCopy className="text-base" />
-                      <span>Copy</span>
-                    </>
-                  )}
-                </button>
-              </div>
+                  <button
+                    title="Copy Barcode"
+                    onClick={handleCopy}
+                    className="flex items-center gap-1 text-sm border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition"
+                  >
+                    {copied ? (
+                      "Copied!"
+                    ) : (
+                      <>
+                        <RxCopy className="text-base" />
+                        <span>Copy</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              ) : null}
+
               {/* short description  */}
               <ViewHTML
                 htmlText={product?.product_short_description}

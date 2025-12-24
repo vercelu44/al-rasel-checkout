@@ -23,7 +23,10 @@ const ProductVariantSelect = forwardRef(
     const colors = Object.keys(colorsGroup);
 
     const handleVariantSelect = (variantProp) => {
-      if (variantProp.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0) {
+      if (
+        variantProp.stock_qty <= 0 &&
+        settings.allow_stock_out_product_add_to_cart === 0
+      ) {
         setSelectedVariant(null);
         toast.error("Oops! this variant isn't available");
         return;
@@ -48,7 +51,7 @@ const ProductVariantSelect = forwardRef(
       if (colorsGroup[colorProp].length === 1) {
         let firstVariantOfColor = colorsGroup[colorProp][0];
         handleVariantSelect(firstVariantOfColor);
-      } 
+      }
       // auto select size if only one size available for the color
       else {
         const isSizeAvailable = colorsGroup[colorProp].find(
@@ -131,38 +134,23 @@ const ProductVariantSelect = forwardRef(
               </h4>
             </div>
             <div className="flex gap-2 lg:gap-3 flex-wrap mt-2 lg:mt-3">
-              {colorsGroup[selectedColor]
-                ?.slice()
-                .sort((a, b) => {
-                  const aNum = parseFloat(a.size);
-                  const bNum = parseFloat(b.size);
-
-                  if (!isNaN(aNum) && !isNaN(bNum)) {
-                    return aNum - bNum;
-                  }
-
-                  return a.size.localeCompare(b.size, undefined, {
-                    numeric: true,
-                    sensitivity: "base",
-                  });
-                })
-                .map((variant) => (
-                  <div
-                    key={variant.id}
-                    className={`py-2 lg:py-3 px-4 rounded-lg border text-sm lg:text-base ${
-                      selectedVariant?.id === variant.id
-                        ? "border-2 border-primary"
-                        : "border-slate-300"
-                    } cursor-pointer ${
-                      variant.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0
-                        ? "bg-slate-300 text-slate-400 cursor-not-allowed"
-                        : "text-slate-700"
-                    }`}
-                    onClick={() => handleVariantSelect(variant)}
-                  >
-                    {variant.size}
-                  </div>
-                ))}
+              {colorsGroup[selectedColor]?.map((variant) => (
+                <div
+                  key={variant.id}
+                  className={`py-2 lg:py-3 px-4 rounded-lg border text-sm lg:text-base ${
+                    selectedVariant?.id === variant.id
+                      ? "border-2 border-primary"
+                      : "border-slate-300"
+                  } cursor-pointer  ${
+                    variant.stock_qty <= 0
+                      ? "bg-slate-300 text-slate-400 cursor-not-allowed"
+                      : "text-slate-700"
+                  }`}
+                  onClick={() => handleVariantSelect(variant)}
+                >
+                  {variant.size}
+                </div>
+              ))}
             </div>
           </div>
         ) : null}
