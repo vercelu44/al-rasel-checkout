@@ -142,7 +142,7 @@ const ProductVariantSelect = forwardRef(
                       ? "border-2 border-primary"
                       : "border-slate-300"
                   } cursor-pointer  ${
-                    variant.stock_qty <= 0
+                    variant.stock_qty <= 0 && settings.allow_stock_out_product_add_to_cart === 0
                       ? "bg-slate-300 text-slate-400 cursor-not-allowed"
                       : "text-slate-700"
                   }`}
