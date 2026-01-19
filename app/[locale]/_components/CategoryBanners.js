@@ -16,7 +16,7 @@ const CategoryBanners = async ({ settings }) => {
   if (!cBanners?.length) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 2xl:gap-8">
       {cBanners.map((banner, index) => (
         <div key={banner.id} className="group">
           <Link 
@@ -32,7 +32,7 @@ const CategoryBanners = async ({ settings }) => {
               loading="lazy"
               quality={80}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="w-full h-[500px] lg:h-[600px] 2xl:h-[700px] object-cover object-top transition-transform duration-300 ease-in-out group-hover:scale-105"
+              className="w-full h-[500px] lg:h-[600px] xl:h-[600px] 2xl:h-[500px] object-cover object-top transition-transform duration-300 ease-in-out group-hover:scale-105"
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjcwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjcwMCIgZmlsbD0iI2VlZWVlZSIvPjwvc3ZnPg=="
             />

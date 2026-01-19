@@ -22,7 +22,7 @@ const PageSize = () => {
 						<option value="100">100</option>
 					</select>
 				</div>
-				<p>per page</p>
+				<p className="whitespace-nowrap">per page</p>
 			</div>
 		</>
 	);

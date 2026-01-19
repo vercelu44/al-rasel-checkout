@@ -12,9 +12,9 @@ const page = ({ params, searchParams }) => {
 
 	return (
 		<>
-			<div className="breadcrumb breadcrumb-2 py-4 md:py-5">
+			<div className="breadcrumb breadcrumb-2 border-b mt-2.5 py-4 md:py-5 md:pb-3">
 				<div className="container">
-					<div>
+					<div className="flex">
 						<Link
 							href={`/`}
 							className="text-base text-slate-600 hover:text-secondary"
