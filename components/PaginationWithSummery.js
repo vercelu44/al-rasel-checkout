@@ -7,7 +7,7 @@ export default function PaginationWithSummery({
   paginateItems,
 }) {
   return (
-    <div className="border-t border-slate-900 py-6 flex flex-col gap-4 justify-center items-center">
+    <div className="border-t  py-6 flex flex-col gap-4 justify-center items-center">
       <p>
         Showing results {totalItemsShowing || 0} out of {meta?.total}
       </p>

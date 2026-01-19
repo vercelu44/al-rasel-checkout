@@ -62,7 +62,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
       {!loading ? (
         <>
           <div
-            className="relative product-card-wrap bg-white rounded shadow p-3 mb-4"
+            className="relative product-card-wrap bg-white rounded shadow p-3 "
           >
             <div className="product-img-action-wrap relative @container">
               {getDaysSinceCreation(created_at) < 8 && (
