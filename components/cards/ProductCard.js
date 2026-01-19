@@ -20,13 +20,15 @@ import useHover from "@/hooks/useHover";
 import useCart from "@/hooks/useCart";
 import { cn } from "@/utils";
 
-const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
+const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
   const { settings, translations } = useSelector((state) => state.common);
   const [loading, setLoading] = useState(true);
   const [hovered, setHovered] = useState(false);
+  
   const { isHovered: isHoveredElement1, bind: bindElement1 } = useHover();
   const { isHovered: isHoveredElement2, bind: bindElement2 } = useHover();
-  const { handleAddToCart, handleAddAndCheckout } = useCart(); //custom hook for reusing
+  //custom hook for reusing
+  const { handleAddToCart, handleAddAndCheckout } = useCart(); 
   const {
     handleAddToWishlist,
     handleWishListProductStatus,
@@ -61,7 +63,6 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
         <>
           <div
             className="relative product-card-wrap bg-white rounded shadow p-3 mb-4"
-            // style={{ border: `1px solid ${settings?.colors?.primary}` }}
           >
             <div className="product-img-action-wrap relative @container">
               {getDaysSinceCreation(created_at) < 8 && (
@@ -96,10 +97,8 @@ const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
               ) : null}
               <div
                 className={cn(
-                  `product-img overflow-hidden`,
-                  isSquareImage
-                    ? "h-[141.5px] @[160px]:h-[161px] @[200px]:h-[207px] @[220px]:h-[242px] @[250px]:h-[260px] @[260px]:h-[271px]  @[300px]:h-[95vw]"
-                    : "h-[200px] @[200px]:h-[270px] @[250px]:h-[340px] "
+                  `product-img overflow-hidden `,
+                  isSquareImage ? 'aspect-[4/4]' : 'aspect-[4/5]'
                 )}
               >
                 <Link href="/products/[slug]" as={`/products/${slug}`}>

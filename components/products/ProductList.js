@@ -34,6 +34,7 @@ export default function ProductList({ products, isFlashSale, customSearchParams,
               product={product}
               isFlashSale={isFlashSale}
               isSquareImage={siteConfig.isSquareImage}
+              
             />
           </div>
         ))}

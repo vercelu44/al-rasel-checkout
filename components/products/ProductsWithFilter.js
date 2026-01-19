@@ -1,6 +1,5 @@
 import React from "react";
 import SortSelect from "@/components/elements/SortSelect";
-import ProductList from "./ProductList";
 import { fetchData } from "@/lib/fetch-data";
 import PaginationWithSummery from "../PaginationWithSummery";
 import NoProducts from "./NoProducts";
@@ -9,14 +8,20 @@ import ProductFilters from "./ProductFilters";
 import FilterPanel from "../side-drawers/FilterPanel";
 import PageSize from "../elements/PageSize";
 import ColumnIcons from "./ColumnIcon";
+import LoadMore from "../utility/LoadMore";
+import ProductList from "./ProductList";
 
-const ProductsWithFilter = async ({ customSearchParams = {}, category }) => {
+const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
 	const params = new URLSearchParams(customSearchParams);
+	const apiUrl = `products?per_page=30&${params.toString()}`;
 	const productResponse = await fetchData({
-		api: `products?per_page=30&${params.toString()}`,
+		api: apiUrl,
 	});
 	const products = productResponse?.data || [];
 	const meta = productResponse?.meta || {};
+	const totalProducts = meta.total;
+	// console.log({totalProduct: productResponse});
+	
 
 	return (
 		<>
@@ -37,20 +42,39 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category }) => {
 					</div>
 				</div>
 				
-				<div className="lg:flex gap-4">
+				<div className="lg:flex gap-4 ">
 					<div className="hidden md:block">
 						<ProductFilters category={category} /> 
 					</div>
-					{products?.length ? (
-						<ProductList products={products} customSearchParams={customSearchParams} />
+					<div className=" w-full">
+					{totalProducts > 0 ? (
+						<React.Fragment>
+							
+							{
+								process.env.NEXT_PUBLIC_INFINITY_SCROLL !== 'YES' ? <>
+								 <ProductList products={products} translations={translations} customSearchParams={customSearchParams} />
+								<PaginationWithSummery
+									meta={meta}
+									totalItemsShowing={products?.length}
+								/>
+								</> : <LoadMore  
+										products={products}
+										translations={translations}
+										meta={meta}
+										endpoint={`${params.toString()}`}
+										customSearchParams={customSearchParams}
+									/>
+							}
+							
+							
+						</React.Fragment>
 					) : (
 						<NoProducts />
 					)}
+
+					</div>
 				</div>
-				<PaginationWithSummery
-					meta={meta}
-					totalItemsShowing={products?.length}
-				/>
+				
 			</div>
 			<FilterPanel category={category} />
 		</>

@@ -11,6 +11,7 @@ const nextConfig = {
 	images: {
 		unoptimized: true,
 	},
+	experimental: { serverActions: true },
 };
 
 const withNextIntl = require("next-intl/plugin")(
