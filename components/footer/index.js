@@ -8,22 +8,12 @@ import MessagingButton from "./MessagingButton";
 import {
   FaEnvelope,
   FaMapMarkerAlt,
-  FaPinterest,
-  FaTiktok,
-  FaWhatsapp,
 } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import Image from "next/image";
 import AppleAppDownload from "../elements/svg/AppleAppDownload";
 import AndroidAppDownload from "../elements/svg/AndroidAppDownload";
 import sslImage from "@/public/assets/images/ssl.png";
-import {
-  FiFacebook,
-  FiInstagram,
-  FiLinkedin,
-  FiTwitter,
-  FiYoutube,
-} from "react-icons/fi";
 
 const Footer = async () => {
   const translationData = await fetchData({ api: "translations" });
@@ -45,13 +35,21 @@ const Footer = async () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between gap-5 lg:gap-12 mt-8">
           <div className="footer-business-info">
             <Link href="/" className="logo inline-block mb-3">
-              <Image
-                src={settings?.footer_logo}
-                alt={settings?.name}
-                width={200}
-                height={48}
-                className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
-              />
+             
+                {settings?.footer_logo ? (
+                  <Image
+                  src={settings?.footer_logo}
+                  alt={settings?.name}
+                  width={200}
+                  height={48}
+                  className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
+                />
+                ) : (
+                    <span className="text-3xl font-bold inline-block">
+                      {settings?.name}
+                    </span>
+                  )}
+
             </Link>
             <ul className="info-list pr-4 space-y-2 text-sm font-light">
               {settings?.addresses?.map((addr, index) => (
