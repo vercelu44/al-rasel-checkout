@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { fetchData } from "@/lib/fetch-data";
-// import ProductSlider from "@/components/ProductSlider";
 import ProductList from "@/components/products/ProductList";
-// import { useSelector } from "react-redux";
+import { cn } from "@/utils";
 
 const HomeCategoryProducts = async () => {
-	const [transRes] = await Promise.allSettled([
+	const [transRes,settingsRes] = await Promise.allSettled([
 		fetchData({ api: "translations" }),
+		fetchData({ api: `info/basic` }),
 	]);
 	const translations =
 		transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
@@ -15,6 +15,9 @@ const HomeCategoryProducts = async () => {
 	});
 	const categoryWiseProducts = data?.data || [];
 
+	const settings =
+		settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
+
 	return categoryWiseProducts?.length
 		? categoryWiseProducts.map(({ category, products }, index) => (
 				<div key={index} className="container">
@@ -22,15 +25,20 @@ const HomeCategoryProducts = async () => {
 						<h2 className="sec-title pb-3">{category?.category_name}</h2>
 						<Link
 							href={`/categories/${category?.slug}?sort_type=new`}
-							className="text-lg hover:text-secondary"
+							className={cn("text-lg  capitalize", 
+								"hover:text-[var(--primary-hover)]"
+							)}
+							style={{
+								"--primary-hover": settings?.colors?.primary,
+							}}
 						>
 							{translations["see-all"] || "See All"}{" "}
-						</Link>
+						</Link> 
 					</div>
 					{/* <div className="">
             <ProductSlider products={products} sliderId={index} />
           </div> */}
-					<ProductList products={products?.slice(0, 5)} fixedItems={true} />
+					<ProductList products={products?.slice(0, 5)} fixedItems={3} />
 				</div>
 		  ))
 		: null;

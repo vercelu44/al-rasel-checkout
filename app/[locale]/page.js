@@ -82,8 +82,7 @@ export default async function Home() {
         <section className="new-products bg-gray-50 py-14">
           <div className="container">
             <div className="text-center mb-10">
-              <Link href="/products?sort_type=best_selling">
-                <h2 className="text-4xl md:text-5xl font-normal mb-4">
+                <h2 className="text-4xl md:text-5xl font-normal mb-2">
                   <span
                     className="inline-block font-poppins"
                     style={{ color: headerColor }}
@@ -94,13 +93,15 @@ export default async function Home() {
                     {translations["Selling"] || "Selling"}
                   </span>
                 </h2>
-                <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto capitalize italic">
-                  {translations["see-all-products"] || "See All Products"}
-                </p>
+              <Link 
+                href="/products?sort_type=best_selling"
+                className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
+              >
+                {translations["see-all-products"] || "See All Products"}
               </Link>
             </div>
 
-            <div className="shadow-lg bg-white rounded-xl p-6">
+            <div className="sm:shadow-lg sm:bg-white rounded-xl sm:p-6">
               <Suspense
                 fallback={<div className="h-[400px] bg-white animate-pulse" />}
               >
@@ -115,7 +116,6 @@ export default async function Home() {
         <section className="new-products">
           <div className="container">
             <div className="py-10 text-center">
-              <Link href="/products?sort_type=new">
                 <h2 className="pb-3 font-poppins text-4xl md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
@@ -127,9 +127,10 @@ export default async function Home() {
                     {translations["Collection"] || "Collection"}
                   </span>
                 </h2>
-                <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto capitalize italic">
-                  {translations["see-all-products"] || "See All Products"}
-                </p>
+              <Link 
+              href="/products?sort_type=new"  
+              className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80">
+               {translations["see-all-products"] || "See All Products"}
               </Link>
             </div>
 
@@ -146,7 +147,6 @@ export default async function Home() {
         <section className="new-products">
           <div className="container">
             <div className="py-10 text-center">
-              <Link href="/featured-products?sort_type=new">
                 <h2 className="pb-3 font-poppins text-4xl md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
@@ -158,9 +158,11 @@ export default async function Home() {
                     {translations["Products"] || "Products"}
                   </span>
                 </h2>
-                <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto capitalize italic">
-                  {translations["see-all-products"] || "See All Products"}
-                </p>
+              <Link 
+                href="/featured-products?sort_type=new"
+                className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
+              >
+                {translations["see-all-products"] || "See All Products"}
               </Link>
             </div>
 
