@@ -112,6 +112,7 @@ export default async function Home() {
                     <Link 
                       href="/products?sort_type=best_selling"
                       className="inline-block border rounded px-4 py-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
+                      style={{borderColor: headerColor}}
                     >
                       {translations["see-all-products"] || "See All Products"}
                     </Link>
@@ -145,7 +146,9 @@ export default async function Home() {
             <div className="flex justify-center">
               <Link 
                 href="/products?sort_type=new"  
-                className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80">
+                className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80" 
+                 style={{borderColor: headerColor}}
+                 >
                 {translations["see-all-products"] || "See All Products"}
               </Link>
             </div>
@@ -178,6 +181,7 @@ export default async function Home() {
                <Link 
                 href="/featured-products?sort_type=stock_high_low"
                 className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
+                 style={{borderColor: headerColor}}
               >
                 {translations["see-all-products"] || "See All Products"}
               </Link>
@@ -188,7 +192,7 @@ export default async function Home() {
 
       <section className="home-category-products mb-10">
         <Suspense fallback={<div className="h-[300px] bg-gray-50" />}>
-          <HomeCategoryProducts />
+          <HomeCategoryProducts  />
         </Suspense>
       </section>
 

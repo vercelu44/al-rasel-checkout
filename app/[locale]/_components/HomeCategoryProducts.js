@@ -4,8 +4,9 @@ import ProductList from "@/components/products/ProductList";
 import { cn } from "@/utils";
 
 const HomeCategoryProducts = async () => {
-	const [transRes] = await Promise.allSettled([
+	const [transRes,settingsRes] = await Promise.allSettled([
 		fetchData({ api: "translations" }),
+		fetchData({ api: "info/basic" }),
 	]);
 	const translations =
 		transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
@@ -13,6 +14,16 @@ const HomeCategoryProducts = async () => {
 		api: "homepage-category?no_child=1",
 	});
 	const categoryWiseProducts = data?.data || [];
+
+
+	  const settings =
+    settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
+
+	 const headerColor =
+    process.env.NEXT_PUBLIC_HEADER_COLOR ||
+    settings?.colors?.primary ||
+    "#000000";
+
 
 
 	return categoryWiseProducts?.length
@@ -30,7 +41,10 @@ const HomeCategoryProducts = async () => {
 					<div className="flex justify-center">
 						 <Link 
 								href={`/categories/${category?.slug}?sort_type=stock_high_low`}
-								className={cn("inline-block border rounded capitalize px-6 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80")}>
+								className={cn("inline-block border rounded capitalize px-6 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80")}
+								
+								style={{borderColor: headerColor}}
+								>
 								{translations["see-all"] || "See All"}
 							</Link>
 					</div>
