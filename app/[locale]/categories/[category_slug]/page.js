@@ -49,7 +49,7 @@ import ProductsWithFilter from "@/components/products/ProductsWithFilter";
 	return (
 		<>
 		<h1 className="sr-only">Detail category</h1>
-			<div className="breadcrumb breadcrumb-2 py-5">
+			<div className="breadcrumb breadcrumb-2 py-5 pb-4 border-b mt-2.5">
 				<div className="container">
 					<div className="flex">
 						<Link

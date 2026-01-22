@@ -189,7 +189,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                   }}
                 >
                   {translations["buy-now"] || "Buy Now"}{" "}
-                  <HiArrowLongRight className="hidden @[150px]:inline-block" size={20} />
+                  <HiArrowLongRight className="hidden @[200px]:inline-block" size={20} />
                 </button>
               </div>
               {isFlashSale && (

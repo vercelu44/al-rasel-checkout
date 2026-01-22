@@ -1,15 +1,11 @@
 import { fetchData } from "@/lib/fetch-data";
-// import ProductSlider from "@/components/ProductSlider";
 import ProductList from "@/components/products/ProductList";
 
 const Featured = async () => {
-  const forMaroon = process.env.NEXT_PUBLIC_DUAL_ROW_PRODUCT;
-  const perPage = forMaroon === 'YES' ? '10' : '5'
-  const data = await fetchData({ api: `featured-product?per_page=${perPage}` });
+  const data = await fetchData({ api: `featured-product?per_page=10` });
   const products = data?.data || [];
-  const showProduct = forMaroon === "YES" ? 7  : 3
 
-  return <ProductList products={products} fixedItems={showProduct} />;
+  return <ProductList products={products} fixedItems={7} />;
 };
 
 export default Featured;

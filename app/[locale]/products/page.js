@@ -1,14 +1,7 @@
 import Link from "next/link";
 import ProductsWithFilter from "@/components/products/ProductsWithFilter";
-// import { fetchData } from "@/utils/fetchData";
 
-const page = ({ params, searchParams }) => {
-	// const [settingsRes] = await Promise.allSettled([
-	//   fetchData({ api: `info/basic` }),
-	// ]);
-
-	// const settings =
-	//   settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
+const page = ({ searchParams }) => {
 
 	return (
 		<>

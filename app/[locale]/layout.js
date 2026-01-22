@@ -220,11 +220,7 @@ export default async function RootLayout({ children, params }) {
           <div className="flex flex-col min-h-screen">
             <Header />
             <main
-              className={`flex-grow ${
-                settings?.offer_massage
-                  ? "pt-[89px] md:pt-[157px]"
-                  : "pt-[57px] md:pt-[113px]"
-              } `}
+              className={`flex-grow pt-[57px] md:pt-[113px]`}
             >
               <CheckConnection>{children}</CheckConnection>
             </main>

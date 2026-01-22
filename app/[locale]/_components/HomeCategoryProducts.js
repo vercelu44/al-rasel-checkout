@@ -4,9 +4,8 @@ import ProductList from "@/components/products/ProductList";
 import { cn } from "@/utils";
 
 const HomeCategoryProducts = async () => {
-	const [transRes,settingsRes] = await Promise.allSettled([
+	const [transRes] = await Promise.allSettled([
 		fetchData({ api: "translations" }),
-		fetchData({ api: `info/basic` }),
 	]);
 	const translations =
 		transRes.status === "fulfilled" ? transRes.value?.data || {} : {};
@@ -15,32 +14,29 @@ const HomeCategoryProducts = async () => {
 	});
 	const categoryWiseProducts = data?.data || [];
 
-	const settings =
-		settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
 
 	return categoryWiseProducts?.length
-		? categoryWiseProducts.map(({ category, products }, index) => (
-				<div key={index} className="container">
-					<div className="py-10 flex items-center justify-between">
-						<h2 className="sec-title pb-3">{category?.category_name}</h2>
-						<Link
-							href={`/categories/${category?.slug}?sort_type=new`}
-							className={cn("text-lg  capitalize", 
-								"hover:text-[var(--primary-hover)]"
-							)}
-							style={{
-								"--primary-hover": settings?.colors?.primary,
-							}}
-						>
-							{translations["see-all"] || "See All"}{" "}
-						</Link> 
+		? categoryWiseProducts.map(({ category, products }, index) => {
+			
+			return (
+				<div key={index} className="container py-3">
+					<div className="py-10 pb-6 flex items-center justify-center">
+						<h3 className="font-poppins text-4xl md:text-5xl font-normal">
+							{category?.category_name}
+						</h3>
 					</div>
-					{/* <div className="">
-            <ProductSlider products={products} sliderId={index} />
-          </div> */}
-					<ProductList products={products?.slice(0, 5)} fixedItems={3} />
+					
+					<ProductList products={products} fixedItems={9} />
+					<div className="flex justify-center">
+						 <Link 
+								href={`/categories/${category?.slug}?sort_type=stock_high_low`}
+								className={cn("inline-block border rounded capitalize px-6 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80")}>
+								{translations["see-all"] || "See All"}
+							</Link>
+					</div>
 				</div>
-		  ))
+		  )
+		})
 		: null;
 };
 

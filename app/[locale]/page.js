@@ -4,6 +4,7 @@ import { fetchData } from "@/lib/fetch-data";
 import { Link } from "@/navigation";
 import SubscriptionForm from "@/components/footer/SubscriptionForm";
 import QualityStandard from "./_components/quality_standards";
+import TopBar from "@/components/navigation/header/TopBar";
 
 // Lazy load components that aren't immediately visible
 const Intro = dynamic(() => import("./_components/intro"), {
@@ -49,9 +50,12 @@ export default async function Home() {
         </section>
       ) : null}
 
+
+      {settings?.offer_massage && <TopBar settings={settings} />}
+
       {/* Lazy load category banners */}
       {settings?.category_section ? (
-        <section className="banners pt-14">
+        <section className="banners pt-6 lg:pt-10">
           <div className="container">
             <Suspense
               fallback={<div className="h-[200px] bg-gray-50 animate-pulse" />}
@@ -81,7 +85,7 @@ export default async function Home() {
       {settings?.best_selling_section ? (
         <section className="new-products bg-gray-50 py-14">
           <div className="container">
-            <div className="text-center mb-10">
+            <div className="text-center mb-8">
                 <h2 className="text-4xl md:text-5xl font-normal mb-2">
                   <span
                     className="inline-block font-poppins"
@@ -93,21 +97,26 @@ export default async function Home() {
                     {translations["Selling"] || "Selling"}
                   </span>
                 </h2>
-              <Link 
-                href="/products?sort_type=best_selling"
-                className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
-              >
-                {translations["see-all-products"] || "See All Products"}
-              </Link>
+              
             </div>
 
-            <div className="sm:shadow-lg sm:bg-white rounded-xl sm:p-6">
+            <div className="sm:shadow-lg sm:bg-white rounded-xl sm:p-6 sm:pb-1">
               <Suspense
                 fallback={<div className="h-[400px] bg-white animate-pulse" />}
               >
                 <BestSell />
               </Suspense>
             </div>
+
+             <div className="flex justify-center pt-10 ">
+                    <Link 
+                      href="/products?sort_type=best_selling"
+                      className="inline-block border rounded px-4 py-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
+                    >
+                      {translations["see-all-products"] || "See All Products"}
+                    </Link>
+
+              </div>
           </div>
         </section>
       ) : null}
@@ -115,8 +124,8 @@ export default async function Home() {
       {settings?.shop_section ? (
         <section className="new-products">
           <div className="container">
-            <div className="py-10 text-center">
-                <h2 className="pb-3 font-poppins text-4xl md:text-5xl font-normal">
+            <div className="py-10 pb-6 text-center">
+                <h2 className=" font-poppins text-4xl md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
                     style={{ color: headerColor }}
@@ -127,27 +136,28 @@ export default async function Home() {
                     {translations["Collection"] || "Collection"}
                   </span>
                 </h2>
-              <Link 
-              href="/products?sort_type=new"  
-              className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80">
-               {translations["see-all-products"] || "See All Products"}
-              </Link>
             </div>
+           
+            <Suspense fallback={<div className="h-[400px] bg-gray-50" />}>
+              <NewArrival />
+            </Suspense>
 
-            <div>
-              <Suspense fallback={<div className="h-[400px] bg-gray-50" />}>
-                <NewArrival />
-              </Suspense>
+            <div className="flex justify-center">
+              <Link 
+                href="/products?sort_type=new"  
+                className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80">
+                {translations["see-all-products"] || "See All Products"}
+              </Link>
             </div>
           </div>
         </section>
       ) : null}
 
       {settings?.featured_products_section ? (
-        <section className="new-products">
+        <section className="new-products mt-4">
           <div className="container">
-            <div className="py-10 text-center">
-                <h2 className="pb-3 font-poppins text-4xl md:text-5xl font-normal">
+            <div className="py-10 pb-6 text-center">
+                <h2 className=" font-poppins text-4xl md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
                     style={{ color: headerColor }}
@@ -158,18 +168,19 @@ export default async function Home() {
                     {translations["Products"] || "Products"}
                   </span>
                 </h2>
-              <Link 
-                href="/featured-products?sort_type=new"
+            </div>
+
+              <Suspense fallback={<div className="h-[400px] bg-gray-50" />}>
+                <Featured />
+              </Suspense>
+
+            <div className="flex justify-center">
+               <Link 
+                href="/featured-products?sort_type=stock_high_low"
                 className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
               >
                 {translations["see-all-products"] || "See All Products"}
               </Link>
-            </div>
-
-            <div>
-              <Suspense fallback={<div className="h-[400px] bg-gray-50" />}>
-                <Featured />
-              </Suspense>
             </div>
           </div>
         </section>

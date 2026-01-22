@@ -16,7 +16,7 @@ const CategoryBanners = async ({ settings }) => {
   if (!cBanners?.length) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2  2xl:grid-cols-4 gap-4 2xl:gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-2  2xl:grid-cols-4 gap-4 2xl:gap-8">
       {cBanners.map((banner, index) => (
         <div key={banner.id} className="group">
           <Link 
@@ -37,15 +37,15 @@ const CategoryBanners = async ({ settings }) => {
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjcwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjcwMCIgZmlsbD0iI2VlZWVlZSIvPjwvc3ZnPg=="
             />
           </Link>
-          <div className="content w-full text-center p-5">
+          <div className="content w-full text-center pt-3 py-5 sm:p-5">
             <Link href={banner.url || "#"}>
-              <h2 className="mb-4 text-sm font-thin font-serif hover:opacity-70 transition-opacity">
+              <h2 className="mb-2 sm:mb-4 text-sm font-thin font-serif hover:opacity-70 transition-opacity">
                 {banner.title}
               </h2>
             </Link>
             <Link
               href={banner.url || "#"}
-              className="inline-block border rounded px-4 py-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
+              className="inline-block border rounded px-2 py-1 text-xs sm:text-base sm:px-4  sm:py-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
               style={{
                 borderColor: settings?.colors?.default_text,
                 color: settings?.colors?.default_text,

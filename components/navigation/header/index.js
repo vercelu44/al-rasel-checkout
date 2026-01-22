@@ -1,9 +1,7 @@
 // import CategoriesNav from "./CategoriesNav";
 import CategoriesMegaMenu from "./CategoriesMegaMenu";
-import TopBar from "./TopBar";
 import MainNav from "./main-nav";
 import { fetchData } from "@/lib/fetch-data";
-// import OfferSliderNav from "./offer-slider-nav";
 
 const Header = async () => {
 	const [settingsRes, categoriesRes] = await Promise.allSettled([
@@ -18,7 +16,7 @@ const Header = async () => {
 	return (
 		<>
 			<header className="header fixed z-30 w-full">
-				{settings?.offer_massage && <TopBar settings={settings} />}
+				
 				<MainNav settings={settings} categories={categories} />
 				<CategoriesMegaMenu settings={settings} categories={categories} />
 				{/* <CategoriesNav categories={categories} settings={settings} /> */}

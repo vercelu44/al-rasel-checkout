@@ -69,11 +69,18 @@ module.exports = {
 						transform: 'translateY(0)',
 						opacity: '1'
 					},
-				}
+				},
+				marquee: {
+					'0%': { transform: 'translateX(-50%)' },
+					'100%': { transform: 'translateX(0)' },
+  			},
 			},
 			animation: {
 				countup: 'countup 0.3s ease-out',
+				marquee: 'marquee 40s linear infinite',
 			}
+
+     
 		},
 	},
 	plugins: [

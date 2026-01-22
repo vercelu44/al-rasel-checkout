@@ -1,43 +1,32 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export default function TopBar({ settings }) {
-	const [isTopBarHidden, setIsTopBarHidden] = useState(false);
+  const items = settings?.offer_massage
+    ?.split(/\s{3,}/)
+    .map((item) => item.trim())
+    .filter(Boolean);
 
-	useEffect(() => {
-		const handleScroll = () => {
-			if (window.scrollY > 50) {
-				// Adjust the value based on when you want to hide the top bar
-				setIsTopBarHidden(true);
-			} else {
-				setIsTopBarHidden(false);
-			}
-		};
+  if (!items?.length) return null;
 
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
-	}, []);
-
-	return (
-		<div
-			// className={`transition-transform duration-300 ${
-			// 	isTopBarHidden ? "-translate-y-full" : "translate-y-0"
-			// } py-1.5 text-center bg-[#2B2D42] w-full`}
-			className={`${
-				isTopBarHidden ? "hidden" : "block"
-			} py-1.5 text-center bg-[#2B2D42] w-full`}
-			style={{
-				background: settings?.colors?.tertiary,
-			}}
-		>
-			<h3
-				className="text-white text-sm font-normal tracking-widest"
-				style={{ color: settings?.colors?.tertiary_text }}
-			>
-				{settings?.offer_massage}
-			</h3>
-		</div>
-	);
+  return (
+    <div
+      className="w-full overflow-hidden py-1.5"
+      style={{ background: settings?.colors?.tertiary }}
+    >
+      <div className="relative flex overflow-hidden">
+        <div className="flex shrink-0 py-2 animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+          {[...items, ...items].map((item, index) => (
+            <span
+              key={index}
+              className="flex items-center pr-7 text-lg font-semibold text-white"
+            >
+              <span className="w-1.5 h-1.5 bg-white rounded-full mr-7" />
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
