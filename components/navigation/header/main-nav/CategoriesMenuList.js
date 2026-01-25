@@ -4,12 +4,28 @@ import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { LuMinus } from "react-icons/lu";
 
-const CategoriesMenuList = ({ setShow, categories }) => {
+const CategoriesMenuList = ({ setShow, categories,settings }) => {
 	const [selectedCategory, setSelectedCategory] = React.useState(null);
 	const [selectedSubCategory, setSelectedSubCategory] = React.useState(null);
 
 	return (
 		<div className={`!h-full relative`}>
+			{/* Extra pages */}
+				{settings?.header_page?.map((extraPage, idx) => (
+					<div key={idx} className="flex items-center justify-between px-3 !w-full py-2 shadow text-md">
+						<Link
+							onClick={() => setShow(false)}
+							href={extraPage.path}
+							key={idx}
+							title={extraPage.name}
+							className={`uppercase`}
+							style={{ flexShrink: 0 }}
+							>
+							{extraPage.name}
+						</Link>
+					</div>
+				))}
+				
 			{categories.map((category) => (
 				<div className={`!w-full sub-menu`} key={category.id}>
 					<div className="flex items-center justify-between px-3 !w-full py-2 shadow text-md">

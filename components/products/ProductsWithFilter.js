@@ -1,13 +1,12 @@
 import React from "react";
 import SortSelect from "@/components/elements/SortSelect";
 import { fetchData } from "@/lib/fetch-data";
-import NoProducts from "./NoProducts";
 import FilterMenu from "../elements/FilterMenu";
 import ProductFilters from "./ProductFilters";
 import FilterPanel from "../side-drawers/FilterPanel";
 import PageSize from "../elements/PageSize";
 import ColumnIcons from "./ColumnIcon";
-import LoadMore from "../utility/LoadMore";
+import ProductsComponent from "./ProductsComponent";
 
 const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
 	const params = new URLSearchParams(customSearchParams);
@@ -47,18 +46,7 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 						<ProductFilters category={category} /> 
 					</div>
 					<div className=" w-full">
-					{totalProducts > 0 ? (
-					 	<LoadMore  
-								products={products}
-								translations={translations}
-								meta={meta}
-								endpoint={`${params.toString()}`}
-								customSearchParams={customSearchParams}
-							/>
-					) : (
-						<NoProducts />
-					)}
-
+						<ProductsComponent key={params} products={products} params={params} translations={translations} meta={meta} customSearchParams={customSearchParams} totalProducts={totalProducts} />
 					</div>
 				</div>
 				

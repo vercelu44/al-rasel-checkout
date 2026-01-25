@@ -85,8 +85,8 @@ export default async function Home() {
       {settings?.best_selling_section ? (
         <section className="new-products bg-gray-50 py-14">
           <div className="container">
-            <div className="text-center mb-8">
-                <h2 className="text-4xl md:text-5xl font-normal mb-2">
+            <div className="text-center mb-6">
+                <h2 className="text-4xl text-center md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
                     style={{ color: headerColor }}
@@ -126,7 +126,7 @@ export default async function Home() {
         <section className="new-products">
           <div className="container">
             <div className="py-10 pb-6 text-center">
-                <h2 className=" font-poppins text-4xl md:text-5xl font-normal">
+                <h2 className=" font-poppins text-center text-4xl md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
                     style={{ color: headerColor }}
@@ -160,7 +160,7 @@ export default async function Home() {
         <section className="new-products mt-4">
           <div className="container">
             <div className="py-10 pb-6 text-center">
-                <h2 className=" font-poppins text-4xl md:text-5xl font-normal">
+                <h2 className=" font-poppins text-center text-4xl md:text-5xl font-normal">
                   <span
                     className="inline-block font-poppins"
                     style={{ color: headerColor }}

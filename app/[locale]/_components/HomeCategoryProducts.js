@@ -32,7 +32,7 @@ const HomeCategoryProducts = async () => {
 			return (
 				<div key={index} className="container py-3">
 					<div className="py-10 pb-6 flex items-center justify-center">
-						<h3 className="font-poppins text-4xl md:text-5xl font-normal">
+						<h3 className="font-poppins text-center text-4xl md:text-5xl font-normal">
 							{category?.category_name}
 						</h3>
 					</div>

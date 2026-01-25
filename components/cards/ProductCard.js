@@ -138,7 +138,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                       {siteConfig.currency.shortForm}
                       {old_price}
                     </del>
-                    <span className="absolute md:static bottom-28 left-2 z-20 discount-badge rounded text-white bg-red-500 px-1 ml-1 !text-[12px]">
+                    <span className="absolute @[200px]:absolute @[201px]:static bottom-28 lg:bottom-[120px] left-2 z-20 discount-badge rounded text-white bg-red-500 px-1 ml-1 !text-[12px]">
                       {getDiscountPercent(old_price, new_price)}% OFF
                     </span>
                   </div>

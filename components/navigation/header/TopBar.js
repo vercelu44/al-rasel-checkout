@@ -15,15 +15,15 @@ export default function TopBar({ settings }) {
       style={{ background: settings?.colors?.tertiary }}
     >
       <div className="relative flex overflow-hidden">
-        <div className="flex shrink-0 py-2 animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+        <div className="flex items-center shrink-0 animate-marquee whitespace-nowrap hover:[animation-play-state:paused] py-2">
           {[...items, ...items].map((item, index) => (
-            <span
+            <div
               key={index}
-              className="flex items-center pr-7 text-lg font-semibold text-white"
+              className="inline-flex items-center pr-7 text-lg font-semibold text-white  "
             >
-              <span className="w-1.5 h-1.5 bg-white rounded-full mr-7" />
+              <span className="w-1.5 h-1.5 bg-white rounded-full mr-7 inline-block" />
               {item}
-            </span>
+            </div>
           ))}
         </div>
       </div>
