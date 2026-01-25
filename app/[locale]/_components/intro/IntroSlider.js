@@ -4,14 +4,11 @@ import Link from "next/link";
 import Image from "next/image"; 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
-import { useSelector } from "react-redux";
-import { HiChevronRight } from "react-icons/hi2";
 import { cn } from "@/utils";
 
 const IntroSlider = ({ sliders, settings }) => {
   const isBackdrop = (slide) =>
     !!(slide?.title || slide?.title_2 || slide?.text || slide?.url);
-  const { translations } = useSelector((state) => state.common);
 
   return (
     <Swiper
@@ -36,11 +33,7 @@ const IntroSlider = ({ sliders, settings }) => {
       {sliders.map((slide, i) => (
         <SwiperSlide key={i}>
           <div
-            className={`relative single-hero-slider overflow-hidden bg-top px-3 lg:px-12 md:py-10 text-center flex justify-center items-center ${
-              settings?.offer_massage
-                ? "h-[203px] md:h-[353px] lg:h-[85vh]"
-                : "h-[213px] md:h-[363px] lg:h-[88vh]"
-            }`}
+            className={`relative single-hero-slider overflow-hidden bg-top px-3 lg:px-12 md:py-10 text-center flex justify-center items-center h-[213px] md:h-[363px] lg:h-[82vh]`}
           >
             <Image
               src={slide?.image || '/assets/images/banner/banner-1.png'}
@@ -50,7 +43,7 @@ const IntroSlider = ({ sliders, settings }) => {
               loading={i === 0 ? "eager" : "lazy"} 
               quality={85} 
               sizes="100vw"
-              className="object-cover object-center"
+              className="object-cover !object-top"
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4=" // ✅ BLUR PLACEHOLDER
             />

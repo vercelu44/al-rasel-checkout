@@ -17,9 +17,7 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 	const products = productResponse?.data || [];
 	const meta = productResponse?.meta || {};
 	const totalProducts = meta.total;
-
 	const selectedParams = customSearchParams.sort_type || '';
-	
 	
 
 	return (
@@ -46,7 +44,15 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 						<ProductFilters category={category} /> 
 					</div>
 					<div className=" w-full">
-						<ProductsComponent key={params} products={products} params={params} translations={translations} meta={meta} customSearchParams={customSearchParams} totalProducts={totalProducts} />
+						<ProductsComponent 
+							key={params} 
+							products={products} 
+							translations={translations} 
+							meta={meta} 
+							customSearchParams={customSearchParams} 
+							totalProducts={totalProducts}
+							apiUrl={apiUrl}
+						 />
 					</div>
 				</div>
 				

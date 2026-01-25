@@ -43,7 +43,7 @@ export default async function Home() {
     <>
       {/* Priority: Load slider immediately but optimize images inside */}
       {settings?.slider_section ? (
-        <section className="banner">
+        <section className="banner xl:pt-3">
           <Suspense fallback={<div className="h-[400px] bg-gray-100" />}>
             <Intro settings={settings} />
           </Suspense>

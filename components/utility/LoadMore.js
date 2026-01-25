@@ -7,7 +7,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { fetchProducts } from "../actions/fetch-products";
 
 
- function LoadMore({  meta, endpoint,setProducts }) {
+ function LoadMore({  meta, setProducts, apiUrl }) {
 
   const [pagesLoaded, setPagesLoaded] = useState(1);
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -16,12 +16,16 @@ import { fetchProducts } from "../actions/fetch-products";
   // FETCH API call for reload more products
   const loadMoreProducts = useCallback(async () => {
     const nextPage = pagesLoaded + 1;
-    const url = `products?per_page=30&page=${nextPage}&${endpoint}`;
+    const url = apiUrl + `&page=${nextPage}`;
+
     const data = await fetchProducts(nextPage, { api: url }) || [];
     const newProducts = data?.data || [];
     setProducts((prevProducts) => [...prevProducts, ...newProducts]);
     setPagesLoaded(nextPage);
-  }, [pagesLoaded, endpoint]);
+  }, [pagesLoaded, apiUrl]);
+
+ 
+  
 
 
   useEffect(() => {

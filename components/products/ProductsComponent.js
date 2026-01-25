@@ -4,7 +4,7 @@ import LoadMore from '../utility/LoadMore'
 import NoProducts from './NoProducts'
 import ProductList from './ProductList';
 
-const ProductsComponent = ({products:getProducts, translations, totalProducts, meta, customSearchParams, params}) => {
+const ProductsComponent = ({products:getProducts, translations, totalProducts, meta, customSearchParams,apiUrl}) => {
    const [products, setProducts] = useState([...getProducts]);
    
   return (
@@ -12,12 +12,10 @@ const ProductsComponent = ({products:getProducts, translations, totalProducts, m
        <ProductList products={products} translations={translations} customSearchParams={customSearchParams} />
       {totalProducts > 0 ? (
 					 	<LoadMore  
-								products={products}
 								translations={translations}
 								meta={meta}
-								endpoint={`${params.toString()}`}
-								customSearchParams={customSearchParams}
                 setProducts={setProducts}
+								apiUrl={apiUrl}
 							/>
 					) : (
 						<NoProducts />
