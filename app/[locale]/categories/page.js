@@ -36,7 +36,7 @@ const page = async () => {
 							key={i}
 						>
 							<Link
-								href={`/categories/${category.slug}?sort_type=new`}
+								href={`/categories/${category.slug}`}
 								className="category-img w-full md:w-[200px] h-[150px] md:h-[200px] overflow-hidden"
 							>
 								<Image
@@ -49,7 +49,7 @@ const page = async () => {
 								/>
 							</Link>
 							<Link
-								href={`/categories/${category.slug}?sort_type=new`}
+								href={`/categories/${category.slug}`}
 								className="block text-lg text-slate-700 text-center"
 							>
 								{category.category_name}

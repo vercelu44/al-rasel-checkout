@@ -32,7 +32,7 @@ const CategoriesMenuList = ({ setShow, categories,settings }) => {
 						<Link
 							key={category.id}
 							onClick={() => setShow(false)}
-							href={`/categories/${category.slug}?sort_type=new`}
+							href={`/categories/${category.slug}`}
 							className="hover:transform hover:translate-x-2 transition ease-in-out duration-300"
 						>
 							{category.category_name}
@@ -61,7 +61,7 @@ const CategoriesMenuList = ({ setShow, categories,settings }) => {
 									>
 										<Link
 											onClick={() => setShow(false)}
-											href={`/categories/${subCategory.slug}?sort_type=new`}
+											href={`/categories/${subCategory.slug}`}
 										>
 											{subCategory.category_name}
 										</Link>
@@ -90,7 +90,7 @@ const CategoriesMenuList = ({ setShow, categories,settings }) => {
 													<Link
 														onClick={() => setShow(false)}
 														className="pl-12 hover:text-primary py-2 flex items-center justify-between px-3 text-md"
-														href={`/categories/${childCategory.slug}?sort_type=new`}
+														href={`/categories/${childCategory.slug}`}
 													>
 														{childCategory.category_name}
 													</Link>

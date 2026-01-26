@@ -40,7 +40,7 @@ const HomeCategoryProducts = async () => {
 					<ProductList products={products} fixedItems={9} />
 					<div className="flex justify-center">
 						 <Link 
-								href={`/categories/${category?.slug}?sort_type=stock_high_low`}
+								href={`/categories/${category?.slug}`}
 								className={cn("inline-block border rounded capitalize px-6 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80")}
 								
 								style={{borderColor: headerColor}}

@@ -61,7 +61,7 @@ export default function CategoriesMegaMenu({ settings, categories }) {
             {/* CATEGORY LIST */}
             {categories?.map((category, mainIndex) => (
               <Link
-                href={`/categories/${category.slug}?sort_type=stock_high_low`}
+                href={`/categories/${category.slug}`}
                 key={mainIndex}
                 title={category.category_name}
                 onMouseEnter={() => setSelectedCategory(category)}
@@ -112,7 +112,7 @@ export default function CategoriesMegaMenu({ settings, categories }) {
               <div key={index} className="mb-2">
                 <div className="transform hover:translate-x-1 transition-transform ease-in-out duration-300">
                   <Link
-                    href={`/categories/${subCategory.slug}?sort_type=stock_high_low`}
+                    href={`/categories/${subCategory.slug}`}
                     className="font-medium text-xs uppercase"
                   >
                     {subCategory?.category_name}
@@ -128,7 +128,7 @@ export default function CategoriesMegaMenu({ settings, categories }) {
                         className="transform hover:translate-x-1 transition-transform ease-in-out duration-300"
                       >
                         <Link
-                          href={`/categories/${childCategory.slug}?sort_type=stock_high_low`}
+                          href={`/categories/${childCategory.slug}`}
                           className="mt-2 font-light text-xs opacity-90 uppercase"
                         >
                           {childCategory?.category_name}

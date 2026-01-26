@@ -179,7 +179,7 @@ export default async function Home() {
 
             <div className="flex justify-center">
                <Link 
-                href="/featured-products?sort_type=stock_high_low"
+                href="/featured-products"
                 className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
                  style={{borderColor: headerColor}}
               >
