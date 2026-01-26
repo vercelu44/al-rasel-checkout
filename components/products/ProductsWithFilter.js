@@ -1,15 +1,12 @@
 import React from "react";
 import SortSelect from "@/components/elements/SortSelect";
 import { fetchData } from "@/lib/fetch-data";
-import PaginationWithSummery from "../PaginationWithSummery";
-import NoProducts from "./NoProducts";
 import FilterMenu from "../elements/FilterMenu";
 import ProductFilters from "./ProductFilters";
 import FilterPanel from "../side-drawers/FilterPanel";
 import PageSize from "../elements/PageSize";
 import ColumnIcons from "./ColumnIcon";
-import LoadMore from "../utility/LoadMore";
-import ProductList from "./ProductList";
+import ProductsComponent from "./ProductsComponent";
 
 const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
 	const params = new URLSearchParams(customSearchParams);
@@ -20,7 +17,7 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 	const products = productResponse?.data || [];
 	const meta = productResponse?.meta || {};
 	const totalProducts = meta.total;
-	// console.log({totalProduct: productResponse});
+	const selectedParams = customSearchParams.sort_type || '';
 	
 
 	return (
@@ -38,7 +35,7 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 					</div>
 					<div className=" flex gap-4 items-center">
 					<ColumnIcons />
-						<SortSelect />
+						<SortSelect selectedParams={selectedParams} />
 					</div>
 				</div>
 				
@@ -47,31 +44,15 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 						<ProductFilters category={category} /> 
 					</div>
 					<div className=" w-full">
-					{totalProducts > 0 ? (
-						<React.Fragment>
-							
-							{
-								process.env.NEXT_PUBLIC_INFINITY_SCROLL !== 'YES' ? <>
-								 <ProductList products={products} translations={translations} customSearchParams={customSearchParams} />
-								<PaginationWithSummery
-									meta={meta}
-									totalItemsShowing={products?.length}
-								/>
-								</> : <LoadMore  
-										products={products}
-										translations={translations}
-										meta={meta}
-										endpoint={`${params.toString()}`}
-										customSearchParams={customSearchParams}
-									/>
-							}
-							
-							
-						</React.Fragment>
-					) : (
-						<NoProducts />
-					)}
-
+						<ProductsComponent 
+							key={params} 
+							products={products} 
+							translations={translations} 
+							meta={meta} 
+							customSearchParams={customSearchParams} 
+							totalProducts={totalProducts}
+							apiUrl={apiUrl}
+						 />
 					</div>
 				</div>
 				

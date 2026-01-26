@@ -216,7 +216,7 @@
 /* Swiper Slider default Overrides/Adjustments  */
 
 .product-preview-slider > .swiper-pagination {
-	@apply bg-white px-4 rounded-t-xl !py-1.5 !bottom-0 !left-1/2 -translate-x-1/2 lg:hidden;
+	@apply bg-white px-4 rounded-t-xl !py-1.5 !bottom-0 !left-1/2 -translate-x-1/2 ;
 }
 
 .product-preview-slider .swiper-pagination-bullet {
@@ -228,19 +228,21 @@
 }
 
 .slider-btn {
-	@apply absolute top-1/2 left-0 transform -translate-y-1/2 inline-flex justify-center items-center w-12 h-12 bg-[#F8FAFC] rounded-full z-10 cursor-pointer;
+	@apply absolute top-1/2 left-0 transform -translate-y-1/2 inline-flex justify-center items-center z-30 w-12 h-12 bg-[#F8FAFC] rounded-full  cursor-pointer;
 }
 
 .slider-next {
 	@apply left-auto right-5;
 }
 
-.swiper-button-disabled {
-	@apply hidden;
-}
+
 
 .new-slider .swiper-slide .product-card-wrap:first-of-type {
 	@apply mb-5;
+}
+
+.swiper-button-disabled {
+  @apply opacity-40 pointer-events-none;
 }
 /* Swiper Thumb Slider */
 

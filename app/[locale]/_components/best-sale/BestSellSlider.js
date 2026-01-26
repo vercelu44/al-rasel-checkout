@@ -3,14 +3,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import ProductCard from "@/components/cards/ProductCard";
-
-// ** Import Icons
 import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
 import { siteConfig } from "@/config/site";
 
 const BestSellSlider = ({ bestProducts }) => {
   return (
-    <>
+    <div className="relative">
       <Swiper
         modules={[Navigation]}
         slidesPerView={4}
@@ -34,6 +32,10 @@ const BestSellSlider = ({ bestProducts }) => {
           prevEl: ".custom_prev_b",
           nextEl: ".custom_next_b",
         }}
+        onBeforeInit={(swiper) => {
+          swiper.params.navigation.prevEl = ".custom_prev_b";
+          swiper.params.navigation.nextEl = ".custom_next_b";
+        }}
       >
         {bestProducts?.map((product, i) => (
           <SwiperSlide key={i}>
@@ -45,16 +47,17 @@ const BestSellSlider = ({ bestProducts }) => {
         ))}
       </Swiper>
 
-      <div className="slider-arrow">
-        <span className="slider-btn slider-prev slick-arrow custom_prev_b">
+    
+        <button type="button" className="slider-btn slider-prev slick-arrow !left-0 md:-left-2 custom_prev_b">
           <TfiAngleLeft />
-        </span>
-        <span className="slider-btn slider-next slick-arrow custom_next_b">
+        </button>
+        <button type="button" className="slider-btn slider-next slick-arrow !right-0 md:-right-2 custom_next_b">
           <TfiAngleRight />
-        </span>
-      </div>
-    </>
+        </button>
+    
+    </div>
   );
 };
 
 export default BestSellSlider;
+

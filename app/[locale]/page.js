@@ -103,7 +103,7 @@ export default async function Home() {
 
             <div className="sm:shadow-lg sm:bg-white rounded-xl sm:p-6">
               <Suspense
-                fallback={<div className="h-[400px] bg-white animate-pulse" />}
+                fallback={<div className="h-[400px] animate-pulse" />}
               >
                 <BestSell />
               </Suspense>

@@ -82,7 +82,7 @@ export default function MainNav({ settings, categories }) {
                 className="h-full w-auto object-contain"
               />
             ) : (
-              <span className="text-3xl font-bold inline-block pt-4">
+              <span className="text-3xl font-bold inline-block text-white pt-4">
                 {settings?.name}
               </span>
             )}
