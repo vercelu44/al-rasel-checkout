@@ -51,7 +51,7 @@ export default async function Home() {
 
       {/* Lazy load category banners */}
       {settings?.category_section ? (
-        <section className="banners pt-14">
+        <section className="banners py-14 bg-slate-50">
           <div className="container">
             <Suspense
               fallback={<div className="h-[200px] bg-gray-50 animate-pulse" />}
