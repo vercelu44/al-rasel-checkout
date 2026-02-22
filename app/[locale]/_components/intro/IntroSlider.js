@@ -1,17 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image"; 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
-import { useSelector } from "react-redux";
-import { HiChevronRight } from "react-icons/hi2";
-import { cn } from "@/utils";
 
 const IntroSlider = ({ sliders, settings }) => {
-  const isBackdrop = (slide) =>
-    !!(slide?.title || slide?.title_2 || slide?.text || slide?.url);
-  const { translations } = useSelector((state) => state.common);
+ 
 
   return (
     <Swiper
@@ -54,49 +48,6 @@ const IntroSlider = ({ sliders, settings }) => {
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4=" // ✅ BLUR PLACEHOLDER
             />
-
-            {isBackdrop(slide) && (
-              <div className="absolute inset-0 bg-black/20 z-[1]" />
-            )}
-
-            <div className="relative z-[2]">
-              <div
-                className={cn(
-                  "hero-slider-content p-4 lg:px-12 py-6 transition-all duration-300"
-                )}
-                style={{
-                  color: settings?.colors?.primary_text,
-                }}
-              >
-                {slide?.title && (
-                  <p className="text-sm lg:text-lg/[24px] font-normal font-body lg:mb-4 animate-fade-in">
-                    {slide?.title}
-                  </p>
-                )}
-                {slide?.title_2 && (
-                  <h1 className="text-xl lg:text-5xl font-bold font-title animate-fade-in-delay">
-                    {slide?.title_2}
-                  </h1>
-                )}
-                {slide?.text && (
-                  <h2 className="text-lg lg:text-4xl/[48px] font-bold font-title mb-2 lg:my-5 animate-fade-in-delay-2">
-                    {slide?.text}
-                  </h2>
-                )}
-              </div>
-            </div>
-
-            {slide.url && (
-              <Link
-                href={slide?.url}
-                className="absolute inset-0 z-[3]"
-                aria-label={slide?.title_2 || slide?.title || `View slide ${i + 1}`}
-              >
-                <span className="sr-only">
-                  {slide?.title_2 || slide?.title || `View slide ${i + 1}`}
-                </span>
-              </Link>
-            )}
           </div>
         </SwiperSlide>
       ))}
