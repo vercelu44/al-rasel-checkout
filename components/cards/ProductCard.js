@@ -39,6 +39,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
     id,
     slug,
     image,
+    photos,
     product_name,
     new_price,
     old_price,
@@ -56,6 +57,8 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
 
   const isInWishlist = handleWishListProductStatus(id);
 
+  const thumbnail = process.env.NEXT_PUBLIC_NO_THUMBNAIL === "YES" ? photos[0]?.image : image;
+  
   return (
     <>
     <h1 className="sr-only">Detail category</h1>
@@ -106,8 +109,8 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                     className="default-img h-full w-full object-cover object-top hover:scale-125 transition-transform duration-300 ease-in-out rounded-t"
                     src={
                       hovered
-                        ? hover_image || image || noImage
-                        : image || noImage
+                        ? hover_image || thumbnail || noImage
+                        : thumbnail || noImage
                     }
                     alt={product_name || "Not Found"}
                     width={226}
