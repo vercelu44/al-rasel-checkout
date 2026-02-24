@@ -5,14 +5,12 @@ export const generateMetadata = async ({ params }, parent) => {
 	// console.log(window.location.origin);
 	const parentMetaData = await parent;
 	let product = {};
-	try {
-		product = await fetchData({ api: `products/${params.slug}` });
-	} catch (error) {
+	product = await fetchData({ api: `products/${params.slug}` }); 
+	// console.log(product)
+	  // Only call notFound if API returns actual 404
+	if (product?.status === 404) {
 		return notFound();
 	}
-
-	// console.log(product, "product");
-
 
 	return {
 		title: `${product?.data?.meta_title || product?.data?.product_name}`,
