@@ -7,6 +7,8 @@ import FilterPanel from "../side-drawers/FilterPanel";
 import PageSize from "../elements/PageSize";
 import ColumnIcons from "./ColumnIcon";
 import ProductsComponent from "./ProductsComponent";
+import FallbackUI from "../elements/fallback-ui";
+import NoProducts from "./NoProducts";
 
 const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
 	const params = new URLSearchParams(customSearchParams);
@@ -14,7 +16,15 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 	const productResponse = await fetchData({
 		api: apiUrl,
 	});
-	const products = productResponse?.data || [];
+
+	const products = productResponse?.data;
+
+	if (!products) {
+		return (
+		  <FallbackUI message="Failed to load some data. Please refresh the page." />
+		);
+	}
+
 	const meta = productResponse?.meta || {};
 	const totalProducts = meta.total;
 	const selectedParams = customSearchParams.sort_type || '';
@@ -44,6 +54,8 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 						<ProductFilters category={category} /> 
 					</div>
 					<div className=" w-full">
+						{totalProducts === 0 ? <NoProducts />
+						: 
 						<ProductsComponent 
 							key={params} 
 							products={products} 
@@ -52,7 +64,7 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 							customSearchParams={customSearchParams} 
 							totalProducts={totalProducts}
 							apiUrl={apiUrl}
-						 />
+						/>}
 					</div>
 				</div>
 				
