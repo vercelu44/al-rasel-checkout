@@ -6,9 +6,7 @@ import Loader from "../elements/loaders/Loader";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { fetchProducts } from "../actions/fetch-products";
 
-
- function LoadMore({  meta, setProducts, apiUrl }) {
-
+function LoadMore({ meta, setProducts, apiUrl }) {
   const [pagesLoaded, setPagesLoaded] = useState(1);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { ref, inView } = useInView();
@@ -16,33 +14,32 @@ import { fetchProducts } from "../actions/fetch-products";
   // FETCH API call for reload more products
   const loadMoreProducts = useCallback(async () => {
     const nextPage = pagesLoaded + 1;
+    if (nextPage > meta?.last_page) return;
     const url = apiUrl + `&page=${nextPage}`;
 
-    const data = await fetchProducts(nextPage, { api: url }) || [];
-    const newProducts = data?.data || [];
-    setProducts((prevProducts) => [...prevProducts, ...newProducts]);
-    setPagesLoaded(nextPage);
+    const data = (await fetchProducts(nextPage, { api: url })) || [];
+    const newProducts = data?.data;
+    if (newProducts && newProducts.length > 0) {
+      setProducts((prevProducts) => [...prevProducts, ...newProducts]);
+      setPagesLoaded(nextPage);
+    }
   }, [pagesLoaded, apiUrl]);
-
- 
-  
-
 
   useEffect(() => {
     if (inView) {
-        // Call reload product method
-        loadMoreProducts();
+      // Call reload product method
+      loadMoreProducts();
     }
   }, [inView, loadMoreProducts]);
 
   return (
     <>
-      {pagesLoaded > meta.last_page ? null : (
+      {pagesLoaded + 1 > meta.last_page ? null : (
         <div
-           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-hidden"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-hidden"
           ref={ref}
         >
-         {isMobile ? (
+          {isMobile ? (
             <div className="col-span-full">
               <Loader />
             </div>
@@ -60,6 +57,5 @@ import { fetchProducts } from "../actions/fetch-products";
     </>
   );
 }
-
 
 export default LoadMore;
