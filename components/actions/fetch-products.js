@@ -11,7 +11,7 @@ export async function fetchProducts(page, config) {
 
     const response = await fetch(apiPath, {
       signal: controller.signal,
-      next: { revalidate: 59 },
+      next: { revalidate: config?.revalidate ?? 3600 },
       headers: {
         AmsPublickey: process.env.AMS_PUBLIC_KEY,
         lang: config?.locale || (await getLocale()),
