@@ -18,6 +18,7 @@ const SortSelect = ({selectedParams}) => {
             <option value="stock_high_low" selected={selectedParams === "stock_high_low"} > Stock (High to Low)</option>
             <option value="stock_low_high" selected={selectedParams === "stock_low_high"} > Stock (Low to High)</option>
             <option value="new" selected={selectedParams === "new"} >New</option>
+              <option value="best_selling" selected={selectedParams === "best_selling"} >Best Sell</option>
             <option value="randomly" selected={selectedParams === "randomly"} >Random</option>
             <option value="low_high" selected={selectedParams === "low_high"} >Price (Low to High)</option>
             <option value="high_low" selected={selectedParams === "high_low"} >Price (High to Low)</option> 

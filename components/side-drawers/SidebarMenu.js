@@ -21,7 +21,7 @@ const SidebarMenu = ({
 				<div className="py-3 text-black">
 					<CategoriesMenuList
 						setShow={sidebarToggle}
-						categories={categories?.slice(0, 9)}
+						categories={categories}
 						settings={settings}
 					/>
 					<div className="py-5 px-4 font-bold flex justify-start">

@@ -159,7 +159,7 @@ export default async function Home() {
                   </span>
                 </h2>
               <Link 
-                href="/featured-products?sort_type=new"
+                href={`/featured-products?sort_type=${process.env.SORT_TYPE || 'new'}`}
                 className="inline-block border rounded px-4 py-2 mt-2 font-semibold font-title transition-all duration-200 hover:opacity-80"
               >
                 {translations["see-all-products"] || "See All Products"}

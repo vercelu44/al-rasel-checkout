@@ -24,7 +24,7 @@ const HomeCategoryProducts = async () => {
 					<div className="py-10 flex items-center justify-between">
 						<h2 className="sec-title pb-3">{category?.category_name}</h2>
 						<Link
-							href={`/categories/${category?.slug}?sort_type=new`}
+							href={`/categories/${category?.slug}?sort_type=${process.env.NEXT_PUBLIC_SORT_TYPE || 'new'}`}
 							className={cn("text-lg  capitalize", 
 								"hover:text-[var(--primary-hover)]"
 							)}
