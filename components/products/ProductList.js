@@ -38,7 +38,7 @@ export default function ProductList({ products, isFlashSale, customSearchParams,
             />
           </div>
         ))}
-      </div> : <div className={cn("products-wpr w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5  gap-3 md:gap-5 mb-3 md:mb-12 h-fit", className)}>
+      </div> : <div className={cn("products-wpr w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5  gap-3 md:gap-5 mb-3 md:mb-6 h-fit", className)}>
         {products?.map((product, i) => (
           <div
             className={cn(
