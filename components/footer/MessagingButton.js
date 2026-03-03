@@ -7,7 +7,7 @@ import { FaMessage } from "react-icons/fa6";
 const MessagingButton = ({ settings }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const messengerUser = settings?.facebook_link?.split("/")[3] || "no-user";
-console.log(settings.whatsapp_link)
+// console.log(settings.whatsapp_link)
   return (
     <>
       {/* Floating Button */}

@@ -12,6 +12,19 @@ import NoProducts from "./NoProducts";
 
 const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
 	const params = new URLSearchParams(customSearchParams);
+
+	// remove unwanted tracking params
+	const blockedParams = [
+	"fbclid",
+	"ttclid",
+	"gclid",
+	"utm_source",
+	"utm_medium",
+	"utm_campaign"
+	];
+
+	blockedParams.forEach(param => params.delete(param));
+
 	const apiUrl = `products?per_page=30&${params.toString()}`;
 	const productResponse = await fetchData({
 		api: apiUrl,
