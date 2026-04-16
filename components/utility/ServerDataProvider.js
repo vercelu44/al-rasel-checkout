@@ -3,6 +3,9 @@ import ClientLoader from "./ClientLoader";
 import FacebookPixel from "./FacebookPixel";
 import GoogleAdsense from "./GoogleAdsense";
 import { GTM } from "@/utils/GTM";
+import ScriptLoader from "../elements/ScriptLoader";
+import ViewHTML from "../elements/ViewHTML";
+import ExternalScript from "../elements/ExternalScript";
 // import { useLocale } from "next-intl";
 
 const ServerDataProvider = async () => {
@@ -34,6 +37,12 @@ const ServerDataProvider = async () => {
   const isGTMEnabled =
     process.env.NEXT_PUBLIC_GTM_ENABLED === "YES" && GTM_ID ? true : false;
 
+  const headerScript = settings?.custom_script?.header_custom_script || null;
+  const footerScript = settings?.custom_script?.footer_custom_script || null;
+
+  const SELFEB_SCRIPT_URL =
+    settings?.selfeb_script_url || process.env.NEXT_PUBLIC_SELFEB_SCRIPT_URL;
+
   // console.log(isGTMEnabled);
   return (
     <>
@@ -48,6 +57,13 @@ const ServerDataProvider = async () => {
         <GoogleAdsense verificationId={GOOGLE_ADSENSE_VERIFICATION_ID} />
       )}
       {isGTMEnabled && <GTM gtmId={GTM_ID} />}
+
+      <ScriptLoader scriptId={"header-script"} scriptBody={headerScript} />
+      <ViewHTML htmlText={footerScript} />
+
+      {SELFEB_SCRIPT_URL && (
+        <ExternalScript id="selfeb-sdk" src={SELFEB_SCRIPT_URL} />
+      )}
     </>
   );
 };
