@@ -3,11 +3,10 @@ import ClientLoader from "./ClientLoader";
 import FacebookPixel from "./FacebookPixel";
 import GoogleAdsense from "./GoogleAdsense";
 import { GTM } from "@/utils/GTM";
-// import { useLocale } from "next-intl";
+import ScriptLoader from "../elements/ScriptLoader";
+import ViewHTML from "../elements/ViewHTML";
 
 const ServerDataProvider = async () => {
-  // const locale = useLocale(); //Getting locale for client data fetch
-
   const [settingsRes, translationRes] = await Promise.allSettled([
     fetchData({ api: `info/basic` }),
     fetchData({ api: `translations` }),
@@ -23,16 +22,16 @@ const ServerDataProvider = async () => {
 
   const FB_PIXEL_ID =
     settings?.fb_pixel_id || process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
-  // console.log(FB_PIXEL_ID);
-  // console.log(settings?.fb_pixel_id);
 
   const GOOGLE_ADSENSE_VERIFICATION_ID = settings?.google_adsense_verification;
-  // console.log(GOOGLE_ADSENSE_VERIFICATION_ID);
 
   // -------------------  GTM ENABLED CHECK -------------------
   const GTM_ID = settings?.gtm_id;
   const isGTMEnabled =
     process.env.NEXT_PUBLIC_GTM_ENABLED === "YES" && GTM_ID ? true : false;
+
+  const headerScript = settings?.custom_script?.header_custom_script || null;
+  const footerScript = settings?.custom_script?.footer_custom_script || null;
 
   // console.log(isGTMEnabled);
   return (
@@ -48,6 +47,9 @@ const ServerDataProvider = async () => {
         <GoogleAdsense verificationId={GOOGLE_ADSENSE_VERIFICATION_ID} />
       )}
       {isGTMEnabled && <GTM gtmId={GTM_ID} />}
+
+      <ScriptLoader scriptId={"header-script"} scriptBody={headerScript} />
+      <ViewHTML htmlText={footerScript} />
     </>
   );
 };
