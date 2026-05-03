@@ -96,19 +96,23 @@ const useCart = () => {
     ) {
       // console.log(product.barcodes[0], " single barcode product");
       // if (product.barcodes[0]?.stock_qty <= 0) {
-      if (product.barcodes[0]?.stock_qty <= 0 && settings?.allow_stock_out_product_add_to_cart === 0) {
+      if (
+        product.barcodes[0]?.stock_qty <= 0 &&
+        settings?.allow_stock_out_product_add_to_cart === 0
+      ) {
         toast.error("Oops! no stock available");
         return false;
       }
 
       handleMetaPixelAddToCart(product); //Pixel Add to cart event
+      handleGTMAddToCart(product); //GTM Add to cart event
 
       dispatch(
         addToCart({
           product: product,
           selectedBarCode: product.barcodes[0],
           settings: settings,
-        })
+        }),
       );
       return true;
     }
@@ -126,7 +130,7 @@ const useCart = () => {
         product: product,
         selectedBarCode: selectedVariant,
         settings: settings,
-      })
+      }),
     );
 
     return true;
@@ -157,7 +161,7 @@ const useCart = () => {
         product: cartItem,
         selectedBarCode: selectedVariant,
         settings: settings,
-      })
+      }),
     );
   };
 
