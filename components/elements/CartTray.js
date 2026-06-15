@@ -1,18 +1,22 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { siteConfig } from "@/config/site";
+// import { siteConfig } from "@/config/site";
 import { getCartTotal } from "@/lib/checkout";
 
 // import { TbCurrencyTaka } from "react-icons/tb";
 import { BsCart3 } from "react-icons/bs";
 import { toggleCart } from "@/store/slices/cartSlice";
 import { HiOutlineShoppingBag } from "react-icons/hi";
+import { usePathname } from "@/navigation";
 
 const CartTray = () => {
 	const { cart } = useSelector((state) => state.cart);
 	const { settings, translations } = useSelector((state) => state.common);
 	const dispatch = useDispatch();
+
+	const pathArray = usePathname().split("/");
+	if (pathArray.includes("landing")) return null; // hiding header
 
 	const handleCart = () => {
 		dispatch(toggleCart());
