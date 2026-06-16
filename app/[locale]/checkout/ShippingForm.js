@@ -36,6 +36,28 @@ const ShippingForm = ({
               {errors.name && <p className="errorMsg">{errors.name.message}</p>}
             </div>
 
+
+            <div className="form-control mb-6">
+              <FieldsetInput
+                label={`${translations["phone-number"] || "Phone Number"}`}
+                name="phone"
+                defaultValue={user?.phone || user?.alt_phone_no}
+                register={register("phone", {
+                  required: "Phone number is required.",
+                  pattern: {
+                    value: siteConfig.phone.patternWithCode,
+                    message: "Please enter a valid bangladeshi number",
+                  },
+                })}
+                type="tel"
+              // disabled={!settings?.guest_ShippingForm}
+              />
+
+              {errors.phone && (
+                <p className="errorMsg">{errors.phone.message}</p>
+              )}
+            </div>
+
             <div className="form-control mb-6">
               <FieldsetInput
                 label={translations["address"] || "Address"}
@@ -60,26 +82,7 @@ const ShippingForm = ({
               />
               {errors.city && <p className="errorMsg">{errors.city.message}</p>}
             </div> */}
-            <div className="form-control mb-6">
-              <FieldsetInput
-                label={`${translations["phone-number"] || "Phone Number"}`}
-                name="phone"
-                defaultValue={user?.phone || user?.alt_phone_no}
-                register={register("phone", {
-                  required: "Phone number is required.",
-                  pattern: {
-                    value: siteConfig.phone.patternWithCode,
-                    message: "Please enter a valid bangladeshi number",
-                  },
-                })}
-                type="tel"
-              // disabled={!settings?.guest_ShippingForm}
-              />
-
-              {errors.phone && (
-                <p className="errorMsg">{errors.phone.message}</p>
-              )}
-            </div>
+            
 
             <div className="form-control mb-6">
               <FieldsetInput

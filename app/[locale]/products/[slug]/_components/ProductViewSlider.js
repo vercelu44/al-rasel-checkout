@@ -44,7 +44,7 @@ const ProductViewSlider = forwardRef(
     //filtering slides based on selected color
     if (selectedColor) {
       const filteredSlides = slides.filter(
-        (slide) => slide.color_name === selectedColor
+        (slide) => slide.color_name === selectedColor,
       );
       filteredSlides.length && (slides = filteredSlides);
     }
@@ -67,14 +67,14 @@ const ProductViewSlider = forwardRef(
 
     return (
       <>
-       {open && (
+        {open && (
           <ProductZoomYetAnother
-          open={open}
-          setIndex={setIndex}
-          index={index}
-          setOpen={setOpen}
-          images={slides}
-        />
+            open={open}
+            setIndex={setIndex}
+            index={index}
+            setOpen={setOpen}
+            images={slides}
+          />
         )}
         <div className="lg:grid grid-cols-[66px_1fr] lg:gap-4 items-start">
           <div className="thumb-slider hidden lg:block">
@@ -85,14 +85,13 @@ const ProductViewSlider = forwardRef(
               mousewheel={true}
               modules={[Thumbs, Mousewheel]}
               className={cn(
-                isSquareImage ? "!h-[33rem] 2xl:!h-[42rem]" : "!h-[42rem]"
+                isSquareImage ? "!h-[33rem] 2xl:!h-[42rem]" : "!h-[42rem]",
               )}
             >
               {slides.map((slide, index) => (
                 <SwiperSlide key={index}>
                   <div className="slider-image cursor-pointer border border-slate-100 rounded-lg">
                     <Image
-                      
                       src={slide?.image}
                       alt="image"
                       width={64}
@@ -110,7 +109,7 @@ const ProductViewSlider = forwardRef(
               "preview-slider grid relative",
               isSquareImage
                 ? "lg:w-[32.75rem] 2xl:w-[41.1875rem]"
-                : "lg:w-[32.75rem] "
+                : "lg:w-[32.75rem] ",
             )}
           >
             <Swiper
@@ -149,57 +148,57 @@ const ProductViewSlider = forwardRef(
                   className={cn(
                     isSquareImage
                       ? "!h-[98vw] lg:!h-[32.75rem] 2xl:!h-[41.1875rem]"
-                      : "!h-[115vw] md:!h-[41.1875rem] md:!w-[32.75rem]"
+                      : "!h-[115vw] md:!h-[41.1875rem] md:!w-[32.75rem]",
                   )}
                 >
-<div className="slider-imag h-full w-full">
-  {(isFirstItem(slide?.color_name) || index === 0) && slide?.video_link ? (
-    <>
-      <Image
-        src={slide?.image}
-        alt="image"
-        width={524}
-        height={659}
-        className="object-contain h-full w-full"
-      />
+                  <div className="slider-imag h-full w-full">
+                    {(isFirstItem(slide?.color_name) || index === 0) &&
+                    slide?.video_link ? (
+                      <>
+                        <Image
+                          src={slide?.image}
+                          alt="image"
+                          width={524}
+                          height={659}
+                          className="object-contain h-full w-full"
+                        />
 
-      <button
-        onClick={() =>
-          dispatch(
-            startVideoPlayer({
-              url: slide?.video_link,
-              playing: true,
-              title: product.product_name,
-              controls: true,
-            })
-          )
-        }
-        className="z-20 vid-icon absolute inline-flex justify-center items-center top-1/2 left-1/2 w-[72px] h-[72px] rounded-full drop-shadow-[0_0px_60px_rgba(0,0,0,0.16)] translate-x-[-50%] translate-y-[-50%]"
-      >
-        <HiPlayCircle
-          size={60}
-          className="text-white hover:text-primary"
-        />
-      </button>
-    </>
-  ) : isMobile ? (
-    <Image
-      onClick={() => handleOpenZoom(index)}
-      src={slide?.image}
-      alt="image"
-      width={524}
-      height={524}
-      className="object-cover h-full w-full cursor-zoom-in"
-    />
-  ) : (
-    <ImageZoom
-      image={slide?.image}
-      zoomImage={slide?.image}
-      isSquareImage={isSquareImage}
-    />
-  )}
-</div>
-
+                        <button
+                          onClick={() =>
+                            dispatch(
+                              startVideoPlayer({
+                                url: slide?.video_link,
+                                playing: true,
+                                title: product.product_name,
+                                controls: true,
+                              }),
+                            )
+                          }
+                          className="z-20 vid-icon absolute inline-flex justify-center items-center top-1/2 left-1/2 w-[72px] h-[72px] rounded-full drop-shadow-[0_0px_60px_rgba(0,0,0,0.16)] translate-x-[-50%] translate-y-[-50%]"
+                        >
+                          <HiPlayCircle
+                            size={60}
+                            className="text-white hover:text-primary"
+                          />
+                        </button>
+                      </>
+                    ) : isMobile ? (
+                      <Image
+                        onClick={() => handleOpenZoom(index)}
+                        src={slide?.image}
+                        alt="image"
+                        width={524}
+                        height={524}
+                        className="object-cover h-full w-full cursor-zoom-in"
+                      />
+                    ) : (
+                      <ImageZoom
+                        image={slide?.image}
+                        zoomImage={slide?.image}
+                        isSquareImage={isSquareImage}
+                      />
+                    )}
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -241,7 +240,7 @@ const ProductViewSlider = forwardRef(
         </div>
       </>
     );
-  }
+  },
 );
 
 ProductViewSlider.displayName = "ProductViewSlider";

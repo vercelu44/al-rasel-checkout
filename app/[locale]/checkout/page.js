@@ -44,7 +44,7 @@ import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
 const Checkout = () => {
   // Dynamic delivery charges
   const { settings, translations, isFbPixelInitialized } = useSelector(
-    (state) => state.common
+    (state) => state.common,
   );
 
   // console.log(settings);
@@ -87,7 +87,7 @@ const Checkout = () => {
 
   const paymentMethods = useMemo(
     () => paymentMethodsData?.data || {},
-    [paymentMethodsData]
+    [paymentMethodsData],
   );
 
   //slicing cart items based on orderCollapsed
@@ -131,17 +131,17 @@ const Checkout = () => {
     switch (areaKey) {
       case "inside dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_inside
+          !!settings?.is_delivery_charge_required_for_inside,
         );
         break;
       case "sub dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_sub_region
+          !!settings?.is_delivery_charge_required_for_sub_region,
         );
         break;
       case "outside dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_outside
+          !!settings?.is_delivery_charge_required_for_outside,
         );
         break;
       default:
@@ -168,7 +168,7 @@ const Checkout = () => {
   useEffect(() => {
     if (Object.keys(paymentMethods).length > 0) {
       let activePayments = Object.values(paymentMethods).filter(
-        (payMethod) => payMethod?.status === 1
+        (payMethod) => payMethod?.status === 1,
       );
 
       if (activePayments?.length > 1 && activePayments[0].key === "COD") {
@@ -249,7 +249,7 @@ const Checkout = () => {
     }
     if (activePaymentMethods?.length === 0) {
       toast.error(
-        "Checkout is not available now, please contact us for more info"
+        "Checkout is not available now, please contact us for more info",
       );
       return;
     }
@@ -312,7 +312,7 @@ const Checkout = () => {
         pixel.getInitiateCheckoutPixelData(cart, total),
         {
           eventID: eventID,
-        }
+        },
       );
       flag.current = false;
     }
@@ -458,7 +458,7 @@ const Checkout = () => {
                   <p
                     className={cn(
                       `font-semibold`,
-                      !deliveryCharge && deliveryArea && "line-through"
+                      !deliveryCharge && deliveryArea && "line-through",
                     )}
                   >
                     {siteConfig.currency.sign}
@@ -500,7 +500,7 @@ const Checkout = () => {
                     </div>
                   ) : (
                     <CartCard key={index} item={item} />
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -656,12 +656,22 @@ const Checkout = () => {
                           />
                         </div>
                       </div>
-                    ) : null
+                    ) : null,
                   )}
                 </div>
               </div>
             )}
           </div>
+
+          {process.env.NEXT_PUBLIC_FOR_MOTO_STUC === "YES" && (
+            <div className="pt-5">
+              <p className="text-gray-800">
+                ৩ - ৭ কর্মদিবসের মধ্যে ডেলিভার করা হবে ইন’শা-আল্লাহ, এর মধ্যে কল
+                দেওয়া হবে না।
+              </p>
+            </div>
+          )}
+
           {/* Order Now Button  */}
           <div className="form-control mt-7">
             {settings?.agreement_links?.length ? (

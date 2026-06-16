@@ -62,7 +62,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
       {!loading ? (
         <>
           <div
-            className="relative product-card-wrap bg-white rounded shadow p-3 "
+            className="relative product-card-wrap bg-white rounded shadow  "
           >
             <div className="product-img-action-wrap relative @container">
               {getDaysSinceCreation(created_at) < 8 && (
@@ -118,7 +118,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                 </Link>
               </div>
             </div>
-            <div className="product-content-wrap @container">
+            <div className="product-content-wrap @container p-3">
               <h2>
                 <Link
                   href={`/products/${slug}`}

@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { getCouponDiscount } from "@/lib/checkout";
-import { getSlicedText } from "@/utils/format-text";
 import ViewHTML from "@/components/elements/ViewHTML";
 import ProductVariantSelect from "@/components/products/ProductVariantSelect";
 import * as pixel from "/lib/fpixel";
@@ -14,7 +13,7 @@ import * as pixel from "/lib/fpixel";
 // ** Import Icon
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 import { TbTag } from "react-icons/tb";
-import { IoCopy } from "react-icons/io5";
+import { IoCallOutline, IoCopy } from "react-icons/io5";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import ProductViewSlider from "./ProductViewSlider";
 import { siteConfig } from "@/config/site";
@@ -34,6 +33,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { RxCopy } from "react-icons/rx";
 import { setLoginModalOpen } from "@/store/slices/authSlice";
 import { toast } from "react-toastify";
+import { FaWhatsapp } from "react-icons/fa";
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
   const [showSizeChart, setShowSizeChart] = useState(false);
@@ -49,7 +49,7 @@ const ProductDetails = ({ product, settings, translations }) => {
   // Get first variant of selected color to display prices
   const firstVariantOfColor = getFirstVariantOfColor(
     selectedColor,
-    product?.barcodes
+    product?.barcodes,
   );
 
   const newPrice =
@@ -140,6 +140,22 @@ const ProductDetails = ({ product, settings, translations }) => {
       setTimeout(() => setCopied(false), 2000); // show for 2 sec
     }
   };
+
+  const whatsappNumber = settings?.phone[0];
+const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug}`;
+  const message = `Hello! ${settings?.name}, I'm interested in:
+      Product: ${product?.product_name}
+      Price: ${newPrice}
+      Barcode: ${barcode}
+      Product URL: ${productUrl}`;
+
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    message,
+  )}`;
+
+
+  
+
   return (
     <>
       <div className="relative product-details">
@@ -201,7 +217,10 @@ const ProductDetails = ({ product, settings, translations }) => {
                     Barcode:
                   </h2>
 
-                  <h2 title="Select a variant to see barcode" className="text-secondary text-lg font-mono break-all">
+                  <h2
+                    title="Select a variant to see barcode"
+                    className="text-secondary text-lg font-mono break-all"
+                  >
                     {barcode || "N/A"}
                   </h2>
 
@@ -258,7 +277,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                         &#2547;
                         {getCouponDiscount(
                           product?.coupons[0],
-                          product.new_price
+                          product.new_price,
                         )}{" "}
                         {translations["off!"] || "ছাড়!"}
                       </span>
@@ -307,8 +326,8 @@ const ProductDetails = ({ product, settings, translations }) => {
               </button>
             )}
             {/* Add to cart section  */}
-            <div className="py-2 pt-6 lg:pt-8 lg:pb-4">
-              <div className="product-actions flex gap-4 justify-between items-center">
+            <div className="py-2 pt-6 lg:pt-8 space-y-3 lg:pb-4">
+              <div className="product-actions flex gap-3 justify-between items-center">
                 <button
                   className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                   onClick={() => handleAddToCart(product, selectedVariant)}
@@ -349,6 +368,33 @@ const ProductDetails = ({ product, settings, translations }) => {
                     {translations["buy-now"] || "Buy now"}
                   </span>
                 </button>
+              </div>
+              <div className="product-actions flex gap-3 justify-between items-center">
+                <Link href={whatsappUrl} target="_blank" className="w-full">
+                  <button
+                    className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
+                    style={{
+                      backgroundColor: "#25d366",
+                    }}
+                  >
+                    <FaWhatsapp size={24} />
+                    <span className="ml-2">Order On WhatsApp</span>
+                  </button>
+                </Link>
+                <Link href={`tel:${settings?.phone[0]}`} className="w-full">
+                  <button
+                    className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
+                    style={{
+                      backgroundColor: "#193276",
+                      // color: settings?.colors?.primary_text,
+                      // border: `1px solid ${settings?.colors?.primary_text}`,
+                    }}
+                  >
+                    <IoCallOutline size={20} />
+
+                    <span className="mr-2">Call for order</span>
+                  </button>
+                </Link>
               </div>
             </div>
 
