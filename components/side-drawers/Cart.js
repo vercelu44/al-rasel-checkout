@@ -54,8 +54,8 @@ const Cart = () => {
 					charge!
 				</div>
 			) : null}
-			<div className="p-8 flex flex-col h-[77%]">
-				<div className="overflow-y-auto">
+			<div className="p-4 flex flex-col h-[77%]">
+				<div className="overflow-y-auto divide-y divide-slate-200">
 					{cart.map((item) => (
 						<CartCard key={item.id} item={item} />
 					))}

@@ -42,35 +42,27 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
 
 const Checkout = () => {
-  // Dynamic delivery charges
   const { settings, translations, isFbPixelInitialized } = useSelector(
     (state) => state.common,
   );
 
-  // console.log(settings);
   const deliveryAreas = [
     {
       key: `inside dhaka`,
       title: `Inside ${settings?.delivery_region || "Dhaka"}`,
       charges: settings?.inside_dhaka_delivery_charges,
-      icon: <FaTruckFast className="w-6 h-6" />,
+      icon: <FaTruckFast className="w-5 h-5" />,
     },
-    // {
-    // 	key: "sub dhaka",
-    // 	title: `Sub ${settings?.delivery_region || "Dhaka"}`,
-    // 	charges: settings?.sub_dhaka_delivery_charges,
-    // },
     {
       key: "outside dhaka",
       title: `Outside ${settings?.delivery_region || "Dhaka"}`,
       charges: settings?.outside_dhaka_delivery_charges,
-      icon: <DeliveryIcon className="w-6 h-6" />,
+      icon: <FaTruckFast className="w-5 h-5" />,
     },
   ];
 
-  const [deliveryArea, setDeliveryArea] = useState(deliveryAreas[1]); // default delivery area removed
-  const [isDeliveryChargeRequired, setIsDeliveryChargeRequired] =
-    useState(false);
+  const [deliveryArea, setDeliveryArea] = useState(deliveryAreas[1]);
+  const [isDeliveryChargeRequired, setIsDeliveryChargeRequired] = useState(false);
   const [activePaymentMethods, setActivePaymentMethods] = useState(null);
   const [selectedPayMethod, setSelectedPayMethod] = useState(null);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(null);
@@ -79,8 +71,8 @@ const Checkout = () => {
   const [isTermChecked, setIsTermChecked] = useState(false);
   const { cart, discountCoupon } = useSelector((state) => state.cart);
   const { user, isLoading } = useSelector((state) => state.auth);
-  const { handleOrderPlace } = useOrderPlace(); //custom hook for separating order place business logics
-  const isMobile = useMediaQuery("(max-width: 768px)"); // checking for mobile
+  const { handleOrderPlace } = useOrderPlace();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const { data: paymentMethodsData } = useGetPaymentMethodsQuery();
   const [placeIncompleteOrder] = usePlaceIncompleteOrderMutation();
@@ -90,7 +82,6 @@ const Checkout = () => {
     [paymentMethodsData],
   );
 
-  //slicing cart items based on orderCollapsed
   const cartItems = orderCollapsed ? cart : cart.slice(0, 3);
 
   const {
@@ -102,22 +93,18 @@ const Checkout = () => {
   } = useForm({
     defaultValues: getDefaultFormValues(),
   });
-  //----watch values----
+
   const phoneValue = watch("phone");
   const nameValue = watch("name");
   const addressValue = watch("address");
   const cityValue = watch("city");
 
-  useEffect(() => {
-    reset();
-  }, [user, reset]);
-  //Summary calculation
-  // const total = getMultipliedColumnTotal(cart, "quantity", "new_price");
+  useEffect(() => { reset(); }, [user, reset]);
+
   const total = getCartTotal(cart);
   const discountedPrice = getCouponDiscount(discountCoupon, total);
   const totalWithDiscount = total - discountedPrice;
 
-  //Handling free delivery charge
   const deliveryCharge =
     settings?.free_delivery_charges_limit > totalWithDiscount ||
     settings?.free_delivery_charges_limit <= 0
@@ -126,23 +113,16 @@ const Checkout = () => {
 
   const grandTotal = totalWithDiscount + deliveryCharge;
 
-  //Handling delivery area and delivery charge Required
   const updateDeliveryChargeRequirement = (areaKey) => {
     switch (areaKey) {
       case "inside dhaka":
-        setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_inside,
-        );
+        setIsDeliveryChargeRequired(!!settings?.is_delivery_charge_required_for_inside);
         break;
       case "sub dhaka":
-        setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_sub_region,
-        );
+        setIsDeliveryChargeRequired(!!settings?.is_delivery_charge_required_for_sub_region);
         break;
       case "outside dhaka":
-        setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_outside,
-        );
+        setIsDeliveryChargeRequired(!!settings?.is_delivery_charge_required_for_outside);
         break;
       default:
         setIsDeliveryChargeRequired(false);
@@ -156,21 +136,15 @@ const Checkout = () => {
   const handleDeliveryAreaChange = (area) => {
     setDeliveryArea(area);
     updateDeliveryChargeRequirement(area?.key);
-
-    //auto select payment option
-    const autoSelectedPaymentOption =
-      getAutoSelectedPaymentOption(activePaymentMethods);
-    if (autoSelectedPaymentOption)
-      setSelectedPaymentOption(autoSelectedPaymentOption);
+    const autoSelectedPaymentOption = getAutoSelectedPaymentOption(activePaymentMethods);
+    if (autoSelectedPaymentOption) setSelectedPaymentOption(autoSelectedPaymentOption);
   };
 
-  //auto select payment method
   useEffect(() => {
     if (Object.keys(paymentMethods).length > 0) {
       let activePayments = Object.values(paymentMethods).filter(
         (payMethod) => payMethod?.status === 1,
       );
-
       if (activePayments?.length > 1 && activePayments[0].key === "COD") {
         setSelectedPayMethod(activePayments[1]);
       } else {
@@ -182,49 +156,24 @@ const Checkout = () => {
 
   const isCodPayEnabled =
     activePaymentMethods?.length > 0 &&
-    activePaymentMethods?.find((payMethod) => payMethod?.key === "COD")
-      ?.status === 1;
+    activePaymentMethods?.find((payMethod) => payMethod?.key === "COD")?.status === 1;
 
   const paymentOptions = [
-    isCodPayEnabled &&
-    (!isDeliveryChargeRequired || activePaymentMethods?.length == 1)
-      ? {
-          key: "no_payment",
-          title: `Cash on delivery`,
-          value: grandTotal,
-        }
+    isCodPayEnabled && (!isDeliveryChargeRequired || activePaymentMethods?.length == 1)
+      ? { key: "no_payment", title: `Cash on delivery`, value: grandTotal }
       : null,
-    activePaymentMethods?.length > 1 &&
-    isDeliveryChargeRequired &&
-    isCodPayEnabled
-      ? {
-          key: "delivery_charge_payment",
-          title: `Pay delivery charge only`,
-          value: deliveryArea.charges,
-        }
+    activePaymentMethods?.length > 1 && isDeliveryChargeRequired && isCodPayEnabled
+      ? { key: "delivery_charge_payment", title: `Pay delivery charge only`, value: deliveryArea.charges }
       : null,
-    (activePaymentMethods?.length === 1 &&
-      activePaymentMethods[0].key === "COD") ||
+    (activePaymentMethods?.length === 1 && activePaymentMethods[0].key === "COD") ||
     activePaymentMethods?.length === 0
       ? null
-      : {
-          key: "total_payment",
-          title: `Pay total amount`,
-          value: grandTotal,
-        },
+      : { key: "total_payment", title: `Pay total amount`, value: grandTotal },
   ].filter((option) => option !== null);
 
-  // logs for debugging
-  // console.log(deliveryArea, "deliveryArea");
-  // console.log(paymentOptions, "paymentOptions");
-  // console.log(activePaymentMethods, "activePaymentMethods");
-
-  // Auto select payment option
   useEffect(() => {
-    const autoSelectedPaymentOption =
-      getAutoSelectedPaymentOption(activePaymentMethods);
-    if (autoSelectedPaymentOption)
-      setSelectedPaymentOption(autoSelectedPaymentOption);
+    const autoSelectedPaymentOption = getAutoSelectedPaymentOption(activePaymentMethods);
+    if (autoSelectedPaymentOption) setSelectedPaymentOption(autoSelectedPaymentOption);
   }, [activePaymentMethods]);
 
   useEffect(() => {
@@ -235,22 +184,17 @@ const Checkout = () => {
     }
   }, []);
 
-  const isDisabled = !!(!cart?.length || settings?.agreement_links?.length
-    ? !isTermChecked
-    : false);
+  const isDisabled = !!(!cart?.length || settings?.agreement_links?.length ? !isTermChecked : false);
 
   const handleCheckoutSubmit = async (data) => {
     const incompleteId = localStorage.getItem("incomplete_unique_id");
-
     if (!deliveryArea) {
       document.getElementById("deliveryAreaError").classList.remove("hidden");
       toast.error("Please select delivery area");
       return;
     }
     if (activePaymentMethods?.length === 0) {
-      toast.error(
-        "Checkout is not available now, please contact us for more info",
-      );
+      toast.error("Checkout is not available now, please contact us for more info");
       return;
     }
     if (!selectedPaymentOption) {
@@ -263,10 +207,8 @@ const Checkout = () => {
     let alt_phone = data?.phone;
     let fullAddress = data.address + ", " + data.city;
 
-    //for authorized u
     if (!settings?.guest_checkout) {
-      alt_phone =
-        siteConfig.phone.countryCode + user?.phone || user?.alt_phone_no;
+      alt_phone = siteConfig.phone.countryCode + user?.phone || user?.alt_phone_no;
     }
     const newOrder = {
       name: data.name,
@@ -286,51 +228,37 @@ const Checkout = () => {
       grand_total: grandTotal,
       paymentOption: selectedPaymentOption,
       note: data?.note || "",
-      fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
-      fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+      fbp: Cookies.get("_fbp"),
+      fbc: Cookies.get("_fbc"),
       incomplete_unique_id: incompleteId,
     };
-    // console.log(newOrder);
     handleOrderPlace(newOrder);
-
-    localStorage.removeItem("incomplete_unique_id"); // remove incomplete unique id
+    localStorage.removeItem("incomplete_unique_id");
   };
 
   const [AddToConversionAPI] = useAddToTrackingMutation();
   const flag = useRef(true);
   const flag2 = useRef(true);
 
-  // Facebook Pixel Initiate Checkout Event
   useEffect(() => {
     if (cart.length === 0) return;
-
     const eventID = generateUniqueId();
-    // Check if product ID exists to avoid errors
     if (isFbPixelInitialized && flag.current) {
-      pixel.event(
-        "InitiateCheckout",
-        pixel.getInitiateCheckoutPixelData(cart, total),
-        {
-          eventID: eventID,
-        },
-      );
+      pixel.event("InitiateCheckout", pixel.getInitiateCheckoutPixelData(cart, total), { eventID });
       flag.current = false;
     }
-
-    //For conversion API
     if (settings?.fb_pixel_id && settings?.fb_access_token && flag2.current) {
       AddToConversionAPI({
         event_id: eventID,
         event_name: "InitiateCheckout",
         products: pixel.contentItems(cart),
-        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
-        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+        fbp: Cookies.get("_fbp"),
+        fbc: Cookies.get("_fbc"),
       });
       flag2.current = false;
     }
   }, [cart, total, isFbPixelInitialized, settings, AddToConversionAPI]);
 
-  // Google Tag Manager
   const gtmFlag = useRef(true);
   useEffect(() => {
     if (cart.length === 0) return;
@@ -338,22 +266,19 @@ const Checkout = () => {
     const payload = {
       event: "begin_checkout",
       ecommerce: {
-        currency: "BDT", // Change to your store's currency
-        value: total, // Total value of the added item(s)
-        fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
-        fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
+        currency: "BDT",
+        value: total,
+        fbp: Cookies.get("_fbp"),
+        fbc: Cookies.get("_fbc"),
         items: formattedItems,
       },
     };
-
     if (settings?.gtm_id && gtmFlag.current) {
       sendGTMEvent(payload);
       gtmFlag.current = false;
-      console.log("gtm begin_checkout occurred");
     }
   }, [cart, total, settings]);
 
-  //------------------ checkout on valid phone handler----------------
   const handleIncompleteOrder = async (data) => {
     const incompleteId = localStorage.getItem("incomplete_unique_id");
     let phone = data?.phone;
@@ -362,8 +287,8 @@ const Checkout = () => {
     const newOrder = {
       name: data?.name,
       alt_name: data?.name,
-      phone: phone,
-      alt_phone: alt_phone,
+      phone,
+      alt_phone,
       address: fullAddress,
       alt_address: fullAddress,
       order_items: getOrderFormattedCartItems(cart),
@@ -377,15 +302,14 @@ const Checkout = () => {
       grand_total: grandTotal,
       paymentOption: selectedPaymentOption,
       incomplete_unique_id: incompleteId,
-      // note: "",
     };
-
     try {
       await placeIncompleteOrder(newOrder).unwrap();
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     localStorage.setItem("name", nameValue);
     localStorage.setItem("address", addressValue);
@@ -394,107 +318,262 @@ const Checkout = () => {
     const phonePattern = siteConfig.phone.pattern;
     if (phoneValue && phonePattern.test(phoneValue)) {
       const formValues = watch();
-
       handleIncompleteOrder(formValues);
     }
   }, [phoneValue, nameValue, addressValue, cityValue, watch]);
 
   return (
-    <section className="container pb-8">
-      <div className="breadcrumb breadcrumb-2 py-5">
-        <div className="">
-          <div>
-            <Link
-              href={`/`}
-              className="text-base text-slate-600 hover:text-secondary"
-            >
-              {translations["home"] || "Home"}
-            </Link>
-            <Link
-              href={`/checkout`}
-              className="text-base text-slate-600 hover:text-secondary"
-            >
-              {translations["checkout"] || "Checkout"}
-            </Link>
-          </div>
-        </div>
-      </div>
-      {/* Shipping Address are for mobile  */}
-      {isMobile && (
-        <ShippingForm
-          handleSubmit={handleSubmit}
-          errors={errors}
-          register={register}
-          isLoading={isLoading}
-          handleCheckoutSubmit={handleCheckoutSubmit}
-          user={user}
-          translations={translations}
-        />
-      )}
-      <div className="grid lg:grid-cols-2 mb-8 gap-14">
-        <div
-          id="checkout-left"
-          className="border border-slate-200 grid grid-cols-1"
-        >
-          {/* Delivery Options  */}
-          <div className="lg:order-2 px-3 lg:px-9 py-4">
-            <h4 className="text-slate-700 font-bold">
-              {translations["select-delivery-area"] || "Select Delivery Area"}
-            </h4>
-            <div className="flex flex-col gap-3 pt-3">
-              {deliveryAreas.map((area) => (
-                <button
-                  key={area.key}
-                  className="flex gap-2 items-center border border-slate-200 p-3"
-                  onClick={() => handleDeliveryAreaChange(area)}
-                >
-                  <CustomRadio
-                    isChecked={deliveryArea?.key === area.key}
-                    icon={area.icon}
-                    label={area.title}
-                    // onClick={() => setDeliveryArea(area)}
-                  />
+    <section className="bg-slate-50 min-h-screen">
+      <div className="container py-8 max-w-7xl mx-auto px-4">
 
-                  <p
+        {/* Page Header */}
+        <div className="mb-6">
+         
+          <h1 className="text-2xl text-center font-bold text-slate-900">Checkout</h1>
+        </div>
+
+        {/* Mobile Shipping Form */}
+        {isMobile && (
+          <ShippingForm
+            handleSubmit={handleSubmit}
+            errors={errors}
+            register={register}
+            isLoading={isLoading}
+            handleCheckoutSubmit={handleCheckoutSubmit}
+            user={user}
+            translations={translations}
+          />
+        )}
+
+        <div className="grid lg:grid-cols-2 gap-6">
+
+          {/* ───────── LEFT COLUMN ───────── */}
+          <div className="space-y-5">
+
+            {/* Desktop Shipping Form */}
+            {!isMobile && (
+              <ShippingForm
+                handleSubmit={handleSubmit}
+                errors={errors}
+                register={register}
+                isLoading={isLoading}
+                handleCheckoutSubmit={handleCheckoutSubmit}
+                user={user}
+                translations={translations}
+              />
+            )}
+
+            {/* Delivery Area */}
+            <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+              <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+                <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-base font-semibold text-slate-900">
+                    {translations["select-delivery-area"] || "Delivery Area"}
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-0.5">Choose your delivery zone</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {deliveryAreas.map((area) => (
+                  <button
+                    key={area.key}
+                    onClick={() => handleDeliveryAreaChange(area)}
                     className={cn(
-                      `font-semibold`,
-                      !deliveryCharge && deliveryArea && "line-through",
+                      "relative flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-200",
+                      deliveryArea?.key === area.key
+                        ? "border-slate-900 "
+                        : "border-slate-200 bg-white hover:border-slate-300 text-slate-700"
                     )}
                   >
-                    {siteConfig.currency.sign}
-                    {area.charges}
-                  </p>
-                </button>
-              ))}
+                    <div className={cn(
+                      "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0",
+                      deliveryArea?.key === area.key ? "bg-slate-100" : "bg-white/10"
+                    )}>
+                      <span className={" text-slate-600" }>
+                        {area.icon}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold">{area.title}</p>
+                      <p className={cn(
+                        "text-xs mt-0.5 font-medium",
+                        !deliveryCharge && deliveryArea?.key === area.key
+                          ? "line-through opacity-60"
+                          : deliveryArea?.key === area.key ? "opacity-80" : "text-slate-400"
+                      )}>
+                        {siteConfig.currency.sign}{area.charges}
+                      </p>
+                    </div>
+                    {deliveryArea?.key === area.key && (
+                      <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-slate-900 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-white" />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {!deliveryArea && (
+                <p id="deliveryAreaError" className=" mt-3 text-xs text-red-500 flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
+                  You must select a delivery area
+                </p>
+              )}
             </div>
-            {!deliveryArea && (
-              <p id="deliveryAreaError" className="hidden errorMsg">
-                You must select delivery area
-              </p>
+
+            {/* Payment Options */}
+            {deliveryArea && (
+              <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+                <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold text-slate-900">
+                      {translations["payment-options"] || "Payment Options"}
+                    </h4>
+                    <p className="text-xs text-slate-400 mt-0.5">How would you like to pay?</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {paymentOptions.map((payOption) => (
+                    <button
+                      key={payOption.key}
+                      type="button"
+                      onClick={() => setSelectedPaymentOption(payOption.key)}
+                      className={cn(
+                        "w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-200 text-left",
+                        payOption.key === selectedPaymentOption
+                          ? "border-slate-900 bg-slate-50"
+                          : "border-slate-200 bg-white hover:border-slate-300"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={cn(
+                          "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all",
+                          payOption.key === selectedPaymentOption
+                            ? "border-slate-900"
+                            : "border-slate-300"
+                        )}>
+                          {payOption.key === selectedPaymentOption && (
+                            <div className="w-2.5 h-2.5 rounded-full bg-slate-900" />
+                          )}
+                        </div>
+                        <span className={cn(
+                          "text-sm font-medium",
+                          payOption.key === selectedPaymentOption ? "text-slate-900" : "text-slate-600"
+                        )}>
+                          {payOption.title}
+                        </span>
+                      </div>
+                      <span className={cn(
+                        "text-sm font-bold",
+                        payOption.key === selectedPaymentOption ? "text-slate-900" : "text-slate-500"
+                      )}>
+                        {siteConfig.currency.sign}{payOption.value}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                {!selectedPaymentOption && (
+                  <p id="paymentOptionError" className="hidden mt-3 text-xs text-red-500">
+                    You must select a payment option
+                  </p>
+                )}
+
+                {/* Payment Methods */}
+                {(selectedPaymentOption === "delivery_charge_payment" ||
+                  selectedPaymentOption === "total_payment") && (
+                  <div className="mt-5 pt-5 border-t border-slate-100">
+                    <h5 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+                      {translations["payment-method"] || "Select Payment Method"}
+                    </h5>
+                    <div className="space-y-2">
+                      {Object.keys(paymentMethods).map((method, index) =>
+                        paymentMethods[method].status === 1 &&
+                        !(paymentMethods[method].key === "COD") ? (
+                          <div
+                            key={index}
+                            onClick={() => setSelectedPayMethod(paymentMethods[method])}
+                            className={cn(
+                              "flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-200",
+                              paymentMethods[method].title === selectedPayMethod?.title
+                                ? "border-slate-900 bg-slate-50"
+                                : "border-slate-200 bg-white hover:border-slate-300"
+                            )}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={cn(
+                                "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all",
+                                paymentMethods[method].title === selectedPayMethod?.title
+                                  ? "border-slate-900"
+                                  : "border-slate-300"
+                              )}>
+                                {paymentMethods[method].title === selectedPayMethod?.title && (
+                                  <div className="w-2.5 h-2.5 rounded-full bg-slate-900" />
+                                )}
+                              </div>
+                              <span className="text-sm font-medium text-slate-700">
+                                {paymentMethods[method].title}
+                              </span>
+                            </div>
+                            <Image
+                              src={paymentMethods[method].icon}
+                              height={28}
+                              width={120}
+                              alt="icon"
+                              className="h-7 w-fit max-w-[120px] object-contain"
+                            />
+                          </div>
+                        ) : null,
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
-          {/* Cart Items  */}
-          <div className="lg:order-1">
-            <div className="border-b border-slate-200 text-left p-3 lg:p-5">
-              <h3 className="text-xl">
-                {cart.length}{" "}
-                {translations["item-in-your-bag"] || "item in your bag"}
-              </h3>
-            </div>
-            <div className="border-b border-slate-200 p-3 lg:p-5">
-              <div className="">
+          {/* ───────── RIGHT COLUMN — Order Summary ───────── */}
+          <div className="space-y-5">
+            <div className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+
+              {/* Cart Items Header */}
+              <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 8H4l1-8z" />
+                  </svg>
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    {cart.length} {translations["item-in-your-bag"] || "item in your bag"}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Cart Items List */}
+              <div className="  divide-y divide-slate-100">
                 {cartItems.map((item, index) =>
                   index == 2 && !orderCollapsed ? (
                     <div key={index} className="relative">
                       <CartCard item={item} />
-                      <div className="w-full h-full rounded absolute left-0 top-0 flex-center backdrop-blur-sm">
+                      <div className="w-full h-full rounded absolute left-0 top-0 flex items-center justify-center backdrop-blur-sm bg-white/40">
                         <button
-                          className="text-btn mt-20 font-bold"
+                          className="flex items-center gap-1 bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-lg hover:bg-slate-700 transition-colors"
                           onClick={() => setOrderCollapsed(true)}
                         >
-                          <FiPlus />
-                          {cart.length - 2}
+                          <FiPlus size={14} />
+                          {cart.length - 2} more items
                         </button>
                       </div>
                     </div>
@@ -503,242 +582,122 @@ const Checkout = () => {
                   ),
                 )}
               </div>
-            </div>
-          </div>
 
-          {/* Order Summery  */}
-          <div className="lg:order-3 text-slate-700 px-3 lg:px-9 py-4 bg-white my-3">
-            <div className="flex-between my-2">
-              <p>{translations["total"] || "Total"}</p>
-              <p>
-                {siteConfig.currency.shortForm}
-                {total}
-              </p>
-            </div>
-            <div className="flex-between my-2">
-              <p>{translations["discount-amount"] || "Discount Amount"}</p>
-              <p className="">
-                -{siteConfig.currency.shortForm}
-                {discountedPrice}
-              </p>
-            </div>
-            <div className="flex-between my-2">
-              <p>{translations["coupon-discount"] || "Coupon Discount"}</p>
-              {discountCoupon ? (
-                <span className="text-primary">{discountCoupon.code}</span>
-              ) : (
-                <button
-                  className="text-btn underline"
-                  onClick={() => setShowModal(true)}
-                >
-                  <AiOutlinePlus size={24} />
-                </button>
-              )}
-            </div>
-            <div className="border-b border-slate-300 my-2"></div>
-            <div className="flex-between my-2">
-              <p>
-                {translations["total-with-discount"] || "Total with discount"}
-              </p>
-              <p>
-                {siteConfig.currency.shortForm}
-                {totalWithDiscount}
-              </p>
-            </div>
-            {deliveryArea && (
-              <div className="flex-between my-2">
-                <p>
-                  {translations["delivery-charge"] || "Delivery Charge"}{" "}
-                  {!deliveryCharge && (
-                    <span className="bg-green-100 px-2 text-green-500">
-                      Free
-                    </span>
+              {/* Order Summary */}
+              <div className="px-6 py-5  border-t border-slate-100">
+                <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">
+                  Order Summary
+                </h4>
+
+                <div className="space-y-2.5">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">{translations["total"] || "Subtotal"}</span>
+                    <span className="font-medium text-slate-800">{siteConfig.currency.shortForm}{total}</span>
+                  </div>
+
+                  {discountedPrice > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{translations["discount-amount"] || "Discount"}</span>
+                      <span className="font-medium text-green-600">−{siteConfig.currency.shortForm}{discountedPrice}</span>
+                    </div>
                   )}
-                </p>
-                <p>
-                  {siteConfig.currency.shortForm}
-                  {deliveryCharge}
-                </p>
-              </div>
-            )}
-            <div className="border-b border-slate-900 my-2"></div>
-            <div className="flex-between my-2 font-bold">
-              <p>{translations["grand-total"] || "Grand Total"}</p>
 
-              <p>
-                {siteConfig.currency.shortForm}
-                {grandTotal}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div id="checkout-right">
-          {/* Shipping Address Area for web*/}
-          {!isMobile && (
-            <ShippingForm
-              handleSubmit={handleSubmit}
-              errors={errors}
-              register={register}
-              isLoading={isLoading}
-              handleCheckoutSubmit={handleCheckoutSubmit}
-              user={user}
-              translations={translations}
-            />
-          )}
-          {/* Payment Area  */}
-          <div>
-            {/* Payment Options Area */}
-            {deliveryArea ? (
-              <div className="form-control">
-                <h4 className="text-slate-700 font-bold">
-                  {translations["payment-options"] || "Payment Options"}
-                </h4>
-                <div className="flex flex-col gap-3 pt-3">
-                  {paymentOptions.map((payOption) => (
-                    <button
-                      key={payOption.key}
-                      type="button"
-                      className="flex gap-2 items-center border border-slate-200 p-3"
-                      onClick={() => setSelectedPaymentOption(payOption.key)}
-                    >
-                      <CustomRadio
-                        isChecked={payOption.key === selectedPaymentOption}
-                        label={payOption.title}
-                        // onClick={() => setDeliveryArea(pt)}
-                      />
-                      <p>
-                        {siteConfig.currency.sign}
-                        {payOption.value}
-                      </p>
-                    </button>
-                  ))}
-                </div>
-                {!selectedPaymentOption && (
-                  <p id="paymentOptionError" className="hidden errorMsg">
-                    You must select a payment option
-                  </p>
-                )}
-              </div>
-            ) : null}
-            {/* Payment Methods Area */}
-            {(selectedPaymentOption === "delivery_charge_payment" ||
-              selectedPaymentOption === "total_payment") && (
-              <div className="form-control mt-4">
-                <h4 className="text-slate-700 font-bold">
-                  {translations["payment-method"] || "Payment Method"}
-                </h4>
-                <div className="flex flex-col gap-3 mt-3">
-                  {Object.keys(paymentMethods).map((method, index) =>
-                    paymentMethods[method].status === 1 &&
-                    !(paymentMethods[method].key === "COD") ? (
-                      <div
-                        key={index}
-                        type="button"
-                        onClick={() =>
-                          setSelectedPayMethod(paymentMethods[method])
-                        }
-                        className="flex items-center justify-between border border-slate-200 p-3 cursor-pointer"
+                  <div className="flex justify-between text-sm items-center">
+                    <span className="text-slate-500">{translations["coupon-discount"] || "Coupon"}</span>
+                    {discountCoupon ? (
+                      <span className="text-xs bg-green-100 text-green-700 font-semibold px-2.5 py-1 rounded-full">
+                        {discountCoupon.code}
+                      </span>
+                    ) : (
+                      <button
+                        className="text-xs text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors flex items-center gap-1"
+                        onClick={() => setShowModal(true)}
                       >
-                        <CustomRadio
-                          isChecked={
-                            paymentMethods[method].title ===
-                            selectedPayMethod?.title
-                          }
-                          label={paymentMethods[method].title}
-                        />
-                        <div className="">
-                          <Image
-                            src={paymentMethods[method].icon}
-                            height={32}
-                            width={150}
-                            alt="icon"
-                            className="h-8 w-fit max-w-[150px]"
-                          />
-                        </div>
-                      </div>
-                    ) : null,
+                        <AiOutlinePlus size={12} />
+                        Add coupon
+                      </button>
+                    )}
+                  </div>
+
+                  {deliveryArea && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{translations["delivery-charge"] || "Delivery"}</span>
+                      <span className={cn("font-medium", !deliveryCharge ? "text-green-600" : "text-slate-800")}>
+                        {!deliveryCharge
+                          ? <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />Free</span>
+                          : `${siteConfig.currency.shortForm}${deliveryCharge}`
+                        }
+                      </span>
+                    </div>
                   )}
                 </div>
+
+                <div className="my-4 border-t border-dashed border-slate-300" />
+
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-bold text-slate-900">{translations["grand-total"] || "Grand Total"}</span>
+                  <span className="text-xl font-bold text-slate-900">{siteConfig.currency.shortForm}{grandTotal}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Delivery Note */}
+            {process.env.NEXT_PUBLIC_FOR_MOTO_STUC === "YES" && (
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
+                <svg className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <p className="text-sm text-amber-800">
+                  {`৩ - ৭ কর্মদিবসের মধ্যে ডেলিভার করা হবে ইন'শা-আল্লাহ, এর মধ্যে কল দেওয়া হবে না।`}
+                </p>
               </div>
             )}
-          </div>
 
-          {process.env.NEXT_PUBLIC_FOR_MOTO_STUC === "YES" && (
-            <div className="pt-5">
-              <p className="text-gray-800">
-                ৩ - ৭ কর্মদিবসের মধ্যে ডেলিভার করা হবে ইন’শা-আল্লাহ, এর মধ্যে কল
-                দেওয়া হবে না।
-              </p>
-            </div>
-          )}
-
-          {/* Order Now Button  */}
-          <div className="form-control mt-7">
-            {settings?.agreement_links?.length ? (
-              <div className="grid grid-cols-[20px_1fr] items-start  mb-4">
-                <div className="flex items-center h-5 w-5">
+            {/* Terms & Order Button */}
+            <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+              {settings?.agreement_links?.length ? (
+                <div className="flex gap-3 mb-5 p-4 bg-slate-50 rounded-xl border border-slate-100">
                   <input
                     id="shipping-2"
-                    aria-describedby="shipping-2"
                     type="checkbox"
-                    className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded"
+                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900 flex-shrink-0"
                     checked={isTermChecked}
                     onChange={(e) => setIsTermChecked(e.target.checked)}
                   />
-                </div>
-                <div className="text-sm ml-3">
-                  <label
-                    htmlFor="shipping-2"
-                    className="font-medium text-gray-900"
-                  >
+                  <label htmlFor="shipping-2" className="text-xs text-slate-600 leading-relaxed">
                     I have read and agree to the website
                     {settings.agreement_links.map((item, index) => (
                       <span key={index}>
-                        <Link
-                          href={item?.link}
-                          target="_blank"
-                          className="ml-1 text-blue-500 hover:underline"
-                        >
+                        <Link href={item?.link} target="_blank" className="ml-1 text-slate-900 font-semibold hover:underline">
                           {item?.link_type}
                         </Link>
                         {index < settings.agreement_links.length - 1 && ","}
                       </span>
                     ))}
-                  </label>
-                  <div className="text-gray-500">
-                    <span className="font-normal text-xs">
-                      {settings?.agreement_text ??
-                        "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy."}
+                    <span className="block mt-1 text-slate-400">
+                      {settings?.agreement_text ?? "Your personal data will be used to process your order."}
                     </span>
-                  </div>
+                  </label>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            <button
-              disabled={isDisabled}
-              // type="submit"
-              onClick={() => handleSubmit(handleCheckoutSubmit)()}
-              className="primary-btn w-full disabled:bg-slate-300 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: isDisabled
-                  ? "#cccccc"
-                  : settings?.colors?.primary,
-                color: settings?.colors?.primary_text,
-                border: `1px solid ${settings?.colors?.primary_text}`,
-                opacity: isDisabled ? 0.5 : 1,
-              }}
-            >
-              {translations["order-now"] || "Order Now"}
-            </button>
+              <button
+                disabled={isDisabled}
+                onClick={() => handleSubmit(handleCheckoutSubmit)()}
+                className="w-full py-4 px-6 rounded-xl font-bold text-base transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm"
+                style={{
+                  backgroundColor: isDisabled ? "#cccccc" : settings?.colors?.primary,
+                  color: settings?.colors?.primary_text,
+                }}
+              >
+                {translations["order-now"] || "Confirm Order"} — {siteConfig.currency.shortForm}{grandTotal}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <CouponModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        // total={total} //cart items total
-      />
+
+      <CouponModal showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 };
