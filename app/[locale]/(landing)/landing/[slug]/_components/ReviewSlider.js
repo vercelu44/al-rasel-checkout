@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 export default function ReviewSlider({ product }) {
@@ -79,7 +80,9 @@ export default function ReviewSlider({ product }) {
             }}
           >
             {images.map((src, index) => (
-              <img
+              <Image
+              width={700}
+              height={500}
                 key={index}
                 src={src}
                 alt={`Slide ${index}`}

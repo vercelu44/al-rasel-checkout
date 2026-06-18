@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setGlobalLoader } from "@/store/slices/commonSlice";
+import Link from "next/link";
 
 export default function TemplateCheckout({ product, settings }) {
   const [placeAnOrder] = usePlaceAnOrderMutation();
@@ -14,10 +15,10 @@ export default function TemplateCheckout({ product, settings }) {
 
   const [shippingOption, setShippingOption] = useState("inside");
   const [selectedPrice, setSelectedPrice] = useState(
-    product?.barcodes?.[0]?.discount_selling_price || 0
+    product?.barcodes?.[0]?.discount_selling_price || 0,
   );
   const [selectedBarcodeId, setSelectedBarcodeId] = useState(
-    product?.barcodes?.[0]?.id || null
+    product?.barcodes?.[0]?.id || null,
   );
   const [formData, setFormData] = useState({
     name: "",
@@ -29,8 +30,8 @@ export default function TemplateCheckout({ product, settings }) {
     shippingOption === "inside"
       ? settings?.inside_dhaka_delivery_charges
       : shippingOption === "outside"
-      ? settings?.outside_dhaka_delivery_charges
-      : 0;
+        ? settings?.outside_dhaka_delivery_charges
+        : 0;
 
   const calculateSubtotal = () => selectedPrice;
 
@@ -48,7 +49,7 @@ export default function TemplateCheckout({ product, settings }) {
 
   useEffect(() => {
     const validBarcodes = product?.barcodes?.filter(
-      (item) => item.size && item.color
+      (item) => item.size && item.color,
     );
     if (validBarcodes?.length > 0) {
       setSelectedPrice(validBarcodes[0].discount_selling_price);
@@ -72,8 +73,8 @@ export default function TemplateCheckout({ product, settings }) {
       shippingOption === "inside"
         ? "inside dhaka"
         : shippingOption === "outside"
-        ? "outside dhaka"
-        : "sub dhaka";
+          ? "outside dhaka"
+          : "sub dhaka";
 
     const order_items =
       product?.barcodes
@@ -212,7 +213,7 @@ export default function TemplateCheckout({ product, settings }) {
 
                   <div className="max-w-2xl  rounded-lg">
                     {product?.barcodes?.some(
-                      (item) => item.size || item.color
+                      (item) => item.size || item.color,
                     ) ? (
                       <>
                         <h1 className="text-2xl font-bold mb-4">
@@ -236,7 +237,7 @@ export default function TemplateCheckout({ product, settings }) {
                                       checked={selectedBarcodeId === item.id}
                                       onChange={() => {
                                         setSelectedPrice(
-                                          item.discount_selling_price
+                                          item.discount_selling_price,
                                         );
                                         setSelectedBarcodeId(item.id);
                                       }}
@@ -345,10 +346,14 @@ export default function TemplateCheckout({ product, settings }) {
               </div>
             </div>
 
-            <h2 className="text-[16px] font-semibold font-hind text-center py-4 pt-10">
-              সরাসরি অর্ডার করতে অথবা ফ্রি কনসাল্টেশন পেতে কল করুনঃ
-              +8801628080802
-            </h2>
+            {settings?.phone?.length > 0 && (
+              <h2 className="text-[16px] font-semibold font-hind text-center py-4 pt-10">
+                সরাসরি অর্ডার করতে অথবা ফ্রি কনসাল্টেশন পেতে কল করুনঃ
+                <Link href={`tel:${settings?.phone[0]}`}>
+                  {settings?.phone[0]}{" "}
+                </Link>
+              </h2>
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,15 @@
-"use client";
+
+import { fetchData } from "@/lib/fetch-data";
 import Link from "next/link";
 import { GoPaperclip } from "react-icons/go";
 
-const TemplateFooter = ({ images, max }) => {
+const TemplateFooter = async ({ images, max }) => {
+    const [settingsRes] = await Promise.allSettled([
+      fetchData({ api: `info/basic` }),
+    ]);
+  
+    const settings =
+      settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   return (
     <div className="w-full bg-gray-900 h-20 text-white text-sm py-6">
       <div className="flex justify-center items-center gap-3">
@@ -36,7 +43,7 @@ const TemplateFooter = ({ images, max }) => {
       </div>
       <div className="text-center mt-[1px]">
         <h2 className="text-sm font-hind">
-          © {new Date().getFullYear()} | All rights reserved | Developed by AmarSolution
+          © {new Date().getFullYear()} - {settings?.name} | All rights reserved | Developed by AmarSolution
         </h2>
       </div>
     </div>
