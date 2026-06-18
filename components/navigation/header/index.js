@@ -1,9 +1,9 @@
 // import CategoriesNav from "./CategoriesNav";
-import CategoriesMegaMenu from "./CategoriesMegaMenu";
-import TopBar from "./TopBar";
-import HeaderWrapper from "./header";
-import MainNav from "./main-nav";
+
 import { fetchData } from "@/lib/fetch-data";
+import MainNav from "./main-nav";
+import TopBar from "./TopBar";
+import CategoriesMegaMenu from "./CategoriesMegaMenu";
 // import OfferSliderNav from "./offer-slider-nav";
 
 const Header = async () => {
@@ -18,7 +18,13 @@ const Header = async () => {
 		categoriesRes.status === "fulfilled" ? categoriesRes.value?.data || [] : [];
 	return (
 		<>
-			<HeaderWrapper settings={settings} categories={categories} />
+			 <header className="header fixed z-30 w-full">
+        {settings?.offer_massage && <TopBar settings={settings} />}
+        <MainNav settings={settings} categories={categories} />
+        <CategoriesMegaMenu settings={settings} categories={categories} />
+        {/* <CategoriesNav categories={categories} settings={settings} /> */}
+        {/* <OfferSliderNav /> */}
+      </header>
 		</>
 	);
 };

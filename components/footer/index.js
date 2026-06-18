@@ -1,28 +1,26 @@
-"use client";
 import Link from "next/link";
-// import { fetchData } from "@/lib/fetch-data";
+import { fetchData } from "@/lib/fetch-data";
 
 // ** Import Icons
 import SocialIcon from "../elements/SocialIcon";
 import ScrollToTopButton from "../ScrollToTopButton";
 import MessagingButton from "./MessagingButton";
-import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import Image from "next/image";
 import AppleAppDownload from "../elements/svg/AppleAppDownload";
 import AndroidAppDownload from "../elements/svg/AndroidAppDownload";
 import sslImage from "@/public/assets/images/ssl.png";
-import { useSelector } from "react-redux";
-import { usePathname } from "@/navigation";
 
-const Footer = () => {
-  const { settings, settingsLoading, translationsLoading, translations } =
-    useSelector((state) => state.common);
-  const pathArray = usePathname().split("/");
-  if (settingsLoading || translationsLoading) return null;
-  if (pathArray.includes("landing")) return null;
-
-  // const settings = settingRes?.data || {};
+const Footer = async () => {
+  const translationData = await fetchData({ api: "translations" });
+  const translations = translationData?.data || {};
+  const settingRes = await fetchData({ api: "info/basic" });
+  
+  const settings = settingRes?.data || {};
   const footerPage = settings?.footer_page || [];
   const helpPage = settings?.help_page || [];
 
@@ -38,19 +36,21 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between gap-5 lg:gap-12 mt-8">
           <div className="footer-business-info">
             <Link href="/" className="logo inline-block mb-3">
-              {settings?.footer_logo ? (
-                <Image
+             
+                {settings?.footer_logo ? (
+                  <Image
                   src={settings?.footer_logo}
                   alt={settings?.name}
                   width={200}
                   height={48}
                   className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
                 />
-              ) : (
-                <span className="text-3xl font-bold inline-block">
-                  {settings?.name}
-                </span>
-              )}
+                ) : (
+                    <span className="text-3xl font-bold inline-block">
+                      {settings?.name}
+                    </span>
+                  )}
+
             </Link>
             <ul className="info-list pr-4 space-y-2 text-sm font-light">
               {settings?.addresses?.map((addr, index) => (
@@ -168,22 +168,20 @@ const Footer = () => {
                   Follow Us
                 </h6>
                 <div className="text-center py-4 flex gap-3 items-center">
-                  {settings?.facebook_link &&
-                    settings.facebook_link !== "#" && (
-                      <SocialIcon
-                        href={settings.facebook_link}
-                        icon={"/assets/icons/social/fb.svg"}
-                      />
-                    )}
-                  {settings?.whatsapp_link &&
-                    settings.whatsapp_link !== "#" && (
-                      <SocialIcon
-                        href={settings.whatsapp_link}
-                        icon={"/assets/icons/social/whatsapp.svg"}
-                        iconClass={"w-7 h-7"}
-                      />
-                    )}
-                  {settings?.instagram_link &&
+                  {settings.facebook_link && settings.facebook_link !== "#" && (
+                    <SocialIcon
+                      href={settings.facebook_link}
+                      icon={"/assets/icons/social/fb.svg"}
+                    />
+                  )}
+                  {settings.whatsapp_link && settings.whatsapp_link !== "#" && (
+                    <SocialIcon
+                      href={settings.whatsapp_link}
+                      icon={"/assets/icons/social/whatsapp.svg"}
+                      iconClass={"w-7 h-7"}
+                    />
+                  )}
+                  {settings.instagram_link &&
                     settings.instagram_link !== "#" && (
                       <SocialIcon
                         href={settings.instagram_link}
@@ -191,35 +189,34 @@ const Footer = () => {
                       />
                     )}
 
-                  {settings?.twitter_link && settings.twitter_link !== "#" && (
+                  {settings.twitter_link && settings.twitter_link !== "#" && (
                     <SocialIcon
                       href={settings.twitter_link}
                       icon={"/assets/icons/social/twitter.svg"}
                     />
                   )}
 
-                  {settings?.linkedin_link &&
-                    settings.linkedin_link !== "#" && (
-                      <SocialIcon
-                        href={settings.linkedin_link}
-                        icon={"/assets/icons/social/linkedin.svg"}
-                      />
-                    )}
-                  {settings?.youtube_link && settings.youtube_link !== "#" && (
+                  {settings.linkedin_link && settings.linkedin_link !== "#" && (
+                    <SocialIcon
+                      href={settings.linkedin_link}
+                      icon={"/assets/icons/social/linkedin.svg"}
+                    />
+                  )}
+                  {settings.youtube_link && settings.youtube_link !== "#" && (
                     <SocialIcon
                       href={settings.youtube_link}
                       icon={"/assets/icons/social/YouTube.svg"}
                     />
                   )}
 
-                  {settings?.tiktok_link && settings.tiktok_link !== "#" && (
+                  {settings.tiktok_link && settings.tiktok_link !== "#" && (
                     <SocialIcon
                       href={settings.tiktok_link}
                       icon={"/assets/icons/social/TikTok.svg"}
                     />
                   )}
 
-                  {settings?.pinterest_link &&
+                  {settings.pinterest_link &&
                     settings.pinterest_link !== "#" && (
                       <SocialIcon
                         href={settings.pinterest_link}

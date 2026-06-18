@@ -49,7 +49,7 @@ const ProductTemplatePage = async ({ params }) => {
     <section>
       {/* <ProductMicroData product={product} /> */}
 
-      <div className="pt-6 ">
+      <div className="">
         {/* logo section    */}
         <div className="flex flex-col items-center">
           <Image
