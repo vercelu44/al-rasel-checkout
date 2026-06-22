@@ -132,6 +132,12 @@ const ProductDetails = ({ product, settings, translations }) => {
     product.barcodes?.length === 1
       ? product.barcodes[0].barcode
       : selectedVariant?.barcode;
+  
+  // Show stock out Badge
+  const getShowStockStatus = settings?.show_stock_status_on_ecommerce || false;
+  const findSingleProduct = product?.barcodes?.length === 1 ? true : false;
+  const isShowStockStatus = (getShowStockStatus && findSingleProduct) &&   product?.stock_qty <= 0 ? true : false;
+     
 
   const handleCopy = () => {
     if (barcode) {
@@ -327,6 +333,11 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
             )}
             {/* Add to cart section  */}
             <div className="py-2 pt-6 lg:pt-8 space-y-3 lg:pb-4">
+            
+              {
+                isShowStockStatus && <p className="py-1 px-3 bg-red-500 text-white rounded inline-flex"> Stock Out  </p>
+              }
+              
               <div className="product-actions flex gap-3 justify-between items-center">
                 <button
                   className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
