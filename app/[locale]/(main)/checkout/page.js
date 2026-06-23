@@ -334,9 +334,11 @@ const Checkout = () => {
   const gtmFlag = useRef(true);
   useEffect(() => {
     if (cart.length === 0) return;
+    const eventID = generateUniqueId();
     const formattedItems = getGTMFormattedCartItems(cart);
     const payload = {
       event: "begin_checkout",
+      event_id: eventID,
       ecommerce: {
         currency: "BDT", // Change to your store's currency
         value: total, // Total value of the added item(s)

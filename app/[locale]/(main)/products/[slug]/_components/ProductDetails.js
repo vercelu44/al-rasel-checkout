@@ -94,8 +94,10 @@ const ProductDetails = ({ product, settings, translations }) => {
   const gtmFlag = useRef(true);
   useEffect(() => {
     if (!product) return;
+    const eventID = generateUniqueId();
     const payload = {
       event: "view_item",
+      event_id: eventID,
       ecommerce: {
         currency: "BDT", // Change to your store's currency
         value: product.new_price, // Total value of the added item(s)

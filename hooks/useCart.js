@@ -46,8 +46,10 @@ const useCart = () => {
     }
   };
   const handleGTMAddToCart = (product) => {
+    const eventID = generateUniqueId();
     const payload = {
       event: "add_to_cart",
+      event_id: eventID,
       ecommerce: {
         currency: "BDT", // Change to your store's currency
         value: product.new_price, // Total value of the added item(s)

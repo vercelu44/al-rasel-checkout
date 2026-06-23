@@ -3,7 +3,9 @@ import { Cookies } from "@/utils/cookies";
 import { GoogleTagManager, sendGTMEvent } from "@next/third-parties/google";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { generateUniqueId } from "./get-unique";
 export function GTM({ gtmId }) {
+  const eventID = generateUniqueId();
   const pathname = usePathname();
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
@@ -21,6 +23,7 @@ export function GTM({ gtmId }) {
 
   const getPayload = () => ({
     event: "page_view",
+    event_id: eventID,
     page_location: window.location.href,
     page_path: window.location.pathname,
     page_title: document.title,

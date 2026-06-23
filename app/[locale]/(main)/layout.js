@@ -13,7 +13,6 @@ import Cart from "@/components/side-drawers/Cart";
 import ProductSelect from "@/components/side-drawers/ProductSelect";
 import PersistUser from "@/components/utility/PersistUser";
 import GlobalLoader from "@/components/utility/GlobalLoader";
-import ServerDataProvider from "@/components/utility/ServerDataProvider";
 import { fetchData } from "@/lib/fetch-data";
 import VideoPlayerModal from "@/components/modals/VideoPlayerModal";
 import SizeChangeModal from "@/components/modals/SizeChangeModal";
@@ -133,7 +132,6 @@ export default async function MainLayout({ children, params }) {
       <VideoPlayerModal />
       <PersistUser />
       <GlobalLoader />
-      <ServerDataProvider />
     </>
   );
 }

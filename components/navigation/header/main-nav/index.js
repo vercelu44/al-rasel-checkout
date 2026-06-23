@@ -89,7 +89,7 @@ export default function MainNav({ settings, categories }) {
           </Link>
           <div className="hidden lg:flex items-center gap-10">
             <Search />
-            {settings?.phone[0] && (
+            {(settings?.phone?.length > 0 && settings?.phone[0]) && (
               <a
                 href={`tel:${settings.phone[0]}`}
                 className="flex items-center gap-2"
