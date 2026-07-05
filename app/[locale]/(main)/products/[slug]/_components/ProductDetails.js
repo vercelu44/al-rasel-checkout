@@ -327,16 +327,16 @@ const ProductDetails = ({ product, settings, translations }) => {
                 </button>
                 <button
                   onClick={() => {
-                    if (!user) {
-                      if (!settings?.guest_checkout) {
-                        toast.error("Please login first before checkout");
-                        dispatch(setLoginModalOpen(true));
-                        // set redirect to checkout
-                        localStorage.setItem("redirect", "/checkout");
-                        return;
-                      }
-                      // If guest checkout is allowed, let them proceed
-                    }
+                    // if (!user) {
+                    //   if (!settings?.guest_checkout) {
+                    //     toast.error("Please login first before checkout");
+                    //     dispatch(setLoginModalOpen(true));
+                    //     // set redirect to checkout
+                    //     localStorage.setItem("redirect", "/checkout");
+                    //     return;
+                    //   }
+                    //   // If guest checkout is allowed, let them proceed
+                    // }
                     handleAddAndCheckout(product, selectedVariant);
                   }}
                   className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"

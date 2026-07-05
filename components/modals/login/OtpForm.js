@@ -30,13 +30,13 @@ const OtpForm = ({ phone, setShowModal, setOtpSent, translations }) => {
 
 	useEffect(() => {
 		if (isSuccess && user) {
-			// const redirect = searchParams.get("redirect");
+			const redirect = searchParams.get("redirect");
 			toast.success("Login successful");
 			localStorage.setItem("token", user.token);
 			dispatch(setUser(user.data));
 			setShowModal(false);
 			setOtpSent(false);
-			const redirect = localStorage.getItem("redirect");
+			// const redirect = localStorage.getItem("redirect");
 			// router.push(redirect || "/dashboard");
 			if (redirect) {
 				router.push(redirect);

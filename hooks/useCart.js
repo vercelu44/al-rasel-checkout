@@ -6,6 +6,7 @@ import {
   addToSelected,
   removeFromCart,
   removeFromSelected,
+  toggleCart,
 } from "@/store/slices/cartSlice";
 import { useRouter } from "@/navigation";
 import * as pixel from "/lib/fpixel";
@@ -88,7 +89,7 @@ const useCart = () => {
    * @returns The function `handleAddToCart` returns a boolean value. It returns `true` if the product is
    * successfully added to the cart, and `false` otherwise.
    */
-  const handleAddToCart = (product, selectedVariant) => {
+  const handleAddToCart = (product, selectedVariant,willNotOpenCart) => {
     // if (product.barcodes?.length === 1 && !selectedVariant) {
 
     if (
@@ -116,6 +117,7 @@ const useCart = () => {
           settings: settings,
         }),
       );
+      !willNotOpenCart && dispatch(toggleCart());
       return true;
     }
     if (!selectedVariant) {
@@ -149,7 +151,7 @@ const useCart = () => {
    * the product to the cart.
    */
   const handleAddAndCheckout = (product, selectedVariant, isDrawerClose) => {
-    const isSuccess = handleAddToCart(product, selectedVariant);
+    const isSuccess = handleAddToCart(product, selectedVariant,true);
     if (isSuccess) {
       isDrawerClose && dispatch(removeFromSelected());
       router.push("/checkout");
