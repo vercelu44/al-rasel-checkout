@@ -1,30 +1,46 @@
-import React from "react";
+import { getFormattedDate } from "@/utils/format-date";
 import { HiCheck } from "react-icons/hi2";
-import { getBdFormattedDateTime } from "@/utils/format-date";
 
-export default function OrderStep({ date, title, message, isComplete }) {
-	return isComplete ? (
-		<li class="pb-3 pl-6 border-l border-slate-300">
-			<span class="absolute flex items-center justify-center w-4 h-4 bg-primary rounded-full -left-2">
-				<HiCheck className="text-white" />
-			</span>
-			<h3 class="text-primary">{getBdFormattedDateTime(date)}</h3>
-			<div className="bg-white border border-slate-200 p-4 rounded-xl mt-4">
-				<h3 className="font-title font-semibold text-sm/[14px] lg:text-base/[16px] mb-2">
-					{title}
-				</h3>
-				<p>{message}</p>
-			</div>
-		</li>
-	) : (
-		<li class="relative pb-3 pl-6 border-l border-dashed border-slate-300">
-			<div class="absolute flex items-center justify-center w-4 h-4 bg-slate-400 rounded-full -left-2 top-5"></div>
-			<div className="bg-white p-4 border border-slate-100 rounded-xl">
-				<h3 class="font-title font-semibold text-sm/[14px] lg:text-base/[16px] mb-2">
-					{title}
-				</h3>
-				<p>{message}</p>
-			</div>
-		</li>
-	);
+export default function OrderStep({ title, message, date, isComplete }) {
+  return (
+    <li className="relative flex gap-4 pb-8">
+      {/* Circle */}
+      <div
+        className={`relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2
+        ${
+          isComplete
+            ? "border-primary bg-primary text-white"
+            : "border-slate-300 bg-white text-slate-400"
+        }`}
+      >
+        {isComplete ? (
+          <HiCheck className="text-lg" />
+        ) : (
+          <div className="h-2.5 w-2.5 rounded-full bg-slate-300" />
+        )}
+      </div>
+
+      {/* Content */}
+      <div
+        className={`relative flex-1 rounded-r-2xl rounded-bl-2xl rounded-tl-md border p-4
+    ${isComplete ? "border-blue-100 bg-blue-50" : "border-slate-200 bg-white"}`}
+      >
+        <span
+          className={`absolute -left-[10px] top-3 h-5 w-5 rounded-bl-md border-l border-b rotate-45
+					${
+						isComplete ? "border-blue-100 bg-blue-50" : "border-slate-200 bg-white"
+					}`}
+        />
+        <h3 className="font-semibold">{title}</h3>
+
+        {date && (
+          <p className="mt-1 text-xs text-slate-500">
+            {getFormattedDate(date)}
+          </p>
+        )}
+
+        <p className="mt-2 text-sm text-slate-600">{message}</p>
+      </div>
+    </li>
+  );
 }
