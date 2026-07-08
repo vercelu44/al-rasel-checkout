@@ -40,6 +40,7 @@ export const getOrderTrackingData = (orderData, translations = {}) => {
       title: translations["packing"] || "Packing",
       description: translations["product-packing"] || "Product packing",
       message: translations["product-packing"] || "Product packing",
+      courier_name: saleStatus.Packing?.courier_name
     },
     {
       key: "Delivery",
@@ -49,6 +50,7 @@ export const getOrderTrackingData = (orderData, translations = {}) => {
         translations["product-for-delivery"] || "Product for delivery",
       message:
         translations["product-for-delivery"] || "Product for delivery",
+      courier_name: saleStatus.Delivery?.courier_name
     },
     {
       key: "Delivered",
@@ -60,6 +62,7 @@ export const getOrderTrackingData = (orderData, translations = {}) => {
       message:
         translations["received-product"] ||
         "You have received your product",
+         courier_name: saleStatus.Delivered?.courier_name
     },
   ].map((step, index) => ({
     ...step,

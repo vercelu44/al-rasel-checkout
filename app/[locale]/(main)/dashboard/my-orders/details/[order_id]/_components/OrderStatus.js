@@ -1,6 +1,6 @@
 import { getOrderTrackingData } from "./order-utils";
 
-export default function OrderTracking({ translations, orderData }) {
+export default function OrderTrackingStep({ translations, orderData }) {
 const {
   steps,
   totalSteps,
@@ -9,7 +9,6 @@ const {
   activeStepData,
 } = getOrderTrackingData(orderData, translations);
 
-  
 
   return (
     <div className="hidden lg:block">
@@ -74,6 +73,12 @@ const {
                 <p className="mt-2 text-sm text-slate-600">
                   {activeStepData?.description}
                 </p>
+                {
+                  activeStepData?.courier_name &&
+                 <p className="mt-2 text-sm text-slate-600">
+                  Delivery By: <span className="rounded-3xl px-1.5 py-0.5  text-xs bg-green-600 text-white">{activeStepData.courier_name}</span>
+                </p>
+                }
               </div>
 
               <div className="text-right">

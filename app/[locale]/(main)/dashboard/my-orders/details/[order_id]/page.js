@@ -15,9 +15,9 @@ import { siteConfig } from "@/config/site";
 import PaymentModal from "@/components/modals/PaymentModal";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import OrderTracking from "./_components/OrderTracking";
-import GiftTimeline from "./_components/OrderStatus";
 import Cancelled from "./_components/Cancelled";
 import OnHold from "./_components/OnHold";
+import OrderTrackingStep from "./_components/OrderStatus";
 
 const OrderDetail = ({ params }) => {
   const { order_id, locale } = params;
@@ -52,7 +52,7 @@ const OrderDetail = ({ params }) => {
             <Cancelled />
           ) : (
             <>
-              <GiftTimeline translations={translations} orderData={orderData} />
+              <OrderTrackingStep translations={translations} orderData={orderData} />
               <OrderTracking
                 orderData={orderData}
                 isLoading={isLoading}
