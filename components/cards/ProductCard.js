@@ -115,7 +115,7 @@ const ProductCard = ({ product, isFlashSale, isLarge, translations = {} }) => {
 									<Image
 										className={`default-img ${
 											isLarge ? "h-[196px] w-[192px]" : "h-[158px] w-full"
-										} md:h-[220px]  md:w-[220px] rounded-lg object-cover object-top`}
+										} md:h-[220px]  md:w-[220px] rounded-lg object-contain object-center`}
 										src={image || "/assets/images/no-image.png"}
 										alt={product_name}
 										width={220}
