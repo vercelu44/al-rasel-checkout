@@ -44,11 +44,13 @@ const ContactUs = async () => {
           {/* Header */}
           <div className="mb-8">
             <div className="flex  items-center gap-3 mb-2">
-              <div style={{
-						color: settings?.colors?.default_text,
-						backgroundColor: settings?.colors?.secondary
-					}}
-          className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+              <div
+                // style={{
+                //   color: settings?.colors?.default_text,
+                //   backgroundColor: settings?.colors?.secondary,
+                // }}
+                className="w-12 h-12 rounded-lg flex items-center bg-gray-900 justify-center text-white font-bold text-xl"
+              >
                 G
               </div>
               <div>
@@ -67,10 +69,12 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdStorefront className=" text-2xl" style={{
-                      color: settings?.colors?.default_text,
-                     
-                    }} />
+                    <MdStorefront
+                      className=" text-2xl"
+                      style={{
+                        color: settings?.colors?.default_text,
+                      }}
+                    />
                   </div>
 
                   <div className="flex-1">
@@ -109,10 +113,12 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdEmail className="text-red-800 text-2xl" style={{
-                      color: settings?.colors?.default_text,
-                     
-                    }} />
+                    <MdEmail
+                      className="text-red-800 text-2xl"
+                      style={{
+                        color: settings?.colors?.default_text,
+                      }}
+                    />
                   </div>
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -146,7 +152,7 @@ const ContactUs = async () => {
                             color: settings?.colors?.default_text,
                             border: `1px solid ${settings?.colors?.primary}`,
                           }}
-                         >
+                        >
                           Write
                         </Link>
                       </div>
@@ -160,10 +166,12 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdPhone className="text-red-800 text-2xl"   style={{
-                      color: settings?.colors?.default_text,
-                     
-                    }} />
+                    <MdPhone
+                      className="text-red-800 text-2xl"
+                      style={{
+                        color: settings?.colors?.default_text,
+                      }}
+                    />
                   </div>
 
                   <div className="flex-1">

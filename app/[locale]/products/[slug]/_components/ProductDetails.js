@@ -338,9 +338,9 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
                 isShowStockStatus && <p className="py-1 px-3 bg-red-500 text-white rounded inline-flex"> Stock Out  </p>
               }
               
-              <div className="product-actions flex gap-3 justify-between items-center">
+              <div className="flex gap-2 lg:gap-3 justify-between items-center">
                 <button
-                  className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
+                  className="bg-primary text-xs md:text-base uppercase lg:font-medium py-3 gap-2 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                   onClick={() => handleAddToCart(product, selectedVariant)}
                   style={{
                     backgroundColor: settings?.colors?.primary,
@@ -348,7 +348,7 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
                     border: `1px solid ${settings?.colors?.primary_text}`,
                   }}
                 >
-                  <HiOutlineShoppingCart size={24} />
+                  <HiOutlineShoppingCart className="w-4 h-4 lg:w-5 lg:h-5" />
                   <span className="ml-2">
                     {translations["add-to-cart"] || "Add to cart"}
                   </span>
@@ -367,43 +367,43 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
                     }
                     handleAddAndCheckout(product, selectedVariant);
                   }}
-                  className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
+                  className="bg-primary text-xs md:text-base uppercase lg:font-medium py-3 gap-2 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                   style={{
                     backgroundColor: settings?.colors?.primary,
                     color: settings?.colors?.primary_text,
                     border: `1px solid ${settings?.colors?.primary_text}`,
                   }}
                 >
-                  <IoIosFlash size={24} />{" "}
-                  <span className="mr-2">
+                  <IoIosFlash className="w-4 h-4 lg:w-5 lg:h-5" />{" "}
+                  <span className="">
                     {translations["buy-now"] || "Buy now"}
                   </span>
                 </button>
               </div>
-              <div className="product-actions flex gap-3 justify-between items-center">
+              <div className=" flex gap-2 lg:gap-3 justify-between items-center">
                 <Link href={whatsappUrl} target="_blank" className="w-full">
                   <button
-                    className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
+                    className="bg-primary text-xs md:text-base lg:font-medium py-3 gap-2 w-full px-1 md:px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                     style={{
-                      backgroundColor: "#25d366",
+                      backgroundColor: "#1daa61",
                     }}
                   >
-                    <FaWhatsapp size={24} />
-                    <span className="ml-2">Order On WhatsApp</span>
+                    <FaWhatsapp className="w-4 h-4 lg:w-5 lg:h-5"/>
+                    <span className="md:ml-2  ">Order On WhatsApp</span>
                   </button>
                 </Link>
                 <Link href={`tel:${settings?.phone[0]}`} className="w-full">
                   <button
-                    className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
+                    className="bg-primary text-xs md:text-base  lg:font-medium py-3 gap-2 w-full px-1 md:px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                     style={{
                       backgroundColor: "#193276",
                       // color: settings?.colors?.primary_text,
                       // border: `1px solid ${settings?.colors?.primary_text}`,
                     }}
                   >
-                    <IoCallOutline size={20} />
+                    <IoCallOutline  className="w-4 h-4 lg:w-5 lg:h-5" />
 
-                    <span className="mr-2">Call for order</span>
+                    <span className="md:ml-2 ">Call for order</span>
                   </button>
                 </Link>
               </div>

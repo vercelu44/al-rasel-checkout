@@ -58,7 +58,7 @@
 @layer components {
 	.container {
 		/* @apply md:px-5 2xl:max-w-[1276px]; */
-		@apply md:px-5 2xl:max-w-[1536px];
+		@apply px-2 md:px-5 2xl:max-w-[1536px];
 	}
 }
 
