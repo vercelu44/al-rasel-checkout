@@ -11,6 +11,7 @@ import {
   getCartTotal,
   getCouponDiscount,
   getDefaultFormValues,
+  getFreeDelivery,
   getOrderFormattedCartItems,
 } from "@/lib/checkout";
 
@@ -101,15 +102,25 @@ const Checkout = () => {
 
   useEffect(() => { reset(); }, [user, reset]);
 
+  const freeDelivery = getFreeDelivery(cart)
   const total = getCartTotal(cart);
   const discountedPrice = getCouponDiscount(discountCoupon, total);
   const totalWithDiscount = total - discountedPrice;
 
+  // const deliveryCharge = 
+  //   settings?.free_delivery_charges_limit > totalWithDiscount ||
+  //   settings?.free_delivery_charges_limit <= 0
+  //     ? deliveryArea?.charges || 0
+  //     : 0;
+
+  const isFreeByAmount =
+  settings?.free_delivery_charges_limit > 0 &&
+  totalWithDiscount >= settings.free_delivery_charges_limit;
+
   const deliveryCharge =
-    settings?.free_delivery_charges_limit > totalWithDiscount ||
-    settings?.free_delivery_charges_limit <= 0
-      ? deliveryArea?.charges || 0
-      : 0;
+  freeDelivery || isFreeByAmount
+    ? 0
+    : (deliveryArea?.charges || 0);
 
   const grandTotal = totalWithDiscount + deliveryCharge;
 
@@ -364,69 +375,72 @@ const Checkout = () => {
             )}
 
             {/* Delivery Area */}
-            <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-              <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
-                <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+            {
+              !freeDelivery && 
+              <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+                <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold text-slate-900">
+                      {translations["select-delivery-area"] || "Delivery Area"}
+                    </h4>
+                    <p className="text-xs text-slate-400 mt-0.5">Choose your delivery zone</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-base font-semibold text-slate-900">
-                    {translations["select-delivery-area"] || "Delivery Area"}
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-0.5">Choose your delivery zone</p>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {deliveryAreas.map((area) => (
-                  <button
-                    key={area.key}
-                    onClick={() => handleDeliveryAreaChange(area)}
-                    className={cn(
-                      "relative flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-200",
-                      deliveryArea?.key === area.key
-                        ? "border-slate-900 "
-                        : "border-slate-200 bg-white hover:border-slate-300 text-slate-700"
-                    )}
-                  >
-                    <div className={cn(
-                      "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0",
-                      deliveryArea?.key === area.key ? "bg-slate-100" : "bg-white/10"
-                    )}>
-                      <span className={" text-slate-600" }>
-                        {area.icon}
-                      </span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold">{area.title}</p>
-                      <p className={cn(
-                        "text-xs mt-0.5 font-medium",
-                        !deliveryCharge && deliveryArea?.key === area.key
-                          ? "line-through opacity-60"
-                          : deliveryArea?.key === area.key ? "opacity-80" : "text-slate-400"
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {deliveryAreas.map((area) => (
+                    <button
+                      key={area.key}
+                      onClick={() => handleDeliveryAreaChange(area)}
+                      className={cn(
+                        "relative flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-200",
+                        deliveryArea?.key === area.key
+                          ? "border-slate-900 "
+                          : "border-slate-200 bg-white hover:border-slate-300 text-slate-700"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0",
+                        deliveryArea?.key === area.key ? "bg-slate-100" : "bg-white/10"
                       )}>
-                        {siteConfig.currency.sign}{area.charges}
-                      </p>
-                    </div>
-                    {deliveryArea?.key === area.key && (
-                      <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-slate-900 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-white" />
+                        <span className={" text-slate-600" }>
+                          {area.icon}
+                        </span>
                       </div>
-                    )}
-                  </button>
-                ))}
-              </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold">{area.title}</p>
+                        <p className={cn(
+                          "text-xs mt-0.5 font-medium",
+                          !deliveryCharge && deliveryArea?.key === area.key
+                            ? "line-through opacity-60"
+                            : deliveryArea?.key === area.key ? "opacity-80" : "text-slate-400"
+                        )}>
+                          {siteConfig.currency.sign}{area.charges}
+                        </p>
+                      </div>
+                      {deliveryArea?.key === area.key && (
+                        <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-slate-900 flex items-center justify-center">
+                          <div className="w-2 h-2 rounded-full bg-white" />
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
 
-              {!deliveryArea && (
-                <p id="deliveryAreaError" className=" mt-3 text-xs text-red-500 flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
-                  You must select a delivery area
-                </p>
-              )}
-            </div>
+                {!deliveryArea && (
+                  <p id="deliveryAreaError" className=" mt-3 text-xs text-red-500 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
+                    You must select a delivery area
+                  </p>
+                )}
+              </div>
+            }
 
             {/* Payment Options */}
             {deliveryArea && (
