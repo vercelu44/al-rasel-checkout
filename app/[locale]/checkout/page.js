@@ -30,7 +30,7 @@ import Script from "next/script";
 
 const Checkout = () => {
   const { settings, translations, isFbPixelInitialized } = useSelector(
-    (state) => state.common
+    (state) => state.common,
   );
 
   const deliveryAreas = [
@@ -64,11 +64,25 @@ const Checkout = () => {
   const { handleOrderPlace } = useOrderPlace(); //custom hook for separating order place business logics
   const { handleUserUpdate } = useProfileUpdate(); //custom hook for separating profile update business logics
 
+  console.log({selectedPayMethod});
+  
   const { data: paymentMethodsData } = useGetPaymentMethodsQuery();
-  const paymentMethods = useMemo(
-    () => paymentMethodsData?.data || {},
-    [paymentMethodsData]
-  );
+
+  const paymentMethods = useMemo(() => {
+    const checkoutPay = {
+      status: 1,
+      key: "Online Payment",
+      icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZVPar58jbbtvP3n_6teeTaAwZkB36pHXE3qs6W79Z-zAZvcVkvcg6YmrT&s=10",
+      title: "Checkout Payment",
+    };
+    const paymentsLists = { ...paymentMethodsData?.data };
+    paymentsLists.checkoutPay = { ...checkoutPay };
+
+    // console.log({ paymentsLists });
+    return paymentsLists || {};
+  }, [paymentMethodsData]);
+
+  // console.log({ paymentMethods });
 
   //slicing cart items based on orderCollapsed
   const cartItems = orderCollapsed ? cart : cart.slice(0, 3);
@@ -102,17 +116,17 @@ const Checkout = () => {
     switch (areaKey) {
       case "inside dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_inside
+          !!settings?.is_delivery_charge_required_for_inside,
         );
         break;
       case "sub dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_sub_region
+          !!settings?.is_delivery_charge_required_for_sub_region,
         );
         break;
       case "outside dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_outside
+          !!settings?.is_delivery_charge_required_for_outside,
         );
         break;
       default:
@@ -140,7 +154,7 @@ const Checkout = () => {
   useEffect(() => {
     if (Object.keys(paymentMethods).length > 0) {
       let activePayments = Object.values(paymentMethods).filter(
-        (payMethod) => payMethod?.status === 1
+        (payMethod) => payMethod?.status === 1,
       );
 
       if (activePayments?.length > 1 && activePayments[0].key === "COD") {
@@ -259,7 +273,7 @@ const Checkout = () => {
     if (isFbPixelInitialized && flag.current && cart.length > 0) {
       pixel.event(
         "InitiateCheckout",
-        pixel.getInitiateCheckoutPixelData(cart, total)
+        pixel.getInitiateCheckoutPixelData(cart, total),
       );
       flag.current = false;
     }
@@ -421,7 +435,7 @@ const Checkout = () => {
                     </h3>
                     {/* <div className="flex flex-nowrap space-x-4"> */}
                     <HorizontalScrollView>
-                      {Object.keys(paymentMethods).map((method, index) =>
+                      {Object.keys(paymentMethods).reverse().map((method, index) =>
                         paymentMethods[method].status === 1 &&
                         !(paymentMethods[method].key === "COD") ? (
                           <div
@@ -455,7 +469,7 @@ const Checkout = () => {
                             </div>
                             <h3>{paymentMethods[method].title}</h3>
                           </div>
-                        ) : null
+                        ) : null,
                       )}
                     </HorizontalScrollView>
                     {/* </div> */}
@@ -507,7 +521,7 @@ const Checkout = () => {
                     </div>
                   ) : (
                     <CartCard key={item.barcodeId} item={item} />
-                  )
+                  ),
                 )}
 
                 <div className="my-3 border-t border-b py-3 md:py-6 border-slate-200">
@@ -541,7 +555,7 @@ const Checkout = () => {
                       <p
                         className={cn(
                           `font-semibold`,
-                          !deliveryCharge && deliveryArea && "line-through"
+                          !deliveryCharge && deliveryArea && "line-through",
                         )}
                       >
                         {siteConfig.currency.sign} {area.charges}
