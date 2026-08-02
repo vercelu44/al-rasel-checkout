@@ -270,6 +270,55 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
                   />
                 ) : null}
               </div>
+
+              {/* Combo Product Section — shows only when product has combo_products */}
+              {product?.combo_products?.length ? (
+                <div className="mt-5 mb-2 border border-slate-200 rounded-xl p-4">
+                  <h4 className="text-base lg:text-lg font-bold font-title text-slate-900 mb-3">
+                    {translations["combo-includes"] || "This Combo Includes"}{" "}
+                    <span className="text-sm font-normal text-slate-500">
+                      ({product.combo_products.length}{" "}
+                      {translations["items"] || "items"})
+                    </span>
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {product.combo_products.map((comboItem) => (
+                      <Link
+                        key={comboItem.id}
+                        href={`/products/${comboItem?.product?.slug}`}
+                        className="flex items-center gap-3 bg-slate-50 hover:bg-slate-100 transition rounded-lg p-2"
+                      >
+                        <Image
+                          src={
+                            comboItem?.product?.image ||
+                            "/assets/images/no-image.png"
+                          }
+                          alt={comboItem?.product?.product_name || "product"}
+                          height={56}
+                          width={56}
+                          className="h-14 w-14 rounded-md object-cover shrink-0 bg-white"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-slate-900 truncate">
+                            {comboItem?.product?.product_name}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            {translations["qty"] || "Qty"}:{" "}
+                            {comboItem?.combo_qty}
+                          </p>
+                        </div>
+                        {/* <div className="text-right shrink-0">
+                          <p className="text-sm font-semibold text-slate-900">
+                            {siteConfig.currency.shortForm}
+                            {comboItem?.unit_price}
+                          </p>
+                        </div> */}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
               {product?.coupons?.length ? (
                 <div className="mt-5 mb-8">
                   <p className="font-semibold font-title text-slate-900 mb-2">
@@ -285,7 +334,7 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
                           product?.coupons[0],
                           product.new_price,
                         )}{" "}
-                        {translations["off!"] || "ছাড়!"}
+                        {translations["off!"] || "ছাড়!"}
                       </span>
                     </li>
                     <li className="relative text-slate-900 pl-4 my-2 before:!top-3">
@@ -308,7 +357,7 @@ const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug
                       {siteConfig.currency.sign}
                       {product.coupons[0].max_discount}{" "}
                       {translations["amount-above-order"] ||
-                        "উপরে অর্ডারে (শুধুমাত্র প্রথম কেনাকাটায়)"}
+                        "উপরে অর্ডারে (শুধুমাত্র প্রথম কেনাকাটায়)"}
                     </li>
                   </ul>
                   <Link href="#" className="text-secondary-700 underline">
