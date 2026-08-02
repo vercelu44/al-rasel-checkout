@@ -18,7 +18,7 @@ export const getCheckoutPaymentSession = async ({
 
   const payload = {
     amount: checkoutAmount,
-    currency: "GBP",
+    currency: "AED",
 
     reference: `ORDER-${sale.id}`,
     description: `Order #${sale.id}`,
@@ -32,9 +32,42 @@ export const getCheckoutPaymentSession = async ({
       email: sale.customer.email,
     },
 
+    customer: {
+      name: sale.customer.name || sale.shipping.name,
+      email: sale.customer.email || "customer@example.com",
+      phone: {
+        country_code: "+880",
+        number: sale.customer.mobile || sale.shipping.phone,
+      },
+    },
+
     billing: {
       address: {
-        country: "GB",
+        address_line1: sale.shipping.address,
+        address_line2: sale.shipping.alt_address || "",
+        city: "Dhaka",
+        state: "Dhaka",
+        zip: "1200",
+        country: "UAE",
+      },
+      phone: {
+        country_code: "+880",
+        number: sale.customer.mobile || sale.shipping.phone,
+      },
+    },
+
+    shipping: {
+      address: {
+        address_line1: sale.shipping.address,
+        address_line2: sale.shipping.alt_address || "",
+        city: "Dhaka",
+        state: "Dhaka",
+        zip: "1200",
+        country: "UAE",
+      },
+      phone: {
+        country_code: "+880",
+        number: sale.shipping.phone,
       },
     },
 
@@ -43,7 +76,6 @@ export const getCheckoutPaymentSession = async ({
     },
 
     success_url: `${nextBaseUrl}/checkout/payment/success?order=${sale.id}`,
-
     failure_url: `${nextBaseUrl}/checkout/payment/fail?order=${sale.id}`,
   };
 
