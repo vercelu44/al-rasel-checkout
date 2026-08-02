@@ -13,7 +13,7 @@ export async function POST(request) {
   let order = null;
 
   const { origin: baseUrlFromRequest } = new URL(request.url);
-    const nextBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
+  const nextBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || baseUrlFromRequest;
 
   try {
     if (orderId) {
@@ -33,7 +33,7 @@ export async function POST(request) {
           api: isGuestCheckout ? "guest-checkout" : "checkout",
           authorization: `Bearer ${bearerToken}`,
         },
-        newOrder
+        newOrder,
       );
       // console.log(order);
     }
@@ -41,27 +41,35 @@ export async function POST(request) {
       console.log(order, "order creation response in ssl");
       return NextResponse.error(
         { message: "Order Creation failed" },
-        { status: 500 }
+        { status: 500 },
       );
     }
     // console.log(order);
     //Initializing SSL payment using order data
-    const sslResponse = await getCheckoutPaymentSession({order, nextBaseUrl, isDeliveryChargePayment});
-    console.log({sslResponse});
-    
+    const checkoutResponse = await getCheckoutPaymentSession({
+      order,
+      nextBaseUrl,
+      isDeliveryChargePayment,
+    });
+    console.log({ checkoutResponse });
 
     return NextResponse.json(
       {
-        GatewayPageURL: sslResponse.payment_session_secret,
-        status: true,
+        success: true,
+        orderId: order?.sale?.id,
+        paymentSession: checkoutResponse,
       },
-      { status: 200 }
+      {
+        status: 200,
+      },
     );
+
+
   } catch (error) {
     console.error("An error occurred:", error);
     return NextResponse.error(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

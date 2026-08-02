@@ -15,6 +15,7 @@
 		"defaults"
 	],
 	"dependencies": {
+		"@checkout.com/checkout-web-components": "^1.12.0",
 		"@reduxjs/toolkit": "^1.9.5",
 		"@stripe/stripe-js": "^4.2.0",
 		"@tailwindcss/container-queries": "^0.1.1",
