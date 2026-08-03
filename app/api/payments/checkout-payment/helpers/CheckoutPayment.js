@@ -18,7 +18,7 @@ export const getCheckoutPaymentSession = async ({
 
   const payload = {
     amount: checkoutAmount,
-    currency: "AED",
+    currency: "GBP",
 
     reference: `ORDER-${sale.id}`,
     description: `Order #${sale.id}`,
@@ -48,7 +48,7 @@ export const getCheckoutPaymentSession = async ({
         city: "Dhaka",
         state: "Dhaka",
         zip: "1200",
-        country: "AE",
+        country: "GB",
       },
       phone: {
         country_code: "+880",
@@ -63,7 +63,7 @@ export const getCheckoutPaymentSession = async ({
         city: "Dhaka",
         state: "Dhaka",
         zip: "1200",
-        country: "AE",
+        country: "GB",
       },
       phone: {
         country_code: "+880",
