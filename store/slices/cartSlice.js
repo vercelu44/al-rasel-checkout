@@ -14,14 +14,68 @@ const loadCartItemsFromLocalStorage = () => {
 			console.error("Error loading cart items from local storage:", error);
 		}
 	}
-	return null; // Return null if no cart items found or error occurred
+	return null;
+};
+
+// Helper function to calculate price break discount
+const calculatePriceBreakDiscount = (priceBreakDiscounts, quantity) => {
+	if (!priceBreakDiscounts || priceBreakDiscounts.length === 0) {
+		return 0;
+	}
+
+	// Sort by min_qty in descending order to check from highest quantity first
+	const sortedDiscounts = [...priceBreakDiscounts].sort((a, b) => 
+		parseFloat(b.min_qty) - parseFloat(a.min_qty)
+	);
+
+	// Find the applicable discount
+	for (const discount of sortedDiscounts) {
+		const minQty = parseFloat(discount.min_qty);
+		const maxQty = discount.max_qty ? parseFloat(discount.max_qty) : Infinity;
+		
+		if (quantity >= minQty && quantity <= maxQty) {
+			return {
+				discountValue: parseFloat(discount.discount_value),
+				discountType: discount.discount_type // 'fixed' or 'percentage'
+			};
+		}
+	}
+	
+	return 0;
+};
+
+// Helper function to calculate final price with discount
+const calculateFinalPrice = (product, quantity) => {
+	// Use selling_price or old_price as base
+	const basePrice = product.basePrice // useful to skip multiple discounts, price break discounts should be calculated on base price
+	
+	// Check for price break discounts
+	const priceBreakDiscount = calculatePriceBreakDiscount(
+		product.price_break_discounts, 
+		quantity
+	);
+	console.log(product.selectedBarCode)
+
+	
+	let finalPrice =  parseFloat(product.selectedBarCode.discount_selling_price) || 0; // Default to selling price if no break discount applies
+	
+	if (priceBreakDiscount) {
+		if (priceBreakDiscount.discountType === 'fixed') {
+			finalPrice = basePrice - priceBreakDiscount.discountValue;
+		} else if (priceBreakDiscount.discountType === 'percentage') {
+			finalPrice = basePrice * (1 - priceBreakDiscount.discountValue / 100);
+		}
+	}
+	
+	// Ensure price doesn't go below 0
+	return Math.max(0, finalPrice);
 };
 
 const initialState = {
 	isCartOpen: false,
 	selectedProduct: null,
 	sizeChangeProduct: null,
-	cart: loadCartItemsFromLocalStorage() || [], // Initialize with local storage data or an empty array
+	cart: loadCartItemsFromLocalStorage() || [],
 	discountCoupon: null,
 };
 
@@ -45,7 +99,6 @@ const cartSlice = createSlice({
 			state.sizeChangeProduct = null;
 		},
 
-		//Adding new item to the cart
 		addToCart: (state, action) => {
 			const { product, selectedBarCode, settings } = action.payload;
 			const index = state.cart
@@ -53,97 +106,117 @@ const cartSlice = createSlice({
 				.indexOf(selectedBarCode.id);
 
 			if (index === -1) {
-				const newCartItem = { ...product }; //creating new item for each variant
+				const newCartItem = { ...product };
 				newCartItem.barcodeId = selectedBarCode.id;
 				newCartItem.selectedBarCode = selectedBarCode;
-				//filtering available sizes for selected color
 				newCartItem.availableSizes = getFilteredByKeyValue(
 					product.barcodes,
 					"color",
 					selectedBarCode.color
 				);
 				newCartItem.quantity = 1;
+				
+				// Calculate initial price with discount
+				newCartItem.basePrice = parseFloat(selectedBarCode.selling_price) || 0;
+				const finalPrice = calculateFinalPrice(newCartItem, newCartItem.quantity);
+				newCartItem.finalPrice = finalPrice;
+				// console.log(finalPrice)
+				
 				state.cart.push(newCartItem);
 				toast.success("Product added");
 			} else {
 				const existingProduct = state.cart[index];
 
-				//checking available stock
 				if (
 					existingProduct.quantity >=
-					existingProduct?.selectedBarCode?.stock_qty && settings?.allow_stock_out_product_add_to_cart === 0
+					existingProduct?.selectedBarCode?.stock_qty && 
+					settings?.allow_stock_out_product_add_to_cart === 0
 				) {
 					const { color, size } = existingProduct.selectedBarCode;
-					let message =
-						color || size
-							? `No more stock for ${color} ${size}`
-							: "No more stock";
+					let message = color || size
+						? `No more stock for ${color} ${size}`
+						: "No more stock";
 					toast.error(message);
 					return;
 				}
 
-				//Incrementing quantity for existing items
+				// Increment quantity
 				existingProduct.quantity++;
+				
+				// Recalculate price based on new quantity
+				const newFinalPrice = calculateFinalPrice(existingProduct, existingProduct.quantity);
+				existingProduct.finalPrice = newFinalPrice;
+				
 				state.cart.splice(index, 1, existingProduct);
 				toast.success("Product added");
 			}
 		},
 
-		// Increasing Item Quantity
 		addQuantity: (state, action) => {
 			const { barcodeId, settings } = action.payload;
 			const index = state.cart.map((item) => item.barcodeId).indexOf(barcodeId);
 			const item = state.cart[index];
 
-			//checking available stock
-			if (item.quantity >= item?.selectedBarCode?.stock_qty && settings?.allow_stock_out_product_add_to_cart === 0) {
+			if (item.quantity >= item?.selectedBarCode?.stock_qty && 
+				settings?.allow_stock_out_product_add_to_cart === 0) {
 				toast.error("No more stock");
 				return;
 			}
 
-			//Updating item
+			// Increase quantity
 			item.quantity++;
+			
+			// Recalculate price with new quantity
+			const newFinalPrice = calculateFinalPrice(item, item.quantity);
+			item.finalPrice = newFinalPrice;
+			// item.appliedDiscount = item.basePrice - newFinalPrice;
+
 			state.cart.splice(index, 1, item);
 		},
 
-		// Decreasing Item Quantity
 		removeQuantity: (state, action) => {
 			const barcodeId = action.payload;
 			const index = state.cart.map((item) => item.barcodeId).indexOf(barcodeId);
-
-			//Updating item
 			const item = state.cart[index];
+
 			if (item.quantity > 1) {
 				item.quantity--;
+				
+				// Recalculate price with new quantity
+				const newFinalPrice = calculateFinalPrice(item, item.quantity);
+				item.finalPrice = newFinalPrice;
+
 				state.cart.splice(index, 1, item);
 			} else {
 				state.cart.splice(index, 1);
 			}
 		},
 
-		//Removing item from cart
 		removeFromCart: (state, action) => {
 			const barcodeId = action.payload;
 			const index = state.cart.map((item) => item.barcodeId).indexOf(barcodeId);
 			state.cart.splice(index, 1);
 		},
 
-		// Clear all items from cart
 		clearCart: (state) => {
 			state.cart = [];
 		},
 
-		// Add coupon discount
 		addDiscountInfo: (state, action) => {
-			const discount = action.payload;
-			state.discountCoupon = discount;
+			state.discountCoupon = action.payload;
 		},
 
-		// Clear coupon discount
-		clearDiscountInfo: (state, action) => {
-			const discount = action.payload;
-			state.discountCoupon = discount;
+		clearDiscountInfo: (state) => {
+			state.discountCoupon = null;
 		},
+		
+		// New action to manually recalculate all cart item prices (useful for coupon application)
+		recalculateCartPrices: (state) => {
+			state.cart.forEach(item => {
+				const newFinalPrice = calculateFinalPrice(item, item.quantity);
+				item.finalPrice = newFinalPrice;
+			});
+		}
 	},
 });
 
@@ -160,6 +233,7 @@ export const {
 	clearCart,
 	addDiscountInfo,
 	clearDiscountInfo,
+	recalculateCartPrices,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

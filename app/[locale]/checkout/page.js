@@ -13,6 +13,7 @@ import {
   getDefaultFormValues,
   getFreeDelivery,
   getOrderFormattedCartItems,
+  getOrderValueDiscount,
 } from "@/lib/checkout";
 
 //components
@@ -41,6 +42,7 @@ import DeliveryIcon from "@/public/assets/icons/customIcon/DeliveryIcon";
 import { getGTMFormattedCartItems } from "@/lib/gtm-data-formatter";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
+import { useGetOrderValueDiscountsQuery } from "@/store/api/order-value-discounts";
 
 const Checkout = () => {
   const { settings, translations, isFbPixelInitialized } = useSelector(
@@ -76,11 +78,18 @@ const Checkout = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const { data: paymentMethodsData } = useGetPaymentMethodsQuery();
+  const { data: orderValueDiscountsData } = useGetOrderValueDiscountsQuery();
   const [placeIncompleteOrder] = usePlaceIncompleteOrderMutation();
 
   const paymentMethods = useMemo(
     () => paymentMethodsData?.data || {},
     [paymentMethodsData],
+  );
+
+  // Always an array — used both for discount calculation and for the offers card below
+  const orderValueDiscounts = useMemo(
+    () => orderValueDiscountsData?.data || [],
+    [orderValueDiscountsData],
   );
 
   const cartItems = orderCollapsed ? cart : cart.slice(0, 3);
@@ -104,8 +113,9 @@ const Checkout = () => {
 
   const freeDelivery = getFreeDelivery(cart)
   const total = getCartTotal(cart);
-  const discountedPrice = getCouponDiscount(discountCoupon, total);
-  const totalWithDiscount = total - discountedPrice;
+  const couponDiscount = getCouponDiscount(discountCoupon, total);
+  const orderValueDiscount = getOrderValueDiscount(orderValueDiscounts, total);
+  const totalWithDiscount = total - couponDiscount - orderValueDiscount;
 
   // const deliveryCharge = 
   //   settings?.free_delivery_charges_limit > totalWithDiscount ||
@@ -123,6 +133,17 @@ const Checkout = () => {
     : (deliveryArea?.charges || 0);
 
   const grandTotal = totalWithDiscount + deliveryCharge;
+
+  // Sorted ascending (lowest tier first) — used to render the offers list in a natural order
+  const sortedOrderValueDiscounts = useMemo(
+    () =>
+      Array.isArray(orderValueDiscounts)
+        ? [...orderValueDiscounts].sort(
+            (a, b) => parseFloat(a.min_order_value) - parseFloat(b.min_order_value),
+          )
+        : [],
+    [orderValueDiscounts],
+  );
 
   const updateDeliveryChargeRequirement = (areaKey) => {
     switch (areaKey) {
@@ -230,11 +251,12 @@ const Checkout = () => {
       alt_address: fullAddress,
       order_items: getOrderFormattedCartItems(cart),
       payment_method: selectedPayMethod,
+      subtotal: total,
       delivery_type: deliveryCharge ? deliveryArea.key : "free delivery",
       delivery_charge: deliveryCharge,
       coupon: discountCoupon?.code || null,
-      coupon_discount: discountedPrice,
-      subtotal: total,
+      coupon_discount: couponDiscount,
+      order_value_discount: orderValueDiscount,
       after_discount: totalWithDiscount,
       grand_total: grandTotal,
       paymentOption: selectedPaymentOption,
@@ -243,6 +265,8 @@ const Checkout = () => {
       fbc: Cookies.get("_fbc"),
       incomplete_unique_id: incompleteId,
     };
+
+    // console.log(newOrder)
     handleOrderPlace(newOrder);
     localStorage.removeItem("incomplete_unique_id");
   };
@@ -307,7 +331,7 @@ const Checkout = () => {
       delivery_type: deliveryCharge ? deliveryArea.key : "free delivery",
       delivery_charge: deliveryCharge,
       coupon: discountCoupon?.code || null,
-      coupon_discount: discountedPrice,
+      coupon_discount: couponDiscount,
       subtotal: total,
       after_discount: totalWithDiscount,
       grand_total: grandTotal,
@@ -561,6 +585,95 @@ const Checkout = () => {
 
           {/* ───────── RIGHT COLUMN — Order Summary ───────── */}
           <div className="space-y-5">
+
+            {/* Order Value Offers — shows only when discount tiers exist */}
+            {sortedOrderValueDiscounts.length > 0 && (
+              <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5.586a1 1 0 01.707.293l6.414 6.414a1 1 0 010 1.414l-7.586 7.586a1 1 0 01-1.414 0L4.293 12.293A1 1 0 014 11.586V6a3 3 0 013-3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900">
+                      {translations["order-value-offers"] || "Order Value Offers"}
+                    </h4>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      {translations["spend-more-save-more"] || "Spend more, save more"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-2.5">
+                  {sortedOrderValueDiscounts.map((tier) => {
+                    const minValue = parseFloat(tier.min_order_value) || 0;
+                    const isUnlocked = total >= minValue;
+                    const remaining = Math.max(minValue - total, 0);
+                    const label =
+                      tier.discount_type === "percentage"
+                        ? `${tier.discount_value}% ${translations["off"] || "OFF"}`
+                        : `${siteConfig.currency.shortForm}${tier.discount_value} ${translations["off"] || "OFF"}`;
+
+                    return (
+                      <div
+                        key={tier.id}
+                        className={cn(
+                          "flex items-center justify-between gap-3 p-3 rounded-xl border transition-colors",
+                          isUnlocked
+                            ? "border-green-200 bg-green-50"
+                            : "border-slate-200 bg-slate-50",
+                        )}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div
+                            className={cn(
+                              "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0",
+                              isUnlocked ? "bg-green-500" : "bg-slate-300",
+                            )}
+                          >
+                            {isUnlocked ? (
+                              <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <span className="text-[10px] text-white font-bold">%</span>
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p
+                              className={cn(
+                                "text-sm font-semibold truncate",
+                                isUnlocked ? "text-green-700" : "text-slate-700",
+                              )}
+                            >
+                              {label}
+                            </p>
+                            <p className="text-xs text-slate-400">
+                              {translations["on-order-above"] || "On order above"}{" "}
+                              {siteConfig.currency.shortForm}
+                              {minValue}
+                            </p>
+                          </div>
+                        </div>
+
+                        {isUnlocked ? (
+                          <span className="text-xs font-semibold text-green-600 whitespace-nowrap flex-shrink-0">
+                            {translations["applied"] || "Applied"}
+                          </span>
+                        ) : (
+                          <span className="text-xs font-medium text-slate-500 whitespace-nowrap flex-shrink-0">
+                            +{siteConfig.currency.shortForm}
+                            {remaining.toFixed(0)} {translations["to-unlock"] || "to unlock"}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
 
               {/* Cart Items Header */}
@@ -609,15 +722,8 @@ const Checkout = () => {
                     <span className="font-medium text-slate-800">{siteConfig.currency.shortForm}{total}</span>
                   </div>
 
-                  {discountedPrice > 0 && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">{translations["discount-amount"] || "Discount"}</span>
-                      <span className="font-medium text-green-600">−{siteConfig.currency.shortForm}{discountedPrice}</span>
-                    </div>
-                  )}
-
                   <div className="flex justify-between text-sm items-center">
-                    <span className="text-slate-500">{translations["coupon-discount"] || "Coupon"}</span>
+                    <span className="text-slate-500">{translations["coupon"] || "Coupon"}</span>
                     {discountCoupon ? (
                       <span className="text-xs bg-green-100 text-green-700 font-semibold px-2.5 py-1 rounded-full">
                         {discountCoupon.code}
@@ -632,6 +738,20 @@ const Checkout = () => {
                       </button>
                     )}
                   </div>
+
+                  {couponDiscount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{translations["coupon-discount"] || "Coupon Discount"}</span>
+                      <span className="font-medium text-green-600">−{siteConfig.currency.shortForm}{couponDiscount}</span>
+                    </div>
+                  )}
+
+                  {orderValueDiscount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{translations["order-value-discount"] || "Order Value Discount"}</span>
+                      <span className="font-medium text-green-600">−{siteConfig.currency.shortForm}{orderValueDiscount}</span>
+                    </div>
+                  )}
 
                   {deliveryArea && (
                     <div className="flex justify-between text-sm">

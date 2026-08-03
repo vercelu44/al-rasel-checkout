@@ -71,7 +71,7 @@ const useOrderPlace = () => {
 			} catch (error) {
 				dispatch(setGlobalLoader(false));
 				console.log(error, "hei hei")
-				toast.error(error.data.message || "Something went wrong...", error);
+				toast.error(error.data?.message || "Something went wrong...", error);
 			}
 		} else {
 			newOrder.payment_type = "COD"; //forcing to use payment type COD

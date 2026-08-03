@@ -38,15 +38,15 @@ const CartCard = ({ item }) => {
         <AiOutlineClose size={16} />
       </button>
       <div className="flex w-full gap-2">
-       <div className="w-24">
-				 <Image
-          src={getAppropriatePhoto(item, selectedBarCode.color) || noImage}
-          alt="product"
-          height={80}
-          width={80}
-          className="h-20 w-20 rounded border border-gray-100"
-        />
-			 </div>
+        <div className="w-24">
+          <Image
+            src={getAppropriatePhoto(item, selectedBarCode.color) || noImage}
+            alt="product"
+            height={80}
+            width={80}
+            className="h-20 w-20 rounded border border-gray-100"
+          />
+        </div>
         <div className="w-full">
           <h2>
             <Link
@@ -68,20 +68,15 @@ const CartCard = ({ item }) => {
             <>
               <h3 className="text-base ">
                 {siteConfig.currency.shortForm}
-                {selectedBarCode.discount_selling_price}
+                {item.finalPrice}
               </h3>
-              {selectedBarCode.discount_selling_price <
-              selectedBarCode.selling_price ? (
+              {item.finalPrice < item.basePrice ? (
                 <>
                   <del className="text-sm text-slate-300">
-                    {siteConfig.currency.sign} {selectedBarCode.selling_price}
+                    {siteConfig.currency.sign} {item.basePrice}
                   </del>
                   <div className="rounded-md px-1 text-xs  text-white bg-red-500">
-                    {getDiscountPercent(
-                      selectedBarCode.selling_price,
-                      selectedBarCode.discount_selling_price,
-                    )}
-                    % OFF
+                    {getDiscountPercent(item.basePrice, item.finalPrice)}% OFF
                   </div>
                 </>
               ) : null}
