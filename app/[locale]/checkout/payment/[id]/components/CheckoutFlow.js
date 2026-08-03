@@ -21,11 +21,12 @@ export default function CheckoutFlow({ orderId }) {
 
     const data = await res.json();
 
+
+    const environment = process.env.CHECKOUT_SANDBOX === "sandbox" ? "sandbox" : "production";
+
     const checkout = await loadCheckoutWebComponents({
-      environment: "sandbox",
-
+      environment,
       publicKey: process.env.NEXT_PUBLIC_CHECKOUT_PUBLIC_KEY,
-
       paymentSession: data.paymentSession,
 
       // redirect to success page after payment completion

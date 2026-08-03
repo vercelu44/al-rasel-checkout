@@ -48,7 +48,7 @@ export const getCheckoutPaymentSession = async ({
         city: "Dhaka",
         state: "Dhaka",
         zip: "1200",
-        country: "UAE",
+        country: "AE",
       },
       phone: {
         country_code: "+880",
@@ -63,7 +63,7 @@ export const getCheckoutPaymentSession = async ({
         city: "Dhaka",
         state: "Dhaka",
         zip: "1200",
-        country: "UAE",
+        country: "AE",
       },
       phone: {
         country_code: "+880",

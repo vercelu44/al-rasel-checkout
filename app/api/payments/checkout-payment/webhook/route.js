@@ -1,3 +1,4 @@
+import { postData } from "@/lib/post-data";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -16,10 +17,31 @@ export async function POST(req) {
         console.log("Payment ID:", payment?.id);
         console.log("Reference:", payment?.reference);
         console.log("Order ID:", orderId);
+        const amount = payment?.amount;
 
         if (orderId) {
           // TODO:
           // await updateOrder(orderId);
+
+          const paymentData = {
+            order_id: orderId,
+            status: "successful",
+            amount: (amount || 0) / 100,
+            payment_method: "checkout.com",
+            transaction_id: payment?.reference,
+          };
+
+          // console.log({paymentData});
+
+          const paymentUpdateResult = await postData(
+            {
+              api: "online-payment-status-change",
+              isPrivate: true,
+            },
+            paymentData,
+          );
+
+          console.log("Payment Updated:", paymentUpdateResult);
 
           console.log(`Update database for order ${orderId}`);
         } else {
@@ -50,8 +72,8 @@ export async function POST(req) {
         error: "Webhook Failed",
       },
       {
-        status: 200, // ইচ্ছা করলে 500 দিতে পারো, কিন্তু parse error-এর কারণে retry এড়াতে অনেকেই 200 ফেরত দেয়
-      }
+        status: 200,
+      },
     );
   }
 }
