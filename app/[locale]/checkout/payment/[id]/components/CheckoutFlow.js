@@ -25,7 +25,7 @@ export default function CheckoutFlow({ orderId }) {
     const environment = process.env.CHECKOUT_SANDBOX === "sandbox" ? "sandbox" : "production";
 
     const checkout = await loadCheckoutWebComponents({
-      environment,
+      environment:"sandbox",
       publicKey: process.env.NEXT_PUBLIC_CHECKOUT_PUBLIC_KEY,
       paymentSession: data.paymentSession,
 
