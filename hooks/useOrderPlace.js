@@ -49,8 +49,10 @@ const useOrderPlace = () => {
         dispatch(setGlobalLoader(false));
         if (data?.paymentSession) {
           toast.success("Checkout payment is processing please wait");
-          const token = data.paymentSession.payment_session_token;
-          localStorage.setItem("checkout_payment_session", token);
+          localStorage.setItem(
+            "checkout_payment_session",
+            JSON.stringify(data.paymentSession),
+          );
           dispatch(clearDiscountInfo());
           dispatch(clearCart());
           router.push(`checkout/payment/${data?.orderId}`);

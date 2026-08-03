@@ -13,14 +13,14 @@ export default function CheckoutFlow({ orderId }) {
     let flow;
 
     const init = async () => {
-      const paymentSession = localStorage.getItem("checkout_payment_session");
+      const session = localStorage.getItem("checkout_payment_session");
 
-      if (!paymentSession) {
+      if (!session) {
         router.replace("/");
         return;
       }
 
-      // const paymentSession = JSON.parse(getToken);
+      const paymentSession = JSON.parse(session);
 
       const environment =
         process.env.CHECKOUT_SANDBOX === "sandbox" ? "sandbox" : "production";
