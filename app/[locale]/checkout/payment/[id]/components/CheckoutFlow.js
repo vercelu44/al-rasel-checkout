@@ -36,7 +36,8 @@ export default function CheckoutFlow({ orderId }) {
         router.push(`/checkout/success/${orderId}`);
       },
       onError(error) {
-        router.push(`/checkout/fail`); 
+        console.error("Checkout Error:", error);
+        router.push(`/checkout/fail/${orderId}`); 
       },
     });
 
