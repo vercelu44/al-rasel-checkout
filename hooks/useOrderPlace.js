@@ -44,17 +44,17 @@ const useOrderPlace = () => {
         });
         const data = await res.json();
 
-      console.log({ data });
+        console.log({ data });
 
         dispatch(setGlobalLoader(false));
-        if(data?.paymentSession) {
+        if (data?.paymentSession) {
           toast.success("Checkout payment is processing please wait");
+          const token = data.paymentSession.payment_session_token;
+          localStorage.setItem("checkout_payment_session", token);
           dispatch(clearDiscountInfo());
           dispatch(clearCart());
-            router.push(`checkout/payment/${data?.orderId}`);
-        }
-
-        else if  (data?.southeastSession) {
+          router.push(`checkout/payment/${data?.orderId}`);
+        } else if (data?.southeastSession) {
           toast.success("SouthEast payment is processing please wait");
           dispatch(clearDiscountInfo());
           dispatch(clearCart());
@@ -69,7 +69,7 @@ const useOrderPlace = () => {
           dispatch(clearDiscountInfo());
           dispatch(clearCart());
           const stripe = await loadStripe(
-            process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+            process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
           );
           if (!stripe) return;
           await stripe.redirectToCheckout({

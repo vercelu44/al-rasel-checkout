@@ -27,7 +27,7 @@ export async function POST(req) {
             order_id: orderId,
             status: "successful",
             amount: (amount || 0) / 100,
-            payment_method: "checkout.com",
+            payment_method: "stripe",
             transaction_id: payment?.reference,
           };
 
