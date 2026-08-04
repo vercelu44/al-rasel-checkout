@@ -66,39 +66,45 @@ const ProductDetails = ({ product, settings, translations }) => {
   const getCurrentVariantPriceBreaks = () => {
     const currentBarcode = selectedVariant || product?.barcodes?.[0];
     if (!currentBarcode) return [];
-    
+
     // Check if price_break_discounts exists in the product or barcode
-    if (product?.price_break_discounts && product.price_break_discounts.length > 0) {
+    if (
+      product?.price_break_discounts &&
+      product.price_break_discounts.length > 0
+    ) {
       return product.price_break_discounts;
     }
-    
+
     // If price_break_discounts is in barcode level
     if (currentBarcode?.price_break_discounts) {
       return currentBarcode.price_break_discounts;
     }
-    
+
     return [];
   };
 
   const priceBreaks = getCurrentVariantPriceBreaks();
-  
+
   // Calculate savings for each price break
   const calculateSavings = (discount) => {
-    const basePrice = parseFloat(selectedVariant?.selling_price || product?.old_price || 0);
+    const basePrice = parseFloat(
+      selectedVariant?.selling_price || product?.old_price || 0,
+    );
     let discountedPrice = basePrice;
-    
-    if (discount.discount_type === 'fixed') {
+
+    if (discount.discount_type === "fixed") {
       discountedPrice = basePrice - parseFloat(discount.discount_value);
-    } else if (discount.discount_type === 'percentage') {
-      discountedPrice = basePrice * (1 - parseFloat(discount.discount_value) / 100);
+    } else if (discount.discount_type === "percentage") {
+      discountedPrice =
+        basePrice * (1 - parseFloat(discount.discount_value) / 100);
     }
-    
+
     return {
       originalTotal: basePrice * parseFloat(discount.min_qty),
       discountedTotal: discountedPrice * parseFloat(discount.min_qty),
       savings: (basePrice - discountedPrice) * parseFloat(discount.min_qty),
       perPieceSavings: basePrice - discountedPrice,
-      discountedPrice: discountedPrice
+      discountedPrice: discountedPrice,
     };
   };
 
@@ -106,7 +112,7 @@ const ProductDetails = ({ product, settings, translations }) => {
   const formatQuantityRange = (discount) => {
     const minQty = parseFloat(discount.min_qty);
     const maxQty = discount.max_qty ? parseFloat(discount.max_qty) : null;
-    
+
     if (maxQty) {
       return `${minQty} - ${maxQty}`;
     }
@@ -116,14 +122,14 @@ const ProductDetails = ({ product, settings, translations }) => {
   // Get the best deal (max quantity)
   const getBestDeal = () => {
     if (!priceBreaks || priceBreaks.length === 0) return null;
-    
+
     // Sort by min_qty descending to get the highest quantity deal
-    const sorted = [...priceBreaks].sort((a, b) => 
-      parseFloat(b.min_qty) - parseFloat(a.min_qty)
+    const sorted = [...priceBreaks].sort(
+      (a, b) => parseFloat(b.min_qty) - parseFloat(a.min_qty),
     );
-    
+
     // The last one (highest quantity) with max_qty: null is the best deal
-    const bestDeal = sorted.find(d => d.max_qty === null) || sorted[0];
+    const bestDeal = sorted.find((d) => d.max_qty === null) || sorted[0];
     return bestDeal;
   };
 
@@ -197,10 +203,13 @@ const ProductDetails = ({ product, settings, translations }) => {
     product.barcodes?.length === 1
       ? product.barcodes[0].barcode
       : selectedVariant?.barcode;
-  
+
   const getShowStockStatus = settings?.show_stock_status_on_ecommerce || false;
   const findSingleProduct = product?.barcodes?.length === 1 ? true : false;
-  const isShowStockStatus = (getShowStockStatus && findSingleProduct) && product?.stock_qty <= 0 ? true : false;
+  const isShowStockStatus =
+    getShowStockStatus && findSingleProduct && product?.stock_qty <= 0
+      ? true
+      : false;
 
   const handleCopy = () => {
     if (barcode) {
@@ -325,15 +334,17 @@ const ProductDetails = ({ product, settings, translations }) => {
                   <div className="flex items-center gap-2 mb-3">
                     <AiFillGift className="text-green-600 text-2xl" />
                     <h4 className="text-base lg:text-lg font-bold font-title text-green-800">
-                      {translations["bulk-discount-offer"] || "🎯 Bulk Purchase Offer"}
+                      {translations["bulk-discount-offer"] ||
+                        "🎯 Bulk Purchase Offer"}
                     </h4>
                     <span className="ml-auto text-xs bg-green-600 text-white px-2 py-1 rounded-full animate-pulse">
                       {translations["save-more"] || "Save More!"}
                     </span>
                   </div>
-                  
+
                   <p className="text-sm text-green-700 mb-3">
-                    {translations["buy-more-save-more"] || "Buy more, save more! Check out our quantity-based discounts below:"}
+                    {translations["buy-more-save-more"] ||
+                      "Buy more, save more! Check out our quantity-based discounts below:"}
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -341,14 +352,14 @@ const ProductDetails = ({ product, settings, translations }) => {
                       const savings = calculateSavings(discount);
                       const range = formatQuantityRange(discount);
                       const isBestDeal = discount === bestDeal;
-                      
+
                       return (
-                        <div 
+                        <div
                           key={index}
                           className={`relative bg-white rounded-lg p-3 border-2 transition-all hover:shadow-md ${
-                            isBestDeal 
-                              ? 'border-green-500 shadow-lg shadow-green-100' 
-                              : 'border-green-200'
+                            isBestDeal
+                              ? "border-green-500 shadow-lg shadow-green-100"
+                              : "border-green-200"
                           }`}
                         >
                           {isBestDeal && (
@@ -372,27 +383,34 @@ const ProductDetails = ({ product, settings, translations }) => {
                                 {translations["per-piece"] || "Per Piece"}
                               </p>
                               <p className="text-base font-bold text-green-600">
-                                {siteConfig.currency.sign} {savings.discountedPrice.toFixed(2)}
+                                {siteConfig.currency.sign}{" "}
+                                {savings.discountedPrice.toFixed(2)}
                               </p>
                             </div>
                           </div>
-                          
+
                           <div className="mt-2 pt-2 border-t border-slate-100">
                             <div className="flex items-center justify-between">
                               <span className="text-xs text-slate-500">
                                 {translations["you-save"] || "You Save"}
                               </span>
                               <span className="text-sm font-bold text-red-600">
-                                {siteConfig.currency.sign} {savings.perPieceSavings.toFixed(2)} 
-                                <span className="text-[10px] font-normal text-slate-500"> /pc</span>
+                                {siteConfig.currency.sign}{" "}
+                                {savings.perPieceSavings.toFixed(2)}
+                                <span className="text-[10px] font-normal text-slate-500">
+                                  {" "}
+                                  /pc
+                                </span>
                               </span>
                             </div>
                             <div className="flex items-center justify-between mt-1">
                               <span className="text-xs text-slate-500">
-                                {translations["total-savings"] || "Total Savings"}
+                                {translations["total-savings"] ||
+                                  "Total Savings"}
                               </span>
                               <span className="text-sm font-bold text-red-600">
-                                {siteConfig.currency.sign} {savings.savings.toFixed(2)}
+                                {siteConfig.currency.sign}{" "}
+                                {savings.savings.toFixed(2)}
                               </span>
                             </div>
                           </div>
@@ -400,7 +418,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                       );
                     })}
                   </div>
-                  
+
                   {/* Show total savings if buying max quantity */}
                   {bestDeal && (
                     <div className="mt-3 p-3 bg-green-200 rounded-lg border border-green-300">
@@ -416,7 +434,8 @@ const ProductDetails = ({ product, settings, translations }) => {
                             {translations["save-up-to"] || "Save up to"}
                           </span>
                           <span className="ml-2 font-bold text-green-800">
-                            {siteConfig.currency.sign} {calculateSavings(bestDeal).savings.toFixed(2)}
+                            {siteConfig.currency.sign}{" "}
+                            {calculateSavings(bestDeal).savings.toFixed(2)}
                           </span>
                         </div>
                       </div>
@@ -463,6 +482,214 @@ const ProductDetails = ({ product, settings, translations }) => {
                         </div>
                       </Link>
                     ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {/* ============= BUY X GET Y OFFER SECTION ============= */}
+              {product?.buy_x_get_y ? (
+                <div className="mt-5 mb-2 border-2 border-purple-400 rounded-xl p-4 bg-gradient-to-r from-purple-50 to-pink-50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="bg-purple-600 text-white p-1.5 rounded-full">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <h4 className="text-base lg:text-lg font-bold font-title text-purple-800">
+                      {product?.buy_x_get_y?.promotion_name || translations["buy-x-get-y"] || "🎁 Buy X Get Y Offer"}
+                    </h4>
+                    <span className="ml-auto text-xs bg-purple-600 text-white px-2 py-1 rounded-full animate-pulse">
+                      {translations["limited-offer"] || "Limited Offer!"}
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-purple-700 mb-3 font-medium">
+                    {translations["buy-get-offer-desc"] ||
+                      "Purchase the required quantity and get free products!"}
+                  </p>
+
+                  {/* Main Offer Card */}
+                  <div className="bg-white rounded-xl p-4 border-2 border-purple-300 shadow-md">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-purple-100 rounded-full px-4 py-2">
+                          <span className="text-lg font-bold text-purple-700">
+                            {translations["buy"] || "Buy"}{" "}
+                            {product.buy_x_get_y.buy_qty}
+                          </span>
+                        </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6 text-purple-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                        <div className="bg-pink-100 rounded-full px-4 py-2">
+                          <span className="text-lg font-bold text-pink-700">
+                            {translations["get"] || "Get"}{" "}
+                            {product.buy_x_get_y.get_products?.length || 0}{" "}
+                            {translations["free"] || "Free"}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Total Savings Badge */}
+                      <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                        {translations["free-items-worth"] || "Free Items Worth"}
+                        {/* Calculate total price of free products */}
+                        {siteConfig.currency.sign}
+                        {product.buy_x_get_y.get_products
+                          ?.reduce((total, p) => {
+                            const price =
+                              p.barcodes?.[0]?.selling_price ||
+                              p.selling_price ||
+                              0;
+                            return total + (parseFloat(p.get_qty) || 0) * price;
+                          }, 0)
+                          .toFixed(2) || "0.00"}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Free Products List */}
+                  <div className="mt-4">
+                    <h5 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                      <span className="inline-block w-1 h-4 bg-purple-500 rounded"></span>
+                      {translations["you-will-get"] ||
+                        "You will get these products FREE:"}
+                    </h5>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {product.buy_x_get_y.get_products?.map(
+                        (freeProduct, index) => {
+                          // Get first variant for display
+                          const variant = freeProduct.barcodes?.[0];
+                          const productPrice =
+                            variant?.selling_price ||
+                            freeProduct.selling_price ||
+                            0;
+
+                          return (
+                            <div
+                              key={index}
+                              className="bg-white rounded-lg p-3 border border-purple-200 hover:border-purple-400 transition-all hover:shadow-md flex items-center gap-3"
+                            >
+                              <div className="relative shrink-0">
+                                <Image
+                                  src={
+                                    freeProduct.image ||
+                                    "/assets/images/no-image.png"
+                                  }
+                                  alt={freeProduct.product_name}
+                                  width={60}
+                                  height={60}
+                                  className="w-16 h-16 rounded-lg object-cover bg-slate-50"
+                                />
+                                <div className="absolute -top-1 -right-1">
+                                  <span className="bg-green-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
+                                    FREE
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex-1 min-w-0">
+                                <Link
+                                  href={`/products/${freeProduct.slug}`}
+                                  className="text-sm font-semibold text-slate-800 hover:text-purple-600 truncate block"
+                                >
+                                  {freeProduct.product_name}
+                                </Link>
+
+                                {freeProduct.is_variant && (
+                                  <div className="flex flex-wrap gap-1 mt-1">
+                                    {freeProduct.barcodes
+                                      ?.slice(0, 3)
+                                      .map((b, idx) => (
+                                        <span
+                                          key={idx}
+                                          className="text-[10px] bg-slate-100 px-1.5 py-0.5 rounded"
+                                        >
+                                          {b.color} {b.size && `(${b.size})`}
+                                        </span>
+                                      ))}
+                                    {freeProduct.barcodes?.length > 3 && (
+                                      <span className="text-[10px] text-slate-400">
+                                        +{freeProduct.barcodes.length - 3}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-xs text-slate-400 line-through">
+                                    {siteConfig.currency.sign}{" "}
+                                    {productPrice.toFixed(2)}
+                                  </span>
+                                  <span className="text-xs font-bold text-green-600">
+                                    {translations["free"] || "FREE"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="shrink-0">
+                                <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
+                                  Qty: {freeProduct.get_qty || 1}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        },
+                      )}
+                    </div>
+                  </div>
+
+                  {/* How to Avail Section */}
+                  <div className="mt-4 p-3 bg-gradient-to-r from-purple-100/50 to-pink-100/50 rounded-lg border border-purple-200">
+                    <div className="flex items-start gap-2">
+                      <div className="bg-purple-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">
+                        i
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-purple-800">
+                          {translations["how-to-avail"] ||
+                            "How to avail this offer?"}
+                        </p>
+                        <p className="text-xs text-slate-600 mt-0.5">
+                          {translations["buy-x-get-y-instruction"] ||
+                            `Add ${product.buy_x_get_y.buy_qty} or more quantity of this product to your cart and you will get the free products automatically!`}
+                        </p>
+                        <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+                          <span className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
+                            {translations["minimum-purchase"] || "Min Purchase"}
+                            : {product.buy_x_get_y.buy_qty}{" "}
+                            {translations["pcs"] || "pcs"}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-pink-500 rounded-full"></span>
+                            {translations["free-items"] || "Free Items"}:{" "}
+                            {product.buy_x_get_y.get_products?.length || 0}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : null}
@@ -530,10 +757,13 @@ const ProductDetails = ({ product, settings, translations }) => {
             )}
             {/* Add to cart section  */}
             <div className="py-2 pt-6 lg:pt-8 space-y-3 lg:pb-4">
-              {
-                isShowStockStatus && <p className="py-1 px-3 bg-red-500 text-white rounded inline-flex"> Stock Out  </p>
-              }
-              
+              {isShowStockStatus && (
+                <p className="py-1 px-3 bg-red-500 text-white rounded inline-flex">
+                  {" "}
+                  Stock Out{" "}
+                </p>
+              )}
+
               <div className="flex gap-2 lg:gap-3 justify-between items-center">
                 <button
                   className="bg-primary text-xs md:text-base uppercase lg:font-medium py-3 gap-2 w-full px-2 lg:px-6 text-white text-center active:scale-95 rounded-lg"
@@ -582,7 +812,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                       backgroundColor: "#1daa61",
                     }}
                   >
-                    <FaWhatsapp className="w-4 h-4 lg:w-5 lg:h-5"/>
+                    <FaWhatsapp className="w-4 h-4 lg:w-5 lg:h-5" />
                     <span className="md:ml-2">Order On WhatsApp</span>
                   </button>
                 </Link>

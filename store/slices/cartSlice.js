@@ -216,7 +216,19 @@ const cartSlice = createSlice({
 				const newFinalPrice = calculateFinalPrice(item, item.quantity);
 				item.finalPrice = newFinalPrice;
 			});
-		}
+		},
+
+		// sets/overwrites the selected variant for a specific buy_x_get_y free product
+		setFreeProductBarcode: (state, action) => {
+			const { barcodeId, freeProductId, barcode } = action.payload;
+			const index = state.cart.findIndex((item) => item.barcodeId === barcodeId);
+			if (index === -1) return;
+
+			const item = state.cart[index];
+			if (!item.selectedFreeProducts) item.selectedFreeProducts = {};
+			item.selectedFreeProducts[freeProductId] = barcode;
+			state.cart.splice(index, 1, item);
+		},
 	},
 });
 
@@ -234,6 +246,7 @@ export const {
 	addDiscountInfo,
 	clearDiscountInfo,
 	recalculateCartPrices,
+	setFreeProductBarcode,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
