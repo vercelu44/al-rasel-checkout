@@ -480,6 +480,12 @@ const ProductDetails = ({ product, settings, translations }) => {
                             {comboItem?.combo_qty}
                           </p>
                         </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-slate-900">
+                            {siteConfig.currency.sign}{" "}
+                            {comboItem?.price || 0}
+                          </span>
+                        </div>
                       </Link>
                     ))}
                   </div>
@@ -505,7 +511,9 @@ const ProductDetails = ({ product, settings, translations }) => {
                       </svg>
                     </div>
                     <h4 className="text-base lg:text-lg font-bold font-title text-purple-800">
-                      {product?.buy_x_get_y?.promotion_name || translations["buy-x-get-y"] || "🎁 Buy X Get Y Offer"}
+                      {product?.buy_x_get_y?.promotion_name ||
+                        translations["buy-x-get-y"] ||
+                        "🎁 Buy X Get Y Offer"}
                     </h4>
                     <span className="ml-auto text-xs bg-purple-600 text-white px-2 py-1 rounded-full animate-pulse">
                       {translations["limited-offer"] || "Limited Offer!"}
@@ -865,6 +873,23 @@ const ProductDetails = ({ product, settings, translations }) => {
                   <div className="mt-3">
                     <VideoPlayer
                       url={product?.review_video}
+                      loop={true}
+                      muted={true}
+                      controls={true}
+                      className={"h-[12rem] md:h-[21.875rem]"}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {product?.measurement_video && (
+                <div className="mt-4 lg:mt-5">
+                  <h4 className="text-2xl font-bold font-title text-slate-900">
+                    {translations["how-to-measure"] || "How to Measure (measurements)"}
+                  </h4>
+                  <div className="mt-3">
+                    <VideoPlayer
+                      url={product?.measurement_video}
                       loop={true}
                       muted={true}
                       controls={true}
