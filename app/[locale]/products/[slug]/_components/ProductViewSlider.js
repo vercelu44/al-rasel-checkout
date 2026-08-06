@@ -237,6 +237,33 @@ const ProductViewSlider = forwardRef(
               </button>
             </div>
           </div>
+          {isMobile && (
+            <div className="thumb-slider thumb-slider-mobile mt-3 lg:hidden">
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                direction="horizontal"
+                slidesPerView={5}
+                spaceBetween={8}
+                watchSlidesProgress
+                modules={[Thumbs]}
+                className="!h-20"
+              >
+                {slides.map((slide, index) => (
+                  <SwiperSlide key={index} className="!w-16 !h-16">
+                    <div className="slider-image cursor-pointer border border-slate-100 rounded-lg overflow-hidden">
+                      <Image
+                        src={slide?.image}
+                        alt="image"
+                        width={64}
+                        height={64}
+                        className="border border-transparent h-16 w-16 cursor-pointer rounded-lg object-cover"
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
         </div>
       </>
     );
