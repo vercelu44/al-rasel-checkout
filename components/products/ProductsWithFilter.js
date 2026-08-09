@@ -9,23 +9,13 @@ import ColumnIcons from "./ColumnIcon";
 import ProductsComponent from "./ProductsComponent";
 import FallbackUI from "../elements/fallback-ui";
 import NoProducts from "./NoProducts";
+import { buildProductQueryParams } from "@/utils/query-params";
 
 const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
-	const params = new URLSearchParams(customSearchParams);
 
-	// remove unwanted tracking params
-	const blockedParams = [
-	"fbclid",
-	"ttclid",
-	"gclid",
-	"utm_source",
-	"utm_medium",
-	"utm_campaign"
-	];
+	const params = buildProductQueryParams(customSearchParams , 30);
 
-	blockedParams.forEach(param => params.delete(param));
-
-	const apiUrl = `products?per_page=30&${params.toString()}`;
+  const apiUrl = `products?${params.toString()}`;
 	const productResponse = await fetchData({
 		api: apiUrl,
 	});
