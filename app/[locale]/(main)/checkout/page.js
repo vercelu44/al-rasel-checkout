@@ -11,6 +11,7 @@ import {
   getCartTotal,
   getCouponDiscount,
   getDefaultFormValues,
+  getFreeDelivery,
   getOrderFormattedCartItems,
 } from "@/lib/checkout";
 
@@ -44,7 +45,7 @@ import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
 const Checkout = () => {
   // Dynamic delivery charges
   const { settings, translations, isFbPixelInitialized } = useSelector(
-    (state) => state.common
+    (state) => state.common,
   );
 
   // console.log(settings);
@@ -87,7 +88,7 @@ const Checkout = () => {
 
   const paymentMethods = useMemo(
     () => paymentMethodsData?.data || {},
-    [paymentMethodsData]
+    [paymentMethodsData],
   );
 
   //slicing cart items based on orderCollapsed
@@ -111,18 +112,20 @@ const Checkout = () => {
   useEffect(() => {
     reset();
   }, [user, reset]);
+
   //Summary calculation
-  // const total = getMultipliedColumnTotal(cart, "quantity", "new_price");
+  const freeDelivery = getFreeDelivery(cart);
   const total = getCartTotal(cart);
   const discountedPrice = getCouponDiscount(discountCoupon, total);
   const totalWithDiscount = total - discountedPrice;
 
   //Handling free delivery charge
+  const isFreeByAmount =
+    settings?.free_delivery_charges_limit > 0 &&
+    totalWithDiscount >= settings.free_delivery_charges_limit;
+
   const deliveryCharge =
-    settings?.free_delivery_charges_limit > totalWithDiscount ||
-    settings?.free_delivery_charges_limit <= 0
-      ? deliveryArea?.charges || 0
-      : 0;
+    freeDelivery || isFreeByAmount ? 0 : deliveryArea?.charges || 0;
 
   const grandTotal = totalWithDiscount + deliveryCharge;
 
@@ -131,17 +134,17 @@ const Checkout = () => {
     switch (areaKey) {
       case "inside dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_inside
+          !!settings?.is_delivery_charge_required_for_inside,
         );
         break;
       case "sub dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_sub_region
+          !!settings?.is_delivery_charge_required_for_sub_region,
         );
         break;
       case "outside dhaka":
         setIsDeliveryChargeRequired(
-          !!settings?.is_delivery_charge_required_for_outside
+          !!settings?.is_delivery_charge_required_for_outside,
         );
         break;
       default:
@@ -168,7 +171,7 @@ const Checkout = () => {
   useEffect(() => {
     if (Object.keys(paymentMethods).length > 0) {
       let activePayments = Object.values(paymentMethods).filter(
-        (payMethod) => payMethod?.status === 1
+        (payMethod) => payMethod?.status === 1,
       );
 
       if (activePayments?.length > 1 && activePayments[0].key === "COD") {
@@ -249,7 +252,7 @@ const Checkout = () => {
     }
     if (activePaymentMethods?.length === 0) {
       toast.error(
-        "Checkout is not available now, please contact us for more info"
+        "Checkout is not available now, please contact us for more info",
       );
       return;
     }
@@ -312,7 +315,7 @@ const Checkout = () => {
         pixel.getInitiateCheckoutPixelData(cart, total),
         {
           eventID: eventID,
-        }
+        },
       );
       flag.current = false;
     }
@@ -439,42 +442,44 @@ const Checkout = () => {
           className="border border-slate-200 grid grid-cols-1"
         >
           {/* Delivery Options  */}
-          <div className="lg:order-2 px-3 lg:px-9 py-4">
-            <h4 className="text-slate-700 font-bold">
-              {translations["select-delivery-area"] || "Select Delivery Area"}
-            </h4>
-            <div className="flex flex-col gap-3 pt-3">
-              {deliveryAreas.map((area) => (
-                <button
-                  key={area.key}
-                  className="flex gap-2 items-center border border-slate-200 p-3"
-                  onClick={() => handleDeliveryAreaChange(area)}
-                >
-                  <CustomRadio
-                    isChecked={deliveryArea?.key === area.key}
-                    icon={area.icon}
-                    label={area.title}
-                    // onClick={() => setDeliveryArea(area)}
-                  />
-
-                  <p
-                    className={cn(
-                      `font-semibold`,
-                      !deliveryCharge && deliveryArea && "line-through"
-                    )}
+          {!freeDelivery && (
+            <div className="lg:order-2 px-3 lg:px-9 py-4">
+              <h4 className="text-slate-700 font-bold">
+                {translations["select-delivery-area"] || "Select Delivery Area"}
+              </h4>
+              <div className="flex flex-col gap-3 pt-3">
+                {deliveryAreas.map((area) => (
+                  <button
+                    key={area.key}
+                    className="flex gap-2 items-center border border-slate-200 p-3"
+                    onClick={() => handleDeliveryAreaChange(area)}
                   >
-                    {siteConfig.currency.sign}
-                    {area.charges}
-                  </p>
-                </button>
-              ))}
+                    <CustomRadio
+                      isChecked={deliveryArea?.key === area.key}
+                      icon={area.icon}
+                      label={area.title}
+                      // onClick={() => setDeliveryArea(area)}
+                    />
+
+                    <p
+                      className={cn(
+                        `font-semibold`,
+                        !deliveryCharge && deliveryArea && "line-through",
+                      )}
+                    >
+                      {siteConfig.currency.sign}
+                      {area.charges}
+                    </p>
+                  </button>
+                ))}
+              </div>
+              {!deliveryArea && (
+                <p id="deliveryAreaError" className="hidden errorMsg">
+                  You must select delivery area
+                </p>
+              )}
             </div>
-            {!deliveryArea && (
-              <p id="deliveryAreaError" className="hidden errorMsg">
-                You must select delivery area
-              </p>
-            )}
-          </div>
+          )}
 
           {/* Cart Items  */}
           <div className="lg:order-1">
@@ -502,7 +507,7 @@ const Checkout = () => {
                     </div>
                   ) : (
                     <CartCard key={index} item={item} />
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -658,7 +663,7 @@ const Checkout = () => {
                           />
                         </div>
                       </div>
-                    ) : null
+                    ) : null,
                   )}
                 </div>
               </div>
