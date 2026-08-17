@@ -905,7 +905,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                   <h4 className="text-2xl font-bold font-title text-slate-900">
                     {translations["specifications"] || "Specifications"}:
                   </h4>
-                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 mt-3 overflow-x-auto">
+                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8  overflow-x-auto">
                     <ViewHTML htmlText={product?.specification} />
                   </div>
                 </div>
@@ -916,7 +916,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                   <h4 className="text-2xl font-bold font-title text-slate-900">
                     Delivery & Returns:
                   </h4>
-                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 mt-3 overflow-x-auto">
+                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8  overflow-x-auto">
                     <ViewHTML htmlText={product?.delivery_return} />
                   </div>
                 </div>
@@ -928,7 +928,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                   <h4 className="text-2xl font-bold font-title text-slate-900">
                     Disclaimer:
                   </h4>
-                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 mt-3 overflow-x-auto">
+                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto">
                     <ViewHTML htmlText={product?.disclaimer} />
                   </div>
                 </div>
