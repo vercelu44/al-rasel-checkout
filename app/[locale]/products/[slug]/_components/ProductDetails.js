@@ -911,6 +911,29 @@ const ProductDetails = ({ product, settings, translations }) => {
                 </div>
               )}
 
+              {product?.delivery_return && (
+                <div id="product-delivery_return" className="mt-4 lg:mt-5">
+                  <h4 className="text-2xl font-bold font-title text-slate-900">
+                    Delivery & Returns:
+                  </h4>
+                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 mt-3 overflow-x-auto">
+                    <ViewHTML htmlText={product?.delivery_return} />
+                  </div>
+                </div>
+              )}
+
+
+               {product?.disclaimer && (
+                <div id="product-disclaimer" className="mt-4 lg:mt-5">
+                  <h4 className="text-2xl font-bold font-title text-slate-900">
+                    Disclaimer:
+                  </h4>
+                  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 mt-3 overflow-x-auto">
+                    <ViewHTML htmlText={product?.disclaimer} />
+                  </div>
+                </div>
+              )}
+
               <div className="contact mt-5 bg-amber-200 border p-4 mb-4 text-center">
                 <h5 className="text-2xl font-bold font-title text-slate-900 mb-3">
                   {translations["contact-for-more-details"] ||
