@@ -4,7 +4,6 @@ import { Link } from "@/navigation";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import Loader from "../elements/loaders/Loader";
-import { getDaysSinceCreation } from "@/utils/format-date";
 import { getDiscountPercent, getSalePercent } from "@/utils/percent";
 import noImage from "@/public/assets/images/no-image.png";
 
@@ -20,15 +19,15 @@ import useHover from "@/hooks/useHover";
 import useCart from "@/hooks/useCart";
 import { cn } from "@/utils";
 
-const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
+const ProductCard = ({ product, isFlashSale, isSquareImage }) => {
   const { settings, translations } = useSelector((state) => state.common);
   const [loading, setLoading] = useState(true);
   const [hovered, setHovered] = useState(false);
-  
+
   const { isHovered: isHoveredElement1, bind: bindElement1 } = useHover();
   const { isHovered: isHoveredElement2, bind: bindElement2 } = useHover();
   //custom hook for reusing
-  const { handleAddToCart, handleAddAndCheckout } = useCart(); 
+  const { handleAddToCart, handleAddAndCheckout } = useCart();
   const {
     handleAddToWishlist,
     handleWishListProductStatus,
@@ -44,7 +43,6 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
     old_price,
     stock_qty,
     total_sale_qty,
-    created_at,
     hover_image,
   } = product;
 
@@ -55,26 +53,25 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
   }, [product]);
 
   const isInWishlist = handleWishListProductStatus(id);
+  const hasDiscount = old_price > new_price;
 
   return (
     <>
-    <h1 className="sr-only">Detail category</h1>
+      <h1 className="sr-only">Detail category</h1>
       {!loading ? (
         <>
-          <div
-            className="relative product-card-wrap bg-white rounded shadow  "
-          >
+          <div className="relative product-card-wrap bg-white rounded shadow  ">
             <div className="product-img-action-wrap relative @container">
-              {getDaysSinceCreation(created_at) < 8 && (
+              {hasDiscount && (
                 <div className="absolute top-2 left-2 z-20">
                   <span
-                    className="text-sm px-1  active:scale-90 rounded"
+                    className="flex flex-col items-center justify-center h-10 w-10 rounded-full text-white text-[11px] font-bold leading-none"
                     style={{
-                      backgroundColor: settings?.colors?.secondary,
-                      color: settings?.colors?.secondary_text,
+                      backgroundColor: "#EF4444",
                     }}
                   >
-                    New
+                    <span className="text-[16px]">{getDiscountPercent(old_price, new_price)}%</span>
+                    <span>OFF</span>
                   </span>
                 </div>
               )}
@@ -98,7 +95,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
               <div
                 className={cn(
                   `product-img overflow-hidden `,
-                  isSquareImage ? 'aspect-[4/4]' : 'aspect-[4/5]'
+                  isSquareImage ? "aspect-[4/4]" : "aspect-[4/5]",
                 )}
               >
                 <Link href="/products/[slug]" as={`/products/${slug}`}>
@@ -132,16 +129,11 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                   {siteConfig.currency.shortForm}
                   {new_price}
                 </span>
-                {old_price > new_price ? (
-                  <div className="flex items-center gap-2">
-                    <del className="old-price text-sm font-normal text-slate-400">
-                      {siteConfig.currency.shortForm}
-                      {old_price}
-                    </del>
-                    <span className="absolute @[200px]:absolute @[201px]:static bottom-28 lg:bottom-[120px] left-2 z-20 discount-badge rounded text-white bg-red-500 px-1 ml-1 !text-[12px]">
-                      {getDiscountPercent(old_price, new_price)}% OFF
-                    </span>
-                  </div>
+                {hasDiscount ? (
+                  <del className="old-price text-sm font-normal text-slate-400">
+                    {siteConfig.currency.shortForm}
+                    {old_price}
+                  </del>
                 ) : null}
               </div>
 
@@ -189,7 +181,10 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                   }}
                 >
                   {translations["buy-now"] || "Buy Now"}{" "}
-                  <HiArrowLongRight className="hidden @[200px]:inline-block" size={20} />
+                  <HiArrowLongRight
+                    className="hidden @[200px]:inline-block"
+                    size={20}
+                  />
                 </button>
               </div>
               {isFlashSale && (
@@ -201,7 +196,7 @@ const ProductCard = ({ product, isFlashSale, isSquareImage, }) => {
                         style={{
                           width: `${getSalePercent(
                             total_sale_qty,
-                            stock_qty
+                            stock_qty,
                           )}%`,
                         }}
                       ></div>
