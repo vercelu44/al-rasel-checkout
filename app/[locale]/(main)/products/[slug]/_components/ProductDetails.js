@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { getCouponDiscount } from "@/lib/checkout";
-import { getSlicedText } from "@/utils/format-text";
 import ViewHTML from "@/components/elements/ViewHTML";
 import ProductVariantSelect from "@/components/products/ProductVariantSelect";
 import * as pixel from "/lib/fpixel";
@@ -21,7 +20,7 @@ import { siteConfig } from "@/config/site";
 import { IoIosFlash } from "react-icons/io";
 import { getDiscountPercent } from "@/utils/percent";
 import useCart from "@/hooks/useCart";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import VideoPlayer from "@/components/elements/VideoPlayer";
 import { MdArrowForwardIos } from "react-icons/md";
 import SizeChartModal from "@/components/modals/SizeChartModal";
@@ -32,7 +31,6 @@ import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { Cookies } from "@/utils/cookies";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { RxCopy } from "react-icons/rx";
-import { setLoginModalOpen } from "@/store/slices/authSlice";
 import { toast } from "react-toastify";
 import { FaWhatsapp } from "react-icons/fa";
 const ProductDetails = ({ product, settings, translations }) => {
@@ -43,16 +41,10 @@ const ProductDetails = ({ product, settings, translations }) => {
   const productViewSwiperRef = useRef(null);
   const pathname = usePathname();
 
-  // ------------------------FOR AUTHENTICATION ------------------------
-  const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  console.log({settings});
-  
-
   // Get first variant of selected color to display prices
   const firstVariantOfColor = getFirstVariantOfColor(
     selectedColor,
-    product?.barcodes
+    product?.barcodes,
   );
 
   const newPrice =
@@ -145,6 +137,14 @@ const ProductDetails = ({ product, settings, translations }) => {
       setTimeout(() => setCopied(false), 2000); // show for 2 sec
     }
   };
+
+  const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${product?.slug}`;
+  const message = `Hello! ${settings?.name}, I'm interested in:
+      Product: ${product?.product_name}
+      Price: ${newPrice}
+      Barcode: ${barcode}
+      Product URL: ${productUrl}`;
+      
   return (
     <>
       <div className="relative product-details">
@@ -185,17 +185,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                   </>
                 ) : null}
               </div>
-              {/* {product?.minimum_wholesale_quantity > 0 && (
-								<div className="product-price flex items-center gap-4 pt-4">
-									<span className="text-xl font-title text-slate-900">
-										Wholesale Price {siteConfig.currency.shortForm}
-										{product?.wholesale_price || "0.00"}{" "}
-									</span>
-									<span className="old-price text-lg/[24px] font-normal text-slate-400">
-										(MOQ: {product?.minimum_wholesale_quantity})
-									</span>
-								</div>
-							)} */}
+
               <div className="flex items-center gap-2 lg:py-3 font-title text-lg">
                 <span className="text-slate-900">SKU:</span>
                 <span className="">{product?.sku}</span>
@@ -206,7 +196,10 @@ const ProductDetails = ({ product, settings, translations }) => {
                     Barcode:
                   </h2>
 
-                  <h2 title="Select a variant to see barcode" className="text-secondary text-lg font-mono break-all">
+                  <h2
+                    title="Select a variant to see barcode"
+                    className="text-secondary text-lg font-mono break-all"
+                  >
                     {barcode || "N/A"}
                   </h2>
 
@@ -263,7 +256,7 @@ const ProductDetails = ({ product, settings, translations }) => {
                         &#2547;
                         {getCouponDiscount(
                           product?.coupons[0],
-                          product.new_price
+                          product.new_price,
                         )}{" "}
                         {translations["off!"] || "ছাড়!"}
                       </span>
@@ -357,7 +350,15 @@ const ProductDetails = ({ product, settings, translations }) => {
               </div>
 
               <div className="flex gap-2 lg:gap-3 justify-between items-center">
-                <Link href={ settings?.whatsapp_link || '/'} target="_blank" className="w-full">
+                <Link
+                  href={
+                    `${settings?.whatsapp_link}?text=${encodeURIComponent(
+                      message,
+                    )}` || "/"
+                  }
+                  target="_blank"
+                  className="w-full"
+                >
                   <button
                     className="bg-primary text-xs md:text-base lg:font-medium py-3 gap-2 w-full px-1 md:px-2 lg:px-6 text-white text-center active:scale-95 rounded-lg"
                     style={{
