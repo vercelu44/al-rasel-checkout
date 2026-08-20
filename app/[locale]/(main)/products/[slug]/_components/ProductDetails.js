@@ -14,7 +14,7 @@ import * as pixel from "/lib/fpixel";
 // ** Import Icon
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 import { TbTag } from "react-icons/tb";
-import { IoCopy } from "react-icons/io5";
+import { IoCallOutline, IoCopy } from "react-icons/io5";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import ProductViewSlider from "./ProductViewSlider";
 import { siteConfig } from "@/config/site";
@@ -34,6 +34,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { RxCopy } from "react-icons/rx";
 import { setLoginModalOpen } from "@/store/slices/authSlice";
 import { toast } from "react-toastify";
+import { FaWhatsapp } from "react-icons/fa";
 const ProductDetails = ({ product, settings, translations }) => {
   const { handleAddToCart, handleAddAndCheckout } = useCart(); // custom hook for reusing
   const [showSizeChart, setShowSizeChart] = useState(false);
@@ -45,6 +46,8 @@ const ProductDetails = ({ product, settings, translations }) => {
   // ------------------------FOR AUTHENTICATION ------------------------
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  console.log({settings});
+  
 
   // Get first variant of selected color to display prices
   const firstVariantOfColor = getFirstVariantOfColor(
@@ -309,8 +312,8 @@ const ProductDetails = ({ product, settings, translations }) => {
               </button>
             )}
             {/* Add to cart section  */}
-            <div className="py-2 pt-6 lg:pt-8 lg:pb-4">
-              <div className="product-actions flex gap-4 justify-between items-center">
+            <div className="py-2 pt-6 lg:pt-8 space-y-3 lg:pb-4">
+              <div className="product-actions flex gap-2 lg:gap-3 justify-between items-center">
                 <button
                   className="bg-primary py-3 w-full px-2 lg:px-6 text-white  text-center active:scale-95 rounded-lg"
                   onClick={() => handleAddToCart(product, selectedVariant)}
@@ -351,6 +354,31 @@ const ProductDetails = ({ product, settings, translations }) => {
                     {translations["buy-now"] || "Buy now"}
                   </span>
                 </button>
+              </div>
+
+              <div className="flex gap-2 lg:gap-3 justify-between items-center">
+                <Link href={ settings?.whatsapp_link || '/'} target="_blank" className="w-full">
+                  <button
+                    className="bg-primary text-xs md:text-base lg:font-medium py-3 gap-2 w-full px-1 md:px-2 lg:px-6 text-white text-center active:scale-95 rounded-lg"
+                    style={{
+                      backgroundColor: "#1daa61",
+                    }}
+                  >
+                    <FaWhatsapp className="w-4 h-4 lg:w-5 lg:h-5" />
+                    <span className="md:ml-2">Order On WhatsApp</span>
+                  </button>
+                </Link>
+                <Link href={`tel:${settings?.phone[0]}`} className="w-full">
+                  <button
+                    className="bg-primary text-xs md:text-base lg:font-medium py-3 gap-2 w-full px-1 md:px-2 lg:px-6 text-white text-center active:scale-95 rounded-lg"
+                    style={{
+                      backgroundColor: "#193276",
+                    }}
+                  >
+                    <IoCallOutline className="w-4 h-4 lg:w-5 lg:h-5" />
+                    <span className="md:ml-2">Call for order</span>
+                  </button>
+                </Link>
               </div>
             </div>
 
