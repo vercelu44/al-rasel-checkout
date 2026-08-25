@@ -41,7 +41,7 @@ export default function TopBar({ settings }) {
       </h3>
 
       <div>
-        <Link href="/track-order" className="inline-flex text-white gap-2 items-center">
+        <Link href="/track-order" className="inline-flex  gap-2 items-center" style={{ color: settings?.colors?.tertiary_text }}>
           <MdLocalShipping size={20} />
           Order Tracking
         </Link>
