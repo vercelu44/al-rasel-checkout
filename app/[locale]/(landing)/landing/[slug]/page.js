@@ -11,43 +11,18 @@ import ReviewSlider from "./_components/ReviewSlider";
 import Link from "next/link";
 import ProductSlider from "./_components/ProductSlider";
 import QNAItems from "@/components/QNAItems";
-// import { Lock } from 'lucide-react';
 
 const ProductTemplatePage = async ({ params }) => {
   const { slug } = params;
-  // if (slug === "null") return notFound();
   const [settingsRes, productRes] = await Promise.allSettled([
     fetchData({ api: `info/basic` }),
     fetchData({ api: `products/landing-page-show/${slug}` }),
-    // fetchData({ api: `translations` }),
   ]);
 
   const settings =
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
   const product =
     productRes.status === "fulfilled" ? productRes.value?.data || [] : [];
-  // const translations =
-  //   tranRes.status === "fulfilled" ? tranRes.value?.data || {} : {};
-
-  // console.log("settingsRes", settingsRes);
-  // console.log("template product", product);
-
-  // Filter out undefined or null values and join the IDs into a comma-separated string
-  const categoryIds = [
-    product?.category?.id,
-    product?.sub_category?.id,
-    product?.child_category?.id,
-  ]
-    .filter(Boolean) // This filters out falsy values like null or undefined
-    .join(",");
-
-  const customSearchParams = {
-    category_ids: categoryIds, // Only valid IDs will be joined with commas
-    per_page: 20,
-  };
-
-  console.log({ product });
-  const reviewImages = product?.product_review_sses || [];
 
   return (
     <section>
@@ -74,16 +49,18 @@ const ProductTemplatePage = async ({ params }) => {
         </div>
 
         {/* product video section  */}
-        <div className="md:w-8/12 w-11/12 aspect-video md:px-10 px-4 pt-10 mx-auto">
-          <VideoPlayer
-            url={product?.review_video}
-            loop={true}
-            muted={true}
-            // playing={true}
-            controls={true}
-            className={"w-full h-full object-cover"}
-          />
-        </div>
+        {product?.review_video && (
+          <div className="md:w-8/12 w-11/12 aspect-video md:px-10 px-4 pt-10 mx-auto">
+            <VideoPlayer
+              url={product?.review_video}
+              loop={true}
+              muted={true}
+              // playing={true}
+              controls={true}
+              className={"w-full h-full object-cover"}
+            />
+          </div>
+        )}
 
         {/* product order section */}
 
@@ -268,14 +245,16 @@ const ProductTemplatePage = async ({ params }) => {
           </div>
         </div>
 
-        <div className="container max-w-7xl">
-           <div className="heading border-b border-slate-200 py-4 mb-6">
-            <h3 className="text-3xl text-center font-title text-slate-900">
-              Customer Reviews
-            </h3>
+        {product?.product_review_sses?.length > 0 ? (
+          <div className="container max-w-7xl">
+            <div className="heading border-b border-slate-200 py-4 mb-6">
+              <h3 className="text-3xl text-center font-title text-slate-900">
+                Customer Reviews
+              </h3>
+            </div>
+            <ReviewSlider product={product} />
           </div>
-          <ReviewSlider product={product} />
-        </div>
+        ) : null}
 
         <div className="qna container max-w-7xl mb-20">
           <div className="heading border-b border-slate-200 py-4 mb-6">

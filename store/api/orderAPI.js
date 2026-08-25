@@ -30,6 +30,11 @@ const orderAPI = apiSlice.injectEndpoints({
       }),
       providesTags: ["order"],
     }),
+    trackOrder: builder.query({
+      query: (invoice_no) => ({
+        url: `order/show-by-invoice/${invoice_no}`,
+      }),
+    }),
   }),
 });
 
@@ -38,4 +43,5 @@ export const {
   usePlaceIncompleteOrderMutation,
   useGetOrdersQuery,
   useGetOrderByIdQuery,
+  useTrackOrderQuery,
 } = orderAPI;
