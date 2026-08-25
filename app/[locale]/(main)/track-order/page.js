@@ -64,16 +64,16 @@ const TrackOrderPage = () => {
             {/* Left Side */}
             <div
               className="relative flex flex-col items-center justify-center px-8 py-12 overflow-hidden"
-              style={{
-                backgroundColor: settings?.colors?.primary,
-                color: settings?.colors?.primary_text,
-              }}
+              // style={{
+              //   backgroundColor: settings?.colors?.primary,
+              //   color: settings?.colors?.primary_text,
+              // }}
             >
               <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-pink-400/40 rounded-full"></div>
 
               <div className="relative z-10 text-center">
                 <h2 className="text-3xl font-bold mb-3">Track Your Order</h2>
-                <p className="text-sm leading-6 text-pink-100 max-w-xs mx-auto mb-10">
+                <p className="text-sm leading-6  max-w-xs mx-auto mb-10">
                   যেকোনো সময় আপনার অর্ডার কোথায় আছে এবং কখন পৌঁছাবে তা সহজেই
                   জানতে পারবেন।
                 </p>
