@@ -24,7 +24,6 @@ export default function TopBar({ settings }) {
 
   return (
     <div
-     
       className={`${
         isTopBarHidden ? "hidden" : "block"
       } py-1.5  text-center bg-[#2B2D42] w-full`}
@@ -32,21 +31,25 @@ export default function TopBar({ settings }) {
         background: settings?.colors?.tertiary,
       }}
     >
-      <div className="container flex  justify-between items-center">
-				<h3
-        className="text-white text-sm font-normal tracking-widest"
-        style={{ color: settings?.colors?.tertiary_text }}
-      >
-        {settings?.offer_massage}
-      </h3>
+      <div className="container flex flex-wrap justify-between items-center">
+        <h3
+          className="hidden md:block text-white text-sm font-normal tracking-widest"
+          style={{ color: settings?.colors?.tertiary_text }}
+        >
+          {settings?.offer_massage}
+        </h3>
 
-      <div>
-        <Link href="/track-order" className="inline-flex  gap-2 items-center" style={{ color: settings?.colors?.tertiary_text }}>
-          <MdLocalShipping size={20} />
-          Order Tracking
-        </Link>
+        <div>
+          <Link
+            href="/track-order"
+            className="inline-flex  gap-2 items-center"
+            style={{ color: settings?.colors?.tertiary_text }}
+          >
+            <MdLocalShipping size={20} />
+            Order Tracking
+          </Link>
+        </div>
       </div>
-			</div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchData } from "@/lib/fetch-data";
 import noImage from "@/public/assets/images/no-image.png";
+import { cn } from "@/utils";
 
 const CategoryBanners = async ({ settings }) => {
   const [transRes] = await Promise.allSettled([
@@ -16,7 +17,10 @@ const CategoryBanners = async ({ settings }) => {
   if (!cBanners?.length) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2  2xl:grid-cols-4 gap-4 2xl:gap-8">
+    <div className={cn("grid grid-cols-1 md:grid-cols-2  2xl:grid-cols-4 gap-4 2xl:gap-8",
+      process.env.NEXT_PUBLIC_CAT_GRID_BANNER === "YES" ? "grid-cols-2":"grid-cols-1"
+
+    )}>
       {cBanners.map((banner, index) => (
         <div key={banner.id} className="group">
           <Link 
