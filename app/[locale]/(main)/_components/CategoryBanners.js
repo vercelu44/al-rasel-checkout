@@ -17,7 +17,7 @@ const CategoryBanners = async ({ settings }) => {
   if (!cBanners?.length) return null;
 
   return (
-    <div className={cn("grid grid-cols-1 md:grid-cols-2  2xl:grid-cols-4 gap-4 2xl:gap-8",
+    <div className={cn("grid  md:grid-cols-2  2xl:grid-cols-4 gap-4 2xl:gap-8",
       process.env.NEXT_PUBLIC_CAT_GRID_BANNER === "YES" ? "grid-cols-2":"grid-cols-1"
 
     )}>
