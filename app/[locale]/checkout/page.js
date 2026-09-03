@@ -18,7 +18,7 @@ import {
 
 //components
 import CartCard from "@/components/cards/CartCard";
-import CustomRadio from "@/components/elements/CustomRadio";
+// import CustomRadio from "@/components/elements/CustomRadio";
 import CouponModal from "@/components/modals/CouponModal";
 import RequireAuth from "@/components/hoks/RequireAuth";
 import * as pixel from "/lib/fpixel";
@@ -38,13 +38,15 @@ import { cn } from "@/utils";
 import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
 import { Cookies } from "@/utils/cookies";
-import DeliveryIcon from "@/public/assets/icons/customIcon/DeliveryIcon";
+// import DeliveryIcon from "@/public/assets/icons/customIcon/DeliveryIcon";
 import { getGTMFormattedCartItems } from "@/lib/gtm-data-formatter";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { usePlaceIncompleteOrderMutation } from "@/store/api/orderAPI";
 import { useGetOrderValueDiscountsQuery } from "@/store/api/order-value-discounts";
+import { usePathname } from "next/navigation";
 
 const Checkout = () => {
+  const pathname = usePathname();
   const { settings, translations, isFbPixelInitialized } = useSelector(
     (state) => state.common,
   );
@@ -108,6 +110,7 @@ const Checkout = () => {
   const nameValue = watch("name");
   const addressValue = watch("address");
   const cityValue = watch("city");
+  const emailValue = watch("email");
 
   useEffect(() => { reset(); }, [user, reset]);
 
@@ -246,6 +249,7 @@ const Checkout = () => {
       name: data.name,
       alt_name: data.name,
       phone: phone,
+      email: data.email,
       alt_phone: alt_phone,
       address: fullAddress,
       alt_address: fullAddress,
@@ -286,6 +290,7 @@ const Checkout = () => {
       AddToConversionAPI({
         event_id: eventID,
         event_name: "InitiateCheckout",
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
         products: pixel.contentItems(cart),
         fbp: Cookies.get("_fbp"),
         fbc: Cookies.get("_fbc"),
@@ -302,6 +307,7 @@ const Checkout = () => {
       event: "begin_checkout",
       ecommerce: {
         currency: "BDT",
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
         value: total,
         fbp: Cookies.get("_fbp"),
         fbc: Cookies.get("_fbc"),
@@ -350,12 +356,13 @@ const Checkout = () => {
     localStorage.setItem("address", addressValue);
     localStorage.setItem("phone", phoneValue);
     localStorage.setItem("city", cityValue);
+    localStorage.setItem("email", emailValue);
     const phonePattern = siteConfig.phone.pattern;
     if (phoneValue && phonePattern.test(phoneValue)) {
       const formValues = watch();
       handleIncompleteOrder(formValues);
     }
-  }, [phoneValue, nameValue, addressValue, cityValue, watch]);
+  }, [phoneValue, nameValue, addressValue, cityValue,emailValue, watch]);
 
   return (
     <section className="bg-slate-50 min-h-screen">

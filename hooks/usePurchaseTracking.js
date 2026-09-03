@@ -56,6 +56,9 @@ export default function usePurchaseTracking({
         ph: order?.customer?.mobile
           ? SHA256(order.customer.mobile).toString()
           : undefined,
+        em: order?.customer?.email
+          ? SHA256(order.customer.email.trim().toLowerCase()).toString()
+          : undefined,
       },
     );
 

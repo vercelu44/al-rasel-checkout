@@ -13,6 +13,7 @@ import { useAddToTrackingMutation } from "@/store/api/serverSideTrackingAPI";
 import { generateUniqueId } from "@/utils/get-unique";
 import { Cookies } from "@/utils/cookies";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { usePathname } from "next/navigation";
 
 /**
  * The `useCart` function is a custom hook in JavaScript that provides methods for adding products to
@@ -22,6 +23,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
  */
 const useCart = () => {
   const router = useRouter();
+  const pathname = usePathname()
   const dispatch = useDispatch();
   const [AddToConversionAPI] = useAddToTrackingMutation();
   const { selectedProduct } = useSelector((state) => state.cart);
@@ -39,6 +41,7 @@ const useCart = () => {
       AddToConversionAPI({
         event_id: eventID,
         event_name: "AddToCart",
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
         product_ids: [product.id],
         fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
         fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
@@ -51,6 +54,7 @@ const useCart = () => {
       ecommerce: {
         currency: "BDT", // Change to your store's currency
         value: product.new_price, // Total value of the added item(s)
+        url: process.env.NEXT_PUBLIC_BASE_URL + pathname,
         fbp: Cookies.get("_fbp"), // Get Facebook Pixel cookie,
         fbc: Cookies.get("_fbc"), // Get Facebook Click ID cookie
         items: [

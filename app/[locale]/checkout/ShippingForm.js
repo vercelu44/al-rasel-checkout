@@ -96,6 +96,32 @@ const ShippingForm = ({
               )}
             </div>
 
+             <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                {translations["email"] || "Your Email"} {" "}
+                 <span className="text-slate-400 font-normal text-xs">(Optional)</span>
+              </label>
+              <input
+                type="email"
+                defaultValue={user?.email} 
+                placeholder="সম্পূর্ণ ইমেইল এড্রেসটি লিখুন"
+                {...register("email")}
+                className={`w-full px-4 py-3 font-medium text-slate-800 placeholder:text-slate-400 border rounded-xl outline-none transition-all duration-200 ${
+                  errors.email
+                    ? "border-red-300 bg-red-50 focus:border-red-400"
+                    : "border-slate-200 bg-white focus:border-black focus:ring-0 focus:ring-slate-100 focus:placeholder:text-white"
+                }`}
+              />
+              {errors.email && (
+                <p className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                  <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+
             {/* Address */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -126,7 +152,7 @@ const ShippingForm = ({
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
                 {translations["Note"] || "Order Note"}{" "}
-                <span className="text-slate-400 font-normal text-xs">(optional)</span>
+                <span className="text-slate-400 font-normal text-xs">(Optional)</span>
               </label>
               <input
                 type="text"
