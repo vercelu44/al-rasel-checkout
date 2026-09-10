@@ -5,10 +5,7 @@ import { fetchData } from "@/lib/fetch-data";
 import SocialIcon from "../elements/SocialIcon";
 import ScrollToTopButton from "../ScrollToTopButton";
 import MessagingButton from "./MessagingButton";
-import {
-  FaEnvelope,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import Image from "next/image";
 import AppleAppDownload from "../elements/svg/AppleAppDownload";
@@ -19,7 +16,7 @@ const Footer = async () => {
   const translationData = await fetchData({ api: "translations" });
   const translations = translationData?.data || {};
   const settingRes = await fetchData({ api: "info/basic" });
-  
+
   const settings = settingRes?.data || {};
   const footerPage = settings?.footer_page || [];
   const helpPage = settings?.help_page || [];
@@ -36,21 +33,19 @@ const Footer = async () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between gap-5 lg:gap-12 mt-8">
           <div className="footer-business-info">
             <Link href="/" className="logo inline-block mb-3">
-             
-                {settings?.footer_logo ? (
-                  <Image
+              {settings?.footer_logo ? (
+                <Image
                   src={settings?.footer_logo}
                   alt={settings?.name}
                   width={200}
                   height={48}
                   className="h-auto max-h-[48px] w-auto object-contain lg:-mt-2"
                 />
-                ) : (
-                    <span className="text-3xl font-bold inline-block">
-                      {settings?.name}
-                    </span>
-                  )}
-
+              ) : (
+                <span className="text-3xl font-bold inline-block">
+                  {settings?.name}
+                </span>
+              )}
             </Link>
             <ul className="info-list pr-4 space-y-2 text-sm font-light">
               {settings?.addresses?.map((addr, index) => (
@@ -163,6 +158,23 @@ const Footer = async () => {
                   </div>
                 </div>
               ) : null}
+
+              {
+                process.env.NEXT_PUBLIC_SHOW_SSL_LOGO === "YES" ? 
+                <div className="footer-app">
+                  <p className="">Payment With</p>
+                  <div className=" py-4 pt-2 flex max-xl:items-center gap-4 xl:flex-col">
+                    <Image
+                      width={128}
+                      height={60}
+                      src="/assets/images/ssl-logo.png"
+                      alt="SSL Commarze Logo"
+                      className="w-32"
+                    />
+                  </div>
+                </div> : null
+              }
+
               <div className="social-links ">
                 <h6 className="text-lg font-title uppercase font-bold">
                   Follow Us
