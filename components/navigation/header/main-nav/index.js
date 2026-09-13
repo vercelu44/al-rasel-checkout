@@ -27,6 +27,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import Search from "@/components/elements/Search";
 import { IoCall } from "react-icons/io5";
 import useHover from "@/hooks/useHover";
+import { MdLocalShipping } from "react-icons/md";
+import TrackOrderButton from "./TrackOrderButton";
 
 export default function MainNav({ settings, categories }) {
   const { cart } = useSelector((state) => state.cart);
@@ -89,7 +91,7 @@ export default function MainNav({ settings, categories }) {
           </Link>
           <div className="hidden lg:flex items-center gap-10">
             <Search />
-            {(settings?.phone?.length > 0 && settings?.phone[0]) && (
+            {settings?.phone?.length > 0 && settings?.phone[0] && (
               <a
                 href={`tel:${settings.phone[0]}`}
                 className="flex items-center gap-2"
@@ -111,6 +113,12 @@ export default function MainNav({ settings, categories }) {
 
           <div className="header-actions items-center flex gap-2 lg:gap-4">
             <ResponsiveSearch settings={settings} />
+
+            {
+              process.env.NEXT_PUBLIC_HEADER_TRACK === "YES" && 
+                <TrackOrderButton />
+            }
+
             <button
               onClick={() => dispatch(toggleCart())}
               className="group relative single-action hidden lg:block"

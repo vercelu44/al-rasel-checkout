@@ -5,11 +5,11 @@ import QAItem from "./elements/QAItem";
 import { useGetFaqsQuery } from "@/store/api/faqsAPI";
 import ItemsListLoader from "./elements/loaders/ItemsListLoader";
 
-export default function QNAItems() {
+export default function QNAItems({faqsData}) {
 	const { locale } = useParams();
 	const { data, isLoading } = useGetFaqsQuery({ locale });
 	const [open, setOpen] = useState(0);
-	const faqs = data?.data || [];
+	const faqs = faqsData?.length > 0 ? faqsData : data?.data || [];
 
 	const toggleOpen = (index) => {
 		if (open === index) {

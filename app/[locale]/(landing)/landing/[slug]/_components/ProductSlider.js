@@ -6,8 +6,8 @@ import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 
 const ProductSlider = ({ photos }) => {
   return (
-    <section>
-      <div className="container">
+    
+      <div className="">
         <Swiper
           modules={[Pagination, Autoplay, EffectFade]}
           slidesPerView={1}
@@ -48,7 +48,7 @@ const ProductSlider = ({ photos }) => {
           ))}
         </Swiper>
       </div>
-    </section>
+
   );
 };
 
