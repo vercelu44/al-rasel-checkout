@@ -159,8 +159,7 @@ const Footer = async () => {
                 </div>
               ) : null}
 
-              {
-                process.env.NEXT_PUBLIC_SHOW_SSL_LOGO === "YES" ? 
+              {process.env.NEXT_PUBLIC_SHOW_SSL_LOGO === "YES" ? (
                 <div className="footer-app">
                   <p className="">Payment With</p>
                   <div className=" py-4 pt-2 flex max-xl:items-center gap-4 xl:flex-col">
@@ -172,8 +171,8 @@ const Footer = async () => {
                       className="w-32"
                     />
                   </div>
-                </div> : null
-              }
+                </div>
+              ) : null}
 
               <div className="social-links ">
                 <h6 className="text-lg font-title uppercase font-bold">
@@ -240,38 +239,31 @@ const Footer = async () => {
             </>
           </div>
         </div>
-        {settings?.footer_branding_section ? (
-          <div className="flex justify-between items-center border-t border-slate-50 py-4 mt-4">
-            <div className="w-1/2 flex flex-col md:flex-row items-center gap-1 text-center">
-              <p className=" text-sm/6 font-light flex flex-wrap gap-1 justify-center">
-                &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
-                <Link href="/">{settings?.name}</Link> | Powered by
-                <Link href="https://amarsolution.com" className="font-semibold">
-                  AmarSolution
-                </Link>
-                {/* <SocialIcon
-                href={"https://amarsolution.com/"}
-                icon={"/assets/icons/amarsolution-logo.png"}
-                iconClass={
-                  "w-auto h-[25px] transition delay-150 duration-300 ease-in-out hover:-translate-1 hover:scale-105"
-                }
-              /> */}
-              </p>
-            </div>
-            <div className="w-1/2">
-              <Image src={sslImage} alt="no-image" className="object-contain" />
-            </div>
+
+        {/* Bottom copyright bar — always visible; footer_branding_section only toggles the "Powered by AmarSolution" credit */}
+        <div className="flex justify-between items-center border-t border-slate-50 py-4 mt-4">
+          <div className="w-1/2 flex flex-col md:flex-row items-center gap-1 text-center">
+            <p className="text-sm/6 font-light flex flex-wrap gap-1 justify-center">
+              &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
+              <Link href="/">{settings?.name}</Link>
+              {settings?.footer_branding_section ? (
+                <>
+                  {" "}
+                  | Powered by
+                  <Link
+                    href="https://amarsolution.com"
+                    className="font-semibold"
+                  >
+                    AmarSolution
+                  </Link>
+                </>
+              ) : null}
+            </p>
           </div>
-        ) : (
-          <div className="flex justify-between items-center border-t border-slate-50  mt-4">
-            <div className="w-full text-center">
-              <p className="text-sm/6 font-light mt-4">
-                &copy; {new Date().getFullYear()}, All Rights Reserved By{" "}
-                <Link href="/">{settings?.name}</Link>
-              </p>
-            </div>
+          <div className="w-1/2">
+            <Image src={sslImage} alt="no-image" className="object-contain" />
           </div>
-        )}
+        </div>
       </div>
       <ScrollToTopButton settings={settings} />
 
