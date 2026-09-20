@@ -73,6 +73,8 @@ export default function usePurchaseTracking({
     if (hasFired(GTM_PREFIX, order.id)) return;
 
     const items = getGTMFormattedSaleProducts(order.ordered_items);
+    console.log("GTM ORDER",order);
+    
 
     sendGTMEvent({
       event: "purchase",
@@ -85,6 +87,19 @@ export default function usePurchaseTracking({
         shipping: order?.shipping?.delivery_charge || 0,
         items,
       },
+      user_data: {
+        email: order?.customer?.email || "",
+        phone_number: order?.customer?.mobile || "",
+        address: {
+          first_name: order?.customer?.name || "",
+          last_name: "",
+          street: order?.customer?.address || "",
+          city: "",
+          region: "",
+          postal_code: "",
+          country: order?.customer?.country || "Bangladesh"
+        }
+      }
     });
 
     markFired(GTM_PREFIX, order.id);
