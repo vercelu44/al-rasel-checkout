@@ -261,7 +261,8 @@ const ContactForm = () => {
             className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3   rounded-lg font-medium  transition text-sm sm:text-base order-1 sm:order-2"
              style={{
                     border: `1px solid ${settings?.colors?.primary}`,
-                    backgroundColor: settings?.colors?.secondary
+                    backgroundColor: settings?.colors?.secondary,
+                    color: settings?.colors?.secondary_text,
                   }}
              >
             Send Message

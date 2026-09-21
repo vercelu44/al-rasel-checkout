@@ -44,11 +44,13 @@ const ContactUs = async () => {
           {/* Header */}
           <div className="mb-8">
             <div className="flex  items-center gap-3 mb-2">
-              <div style={{
-						color: settings?.colors?.default_text,
-						backgroundColor: settings?.colors?.secondary
-					}}
-          className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+              <div
+                style={{
+                  color: settings?.colors?.secondary_text,
+                  backgroundColor: settings?.colors?.secondary,
+                }}
+                className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-xl"
+              >
                 G
               </div>
               <div>
@@ -65,40 +67,29 @@ const ContactUs = async () => {
             <div className="space-y-4">
               <div className="bg-white rounded-xl shadow-sm px-2 py-4 lg:p-6">
                 <div className="flex items-start gap-4">
-                  {/* Icon */}
+           
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdStorefront className=" text-2xl" style={{
-                      color: settings?.colors?.default_text,
-                     
-                    }} />
+                    <MdStorefront
+                      className=" text-2xl"
+                      style={{
+                        color: settings?.colors?.default_text,
+                      }}
+                    />
                   </div>
 
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                      {/* Text */}
+                 
                       <div>
                         <h3 className="font-semibold text-gray-900 mb-1">
                           Our Stores
                         </h3>
                         <p className="text-sm text-gray-600 mb-1">
-                          Find the nearest {settings?.name} outlet.
+                          Happy Shopping with {settings?.name}!
                         </p>
                         <p className="text-sm text-gray-600 mb-1">
-                          Locations and opening hours
+                          Welcome to our store! We offer quality products, easy shopping, and reliable service.
                         </p>
-                      </div>
-
-                      <div className="mt-2 sm:mt-0">
-                        <Link
-                          href="/pages/our-locations"
-                          className="px-4 lg:px-8 py-2 text-center  border  rounded-full text-sm font-medium hover:bg-red-50 transition whitespace-nowrap block sm:inline-block"
-                          style={{
-                            color: settings?.colors?.default_text,
-                            border: `1px solid ${settings?.colors?.primary}`,
-                          }}
-                        >
-                          View
-                        </Link>
                       </div>
                     </div>
                   </div>
@@ -109,10 +100,12 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdEmail className="text-red-800 text-2xl" style={{
-                      color: settings?.colors?.default_text,
-                     
-                    }} />
+                    <MdEmail
+                      className="text-red-800 text-2xl"
+                      style={{
+                        color: settings?.colors?.default_text,
+                      }}
+                    />
                   </div>
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -146,7 +139,7 @@ const ContactUs = async () => {
                             color: settings?.colors?.default_text,
                             border: `1px solid ${settings?.colors?.primary}`,
                           }}
-                         >
+                        >
                           Write
                         </Link>
                       </div>
@@ -160,10 +153,12 @@ const ContactUs = async () => {
                 <div className="flex items-start gap-4">
                   {/* Icon */}
                   <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MdPhone className="text-red-800 text-2xl"   style={{
-                      color: settings?.colors?.default_text,
-                     
-                    }} />
+                    <MdPhone
+                      className="text-red-800 text-2xl"
+                      style={{
+                        color: settings?.colors?.default_text,
+                      }}
+                    />
                   </div>
 
                   <div className="flex-1">
