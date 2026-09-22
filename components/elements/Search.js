@@ -53,10 +53,10 @@ const Search = () => {
 	}, [pathname]);
 
 	const handleSearch = (text) => {
-		if (user) {
-			router.push(`/products?text=${text}&reference_id=${user.id}`);
-			return;
-		}
+		// if (user) {
+		// 	router.push(`/products?text=${text}&reference_id=${user.id}`);
+		// 	return;
+		// }
 		router.push(`/products?text=${text}`);
 	};
 
