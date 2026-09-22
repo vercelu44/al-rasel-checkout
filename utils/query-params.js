@@ -39,5 +39,9 @@ export const buildProductQueryParams = (customParams, per_page=30) => {
     params.set("per_page", String(per_page));
   }
 
+  if(!params.has("page")){
+    params.set("page", String(1))
+  }
+
   return params;
 };
