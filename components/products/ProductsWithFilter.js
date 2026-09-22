@@ -22,11 +22,16 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 
 	const products = productResponse?.data;
 
+	console.log({apiUrl, productResponse, products});
+	
+
 	if (!products) {
 		return (
 		  <FallbackUI message="Failed to load some data. Please refresh the page." />
 		);
 	}
+
+	
 
 	const meta = productResponse?.meta || {};
 	const totalProducts = meta.total;
