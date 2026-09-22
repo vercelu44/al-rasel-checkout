@@ -22,7 +22,9 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 
 	const products = productResponse?.data;
 
-	console.log({apiUrl, productResponse, products});
+	console.log({ProductLimit: products?.length || "0"});
+	
+	console.log({apiUrl, productResponse});
 	
 
 	if (!products) {
