@@ -1,6 +1,7 @@
+'use client';
 import React from "react";
 import SortSelect from "@/components/elements/SortSelect";
-import { fetchData } from "@/lib/fetch-data";
+// import { fetchData } from "@/lib/fetch-data";
 import FilterMenu from "../elements/FilterMenu";
 import ProductFilters from "./ProductFilters";
 import FilterPanel from "../side-drawers/FilterPanel";
@@ -10,53 +11,61 @@ import ProductsComponent from "./ProductsComponent";
 import FallbackUI from "../elements/fallback-ui";
 import NoProducts from "./NoProducts";
 import { buildProductQueryParams } from "@/utils/query-params";
+import { useGetFilterProductsQuery } from "@/store/api/searchAPI";
 
-const ProductsWithFilter = async ({
+const ProductsWithFilter =  ({
   customSearchParams = {},
   category,
   translations = {},
 }) => {
   const params = buildProductQueryParams(customSearchParams, 30);
 	console.log({params});
+
+	const {data,isLoading} = useGetFilterProductsQuery({params:params.toString()})
+	console.log({data});
+	const products = data?.data || [];
+	console.log({products});
+	
+	
 	
 
-  // const apiUrl = `products?${params.toString()}`;
-	 const apiUrl = `${process.env.API_BASE_URL}/products?${params.toString()}`;
+  const apiUrl = `products?${params.toString()}`;
+	//  const apiUrl = `${process.env.API_BASE_URL}/products?${params.toString()}`;
   // const productResponse = await fetchData({
   // 	api: apiUrl,
   // });
-  const response = await fetch(apiUrl, {
-    method: "GET",
-    headers: {
-      AmsPublickey: process.env.AMS_PUBLIC_KEY,
-      lang: "en",
-    },
-    next: {
-      revalidate: 1200,
-    },
-  });
+  // const response = await fetch(apiUrl, {
+  //   method: "GET",
+  //   headers: {
+  //     AmsPublickey: process.env.AMS_PUBLIC_KEY,
+  //     lang: "en",
+  //   },
+  //   next: {
+  //     revalidate: 1200,
+  //   },
+  // });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("Products API Error:", {
-      status: response.status,
-      url: apiUrl,
-      message: response.message,
-      errorText,
-    });
+  // if (!response.ok) {
+  //   const errorText = await response.text();
+  //   console.error("Products API Error:", {
+  //     status: response.status,
+  //     url: apiUrl,
+  //     message: response.message,
+  //     errorText,
+  //   });
 
-    return (
-      <FallbackUI message="Failed to load some data. Please refresh the page." />
-    );
-  }
+  //   return (
+  //     <FallbackUI message="Failed to load some data. Please refresh the page." />
+  //   );
+  // }
 
-  const productResponse = await response.json();
+  // const productResponse = await response.json();
 
-  const products = productResponse?.data;
+  // const products = productResponse?.data;
 
-  console.log({ ProductLimit: products?.length || "0" });
+  // console.log({ ProductLimit: products?.length || "0" });
 
-  console.log({ apiUrl, productResponse });
+  // console.log({ apiUrl, productResponse });
 
   if (!products) {
     return (
@@ -64,9 +73,14 @@ const ProductsWithFilter = async ({
     );
   }
 
-  const meta = productResponse?.meta || {};
+  const meta = data?.meta || {};
   const totalProducts = meta.total;
   const selectedParams = customSearchParams.sort_type || "";
+
+
+	if(isLoading){
+		return <div>Loading...</div>
+	}
 
   return (
     <>

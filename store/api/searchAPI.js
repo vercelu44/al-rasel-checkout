@@ -21,6 +21,17 @@ const searchAPI = apiSlice.injectEndpoints({
 			query: (searchText) => `search-suggestion?per_page=10&text=${searchText}`,
 			providesTags: ["search-suggestions"],
 		}),
+		getFilterProducts: builder.query({
+			query: ({params}) => {
+				const url = `products?${params}`;
+				console.log({url});
+				return {
+					url,
+					method: "GET"
+				}
+			},
+			providesTags: [""],
+		}),
 	}),
 });
 
@@ -30,4 +41,5 @@ export const {
 	useRemoveSearchHistoryMutation,
 	useGetSearchSuggestionsQuery,
 	useLazyGetSearchSuggestionsQuery,
+	useGetFilterProductsQuery,
 } = searchAPI;
