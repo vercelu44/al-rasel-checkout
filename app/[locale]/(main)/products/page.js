@@ -25,12 +25,12 @@ const page = ({ params, searchParams }) => {
 							href={`/products`}
 							className="text-base text-slate-600 hover:text-secondary"
 						>
-							<h1>All Products</h1>
+							<p>All Products</p>
 						</Link>
 					</div>
 				</div>
 			</div>
-
+ 			<h1 className="sr-only">All Products</h1>
 			<ProductsWithFilter customSearchParams={searchParams} />
 		</>
 	);

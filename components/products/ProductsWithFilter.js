@@ -12,6 +12,7 @@ import FallbackUI from "../elements/fallback-ui";
 import NoProducts from "./NoProducts";
 import { buildProductQueryParams } from "@/utils/query-params";
 import { useGetFilterProductsQuery } from "@/store/api/searchAPI";
+import ProductLoadingSkeleton from "./LoadingSkeleton";
 
 const ProductsWithFilter =  ({
   customSearchParams = {},
@@ -19,17 +20,17 @@ const ProductsWithFilter =  ({
   translations = {},
 }) => {
   const params = buildProductQueryParams(customSearchParams, 30);
-	console.log({params});
+
 
 	const {data,isLoading} = useGetFilterProductsQuery({params:params.toString()})
-	console.log({data});
+
 	const products = data?.data || [];
-	console.log({products});
+
 	
 	
 	
 
-  const apiUrl = `products?${params.toString()}`;
+  const apiUrl = `${params.toString()}`;
 	//  const apiUrl = `${process.env.API_BASE_URL}/products?${params.toString()}`;
   // const productResponse = await fetchData({
   // 	api: apiUrl,
@@ -78,13 +79,9 @@ const ProductsWithFilter =  ({
   const selectedParams = customSearchParams.sort_type || "";
 
 
-	if(isLoading){
-		return <div>Loading...</div>
-	}
-
   return (
     <>
-      <h1 className="sr-only">Detail category</h1>
+     
       <div className="container mb-3 md:mb-20 pt-4">
         <div className="actions-bar flex justify-between items-center mb-3 pb-4 md:mb-8 border-b">
           <div className="flex items-center gap-48 w-1/2">
@@ -106,7 +103,7 @@ const ProductsWithFilter =  ({
             <ProductFilters category={category} />
           </div>
           <div className=" w-full">
-            {totalProducts === 0 ? (
+            { isLoading ? <ProductLoadingSkeleton /> :  totalProducts === 0 ? (
               <NoProducts />
             ) : (
               <ProductsComponent
