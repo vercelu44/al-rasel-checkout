@@ -29,6 +29,8 @@ export async function POST(request) {
     switch (status) {
       case "VALID":
 
+      console.log("VALID STATUS FOR IPN");
+      
         if (!valId) {
           console.error("val_id not found");
           break;
