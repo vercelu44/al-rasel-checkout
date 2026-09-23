@@ -10,7 +10,7 @@ const SSL_URL = is_live ? "https://securepay.sslcommerz.com": "https://sandbox.s
 export const handleOrderSSLPay = async (order, nextBaseUrl, isDeliveryChargePayment) => {
 
 	const { sale } = order;
-	console.log({sale});
+	// console.log({sale});
 	
 	const tranId = generateUniqueId(); // generating unique Id
 

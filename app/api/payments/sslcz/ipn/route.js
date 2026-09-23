@@ -70,37 +70,40 @@ export async function POST(request) {
 
         break;
 
-      // case "FAILED":
-      //   await postData(
-      //     {
-      //       api: "online-payment-status-change",
-      //       isPrivate: true,
-      //     },
-      //     {
-      //       order_id: orderId,
-      //       status: "failed",
-      //       amount,
-      //       payment_method: "sslcommerz",
-      //       transaction_id: tranId,
-      //     }
-      //   );
-      //   break;
+      case "FAILED":
+        // await postData(
+        //   {
+        //     api: "online-payment-status-change",
+        //     isPrivate: true,
+        //   },
+        //   {
+        //     order_id: orderId,
+        //     status: "failed",
+        //     amount,
+        //     payment_method: "sslcommerz",
+        //     transaction_id: tranId,
+        //   }
+        // );
+        console.log("IPN FAIELD");
+        
+        break;
 
-      // case "CANCELLED":
-      //   await postData(
-      //     {
-      //       api: "online-payment-status-change",
-      //       isPrivate: true,
-      //     },
-      //     {
-      //       order_id: orderId,
-      //       status: "cancelled",
-      //       amount,
-      //       payment_method: "sslcommerz",
-      //       transaction_id: tranId,
-      //     }
-      //   );
-      //   break;
+      case "CANCELLED":
+        // await postData(
+        //   {
+        //     api: "online-payment-status-change",
+        //     isPrivate: true,
+        //   },
+        //   {
+        //     order_id: orderId,
+        //     status: "cancelled",
+        //     amount,
+        //     payment_method: "sslcommerz",
+        //     transaction_id: tranId,
+        //   }
+        // );
+          console.log("IPN CANCELLED");
+        break;
 
       default:
         console.log("Unknown SSL Status:", status);
