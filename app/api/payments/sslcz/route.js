@@ -44,10 +44,11 @@ export async function POST(request) {
 				{ status: 500 }
 			);
 		}
-		// console.log(order);
+		console.log("BEFORE SSL RESPONSE",order);
 		//Initializing SSL payment using order data
 		const sslResponse = await handleOrderSSLPay(order, nextBaseUrl, isDeliveryChargePayment);
-
+		console.log({sslResponse});
+		
 		return NextResponse.json(
 			{
 				GatewayPageURL: sslResponse.GatewayPageURL,
