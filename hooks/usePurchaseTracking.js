@@ -47,7 +47,13 @@ export default function usePurchaseTracking({
 
     pixel.event(
       "Purchase",
-      pixel.getPurchasedItemsPixelData(order.ordered_items, order.sub_total),
+      // pixel.getPurchasedItemsPixelData(order.ordered_items, order.sub_total), 
+      {
+        // This code give by Roni Vi
+        ...pixel.getPurchasedItemsPixelData(order.ordered_items, order.sub_total),
+        // Server-এর order_id-এর সাথে একই মান (invoice_no, না থাকলে id)
+        order_id: order.invoice_no ?? String(order.id),
+      },
       {
         eventID: order.id,
         fn: order?.customer?.name
