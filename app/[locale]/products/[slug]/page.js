@@ -40,8 +40,13 @@ const ProductView = async ({ params }) => {
 
   const product = productRaw?.data;
 
+
+   if (!product) {
+    return notFound();
+  }
+
   // ⚡ If any **required API** fail, show FallbackUI
-  if (!settings || !translations || !product) {
+  if (!settings || !translations) {
     return (
       <FallbackUI message="Failed to load some data. Please try again later." />
     );

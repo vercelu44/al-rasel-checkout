@@ -9,21 +9,23 @@ import ColumnIcons from "./ColumnIcon";
 import ProductsComponent from "./ProductsComponent";
 import FallbackUI from "../elements/fallback-ui";
 import NoProducts from "./NoProducts";
+import { buildProductQueryParams } from "@/utils/query-params";
 
 const ProductsWithFilter = async ({ customSearchParams = {}, category, translations = {}, }) => {
-	const params = new URLSearchParams(customSearchParams);
+	 const params = buildProductQueryParams(customSearchParams, 30);
+	// const params = new URLSearchParams(customSearchParams);
 
 	// remove unwanted tracking params
-	const blockedParams = [
-	"fbclid",
-	"ttclid",
-	"gclid",
-	"utm_source",
-	"utm_medium",
-	"utm_campaign"
-	];
+	// const blockedParams = [
+	// "fbclid",
+	// "ttclid",
+	// "gclid",
+	// "utm_source",
+	// "utm_medium",
+	// "utm_campaign"
+	// ];
 
-	blockedParams.forEach(param => params.delete(param));
+	// blockedParams.forEach(param => params.delete(param));
 
 	const apiUrl = `products?per_page=30&${params.toString()}`;
 	const productResponse = await fetchData({
@@ -31,11 +33,6 @@ const ProductsWithFilter = async ({ customSearchParams = {}, category, translati
 	});
 	const products = productResponse?.data;
 
-	if (!products) {
-		return (
-		  <FallbackUI message="Failed to load some data. Please refresh the page." />
-		);
-	}
 	
 	const meta = productResponse?.meta || {};
 	const totalProducts = meta.total;
