@@ -24,4 +24,9 @@ initializeFacebookPixel(
 	"https://connect.facebook.net/en_US/fbevents.js"
 );
 
+// SPA route change-এ Meta নিজে থেকে eventID ছাড়া PageView পাঠায় — বন্ধ করো,
+// আমরা FacebookPixel.js থেকে eventID সহ manually পাঠাই (dedup-এর জন্য)
+window.fbq.disablePushState = true;
+window.fbq.allowDuplicatePageViews = true;
+
 window.fbq("init", PIXEL_ID);
