@@ -6,12 +6,14 @@ import {
   LinkedinShareButton,
   PinterestShareButton,
   TwitterShareButton,
+  WhatsappShareButton,
 } from "react-share";
 import {
   FaFacebookF,
   FaLinkedin,
   FaPinterest,
   FaTwitter,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 
@@ -41,6 +43,7 @@ export default function SocialShare({ translations = {} }) {
         <ShareButton ButtonComponent={EmailShareButton} IconComponent={MdOutlineEmail} url={currentUrl} color="#D44638" />
         <ShareButton ButtonComponent={LinkedinShareButton} IconComponent={FaLinkedin} url={currentUrl} color="#0e76a8" />
         <ShareButton ButtonComponent={PinterestShareButton} IconComponent={FaPinterest} url={currentUrl} color="#E60023" />
+        <ShareButton ButtonComponent={WhatsappShareButton} IconComponent={FaWhatsapp} url={currentUrl} color="#1daa61" />
       </div>
     </div>
   );

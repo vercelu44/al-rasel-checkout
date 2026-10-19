@@ -3,6 +3,7 @@
 import Image from "next/image"; 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import Link from "next/link";
 
 const IntroSlider = ({ sliders, settings }) => {
  
@@ -48,6 +49,19 @@ const IntroSlider = ({ sliders, settings }) => {
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4=" // ✅ BLUR PLACEHOLDER
             />
+
+
+            {slide.url && (
+              <Link
+                href={slide?.url}
+                className="absolute inset-0 z-[3]"
+                aria-label={slide?.title_2 || slide?.title || `View slide ${i + 1}`}
+              >
+                <span className="sr-only">
+                  {slide?.title_2 || slide?.title || `View slide ${i + 1}`}
+                </span>
+              </Link>
+            )}
           </div>
         </SwiperSlide>
       ))}
