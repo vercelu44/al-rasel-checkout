@@ -15,3 +15,4 @@ export * from "./content";
 export * from "./review";
 export * from "./filters";
 export * from "./routes";
+export * from "./outlet";

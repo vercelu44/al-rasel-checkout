@@ -8,7 +8,6 @@ import {
 import { MdStorefront, MdEmail, MdPhone } from "react-icons/md";
 import ContactForm from "./ContactForm";
 import { fetchData } from "@/lib/fetch-data";
-import ViewHTML from "@/components/elements/ViewHTML";
 import type { ApiResponse, SiteSettings } from "@/types";
 
 const ContactUs = async () => {
@@ -19,27 +18,13 @@ const ContactUs = async () => {
   const settings: SiteSettings =
     settingsRes.status === "fulfilled" ? settingsRes.value?.data || {} : {};
 
+  const themeColor = settings?.colors?.primary;
+  const iconBoxStyle = themeColor
+    ? { backgroundColor: `color-mix(in srgb, ${themeColor} 10%, transparent)` }
+    : undefined;
+
   return (
     <>
-      {/* <div className="breadcrumb breadcrumb-2 py-5">
-        <div className="container">
-          <div>
-            <Link
-              href={`/`}
-              className="text-base text-slate-600 hover:text-secondary"
-            >
-              Home
-            </Link>
-            <Link
-              href={`/help/contact-us`}
-              className="text-base text-slate-900 hover:text-secondary"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </div> */}
-
       <div className="py-12 bg-gray-50">
         <div className="container">
           {/* Header */}
@@ -68,29 +53,40 @@ const ContactUs = async () => {
             <div className="space-y-4">
               <div className="bg-white rounded-xl shadow-sm px-2 py-4 lg:p-6">
                 <div className="flex items-start gap-4">
-           
-                  <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div
+                    style={iconBoxStyle}
+                    className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0"
+                  >
                     <MdStorefront
                       className=" text-2xl"
                       style={{
-                        color: settings?.colors?.default_text,
+                        color: settings?.colors?.primary,
                       }}
                     />
                   </div>
 
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                 
                       <div>
                         <h3 className="font-semibold text-gray-900 mb-1">
                           Our Stores
                         </h3>
                         <p className="text-sm text-gray-600 mb-1">
-                          Happy Shopping with {settings?.name}!
+                          Find the nearest Salveena outlet. Locations and
+                          opening hours
                         </p>
-                        <p className="text-sm text-gray-600 mb-1">
-                          Welcome to our store! We offer quality products, easy shopping, and reliable service.
-                        </p>
+                      </div>
+                      <div className="mt-2 sm:mt-0">
+                        <Link
+                          href={`/outlets`}
+                          className="px-4 lg:px-8 py-2 text-center text-red-800 border border-red-800 rounded-full text-sm font-medium  transition block sm:inline-block"
+                          style={{
+                            color: settings?.colors?.default_text,
+                            border: `1px solid ${settings?.colors?.primary}`,
+                          }}
+                        >
+                          View
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -100,11 +96,14 @@ const ContactUs = async () => {
               <div className="bg-white rounded-xl shadow-sm px-2 py-4 lg:p-6">
                 <div className="flex items-start gap-4">
                   {/* Icon */}
-                  <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div
+                    style={iconBoxStyle}
+                    className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0"
+                  >
                     <MdEmail
                       className="text-red-800 text-2xl"
                       style={{
-                        color: settings?.colors?.default_text,
+                        color: settings?.colors?.primary,
                       }}
                     />
                   </div>
@@ -135,7 +134,7 @@ const ContactUs = async () => {
                       <div className="mt-2 sm:mt-0">
                         <Link
                           href={`mailto:${settings?.email?.[0]}`}
-                          className="px-4 lg:px-8 py-2 text-center text-red-800 border border-red-800 rounded-full text-sm font-medium hover:bg-red-50 transition block sm:inline-block"
+                          className="px-4 lg:px-8 py-2 text-center text-red-800 border border-red-800 rounded-full text-sm font-medium  transition block sm:inline-block"
                           style={{
                             color: settings?.colors?.default_text,
                             border: `1px solid ${settings?.colors?.primary}`,
@@ -153,11 +152,14 @@ const ContactUs = async () => {
               <div className="bg-white rounded-xl shadow-sm px-2 py-4 lg:p-6">
                 <div className="flex items-start gap-4">
                   {/* Icon */}
-                  <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div
+                    style={iconBoxStyle}
+                    className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0"
+                  >
                     <MdPhone
                       className="text-red-800 text-2xl"
                       style={{
-                        color: settings?.colors?.default_text,
+                        color: settings?.colors?.primary,
                       }}
                     />
                   </div>
@@ -189,7 +191,7 @@ const ContactUs = async () => {
                       <div className="mt-2 sm:mt-0">
                         <Link
                           href={`tel:${settings?.phone?.[0]}`}
-                          className="px-6 lg:px-8 py-2 text-center  border border-red-800 rounded-full text-sm font-medium hover:bg-red-50 transition block sm:inline-block"
+                          className="px-6 lg:px-8 py-2 text-center  border border-red-800 rounded-full text-sm font-medium transition block sm:inline-block"
                           style={{
                             color: settings?.colors?.default_text,
                             border: `1px solid ${settings?.colors?.primary}`,
