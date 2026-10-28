@@ -17,6 +17,8 @@ import ServerDataProvider from "@/components/utility/ServerDataProvider";
 import { fetchData } from "@/lib/fetch-data";
 import { fontVariables } from "@/config/fonts";
 import type { ApiResponse, LayoutProps, SiteSettings, Translations } from "@/types";
+import { ChatWidget } from "@/components/elements/ChatWidget";
+import { ChatUser } from "@/lib/omnichannel";
 
 /** `https://cdn.example.com/a/b.png` -> `https://cdn.example.com` (null for relative/invalid URLs) */
 const getOrigin = (url?: string): string | null => {
@@ -26,6 +28,11 @@ const getOrigin = (url?: string): string | null => {
     return null;
   }
 };
+
+
+async function chatUser(): Promise<ChatUser | null> {
+  return null
+}
 
 export default async function RootLayout({ children, params }: LayoutProps) {
   const { locale } = await params;
@@ -54,6 +61,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
         <NextIntlClientProvider>
           <ReduxProvider settings={settings} translations={translations}>
             {children}
+            <ChatWidget user={await chatUser()} />
             <ServerDataProvider />
           </ReduxProvider>
         </NextIntlClientProvider>
