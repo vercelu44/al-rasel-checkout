@@ -116,7 +116,7 @@ export default async function MainLayout({ children, params }: LayoutProps) {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <Header />
+        {/* <Header />  */}
         <main
           className={`flex-grow ${
             settings?.offer_massage
